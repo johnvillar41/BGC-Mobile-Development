@@ -30,11 +30,10 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
         if (model.validateCredentials(model) == null) {
             boolean success = dBhelper.checkLoginCredentialsDB(model);
             if (success) {
-                view.onSuccess("Welcome! " + username, v);
+                view.onSuccess("Logging in!",v);
                 view.goToMainPage();
             } else
                 view.onError("User not found!", v);
-            view.goToMainPage();
         } else {
             view.onError(model.validateCredentials(model), v);
         }
@@ -58,7 +57,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
         public Boolean checkLoginCredentialsDB(LoginModel model) throws ClassNotFoundException, SQLException {
             StrictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-            String sqlcmd = "SELECT * FROM login_table WHERE user_username=" + "'" + model.getUser_username() + "'AND user_password= " + "'" + model.getUser_password() + "'";
+            String sqlcmd = "SELECT user_username,user_password FROM login_table WHERE user_username=" + "'" + model.getUser_username() + "'AND user_password= " + "'" + model.getUser_password() + "'";
             Statement statement = (Statement) connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlcmd);
             if (resultSet.next()) {
