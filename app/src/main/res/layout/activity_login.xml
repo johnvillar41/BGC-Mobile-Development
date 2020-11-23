@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B266FF"
+    tools:context=".View.LoginActivityView">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/logo"
+        app:civ_border_width="2dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:elevation="10dp"
+        app:civ_border_color="#FF000000"
+        tools:targetApi="lollipop" />
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginTop="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:layout_width="match_parent"
+        app:cardCornerRadius="5dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp">
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField_username"
+                android:layout_marginTop="100dp"
+                android:layout_width="match_parent"
+                style="@style/LoginTextInputLayoutStyle"
+                app:startIconDrawable="@drawable/ic_username"
+                android:layout_height="wrap_content"
+                android:hint="@string/username">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField_password"
+                app:startIconDrawable="@drawable/ic_password"
+                android:layout_width="match_parent"
+                style="@style/LoginTextInputLayoutStyle"
+                app:endIconMode="password_toggle"
+                android:layout_height="wrap_content"
+                android:hint="@string/password">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.button.MaterialButton
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:id="@+id/btn_login"
+                android:drawableLeft="@drawable/ic_login"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                android:backgroundTint="#9999FF"
+                android:drawableStart="@drawable/ic_login" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:text="@string/agt_pos_and_inventory_system"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
