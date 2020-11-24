@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.SettingsActivityView"></activity>
+        <activity android:name=".View.InventoryUpdateView"></activity>
+        <activity android:name=".View.SettingsActivityView" />
         <activity android:name=".View.UsersActivityView" />
         <activity android:name=".View.ReportsActivityView" />
         <activity android:name=".View.SalesActivityView" />

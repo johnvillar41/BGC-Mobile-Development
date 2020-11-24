@@ -1,16 +1,19 @@
 package emp.project.softwareengineerproject.View;
 
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -48,8 +51,8 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        presenter=new InventoryPresenter(this);
-        recyclerView_GreenHouse=findViewById(R.id.recyclerView_greenHouse);
+        presenter = new InventoryPresenter(this);
+        recyclerView_GreenHouse = findViewById(R.id.recyclerView_greenHouse);
         presenter.getGreenHouseFromDB();
     }
 
@@ -58,9 +61,14 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         GreenHouseRecyclerView adapter = new GreenHouseRecyclerView(
-        InventoryActivityView.this, productList);
+                InventoryActivityView.this, productList);
         recyclerView_GreenHouse.setAdapter(adapter);
         recyclerView_GreenHouse.setLayoutManager(layoutManager);
+    }
+
+    @Override
+    public void displayErrorMessage(String message, View v) {
+        Snackbar.make(v,message,Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -71,10 +79,10 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             this.finish();
         }
-        if(item.getItemId()==R.id.action_addfav){
+        if (item.getItemId() == R.id.action_addfav) {
             //goto new ActivityPage
         }
         return super.onOptionsItemSelected(item);

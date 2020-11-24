@@ -12,43 +12,69 @@
             android:layout_width="match_parent"
             android:layout_height="30sp"
             android:background="#f9b207"/>
-        <TextView
+        <EditText
             android:layout_gravity="center"
             android:textStyle="bold"
             android:textSize="30sp"
             android:id="@+id/txt_product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Title"/>
+            />
         <ImageView
+            android:clickable="true"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:id="@+id/image_product"/>
-        <TextView
+            android:id="@+id/image_product"
+            android:focusable="true" />
+        <EditText
             android:layout_margin="10dp"
             android:layout_gravity="center"
+            android:gravity="center"
             android:textStyle="italic"
             android:id="@+id/txt_product_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product description"/>
-        <TextView
+            />
+        <EditText
             android:layout_margin="10dp"
             android:layout_gravity="center"
             android:textStyle="italic"
+            android:gravity="center"
             android:id="@+id/txt_product_Price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Price"/>
-        <TextView
+            />
+        <EditText
             android:layout_margin="10dp"
             android:layout_gravity="center"
             android:textStyle="italic"
+            android:gravity="center"
             android:id="@+id/txt_product_Stocks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Stocks"/>
+            />
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton
+                android:layout_margin="10dp"
+                android:backgroundTint="#f9b207"
+                android:layout_width="wrap_content"
+                android:id="@+id/btn_save"
+                android:layout_height="wrap_content"
+                android:text="Save Product"/>
+            <com.google.android.material.button.MaterialButton
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:id="@+id/btn_back"
+                android:backgroundTint="#0000ff"
+                android:layout_height="wrap_content"
+                android:text="Back"/>
+
+        </LinearLayout>
     </LinearLayout>
 
 

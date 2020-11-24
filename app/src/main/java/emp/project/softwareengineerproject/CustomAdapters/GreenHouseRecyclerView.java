@@ -2,12 +2,14 @@ package emp.project.softwareengineerproject.CustomAdapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,17 +24,25 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import emp.project.softwareengineerproject.Interface.IInvetory;
 import emp.project.softwareengineerproject.Model.ProductModel;
+import emp.project.softwareengineerproject.Presenter.InventoryPresenter;
 import emp.project.softwareengineerproject.R;
+import emp.project.softwareengineerproject.View.InventoryUpdateView;
 
 public class GreenHouseRecyclerView extends RecyclerView.Adapter<GreenHouseRecyclerView.MyViewHolder> {
 
+
+    public static ProductModel model = new ProductModel();
+
     Context context;
     List<ProductModel> list;
+    InventoryPresenter presenter;
 
     public GreenHouseRecyclerView(Context context, List<ProductModel> list) {
         this.context = context;
         this.list = list;
+        this.presenter = new InventoryPresenter((IInvetory.IinventoryView) context);
     }
 
     @NonNull
@@ -71,8 +81,10 @@ public class GreenHouseRecyclerView extends RecyclerView.Adapter<GreenHouseRecyc
                 TextView txt_product_description = dialogView.findViewById(R.id.txt_product_description);
                 TextView txt_product_Price = dialogView.findViewById(R.id.txt_product_Price);
                 TextView txt_product_Stocks = dialogView.findViewById(R.id.txt_product_Stocks);
+                Button btn_update = dialogView.findViewById(R.id.btn_update);
+                Button btn_back = dialogView.findViewById(R.id.btn_back);
 
-                AlertDialog dialog = dialogBuilder.create();
+                final AlertDialog dialog = dialogBuilder.create();
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 dialog.show();
 
@@ -88,9 +100,29 @@ public class GreenHouseRecyclerView extends RecyclerView.Adapter<GreenHouseRecyc
                 txt_product_description.setText(model.getProduct_description());
                 txt_product_Price.setText(String.valueOf(model.getProduct_price()));
                 txt_product_Stocks.setText(String.valueOf(model.getProduct_stocks()));
+
+                btn_back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                btn_update.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, InventoryUpdateView.class);
+                        context.startActivity(intent);
+                        GreenHouseRecyclerView.model = new ProductModel(model.getProduct_id(),
+                                model.getProduct_name(), model.getProduct_description(),
+                                model.getProduct_price(), model.getProduct_picture(),
+                                model.getProduct_stocks());
+                    }
+                });
             }
         });
     }
+
 
     public ProductModel getItem(int position) {
         return list.get(position);

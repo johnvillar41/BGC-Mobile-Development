@@ -2,8 +2,10 @@ package emp.project.softwareengineerproject.Model;
 
 import com.mysql.jdbc.Blob;
 
-public class ProductModel {
-    String product_id,product_name,product_description;
+import java.io.Serializable;
+
+public class ProductModel implements Serializable {
+    String product_id, product_name, product_description;
     long product_price;
     Blob product_picture;
     int product_stocks;
@@ -11,6 +13,14 @@ public class ProductModel {
     public ProductModel(String product_id, String product_name, String product_description,
                         long product_price, Blob product_picture, int product_stocks) {
         this.product_id = product_id;
+        this.product_name = product_name;
+        this.product_description = product_description;
+        this.product_price = product_price;
+        this.product_picture = product_picture;
+        this.product_stocks = product_stocks;
+    }
+    public ProductModel(String product_name, String product_description,
+                        long product_price, Blob product_picture, int product_stocks) {
         this.product_name = product_name;
         this.product_description = product_description;
         this.product_price = product_price;
@@ -43,5 +53,25 @@ public class ProductModel {
 
     public int getProduct_stocks() {
         return product_stocks;
+    }
+
+    public String validateProduct(ProductModel model) {
+        String message = null;
+        if (model.getProduct_name().isEmpty()) {
+            message = "Product name field is empty!\n";
+        }
+        if (model.getProduct_description().isEmpty()) {
+            message = "Product description is empty!\n";
+        }
+        if (String.valueOf(model.getProduct_price()).isEmpty()) {
+            message = "Product price is empty!\n";
+        }
+        if (model.getProduct_picture() == null) {
+            message = "Product Image is empty!\n";
+        }
+        if (String.valueOf(model.getProduct_stocks()).isEmpty()) {
+            message = "Product stocks is empty!\n";
+        }
+        return message;
     }
 }
