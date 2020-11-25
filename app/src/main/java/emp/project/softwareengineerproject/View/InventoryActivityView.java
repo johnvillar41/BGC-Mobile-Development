@@ -68,7 +68,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     public void displayErrorMessage(String message, View v) {
-        Snackbar.make(v,message,Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(v, message, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

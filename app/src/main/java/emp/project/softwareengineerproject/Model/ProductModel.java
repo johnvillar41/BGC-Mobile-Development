@@ -11,7 +11,7 @@ public class ProductModel implements Serializable {
     Blob product_picture;
     int product_stocks;
 
-    java.sql.Blob upload_picture;
+    InputStream upload_picture;
 
 
     public ProductModel(String product_id, String product_name, String product_description,
@@ -24,20 +24,11 @@ public class ProductModel implements Serializable {
         this.product_stocks = product_stocks;
     }
 
-    public ProductModel(String product_name, String product_description,
-                        long product_price, Blob product_picture, int product_stocks) {
-        this.product_name = product_name;
-        this.product_description = product_description;
-        this.product_price = product_price;
-        this.product_picture = product_picture;
-        this.product_stocks = product_stocks;
-    }
-
-    public java.sql.Blob getUpload_picture() {
+    public InputStream getUpload_picture() {
         return upload_picture;
     }
 
-    public ProductModel(String product_id, String product_name, String product_description, long product_price, int product_stocks, java.sql.Blob upload_picture) {
+    public ProductModel(String product_id, String product_name, String product_description, long product_price, int product_stocks, InputStream upload_picture) {
         this.product_id = product_id;
         this.product_name = product_name;
         this.product_description = product_description;
@@ -85,9 +76,9 @@ public class ProductModel implements Serializable {
         if (String.valueOf(model.getProduct_price()).isEmpty()) {
             message = "Product price is empty!\n";
         }
-        /*if (model.getUpload_picture().isEmpty()) {
+        if (model.getUpload_picture() == null) {
             message = "Product Image is empty!\n";
-        }*/
+        }
         if (String.valueOf(model.getProduct_stocks()).isEmpty()) {
             message = "Product stocks is empty!\n";
         }

@@ -1,12 +1,12 @@
 package emp.project.softwareengineerproject.View;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,13 +21,11 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.mysql.jdbc.Blob;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import javax.sql.rowset.serial.SerialBlob;
 
 import emp.project.softwareengineerproject.CustomAdapters.GreenHouseRecyclerView;
 import emp.project.softwareengineerproject.Interface.IUpdateInventory;
@@ -38,11 +36,13 @@ import emp.project.softwareengineerproject.R;
 public class InventoryUpdateView extends AppCompatActivity implements IUpdateInventory.IUupdateInventoryView {
     private static final int IMAGE_PICK_CODE = 1000;
     private EditText editText_productTitle;
+    @SuppressLint("StaticFieldLeak")
     private static ImageView imageView;
     private EditText txt_product_description;
     private EditText txt_product_Price;
     private EditText txt_product_Stocks;
     private Button btn_save;
+    static InputStream fileInputStream;
 
     private InventoryUpdatePresenter presenter;
 
@@ -100,16 +100,14 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    java.sql.Blob blob ;
-                    blob = new SerialBlob(blobAsBytes);
-                    java.sql.Blob finalBlob = blob;
 
+                try {
                     presenter.onSaveButtonClicked(model.getProduct_id(), editText_productTitle.getText().toString(), txt_product_description.getText().toString(),
-                            Long.parseLong(txt_product_Price.getText().toString()), Integer.parseInt(txt_product_Stocks.getText().toString()), finalBlob, v);
+                            Long.parseLong(txt_product_Price.getText().toString()), Integer.parseInt(txt_product_Stocks.getText().toString()), fileInputStream, v);
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    displayErrorMessage("Error!",v);
                 }
+
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +151,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 imageStream = getContentResolver().openInputStream(selectedImage);
                 originBitmap = BitmapFactory.decodeStream(imageStream);
 
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -161,8 +160,8 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-
-                //String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+                InputStream is = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+                fileInputStream = is;
             }
         }
     }

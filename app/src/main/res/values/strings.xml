@@ -13,4 +13,6 @@
     <string name="green_house">Green House</string>
     <string name="hydroponics">HydroPonics</string>
     <string name="others">Others</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_image">Product Image</string>
 </resources>

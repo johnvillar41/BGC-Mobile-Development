@@ -21,7 +21,8 @@ public interface IMainMenu {
         void displayUsername();
 
     }
-    interface IMainPresenter{
+
+    interface IMainPresenter {
         void onLogoutButtonClicked(View v);
 
         void onInventoryButtonClicked();

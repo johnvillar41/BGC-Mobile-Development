@@ -10,15 +10,19 @@ import java.util.List;
 import emp.project.softwareengineerproject.Model.ProductModel;
 
 public interface IInvetory {
-    interface IinventoryView{
+    interface IinventoryView {
         void initViews() throws SQLException, ClassNotFoundException;
-        void displayRecyclerViewGreenHouse(List<ProductModel>productList);
+
+        void displayRecyclerViewGreenHouse(List<ProductModel> productList);
+
         void displayErrorMessage(String message, View v);
     }
-    interface IinventoryPresenter{
+
+    interface IinventoryPresenter {
         void getGreenHouseFromDB() throws SQLException, ClassNotFoundException;
     }
-    interface DBhelper{
+
+    interface DBhelper {
         void strictMode() throws ClassNotFoundException;
 
         List<ProductModel> getGreenHouseDB() throws ClassNotFoundException, SQLException;

@@ -30,7 +30,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
         if (model.validateCredentials(model) == null) {
             boolean success = dBhelper.checkLoginCredentialsDB(model);
             if (success) {
-                view.onSuccess("Logging in!",v);
+                view.onSuccess("Logging in!", v);
                 view.goToMainPage();
             } else
                 view.onError("User not found!", v);

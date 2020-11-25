@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,14 +13,29 @@
             android:layout_width="match_parent"
             android:layout_height="30sp"
             android:background="#f9b207"/>
-        <EditText
-            android:layout_gravity="center"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product_name"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="25sp"
+            android:layout_gravity="center"/>
+        <EditText
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:textStyle="italic"
             android:id="@+id/txt_product_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product_image"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_gravity="center"/>
         <ImageView
             android:clickable="true"
             android:layout_gravity="center"
@@ -28,6 +43,13 @@
             android:layout_height="200dp"
             android:id="@+id/image_product"
             android:focusable="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Description"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_gravity="center"/>
         <EditText
             android:layout_margin="10dp"
             android:layout_gravity="center"
@@ -37,6 +59,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Price"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_gravity="center"/>
         <EditText
             android:layout_margin="10dp"
             android:layout_gravity="center"
@@ -46,6 +75,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number of Stocks"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_gravity="center"/>
         <EditText
             android:layout_margin="10dp"
             android:layout_gravity="center"
@@ -78,4 +114,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>

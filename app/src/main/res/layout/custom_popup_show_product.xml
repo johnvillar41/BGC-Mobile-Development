@@ -20,38 +20,84 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Product Title"/>
-        <ImageView
-            android:layout_gravity="center"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/image_product"/>
-        <TextView
-            android:layout_margin="10dp"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp">
+            <ImageView
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/image_product"/>
+        </androidx.cardview.widget.CardView>
+
+        <TableLayout
             android:layout_gravity="center"
             android:gravity="center"
-            android:textStyle="italic"
-            android:id="@+id/txt_product_description"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Product description"/>
-        <TextView
-            android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:textStyle="italic"
-            android:gravity="center"
-            android:id="@+id/txt_product_Price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Product Price"/>
-        <TextView
-            android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:textStyle="italic"
-            android:gravity="center"
-            android:id="@+id/txt_product_Stocks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Product Stocks"/>
+            android:layout_height="wrap_content">
+            <TableRow>
+                <TextView
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Product description"/>
+                <TextView
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="italic"
+                    android:id="@+id/txt_product_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Product description"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Product Price"/>
+                <TextView
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:textStyle="italic"
+                    android:gravity="center"
+                    android:id="@+id/txt_product_Price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Product Price"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Product Stocks"/>
+                <TextView
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:textStyle="italic"
+                    android:gravity="center"
+                    android:id="@+id/txt_product_Stocks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Product Stocks"/>
+            </TableRow>
+        </TableLayout>
+
+
+
         <LinearLayout
             android:gravity="center"
             android:layout_width="match_parent"
