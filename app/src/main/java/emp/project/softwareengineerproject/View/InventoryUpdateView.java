@@ -1,29 +1,33 @@
 package emp.project.softwareengineerproject.View;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
+import android.util.Base64;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.mysql.jdbc.Blob;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import javax.sql.rowset.serial.SerialBlob;
 
 import emp.project.softwareengineerproject.CustomAdapters.GreenHouseRecyclerView;
 import emp.project.softwareengineerproject.Interface.IUpdateInventory;
@@ -32,14 +36,13 @@ import emp.project.softwareengineerproject.Presenter.InventoryUpdatePresenter;
 import emp.project.softwareengineerproject.R;
 
 public class InventoryUpdateView extends AppCompatActivity implements IUpdateInventory.IUupdateInventoryView {
-    private static final int RESULT_LOAD_IMG = 777;
-    EditText editText_productTitle;
-    ImageView imageView;
-    EditText txt_product_description;
-    EditText txt_product_Price;
-    EditText txt_product_Stocks;
-    Button btn_save;
-    Button btn_cancel;
+    private static final int IMAGE_PICK_CODE = 1000;
+    private EditText editText_productTitle;
+    private static ImageView imageView;
+    private EditText txt_product_description;
+    private EditText txt_product_Price;
+    private EditText txt_product_Stocks;
+    private Button btn_save;
 
     private InventoryUpdatePresenter presenter;
 
@@ -55,7 +58,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void initViews() {
-        presenter=new InventoryUpdatePresenter(this);
+        presenter = new InventoryUpdatePresenter(this);
 
         editText_productTitle = findViewById(R.id.txt_product_name);
         imageView = findViewById(R.id.image_product);
@@ -63,7 +66,14 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         txt_product_Price = findViewById(R.id.txt_product_Price);
         txt_product_Stocks = findViewById(R.id.txt_product_Stocks);
         btn_save = findViewById(R.id.btn_save);
-        btn_cancel = findViewById(R.id.btn_back);
+        Button btn_cancel = findViewById(R.id.btn_back);
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onCancelButtonClicked();
+            }
+        });
 
         try {
             presenter.displayHints(GreenHouseRecyclerView.model);
@@ -79,35 +89,33 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         txt_product_Price.setHint(String.valueOf(model.getProduct_price()));
         txt_product_Stocks.setHint(String.valueOf(model.getProduct_stocks()));
 
-        final Blob b = model.getProduct_picture();
-        final int blobLength;
+        Blob b = model.getProduct_picture();
+        int blobLength;
 
         blobLength = (int) b.length();
-        byte[] blobAsBytes = b.getBytes(1, blobLength);
+        final byte[] blobAsBytes = b.getBytes(1, blobLength);
         Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-        imageView.setImageBitmap(btm);
+        Glide.with(this).load(btm).into(imageView);
 
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
-                    presenter.onSaveButtonClicked(editText_productTitle.getText().toString(),txt_product_description.getText().toString(),
-                            Long.parseLong(txt_product_Price.getText().toString()),Integer.parseInt(txt_product_Stocks.getText().toString()),model.getProduct_picture(),v);
-                }catch (Exception e){
-                    displayErrorMessage("Error!",v);
+                try {
+                    java.sql.Blob blob ;
+                    blob = new SerialBlob(blobAsBytes);
+                    java.sql.Blob finalBlob = blob;
+
+                    presenter.onSaveButtonClicked(model.getProduct_id(), editText_productTitle.getText().toString(), txt_product_description.getText().toString(),
+                            Long.parseLong(txt_product_Price.getText().toString()), Integer.parseInt(txt_product_Stocks.getText().toString()), finalBlob, v);
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.goToImageLibrary();
+                presenter.ImageButtonClicked();
             }
         });
     }
@@ -127,40 +135,36 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     public void loadImageFromGallery() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        startActivity(Intent.createChooser(intent, "Select image"));
+        startActivityForResult(intent, IMAGE_PICK_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        try {
-            // When an Image is picked
-            if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK
-                    && null != data) {
-                // Get the Image from data
+        Bitmap originBitmap = null;
+        Uri selectedImage = data.getData();
+        InputStream imageStream;
 
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-                // Get the cursor
-                @SuppressLint("Recycle") Cursor cursor = getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                // Move to first row
-                cursor.moveToFirst();
+        if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK
+                && null != data) {
 
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                Toast.makeText(this, "Image picked" +
-                                columnIndex,
-                        Toast.LENGTH_LONG).show();
+            try {
+                imageStream = getContentResolver().openInputStream(selectedImage);
+                originBitmap = BitmapFactory.decodeStream(imageStream);
 
-            } else {
-                Toast.makeText(this, "You haven't picked Image",
-                        Toast.LENGTH_LONG).show();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
-                    .show();
-            Log.d("ERROR",e.getMessage());
+            if (originBitmap != null) {
+                imageView.setImageBitmap(originBitmap);
+                Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+
+                //String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+            }
         }
     }
+
 }

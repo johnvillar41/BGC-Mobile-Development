@@ -2,6 +2,7 @@ package emp.project.softwareengineerproject.Interface;
 
 import android.view.View;
 
+import java.io.FileNotFoundException;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -17,12 +18,14 @@ public interface IUpdateInventory {
     }
     interface  IUpdatePresenter{
         void onCancelButtonClicked();
-        void onSaveButtonClicked(String product_title, String product_description,
-                                 long product_price, int product_stocks, Blob picture,View v);
+        void onSaveButtonClicked(String product_id,String product_name, String product_description, long product_price,
+                                 int product_stocks, Blob upload_picture,View v) throws SQLException;
         void displayHints(ProductModel model) throws SQLException;
-        void goToImageLibrary();
+        void ImageButtonClicked();
     }
     interface IDbHelper{
-        void updateProductToDB(ProductModel model);
+
+        void strictMode() throws ClassNotFoundException;
+        void updateProductToDB(ProductModel model) throws SQLException, ClassNotFoundException, FileNotFoundException;
     }
 }

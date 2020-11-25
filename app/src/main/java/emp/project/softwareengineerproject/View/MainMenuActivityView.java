@@ -3,6 +3,7 @@ package emp.project.softwareengineerproject.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,11 +11,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Interface.IMainMenu;
 import emp.project.softwareengineerproject.Presenter.MainMenuPresenter;
 import emp.project.softwareengineerproject.R;
@@ -35,12 +39,22 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         presenter.directUsernameDisplay();
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void initViews() {
         sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE);
 
+
         presenter = new MainMenuPresenter(this);
         txt_name = findViewById(R.id.txt_name);
+        ImageView imageView_illustration = findViewById(R.id.image_illustration);
+        CircleImageView image_inventory = findViewById(R.id.image_stocks);
+        CircleImageView image_sales = findViewById(R.id.image_sales);
+        CircleImageView image_reports = findViewById(R.id.image_report);
+        CircleImageView image_users = findViewById(R.id.image_users);
+        CircleImageView image_settings = findViewById(R.id.image_settings);
+        CircleImageView image_signout = findViewById(R.id.image_signOut);
+
         CardView cardView_inventory = findViewById(R.id.cardView_inventory);
         CardView cardView_sales = findViewById(R.id.cardView_sales);
         CardView cardView_reports = findViewById(R.id.cardView_reports);
@@ -55,7 +69,16 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         cardView_settings.setOnClickListener(this);
         cardView_logout.setOnClickListener(this);
 
-        if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES, null) == null){
+        //Programmatically loading images through glide library due to crash on loading large amounts of images
+        Glide.with(this).load(R.drawable.illustration).into(imageView_illustration);
+        Glide.with(this).load(R.drawable.stocks_logo).into(image_inventory);
+        Glide.with(this).load(R.drawable.sales_logo).into(image_sales);
+        Glide.with(this).load(R.drawable.reports_logo).into(image_reports);
+        Glide.with(this).load(R.drawable.users_logo).into(image_users);
+        Glide.with(this).load(R.drawable.settings_logo).into(image_settings);
+        Glide.with(this).load(R.drawable.logout_logo).into(image_signout);
+
+        if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES, null) == null) {
             this.finish();
         }
     }
@@ -69,7 +92,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         this.finish();
         Intent intent = new Intent(this, LoginActivityView.class);
         startActivity(intent);
-        Snackbar.make(v,"Logging out of session!", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(v, "Logging out of session!", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.mysql.jdbc.Blob;
 
 import java.sql.SQLException;
@@ -62,7 +63,7 @@ public class GreenHouseRecyclerView extends RecyclerView.Adapter<GreenHouseRecyc
             blobLength[0] = (int) b.length();
             byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
             Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-            holder.image_product.setImageBitmap(btm);
+            Glide.with(context).load(btm).into(holder.image_product);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -93,7 +94,7 @@ public class GreenHouseRecyclerView extends RecyclerView.Adapter<GreenHouseRecyc
                     blobLength[0] = (int) b.length();
                     byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
                     Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-                    imageView_product.setImageBitmap(btm);
+                    Glide.with(context).load(btm).into(imageView_product);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
