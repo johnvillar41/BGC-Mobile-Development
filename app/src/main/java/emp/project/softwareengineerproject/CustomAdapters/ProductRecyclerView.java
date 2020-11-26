@@ -25,25 +25,25 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import emp.project.softwareengineerproject.Interface.IInvetory;
+import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.ProductModel;
-import emp.project.softwareengineerproject.Presenter.InventoryPresenter;
+import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryPresenter;
 import emp.project.softwareengineerproject.R;
-import emp.project.softwareengineerproject.View.InventoryUpdateView;
+import emp.project.softwareengineerproject.View.InventoryView.InventoryUpdateView;
 
-public class GreenHouseRecyclerView extends RecyclerView.Adapter<GreenHouseRecyclerView.MyViewHolder> {
+public class ProductRecyclerView extends RecyclerView.Adapter<ProductRecyclerView.MyViewHolder> {
 
 
-    public static ProductModel model = new ProductModel();
-
+    public static ProductModel MODEL;
     Context context;
     List<ProductModel> list;
     InventoryPresenter presenter;
 
-    public GreenHouseRecyclerView(Context context, List<ProductModel> list) {
+    public ProductRecyclerView(Context context, List<ProductModel> list) {
         this.context = context;
         this.list = list;
         this.presenter = new InventoryPresenter((IInvetory.IinventoryView) context);
+        MODEL = new ProductModel();
     }
 
     @NonNull
@@ -51,7 +51,7 @@ public class GreenHouseRecyclerView extends RecyclerView.Adapter<GreenHouseRecyc
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.custom_adapter_greenhouse, parent, false);
-        return new GreenHouseRecyclerView.MyViewHolder(view);
+        return new ProductRecyclerView.MyViewHolder(view);
     }
 
     @Override
@@ -114,10 +114,10 @@ public class GreenHouseRecyclerView extends RecyclerView.Adapter<GreenHouseRecyc
                     public void onClick(View v) {
                         Intent intent = new Intent(context, InventoryUpdateView.class);
                         context.startActivity(intent);
-                        GreenHouseRecyclerView.model = new ProductModel(model.getProduct_id(),
+                        ProductRecyclerView.MODEL = new ProductModel(model.getProduct_id(),
                                 model.getProduct_name(), model.getProduct_description(),
                                 model.getProduct_price(), model.getProduct_picture(),
-                                model.getProduct_stocks());
+                                model.getProduct_stocks(),model.getProduct_category());
                     }
                 });
             }

@@ -3,24 +3,24 @@
     package="emp.project.softwareengineerproject">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.InventoryUpdateView"></activity>
+        <activity android:name=".View.InventoryView.InventorySearchItemView"></activity>
+        <activity android:name=".View.InventoryView.InventoryUpdateView" />
         <activity android:name=".View.SettingsActivityView" />
         <activity android:name=".View.UsersActivityView" />
         <activity android:name=".View.ReportsActivityView" />
         <activity android:name=".View.SalesActivityView" />
-        <activity android:name=".View.InventoryActivityView" />
+        <activity android:name=".View.InventoryView.InventoryActivityView" />
         <activity android:name=".View.MainMenuActivityView" />
         <activity android:name=".View.LoginActivityView">
             <intent-filter>

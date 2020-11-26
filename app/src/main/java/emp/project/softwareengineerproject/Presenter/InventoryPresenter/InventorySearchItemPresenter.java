@@ -1,0 +1,67 @@
+package emp.project.softwareengineerproject.Presenter.InventoryPresenter;
+
+import android.os.StrictMode;
+
+import com.mysql.jdbc.Blob;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import emp.project.softwareengineerproject.Interface.Inventory.ISearchInventory;
+import emp.project.softwareengineerproject.Model.ProductModel;
+
+public class InventorySearchItemPresenter implements ISearchInventory.ISearchInventoryPresenter {
+    ISearchInventory.ISearchInventoryView view;
+    ProductModel model;
+    ISearchInventory.ISearchInventoryDBhelper dBhelper;
+
+    public InventorySearchItemPresenter(ISearchInventory.ISearchInventoryView view) {
+        this.view = view;
+        this.model = new ProductModel();
+        this.dBhelper = new DBhelper();
+    }
+
+    @Override
+    public void onSearchItemProduct(String product_name) throws ClassNotFoundException {
+        view.displayRecyclerView(dBhelper.getSearchedProductFromDB(product_name));
+    }
+
+    private class DBhelper implements ISearchInventory.ISearchInventoryDBhelper {
+        private String DB_NAME = "jdbc:mysql://192.168.1.152:3306/agt_db";
+        private String USER = "admin";
+        private String PASS = "admin";
+
+        @Override
+        public void strictMode() throws ClassNotFoundException {
+            StrictMode.ThreadPolicy policy;
+            policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+
+        @Override
+        public List<ProductModel> getSearchedProductFromDB(String searchedItem) throws ClassNotFoundException {
+            strictMode();
+            List<ProductModel> list = new ArrayList<>();
+            try {
+                Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+                String searchSQL = "SELECT * FROM products_table WHERE product_name LIKE " + "'" + searchedItem + "%'";
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(searchSQL);
+                while (resultSet.next()) {
+                    model = new ProductModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getLong(4),
+                            (Blob) resultSet.getBlob(5), resultSet.getInt(6), resultSet.getString(7));
+                    list.add(model);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return list;
+        }
+    }
+
+}

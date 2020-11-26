@@ -19,4 +19,9 @@
     <string name="enter_product_description_here">Enter Product Description here</string>
     <string name="enter_product_price_here_php">Enter product price here PHP</string>
     <string name="enter_number_of_stocks_here">Enter number of Stocks here</string>
+    <string name="enter_product_category_here">Enter product category here</string>
+    <string name="product_name_here">Product Name Here</string>
+    <string name="number_of_stocks_left">Number of stocks left:</string>
+    <string name="product_stock_number">Product stock number</string>
+    <string name="search_product_name">Search Product Name</string>
 </resources>

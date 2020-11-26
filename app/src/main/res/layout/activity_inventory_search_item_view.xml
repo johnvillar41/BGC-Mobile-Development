@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.InventoryView.InventorySearchItemView"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        app:titleTextColor="#ffffff"
+        android:id="@+id/toolbar"
+        android:background="#f9b207"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+        <com.arlib.floatingsearchview.FloatingSearchView
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:floatingSearch_searchHint="Search..."
+            app:floatingSearch_suggestionsListAnimDuration="250"
+            app:floatingSearch_showSearchKey="false"
+            app:floatingSearch_leftActionMode="showHamburger"
+            android:id="@+id/txt_searchItem"
+            app:floatingSearch_close_search_on_keyboard_dismiss="true"
+            android:layout_marginEnd="10dp" />
+    </androidx.appcompat.widget.Toolbar>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerView_SearchProduct"/>
+
+</LinearLayout>

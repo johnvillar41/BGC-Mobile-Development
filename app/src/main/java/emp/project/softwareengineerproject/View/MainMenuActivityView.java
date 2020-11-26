@@ -15,13 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Interface.IMainMenu;
 import emp.project.softwareengineerproject.Presenter.MainMenuPresenter;
 import emp.project.softwareengineerproject.R;
+import emp.project.softwareengineerproject.View.InventoryView.InventoryActivityView;
 
 public class MainMenuActivityView extends AppCompatActivity implements IMainMenu.IMainMenuView, View.OnClickListener {
     private MainMenuPresenter presenter;
@@ -43,7 +43,6 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
     @Override
     public void initViews() {
         sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE);
-
 
         presenter = new MainMenuPresenter(this);
         txt_name = findViewById(R.id.txt_name);

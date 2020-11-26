@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.View;
+package emp.project.softwareengineerproject.View.InventoryView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,13 +27,14 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
-import emp.project.softwareengineerproject.CustomAdapters.GreenHouseRecyclerView;
-import emp.project.softwareengineerproject.Interface.IUpdateInventory;
+import emp.project.softwareengineerproject.CustomAdapters.ProductRecyclerView;
+import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.ProductModel;
-import emp.project.softwareengineerproject.Presenter.InventoryUpdatePresenter;
+import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryUpdatePresenter;
 import emp.project.softwareengineerproject.R;
 
 public class InventoryUpdateView extends AppCompatActivity implements IUpdateInventory.IUupdateInventoryView {
+
     private static final int IMAGE_PICK_CODE = 1000;
     private TextInputLayout editText_productTitle;
     @SuppressLint("StaticFieldLeak")
@@ -43,7 +42,9 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     private TextInputLayout txt_product_description;
     private TextInputLayout txt_product_Price;
     private TextInputLayout txt_product_Stocks;
+    private TextInputLayout txt_product_category;
     private Button btn_save;
+    private Button btn_cancel;
     static InputStream fileInputStream;
 
     private InventoryUpdatePresenter presenter;
@@ -67,18 +68,11 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         txt_product_description = findViewById(R.id.txt_product_description);
         txt_product_Price = findViewById(R.id.txt_product_Price);
         txt_product_Stocks = findViewById(R.id.txt_product_Stocks);
+        txt_product_category = findViewById(R.id.txt_product_category);
         btn_save = findViewById(R.id.btn_save);
-        Button btn_cancel = findViewById(R.id.btn_back);
-
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onCancelButtonClicked();
-            }
-        });
-
+        btn_cancel = findViewById(R.id.btn_back);
         try {
-            presenter.displayHints(GreenHouseRecyclerView.model);
+            presenter.displayHints(ProductRecyclerView.MODEL);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,37 +80,63 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void setHints(final ProductModel model) throws SQLException {
-        editText_productTitle.setHint(model.getProduct_name());
-        txt_product_description.setHint(model.getProduct_description());
-        txt_product_Price.setHint(String.valueOf(model.getProduct_price()));
-        txt_product_Stocks.setHint(String.valueOf(model.getProduct_stocks()));
+        if (model.getProduct_id() != null) {
+            editText_productTitle.setHint(model.getProduct_name());
+            txt_product_description.setHint(model.getProduct_description());
+            txt_product_Price.setHint(String.valueOf(model.getProduct_price()));
+            txt_product_Stocks.setHint(String.valueOf(model.getProduct_stocks()));
+            txt_product_category.setHint(model.getProduct_category());
+            Blob b;
+            b = model.getProduct_picture();
+            int blobLength;
 
-        Blob b = model.getProduct_picture();
-        int blobLength;
+            blobLength = (int) b.length();
+            final byte[] blobAsBytes = b.getBytes(1, blobLength);
+            Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
+            Glide.with(this).load(btm).into(imageView);
 
-        blobLength = (int) b.length();
-        final byte[] blobAsBytes = b.getBytes(1, blobLength);
-        Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-        Glide.with(this).load(btm).into(imageView);
+            btn_save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        presenter.onSaveProductButtonClicked(model.getProduct_id(),
+                                editText_productTitle,
+                                txt_product_description,
+                                txt_product_Price,
+                                txt_product_Stocks, fileInputStream,
+                                txt_product_category,v);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-        btn_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    presenter.onSaveButtonClicked(model.getProduct_id(),editText_productTitle,
-                             txt_product_description,
-                             txt_product_Price,
-                             txt_product_Stocks, fileInputStream, v);
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-
-            }
-        });
+            });
+        } else {
+            Intent intent = getIntent();
+            btn_save.setText(intent.getStringExtra("Button_Name"));
+            btn_save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    presenter.onAddProductButtonClicked(
+                            editText_productTitle,
+                            txt_product_description,
+                            txt_product_Price,
+                            txt_product_Stocks, fileInputStream,
+                            txt_product_category,v);
+                }
+            });
+        }
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.ImageButtonClicked();
+            }
+        });
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                model.setProduct_id(null);
+                presenter.onCancelButtonClicked();
             }
         });
     }
@@ -130,6 +150,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     public void displayErrorMessage(String message, View v) {
         Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_SHORT);
         snackbar.show();
+
     }
 
     @Override
@@ -146,15 +167,12 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         Uri selectedImage = data.getData();
         InputStream imageStream;
 
-
         if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK
                 && null != data) {
 
             try {
                 imageStream = getContentResolver().openInputStream(selectedImage);
                 originBitmap = BitmapFactory.decodeStream(imageStream);
-
-
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -163,8 +181,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                InputStream is = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-                fileInputStream = is;
+                fileInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
             }
         }
     }
