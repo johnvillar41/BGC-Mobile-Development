@@ -19,7 +19,6 @@
         app:civ_border_color="#FF000000"
         tools:targetApi="lollipop" />
 
-
     <androidx.cardview.widget.CardView
         app:cardBackgroundColor="#323232"
         android:layout_marginTop="200dp"

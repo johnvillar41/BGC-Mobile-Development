@@ -13,12 +13,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.mysql.jdbc.Blob;
 
 import java.io.ByteArrayInputStream;
@@ -35,12 +37,12 @@ import emp.project.softwareengineerproject.R;
 
 public class InventoryUpdateView extends AppCompatActivity implements IUpdateInventory.IUupdateInventoryView {
     private static final int IMAGE_PICK_CODE = 1000;
-    private EditText editText_productTitle;
+    private TextInputLayout editText_productTitle;
     @SuppressLint("StaticFieldLeak")
     private static ImageView imageView;
-    private EditText txt_product_description;
-    private EditText txt_product_Price;
-    private EditText txt_product_Stocks;
+    private TextInputLayout txt_product_description;
+    private TextInputLayout txt_product_Price;
+    private TextInputLayout txt_product_Stocks;
     private Button btn_save;
     static InputStream fileInputStream;
 
@@ -100,12 +102,13 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 try {
-                    presenter.onSaveButtonClicked(model.getProduct_id(), editText_productTitle.getText().toString(), txt_product_description.getText().toString(),
-                            Long.parseLong(txt_product_Price.getText().toString()), Integer.parseInt(txt_product_Stocks.getText().toString()), fileInputStream, v);
-                } catch (SQLException e) {
-                    displayErrorMessage("Error!",v);
+                    presenter.onSaveButtonClicked(model.getProduct_id(),editText_productTitle,
+                             txt_product_description,
+                             txt_product_Price,
+                             txt_product_Stocks, fileInputStream, v);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }

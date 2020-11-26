@@ -20,15 +20,18 @@
             android:textStyle="bold"
             android:textSize="25sp"
             android:layout_gravity="center"/>
-        <EditText
-            android:gravity="center"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:textStyle="italic"
             android:id="@+id/txt_product_name"
+            android:layout_marginTop="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:hint="@string/enter_product_name_here">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,15 +53,18 @@
             android:textStyle="bold"
             android:textSize="25sp"
             android:layout_gravity="center"/>
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textStyle="italic"
             android:id="@+id/txt_product_description"
+            android:layout_marginTop="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:hint="@string/enter_product_description_here">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,15 +72,18 @@
             android:textStyle="bold"
             android:textSize="25sp"
             android:layout_gravity="center"/>
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:textStyle="italic"
-            android:gravity="center"
             android:id="@+id/txt_product_Price"
+            android:layout_marginTop="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:hint="@string/enter_product_price_here_php">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,15 +91,18 @@
             android:textStyle="bold"
             android:textSize="25sp"
             android:layout_gravity="center"/>
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:textStyle="italic"
-            android:gravity="center"
             android:id="@+id/txt_product_Stocks"
+            android:layout_marginTop="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:hint="@string/enter_number_of_stocks_here">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
         <LinearLayout
             android:gravity="center"
             android:layout_width="match_parent"

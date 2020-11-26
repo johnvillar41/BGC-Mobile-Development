@@ -2,6 +2,8 @@ package emp.project.softwareengineerproject.Interface;
 
 import android.view.View;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -25,8 +27,10 @@ public interface IUpdateInventory {
     interface IUpdatePresenter {
         void onCancelButtonClicked();
 
-        void onSaveButtonClicked(String product_id, String product_name, String product_description, long product_price,
-                                 int product_stocks, InputStream upload_picture, View v) throws SQLException;
+        void onSaveButtonClicked(String product_id, TextInputLayout editText_productTitle,
+                                 TextInputLayout txt_product_description,
+                                 TextInputLayout txt_product_Price,
+                                 TextInputLayout txt_product_Stocks, InputStream upload_picture, View v) throws SQLException;
 
         void displayHints(ProductModel model) throws SQLException;
 

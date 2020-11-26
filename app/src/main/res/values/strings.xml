@@ -15,4 +15,8 @@
     <string name="others">Others</string>
     <string name="product_name">Product Name</string>
     <string name="product_image">Product Image</string>
+    <string name="enter_product_name_here">Enter Product Name Here</string>
+    <string name="enter_product_description_here">Enter Product Description here</string>
+    <string name="enter_product_price_here_php">Enter product price here PHP</string>
+    <string name="enter_number_of_stocks_here">Enter number of Stocks here</string>
 </resources>

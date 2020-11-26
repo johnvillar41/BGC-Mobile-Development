@@ -3,6 +3,7 @@ package emp.project.softwareengineerproject.Presenter;
 import android.os.StrictMode;
 import android.view.View;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.mysql.jdbc.PreparedStatement;
 
 import java.io.FileNotFoundException;
@@ -31,22 +32,21 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         view.goBack();
     }
 
+
     @Override
-    public void onSaveButtonClicked(String product_id, String product_name, String product_description, long product_price, int product_stocks, InputStream upload_picture, View v) throws SQLException {
-        model = new ProductModel(product_id, product_name, product_description, product_price,
-                product_stocks, upload_picture);
-        String isValid = model.validateProduct(model);
-        if (isValid == null) {
-            try {
-                dBhelper.updateProductToDB(model);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        } else {
-            view.displayErrorMessage(model.validateProduct(model), v);
+    public void onSaveButtonClicked(String product_id,
+                                    TextInputLayout editText_productTitle,
+                                    TextInputLayout txt_product_description,
+                                    TextInputLayout txt_product_Price,
+                                    TextInputLayout txt_product_Stocks, InputStream upload_picture, View v) throws SQLException {
+        try {
+            dBhelper.updateProductToDB(model.validateUpdate(editText_productTitle,txt_product_description,txt_product_Price,txt_product_Stocks,product_id,upload_picture));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override
