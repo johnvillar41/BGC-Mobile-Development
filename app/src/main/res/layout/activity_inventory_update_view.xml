@@ -9,9 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <View
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="30sp"
+            android:layout_height="?actionBarSize"
+            android:id="@+id/toolbar"
             android:background="#f9b207"/>
         <TextView
             android:layout_width="wrap_content"
@@ -121,7 +122,6 @@
             android:hint="@string/enter_product_category_here">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:inputType="number"
                 android:layout_height="wrap_content"
                 />
         </com.google.android.material.textfield.TextInputLayout>

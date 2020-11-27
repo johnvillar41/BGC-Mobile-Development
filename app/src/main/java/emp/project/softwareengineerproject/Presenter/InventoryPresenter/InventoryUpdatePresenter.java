@@ -44,8 +44,9 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             dBhelper.updateProductToDB(model.validateUpdate(editText_productTitle,
                     txt_product_description, txt_product_Price,
                     txt_product_Stocks, product_id, upload_picture, txt_product_category));
+            view.displayStatusMessage("Successfully Updated Product!", v);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            view.displayStatusMessage("Error Updating Product!", v);
         }
     }
 
@@ -63,12 +64,17 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                 product_stocks,
                 inputStream, product_category) != null) {
             try {
-                dBhelper.addNewProduct(model);
+                dBhelper.addNewProduct(model.validateProduct(product_name,
+                        product_description,
+                        product_price,
+                        product_stocks,
+                        inputStream, product_category));
+                view.displayStatusMessage("Successfully creating product!", v);
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
             }
         } else {
-            view.displayErrorMessage("Error creating product!", v);
+            view.displayStatusMessage("Error creating product!", v);
         }
     }
 
@@ -107,8 +113,8 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                 preparedStatement.setBlob(1, model.getUpload_picture());
             } else {
                 preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_name=? WHERE product_id=?");
-                preparedStatement.setString(1,model.getProduct_name());
-                preparedStatement.setString(2,model.getProduct_id());
+                preparedStatement.setString(1, model.getProduct_name());
+                preparedStatement.setString(2, model.getProduct_id());
             }
             preparedStatement.executeUpdate();
 
@@ -125,14 +131,15 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         public void addNewProduct(ProductModel model) throws ClassNotFoundException, SQLException {
             strictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-            String sql = "INSERT INTO products_table(product_name,product_description,product_price,product_picture,product_stocks)" +
-                    "VALUES(?,?,?,?,?)";
+            String sql = "INSERT INTO products_table(product_name,product_description,product_price,product_picture,product_stocks,product_category)" +
+                    "VALUES(?,?,?,?,?,?)";
             PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
             preparedStatement.setString(1, model.getProduct_name());
             preparedStatement.setString(2, model.getProduct_description());
             preparedStatement.setLong(3, model.getProduct_price());
             preparedStatement.setBlob(4, model.getUpload_picture());
             preparedStatement.setInt(5, model.getProduct_stocks());
+            preparedStatement.setString(6,model.getProduct_category());
             preparedStatement.execute();
             preparedStatement.close();
             connection.close();

@@ -7,14 +7,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
@@ -45,6 +48,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     private TextInputLayout txt_product_category;
     private Button btn_save;
     private Button btn_cancel;
+    private Toolbar toolbar;
     static InputStream fileInputStream;
 
     private InventoryUpdatePresenter presenter;
@@ -63,6 +67,11 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     public void initViews() {
         presenter = new InventoryUpdatePresenter(this);
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         editText_productTitle = findViewById(R.id.txt_product_name);
         imageView = findViewById(R.id.image_product);
         txt_product_description = findViewById(R.id.txt_product_description);
@@ -80,7 +89,9 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void setHints(final ProductModel model) throws SQLException {
-        if (model.getProduct_id() != null) {
+        if (!model.getProduct_id().equals("-1")) {//This checks the id of the current product
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle("Update Product");
             editText_productTitle.setHint(model.getProduct_name());
             txt_product_description.setHint(model.getProduct_description());
             txt_product_Price.setHint(String.valueOf(model.getProduct_price()));
@@ -104,7 +115,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                 txt_product_description,
                                 txt_product_Price,
                                 txt_product_Stocks, fileInputStream,
-                                txt_product_category,v);
+                                txt_product_category, v);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -112,6 +123,8 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 }
             });
         } else {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle("Add Product");
             Intent intent = getIntent();
             btn_save.setText(intent.getStringExtra("Button_Name"));
             btn_save.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +135,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                             txt_product_description,
                             txt_product_Price,
                             txt_product_Stocks, fileInputStream,
-                            txt_product_category,v);
+                            txt_product_category, v);
                 }
             });
         }
@@ -135,7 +148,6 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.setProduct_id(null);
                 presenter.onCancelButtonClicked();
             }
         });
@@ -143,11 +155,12 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void goBack() {
+        ProductRecyclerView.MODEL.setProduct_id("-1");
         this.finish();
     }
 
     @Override
-    public void displayErrorMessage(String message, View v) {
+    public void displayStatusMessage(String message, View v) {
         Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_SHORT);
         snackbar.show();
 
@@ -186,4 +199,13 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         }
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            ProductRecyclerView.MODEL.setProduct_id("-1");
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

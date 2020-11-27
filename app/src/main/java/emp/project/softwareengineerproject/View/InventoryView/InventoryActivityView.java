@@ -124,6 +124,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     public void goToAddProductPage() {
+        ProductRecyclerView.MODEL.setProduct_id("-1");
         Intent intent = new Intent(this, InventoryUpdateView.class);
         intent.putExtra("Button_Name", "Add Product");
         startActivity(intent);

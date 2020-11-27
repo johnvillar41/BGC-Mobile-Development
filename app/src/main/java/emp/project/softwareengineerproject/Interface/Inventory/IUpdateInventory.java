@@ -17,7 +17,7 @@ public interface IUpdateInventory {
 
         void goBack();
 
-        void displayErrorMessage(String message, View v);
+        void displayStatusMessage(String message, View v);
 
         void loadImageFromGallery();
     }

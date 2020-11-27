@@ -168,11 +168,12 @@ public class ProductModel implements Serializable {
         if (product_category.getEditText().getText().toString().isEmpty()) {
             product_category.setError("Dont leave this empty!");
         }
-        if (product_name.getError() != null &&
-                product_description.getError() != null &&
-                product_price.getError() != null &&
-                product_stocks.getError() != null &&
-                message == null) {
+        if (product_name.getError() == null &&
+                product_description.getError() == null &&
+                product_price.getError() == null &&
+                product_stocks.getError() == null &&
+                message ==null
+                ) {
             return new ProductModel(product_name.getEditText().getText().toString(),
                     product_description.getEditText().getText().toString(),
                     Long.parseLong(product_price.getEditText().getText().toString()),
