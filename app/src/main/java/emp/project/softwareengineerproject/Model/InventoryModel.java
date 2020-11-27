@@ -6,7 +6,7 @@ import com.mysql.jdbc.Blob;
 import java.io.InputStream;
 import java.io.Serializable;
 
-public class ProductModel implements Serializable {
+public class InventoryModel implements Serializable {
     String product_id, product_name, product_description;
     long product_price;
     Blob product_picture;
@@ -14,8 +14,8 @@ public class ProductModel implements Serializable {
     InputStream upload_picture;
     String product_category;
 
-    public ProductModel(String product_id, String product_name, String product_description,
-                        long product_price, Blob product_picture, int product_stocks, String product_category) {
+    public InventoryModel(String product_id, String product_name, String product_description,
+                          long product_price, Blob product_picture, int product_stocks, String product_category) {
         this.product_id = product_id;
         this.product_name = product_name;
         this.product_description = product_description;
@@ -26,7 +26,7 @@ public class ProductModel implements Serializable {
     }
 
 
-    public ProductModel(String product_id, String product_name, String product_description, long product_price, int product_stocks, InputStream upload_picture, String product_category) {
+    public InventoryModel(String product_id, String product_name, String product_description, long product_price, int product_stocks, InputStream upload_picture, String product_category) {
         this.product_id = product_id;
         this.product_name = product_name;
         this.product_description = product_description;
@@ -36,7 +36,7 @@ public class ProductModel implements Serializable {
         this.product_category = product_category;
     }
 
-    public ProductModel(String product_name, String product_description, long product_price, int product_stocks, InputStream upload_picture, String product_category) {
+    public InventoryModel(String product_name, String product_description, long product_price, int product_stocks, InputStream upload_picture, String product_category) {
         this.product_name = product_name;
         this.product_description = product_description;
         this.product_price = product_price;
@@ -45,7 +45,7 @@ public class ProductModel implements Serializable {
         this.product_category = product_category;
     }
 
-    public ProductModel() {
+    public InventoryModel() {
     }
 
     public InputStream getUpload_picture() {
@@ -105,11 +105,11 @@ public class ProductModel implements Serializable {
         this.product_category = product_category;
     }
 
-    public ProductModel validateUpdate(TextInputLayout editText_productTitle,
-                                       TextInputLayout txt_product_description,
-                                       TextInputLayout txt_product_Price,
-                                       TextInputLayout txt_product_Stocks, String product_id, InputStream product_picture,
-                                       TextInputLayout txt_product_category) {
+    public InventoryModel validateUpdate(TextInputLayout editText_productTitle,
+                                         TextInputLayout txt_product_description,
+                                         TextInputLayout txt_product_Price,
+                                         TextInputLayout txt_product_Stocks, String product_id, InputStream product_picture,
+                                         TextInputLayout txt_product_category) {
         if (editText_productTitle.getEditText().getText().toString().isEmpty()) {
             setProduct_name((((TextInputLayout) editText_productTitle).getHint().toString()));
         } else {
@@ -140,15 +140,15 @@ public class ProductModel implements Serializable {
             setProduct_category(txt_product_category.getEditText().getText().toString());
         }
 
-        return new ProductModel(product_id, getProduct_name(), getProduct_description(), getProduct_price(), getProduct_stocks(), product_picture, getProduct_category());
+        return new InventoryModel(product_id, getProduct_name(), getProduct_description(), getProduct_price(), getProduct_stocks(), product_picture, getProduct_category());
     }
 
-    public ProductModel validateProduct(TextInputLayout product_name,
-                                        TextInputLayout product_description,
-                                        TextInputLayout product_price,
-                                        TextInputLayout product_stocks,
-                                        InputStream product_picture,
-                                        TextInputLayout product_category) {
+    public InventoryModel validateProduct(TextInputLayout product_name,
+                                          TextInputLayout product_description,
+                                          TextInputLayout product_price,
+                                          TextInputLayout product_stocks,
+                                          InputStream product_picture,
+                                          TextInputLayout product_category) {
         String message = null;
         if (product_name.getEditText().getText().toString().isEmpty()) {
             product_name.setError("Dont leave this empty!");
@@ -174,7 +174,7 @@ public class ProductModel implements Serializable {
                 product_stocks.getError() == null &&
                 message ==null
                 ) {
-            return new ProductModel(product_name.getEditText().getText().toString(),
+            return new InventoryModel(product_name.getEditText().getText().toString(),
                     product_description.getEditText().getText().toString(),
                     Long.parseLong(product_price.getEditText().getText().toString()),
                     Integer.parseInt(product_stocks.getEditText().getText().toString()),

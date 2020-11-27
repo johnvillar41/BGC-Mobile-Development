@@ -13,16 +13,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
-import emp.project.softwareengineerproject.Model.ProductModel;
+import emp.project.softwareengineerproject.Model.InventoryModel;
 
 public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresenter {
     IUpdateInventory.IUupdateInventoryView view;
     IUpdateInventory.IDbHelper dBhelper;
-    ProductModel model;
+    InventoryModel model;
 
     public InventoryUpdatePresenter(IUpdateInventory.IUupdateInventoryView view) {
         this.view = view;
-        this.model = new ProductModel();
+        this.model = new InventoryModel();
         this.dBhelper = new DBhelper();
     }
 
@@ -79,7 +79,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
     }
 
     @Override
-    public void displayHints(ProductModel model) throws SQLException {
+    public void displayHints(InventoryModel model) throws SQLException {
         view.setHints(model);
     }
 
@@ -103,7 +103,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         }
 
         @Override
-        public void updateProductToDB(ProductModel model) throws SQLException, ClassNotFoundException {
+        public void updateProductToDB(InventoryModel model) throws SQLException, ClassNotFoundException {
             strictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             String sql = "UPDATE products_table SET product_picture=?" +
@@ -128,7 +128,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         }
 
         @Override
-        public void addNewProduct(ProductModel model) throws ClassNotFoundException, SQLException {
+        public void addNewProduct(InventoryModel model) throws ClassNotFoundException, SQLException {
             strictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             String sql = "INSERT INTO products_table(product_name,product_description,product_price,product_picture,product_stocks,product_category)" +

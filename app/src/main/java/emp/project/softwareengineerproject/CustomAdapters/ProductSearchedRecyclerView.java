@@ -20,15 +20,14 @@ import com.mysql.jdbc.Blob;
 import java.sql.SQLException;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-import emp.project.softwareengineerproject.Model.ProductModel;
+import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.R;
 
 public class ProductSearchedRecyclerView extends RecyclerView.Adapter<ProductSearchedRecyclerView.MyViewHolder> {
-    List<ProductModel> list;
+    List<InventoryModel> list;
     Context context;
 
-    public ProductSearchedRecyclerView(List<ProductModel> list, Context context) {
+    public ProductSearchedRecyclerView(List<InventoryModel> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -43,7 +42,7 @@ public class ProductSearchedRecyclerView extends RecyclerView.Adapter<ProductSea
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        ProductModel model = getItem(position);
+        InventoryModel model = getItem(position);
         if (model.getProduct_category().equals("Greenhouse")) {
             holder.cardView_item.setCardBackgroundColor(Color.parseColor("#90ee90"));
         } else if (model.getProduct_category().equals("Hydroponics")) {
@@ -65,7 +64,7 @@ public class ProductSearchedRecyclerView extends RecyclerView.Adapter<ProductSea
         holder.txt_stocks_number.setText(String.valueOf(model.getProduct_stocks()));
     }
 
-    private ProductModel getItem(int position) {
+    private InventoryModel getItem(int position) {
         return list.get(position);
     }
 

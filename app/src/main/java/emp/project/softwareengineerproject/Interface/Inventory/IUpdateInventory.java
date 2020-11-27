@@ -7,13 +7,13 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.io.InputStream;
 import java.sql.SQLException;
 
-import emp.project.softwareengineerproject.Model.ProductModel;
+import emp.project.softwareengineerproject.Model.InventoryModel;
 
 public interface IUpdateInventory {
     interface IUupdateInventoryView {
         void initViews();
 
-        void setHints(ProductModel model) throws SQLException;
+        void setHints(InventoryModel model) throws SQLException;
 
         void goBack();
 
@@ -38,7 +38,7 @@ public interface IUpdateInventory {
                                        TextInputLayout product_category,
                                        View v);
 
-        void displayHints(ProductModel model) throws SQLException;
+        void displayHints(InventoryModel model) throws SQLException;
 
         void ImageButtonClicked();
     }
@@ -47,8 +47,8 @@ public interface IUpdateInventory {
 
         void strictMode() throws ClassNotFoundException;
 
-        void updateProductToDB(ProductModel model) throws SQLException, ClassNotFoundException;
+        void updateProductToDB(InventoryModel model) throws SQLException, ClassNotFoundException;
 
-        void addNewProduct(ProductModel model) throws ClassNotFoundException, SQLException;
+        void addNewProduct(InventoryModel model) throws ClassNotFoundException, SQLException;
     }
 }

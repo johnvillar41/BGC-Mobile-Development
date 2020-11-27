@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f9b207"
+    tools:context=".View.LoadingScreen">
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="200sp"
+            android:gravity="center"
+            android:layout_height="200sp"
+            android:id="@+id/image_logo"
+            app:civ_border_width="3dp"
+            app:civ_border_color="#FF000000"
+            android:src="@drawable/logo"/>
+        <TextView
+            android:id="@+id/txt1st"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#a60f07"
+            android:text="AGT POS"
+             />
+        <TextView
+            android:id="@+id/txt2nd"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#a60f07"
+            android:text="and"
+             />
+        <TextView
+            android:id="@+id/txt3rd"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#a60f07"
+            android:text="Inventory System"
+            />
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

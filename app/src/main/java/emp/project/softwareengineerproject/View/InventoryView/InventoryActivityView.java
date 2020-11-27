@@ -14,21 +14,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.CustomAdapters.ProductRecyclerView;
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
-import emp.project.softwareengineerproject.Model.ProductModel;
+import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryPresenter;
 import emp.project.softwareengineerproject.R;
 
 public class InventoryActivityView extends AppCompatActivity implements IInvetory.IinventoryView {
-    RecyclerView recyclerView_GreenHouse, recyclerView_Hydroponics, recyclerView_others;
+    private RecyclerView recyclerView_GreenHouse, recyclerView_Hydroponics, recyclerView_others;
 
-    IInvetory.IinventoryPresenter presenter;
-    ProgressBar progressBar;
+    private IInvetory.IinventoryPresenter presenter;
+    private ProgressBar progressBar, progressBar_greenHouse, progressBar_hydroponics, progressBar_others;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +60,30 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         presenter = new InventoryPresenter(this);
 
         progressBar = findViewById(R.id.progressLoader);
+        progressBar_greenHouse = findViewById(R.id.progress_bar_greenhouse);
+        progressBar_hydroponics = findViewById(R.id.progress_bar_hydroponics);
+        progressBar_others = findViewById(R.id.progress_bar_others);
         recyclerView_GreenHouse = findViewById(R.id.recyclerView_greenHouse);
         recyclerView_Hydroponics = findViewById(R.id.recyclerView_hydroPonics);
         recyclerView_others = findViewById(R.id.recyclerView_others);
+        swipeRefreshLayout = findViewById(R.id.refresh);
         presenter.getGreenHouseFromDB();
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.onSwipeRefresh();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
     }
 
     @Override
-    public void displayRecyclerView(final List<ProductModel>[] productList) {
+    public void displayRecyclerView(final List<InventoryModel>[] productList) {
+        progressBar_greenHouse.setVisibility(View.VISIBLE);
+        progressBar_hydroponics.setVisibility(View.VISIBLE);
+        progressBar_others.setVisibility(View.VISIBLE);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -84,16 +100,19 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
                                 InventoryActivityView.this, productList[0]);
                         recyclerView_GreenHouse.setLayoutManager(layoutManagerGreenhouse);
                         recyclerView_GreenHouse.setAdapter(adapterGreenhouse);
+                        progressBar_greenHouse.setVisibility(View.INVISIBLE);
 
                         ProductRecyclerView adapterHydroponics = new ProductRecyclerView(
                                 InventoryActivityView.this, productList[1]);
                         recyclerView_Hydroponics.setLayoutManager(layoutManagerHydroponics);
                         recyclerView_Hydroponics.setAdapter(adapterHydroponics);
+                        progressBar_hydroponics.setVisibility(View.INVISIBLE);
 
                         ProductRecyclerView adapterOthers = new ProductRecyclerView(
                                 InventoryActivityView.this, productList[2]);
                         recyclerView_others.setLayoutManager(layoutManagerOthers);
                         recyclerView_others.setAdapter(adapterOthers);
+                        progressBar_others.setVisibility(View.INVISIBLE);
                     }
                 });
             }
@@ -123,6 +142,19 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     public void goToSearchPage() {
         Intent intent = new Intent(this, InventorySearchItemView.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void refreshPage() {
+        try {
+            presenter.getGreenHouseFromDB();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

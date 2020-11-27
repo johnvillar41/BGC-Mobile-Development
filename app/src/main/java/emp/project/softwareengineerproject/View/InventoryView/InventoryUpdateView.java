@@ -32,7 +32,7 @@ import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.CustomAdapters.ProductRecyclerView;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
-import emp.project.softwareengineerproject.Model.ProductModel;
+import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryUpdatePresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -88,7 +88,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     }
 
     @Override
-    public void setHints(final ProductModel model) throws SQLException {
+    public void setHints(final InventoryModel model) throws SQLException {
         if (!model.getProduct_id().equals("-1")) {//This checks the id of the current product
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle("Update Product");

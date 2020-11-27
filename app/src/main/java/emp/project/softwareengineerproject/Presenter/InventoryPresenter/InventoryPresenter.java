@@ -14,16 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
-import emp.project.softwareengineerproject.Model.ProductModel;
+import emp.project.softwareengineerproject.Model.InventoryModel;
 
 public class InventoryPresenter extends Activity implements IInvetory.IinventoryPresenter {
     private IInvetory.IinventoryView view;
-    private ProductModel model;
+    private InventoryModel model;
     private IInvetory.DBhelper dBhelper;
 
     public InventoryPresenter(IInvetory.IinventoryView view) {
         this.view = view;
-        this.model = new ProductModel();
+        this.model = new InventoryModel();
         this.dBhelper = new DBhelper();
     }
 
@@ -44,6 +44,11 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
         view.goToSearchPage();
     }
 
+    @Override
+    public void onSwipeRefresh() {
+        view.refreshPage();
+    }
+
 
     private class DBhelper implements IInvetory.DBhelper {
 
@@ -60,9 +65,9 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
         }
 
         @Override
-        public List<ProductModel>[] getProductFromDB() {
+        public List<InventoryModel>[] getProductFromDB() {
 
-            final ArrayList<ProductModel>[] list = new ArrayList[3];
+            final ArrayList<InventoryModel>[] list = new ArrayList[3];
             try {
                 strictMode();
                 list[0] = new ArrayList<>();
@@ -73,7 +78,7 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(sqlGetGreenHouse);
                 while (resultSet.next()) {
-                    model = new ProductModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getLong(4),
+                    model = new InventoryModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getLong(4),
                             (Blob) resultSet.getBlob(5), resultSet.getInt(6), resultSet.getString(7));
                     list[0].add(model);
                 }
@@ -82,7 +87,7 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
                 Statement statement2 = connection.createStatement();
                 ResultSet resultSet2 = statement2.executeQuery(sqlGetHydroPonics);
                 while (resultSet2.next()) {
-                    model = new ProductModel(resultSet2.getString(1), resultSet2.getString(2), resultSet2.getString(3), resultSet2.getLong(4),
+                    model = new InventoryModel(resultSet2.getString(1), resultSet2.getString(2), resultSet2.getString(3), resultSet2.getLong(4),
                             (Blob) resultSet2.getBlob(5), resultSet2.getInt(6), resultSet2.getString(7));
                     list[1].add(model);
                 }
@@ -91,7 +96,7 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
                 Statement statement3 = connection.createStatement();
                 ResultSet resultSet3 = statement3.executeQuery(sqlGetOtherProducts);
                 while (resultSet3.next()) {
-                    model = new ProductModel(resultSet3.getString(1), resultSet3.getString(2), resultSet3.getString(3), resultSet3.getLong(4),
+                    model = new InventoryModel(resultSet3.getString(1), resultSet3.getString(2), resultSet3.getString(3), resultSet3.getLong(4),
                             (Blob) resultSet3.getBlob(5), resultSet3.getInt(6), resultSet3.getString(7));
                     list[2].add(model);
                 }

@@ -5,10 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.UsersActivityView">
+    <androidx.appcompat.widget.Toolbar
+        app:title="User Profile"
+        android:elevation="10dp"
+        app:titleTextColor="#ffffff"
+        android:id="@+id/toolbar"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        tools:targetApi="lollipop" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:id="@+id/fab_view"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_view"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:backgroundTint="#f9b207"
+        android:layout_margin="16dp"
+        android:layout_alignParentRight="true" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="250sp"
-        android:background="#f9b207"/>
+        android:background="@drawable/profile_curve"/>
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
         android:layout_width="200dp"
@@ -20,6 +39,7 @@
         app:civ_border_color="#FF000000"
         tools:targetApi="lollipop" />
     <androidx.cardview.widget.CardView
+        app:cardBackgroundColor="#323232"
         android:id="@+id/cardView_Profile"
         android:layout_width="match_parent"
         android:layout_height="400sp"
@@ -32,38 +52,59 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_margin="10dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
+                android:id="@+id/user_id"
+                android:layout_marginTop="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="USER_ID"
-                android:id="@+id/user_id"/>
-            <TextView
-                android:layout_margin="15dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
+                android:hint="User ID">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:enabled="false"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_margin="10dp"
+                android:id="@+id/user_username"
+                android:layout_marginTop="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="USER_USERNAME"
-                android:id="@+id/user_username"/>
-            <TextView
-                android:layout_margin="15dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
+                android:hint="Username">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:enabled="false"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_margin="10dp"
+                android:id="@+id/user_password"
+                android:layout_marginTop="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="USER_PASSWORD"
-                android:id="@+id/user_password"/>
-            <TextView
-                android:layout_margin="15dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
+                app:endIconMode="password_toggle"
+                android:hint="Password">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:enabled="false"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_margin="10dp"
+                android:id="@+id/user_real_name"
+                android:layout_marginTop="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="USER_REAL_NAME"
-                android:id="@+id/user_real_name"/>
+                android:hint="Full Name">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:enabled="false"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

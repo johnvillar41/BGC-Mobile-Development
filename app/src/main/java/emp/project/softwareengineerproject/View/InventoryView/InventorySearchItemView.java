@@ -7,21 +7,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
-import emp.project.softwareengineerproject.CustomAdapters.ProductRecyclerView;
 import emp.project.softwareengineerproject.CustomAdapters.ProductSearchedRecyclerView;
 import emp.project.softwareengineerproject.Interface.Inventory.ISearchInventory;
-import emp.project.softwareengineerproject.Model.ProductModel;
+import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventorySearchItemPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -62,7 +58,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
     }
 
     @Override
-    public void displayRecyclerView(final List<ProductModel> product_list) {
+    public void displayRecyclerView(final List<InventoryModel> product_list) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

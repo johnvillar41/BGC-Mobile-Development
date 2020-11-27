@@ -14,7 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.InventoryView.InventorySearchItemView"></activity>
+        <activity android:name=".View.LoadingScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".View.InventoryView.InventorySearchItemView" />
         <activity android:name=".View.InventoryView.InventoryUpdateView" />
         <activity android:name=".View.SettingsActivityView" />
         <activity android:name=".View.UsersActivityView" />
@@ -22,13 +29,8 @@
         <activity android:name=".View.SalesActivityView" />
         <activity android:name=".View.InventoryView.InventoryActivityView" />
         <activity android:name=".View.MainMenuActivityView" />
-        <activity android:name=".View.LoginActivityView">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".View.LoginActivityView"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

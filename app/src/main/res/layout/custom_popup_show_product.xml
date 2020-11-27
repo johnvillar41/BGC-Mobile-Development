@@ -47,14 +47,19 @@
                     android:layout_height="wrap_content"
                     android:text="Product description"/>
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:layout_margin="10dp"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textStyle="italic"
                     android:id="@+id/txt_product_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Product description"/>
+                    android:text="Product description"
+                    />
             </TableRow>
             <TableRow>
                 <TextView
@@ -66,13 +71,17 @@
                     android:layout_height="wrap_content"
                     android:text="Product Price"/>
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:layout_margin="10dp"
                     android:layout_gravity="center"
-                    android:textStyle="italic"
                     android:gravity="center"
+                    android:textStyle="italic"
                     android:id="@+id/txt_product_Price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="Product Price"/>
             </TableRow>
             <TableRow>
@@ -85,13 +94,17 @@
                     android:layout_height="wrap_content"
                     android:text="Product Stocks"/>
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:layout_margin="10dp"
                     android:layout_gravity="center"
-                    android:textStyle="italic"
                     android:gravity="center"
+                    android:textStyle="italic"
                     android:id="@+id/txt_product_Stocks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="Product Stocks"/>
             </TableRow>
         </TableLayout>

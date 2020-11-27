@@ -2,11 +2,11 @@ package emp.project.softwareengineerproject.Interface.Inventory;
 
 import java.util.List;
 
-import emp.project.softwareengineerproject.Model.ProductModel;
+import emp.project.softwareengineerproject.Model.InventoryModel;
 
 public interface ISearchInventory {
     interface ISearchInventoryView{
-        void displayRecyclerView(List<ProductModel> product_list);
+        void displayRecyclerView(List<InventoryModel> product_list);
     }
     interface  ISearchInventoryPresenter{
         void onSearchItemProduct(String product_name) throws ClassNotFoundException;
@@ -14,6 +14,6 @@ public interface ISearchInventory {
     interface  ISearchInventoryDBhelper{
         void strictMode() throws ClassNotFoundException;
 
-        List<ProductModel>getSearchedProductFromDB(String searchedItem) throws ClassNotFoundException;
+        List<InventoryModel>getSearchedProductFromDB(String searchedItem) throws ClassNotFoundException;
     }
 }

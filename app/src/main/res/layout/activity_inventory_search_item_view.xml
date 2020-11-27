@@ -9,21 +9,21 @@
     <androidx.appcompat.widget.Toolbar
         app:titleTextColor="#ffffff"
         android:id="@+id/toolbar"
+        app:title="Inventory Search"
         android:background="#f9b207"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize">
-        <com.arlib.floatingsearchview.FloatingSearchView
-            android:layout_marginRight="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:floatingSearch_searchHint="Search..."
-            app:floatingSearch_suggestionsListAnimDuration="250"
-            app:floatingSearch_showSearchKey="false"
-            app:floatingSearch_leftActionMode="noLeftAction"
-            android:id="@+id/txt_searchItem"
-            app:floatingSearch_close_search_on_keyboard_dismiss="true"
-            android:layout_marginEnd="10dp" />
     </androidx.appcompat.widget.Toolbar>
+    <com.arlib.floatingsearchview.FloatingSearchView
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:floatingSearch_searchHint="Search Product Name"
+        app:floatingSearch_suggestionsListAnimDuration="250"
+        app:floatingSearch_showSearchKey="false"
+        app:floatingSearch_leftActionMode="noLeftAction"
+        android:id="@+id/txt_searchItem"
+        app:floatingSearch_close_search_on_keyboard_dismiss="true"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
