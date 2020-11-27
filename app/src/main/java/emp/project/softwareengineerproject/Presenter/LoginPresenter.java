@@ -3,30 +3,30 @@ package emp.project.softwareengineerproject.Presenter;
 import android.os.StrictMode;
 import android.view.View;
 
-import com.mysql.jdbc.Statement;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.ILogin;
-import emp.project.softwareengineerproject.Model.LoginModel;
+import emp.project.softwareengineerproject.Model.UserModel;
 
 public class LoginPresenter implements ILogin.ILoginPresenter {
+    public static String USER_REAL_NAME = "NAME";
     private ILogin.ILoginView view;
-    private LoginModel model;
-    private DBhelper dBhelper;
+    private UserModel model;
+    private ILogin.IDbHelper dBhelper;
 
     public LoginPresenter(ILogin.ILoginView view) {
         this.view = view;
-        this.model = new LoginModel();
+        this.model = new UserModel();
         this.dBhelper = new DBhelper();
     }
 
     @Override
     public void onLoginButtonClicked(String username, String password, View v) throws SQLException, ClassNotFoundException {
-        model = new LoginModel(username, password);
+        model = new UserModel(username, password);
         if (model.validateCredentials(model) == null) {
             boolean success = dBhelper.checkLoginCredentialsDB(model);
             if (success) {
@@ -54,20 +54,22 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
         }
 
         @Override
-        public Boolean checkLoginCredentialsDB(LoginModel model) throws ClassNotFoundException, SQLException {
+        public boolean checkLoginCredentialsDB(UserModel model) throws ClassNotFoundException, SQLException {//Checks Login and also returns the User Object for Users Page
             StrictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-            String sqlcmd = "SELECT user_username,user_password FROM login_table WHERE user_username=" + "'" + model.getUser_username() + "'AND user_password= " + "'" + model.getUser_password() + "'";
-            Statement statement = (Statement) connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlcmd);
+            String sqlSearch = "SELECT * FROM login_table WHERE user_username=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlSearch);
+            preparedStatement.setString(1, model.getUser_username());
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
+                LoginPresenter.USER_REAL_NAME = resultSet.getString(4);
                 resultSet.close();
-                statement.close();
+                preparedStatement.close();
                 connection.close();
                 return true;
             } else {
                 resultSet.close();
-                statement.close();
+                preparedStatement.close();
                 connection.close();
                 return false;
             }

@@ -26,9 +26,9 @@ import emp.project.softwareengineerproject.Presenter.InventoryPresenter.Inventor
 import emp.project.softwareengineerproject.R;
 
 public class InventorySearchItemView extends AppCompatActivity implements ISearchInventory.ISearchInventoryView {
-    FloatingSearchView txt_searchItem;
-    InventorySearchItemPresenter presenter;
-    RecyclerView recyclerViewSearchedItem;
+    private FloatingSearchView txt_searchItem;
+    private ISearchInventory.ISearchInventoryPresenter presenter;
+    private RecyclerView recyclerViewSearchedItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +41,14 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
     }
 
     private void initViews() {
-        presenter=new InventorySearchItemPresenter(this);
+        presenter = new InventorySearchItemPresenter(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         txt_searchItem = findViewById(R.id.txt_searchItem);
-        recyclerViewSearchedItem=findViewById(R.id.recyclerView_SearchProduct);
+        recyclerViewSearchedItem = findViewById(R.id.recyclerView_SearchProduct);
         txt_searchItem.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, String newQuery) {
@@ -63,7 +63,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
 
     @Override
     public void displayRecyclerView(final List<ProductModel> product_list) {
-        Thread thread=new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 final LinearLayoutManager layoutManager
@@ -78,12 +78,13 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
                     }
                 });
             }
-        });thread.start();
+        });
+        thread.start();
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             this.finish();
         }
         return super.onOptionsItemSelected(item);

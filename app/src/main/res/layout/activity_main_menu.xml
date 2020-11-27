@@ -15,10 +15,12 @@
         <TextView
             android:textStyle="bold"
             android:textSize="30sp"
+            android:textColor="#a60f07"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Welcome! "/>
         <TextView
+            android:textColor="#a60f07"
             android:textStyle="italic"
             android:id="@+id/txt_name"
             android:textSize="30sp"

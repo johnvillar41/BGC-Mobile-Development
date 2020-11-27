@@ -3,7 +3,6 @@ package emp.project.softwareengineerproject.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +25,7 @@ import emp.project.softwareengineerproject.R;
 import emp.project.softwareengineerproject.View.InventoryView.InventoryActivityView;
 
 public class MainMenuActivityView extends AppCompatActivity implements IMainMenu.IMainMenuView, View.OnClickListener {
-    private MainMenuPresenter presenter;
+    private IMainMenu.IMainPresenter presenter;
     private TextView txt_name;
     private SharedPreferences sharedPreferences;
 
@@ -39,12 +40,13 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         presenter.directUsernameDisplay();
     }
 
-    @SuppressLint("CheckResult")
     @Override
     public void initViews() {
-        sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES_USERNAME, MODE_PRIVATE);
 
         presenter = new MainMenuPresenter(this);
+        Animation atg = AnimationUtils.loadAnimation(this, R.anim.atg);
+
         txt_name = findViewById(R.id.txt_name);
         ImageView imageView_illustration = findViewById(R.id.image_illustration);
         CircleImageView image_inventory = findViewById(R.id.image_stocks);
@@ -60,6 +62,15 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         CardView cardView_users = findViewById(R.id.cardView_users);
         CardView cardView_settings = findViewById(R.id.cardView_settings);
         CardView cardView_logout = findViewById(R.id.cardView_logout);
+
+        cardView_sales.setAnimation(atg);
+        cardView_inventory.setAnimation(atg);
+        cardView_reports.setAnimation(atg);
+        cardView_users.setAnimation(atg);
+        cardView_settings.setAnimation(atg);
+        cardView_logout.setAnimation(atg);
+        imageView_illustration.setAnimation(atg);
+        txt_name.setAnimation(atg);
 
         cardView_inventory.setOnClickListener(this);
         cardView_sales.setOnClickListener(this);
@@ -77,14 +88,14 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         Glide.with(this).load(R.drawable.settings_logo).into(image_settings);
         Glide.with(this).load(R.drawable.logout_logo).into(image_signout);
 
-        if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES, null) == null) {
+        if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES_USERNAME, null) == null) {
             this.finish();
         }
     }
 
     @Override
     public void goToLoginScreen(View v) {
-        sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES_USERNAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
@@ -126,7 +137,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
 
     @Override
     public void displayUsername() {
-        txt_name.setText(sharedPreferences.getString(LoginActivityView.MyPREFERENCES, null));
+        txt_name.setText(sharedPreferences.getString(LoginActivityView.MyPREFERENCES_NAME, null));
     }
 
     @Override

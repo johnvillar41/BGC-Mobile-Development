@@ -3,12 +3,15 @@ package emp.project.softwareengineerproject.CustomAdapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -41,6 +44,13 @@ public class ProductSearchedRecyclerView extends RecyclerView.Adapter<ProductSea
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ProductModel model = getItem(position);
+        if (model.getProduct_category().equals("Greenhouse")) {
+            holder.cardView_item.setCardBackgroundColor(Color.parseColor("#90ee90"));
+        } else if (model.getProduct_category().equals("Hydroponics")) {
+            holder.cardView_item.setCardBackgroundColor(Color.parseColor("#b5651d"));
+        } else {
+            holder.cardView_item.setCardBackgroundColor(Color.parseColor("#C58BE7"));
+        }
         final Blob b = model.getProduct_picture();
         final int[] blobLength = new int[1];
         try {
@@ -65,14 +75,16 @@ public class ProductSearchedRecyclerView extends RecyclerView.Adapter<ProductSea
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        CircleImageView circleImageView;
+        ImageView circleImageView;
         TextView txt_product_name, txt_stocks_number;
+        CardView cardView_item;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             circleImageView = itemView.findViewById(R.id.image_product);
             txt_product_name = itemView.findViewById(R.id.txt_product_name);
             txt_stocks_number = itemView.findViewById(R.id.txt_product_Stocks);
+            cardView_item = itemView.findViewById(R.id.cardView_products_search);
         }
     }
 }

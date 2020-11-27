@@ -4,7 +4,7 @@ import android.view.View;
 
 import java.sql.SQLException;
 
-import emp.project.softwareengineerproject.Model.LoginModel;
+import emp.project.softwareengineerproject.Model.UserModel;
 
 public interface ILogin {
     interface ILoginView {
@@ -24,6 +24,6 @@ public interface ILogin {
     interface IDbHelper {
         void StrictMode() throws ClassNotFoundException;
 
-        Boolean checkLoginCredentialsDB(LoginModel model) throws ClassNotFoundException, SQLException;
+        boolean checkLoginCredentialsDB(UserModel model) throws ClassNotFoundException, SQLException;
     }
 }

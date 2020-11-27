@@ -17,7 +17,7 @@ import emp.project.softwareengineerproject.Model.ProductModel;
 
 public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresenter {
     IUpdateInventory.IUupdateInventoryView view;
-    DBhelper dBhelper;
+    IUpdateInventory.IDbHelper dBhelper;
     ProductModel model;
 
     public InventoryUpdatePresenter(IUpdateInventory.IUupdateInventoryView view) {

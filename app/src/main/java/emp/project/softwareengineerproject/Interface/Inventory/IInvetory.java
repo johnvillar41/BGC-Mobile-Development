@@ -10,11 +10,11 @@ public interface IInvetory {
         void initViews() throws SQLException, ClassNotFoundException, InterruptedException;
 
         void displayRecyclerView(List<ProductModel>[] productList);
-        void displaySearchedProduct(List<ProductModel>searchedProduct);
 
         void goToAddProductPage();
 
         void showProgressDialog();
+
         void hideProgressDialog();
 
         void goToSearchPage();
@@ -31,7 +31,7 @@ public interface IInvetory {
     interface DBhelper {
         void strictMode() throws ClassNotFoundException;
 
-        List<ProductModel>[] getGreenHouseDB() throws ClassNotFoundException, SQLException, InterruptedException;
+        List<ProductModel>[] getProductFromDB() throws ClassNotFoundException, SQLException, InterruptedException;
 
     }
 }

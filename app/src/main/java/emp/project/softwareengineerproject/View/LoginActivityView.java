@@ -13,10 +13,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -30,8 +28,9 @@ import emp.project.softwareengineerproject.R;
 public class LoginActivityView extends AppCompatActivity implements ILogin.ILoginView {
     private MaterialButton btn_login;
     private TextInputLayout txt_username, txt_password;
-    private LoginPresenter presenter;
-    public static final String MyPREFERENCES = "MyPrefs";
+    private ILogin.ILoginPresenter presenter;
+    public static final String MyPREFERENCES_USERNAME = "MyPrefs";
+    public static final String MyPREFERENCES_NAME = "NAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +82,10 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
 
     @Override
     public void goToMainPage() {
-        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES_USERNAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString(MyPREFERENCES, txt_username.getEditText().getText().toString());
+        editor.putString(MyPREFERENCES_USERNAME, txt_username.getEditText().getText().toString());
+        editor.putString(MyPREFERENCES_NAME, LoginPresenter.USER_REAL_NAME);
         editor.apply();
         finish();
         Intent intent = new Intent(this, MainMenuActivityView.class);

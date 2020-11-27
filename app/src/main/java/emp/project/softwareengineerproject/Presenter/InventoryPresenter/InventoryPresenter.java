@@ -30,7 +30,7 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
     @Override
     public void getGreenHouseFromDB() throws InterruptedException, SQLException, ClassNotFoundException {
         view.showProgressDialog();
-        view.displayRecyclerView(dBhelper.getGreenHouseDB());
+        view.displayRecyclerView(dBhelper.getProductFromDB());
         view.hideProgressDialog();
     }
 
@@ -60,7 +60,7 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
         }
 
         @Override
-        public List<ProductModel>[] getGreenHouseDB() {
+        public List<ProductModel>[] getProductFromDB() {
 
             final ArrayList<ProductModel>[] list = new ArrayList[3];
             try {

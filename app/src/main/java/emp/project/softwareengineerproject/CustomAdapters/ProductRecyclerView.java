@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ import emp.project.softwareengineerproject.View.InventoryView.InventoryUpdateVie
 public class ProductRecyclerView extends RecyclerView.Adapter<ProductRecyclerView.MyViewHolder> {
 
 
-    public static ProductModel MODEL;
+    public static ProductModel PRODUCT_MODEL;
     Context context;
     List<ProductModel> list;
     InventoryPresenter presenter;
@@ -43,7 +44,7 @@ public class ProductRecyclerView extends RecyclerView.Adapter<ProductRecyclerVie
         this.context = context;
         this.list = list;
         this.presenter = new InventoryPresenter((IInvetory.IinventoryView) context);
-        MODEL = new ProductModel();
+        PRODUCT_MODEL = new ProductModel();
     }
 
     @NonNull
@@ -57,6 +58,16 @@ public class ProductRecyclerView extends RecyclerView.Adapter<ProductRecyclerVie
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final ProductModel model = getItem(position);
+
+        if (model.getProduct_category().equals("Greenhouse")) {
+            holder.cardView_item.setCardBackgroundColor(Color.parseColor("#90ee90"));
+        } else if (model.getProduct_category().equals("Hydroponics")) {
+            holder.cardView_item.setCardBackgroundColor(Color.parseColor("#b5651d"));
+        } else {
+            holder.cardView_item.setCardBackgroundColor(Color.parseColor("#C58BE7"));
+        }
+
+
         final Blob b = model.getProduct_picture();
         final int[] blobLength = new int[1];
         try {
@@ -114,10 +125,10 @@ public class ProductRecyclerView extends RecyclerView.Adapter<ProductRecyclerVie
                     public void onClick(View v) {
                         Intent intent = new Intent(context, InventoryUpdateView.class);
                         context.startActivity(intent);
-                        ProductRecyclerView.MODEL = new ProductModel(model.getProduct_id(),
+                        ProductRecyclerView.PRODUCT_MODEL = new ProductModel(model.getProduct_id(),
                                 model.getProduct_name(), model.getProduct_description(),
                                 model.getProduct_price(), model.getProduct_picture(),
-                                model.getProduct_stocks(),model.getProduct_category());
+                                model.getProduct_stocks(), model.getProduct_category());
                     }
                 });
             }

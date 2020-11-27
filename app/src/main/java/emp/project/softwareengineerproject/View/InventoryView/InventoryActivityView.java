@@ -27,7 +27,7 @@ import emp.project.softwareengineerproject.R;
 public class InventoryActivityView extends AppCompatActivity implements IInvetory.IinventoryView {
     RecyclerView recyclerView_GreenHouse, recyclerView_Hydroponics, recyclerView_others;
 
-    InventoryPresenter presenter;
+    IInvetory.IinventoryPresenter presenter;
     ProgressBar progressBar;
 
     @Override
@@ -102,29 +102,8 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     }
 
     @Override
-    public void displaySearchedProduct(final List<ProductModel> searchedProduct) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final LinearLayoutManager layoutManager
-                        = new LinearLayoutManager(InventoryActivityView.this, LinearLayoutManager.HORIZONTAL, false);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ProductRecyclerView adapter = new ProductRecyclerView(
-                                InventoryActivityView.this, searchedProduct);
-                        recyclerView_others.setLayoutManager(layoutManager);
-                        recyclerView_others.setAdapter(adapter);
-                    }
-                });
-            }
-        });
-        thread.start();
-    }
-
-    @Override
     public void goToAddProductPage() {
-        ProductRecyclerView.MODEL.setProduct_id("-1");
+        ProductRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
         Intent intent = new Intent(this, InventoryUpdateView.class);
         intent.putExtra("Button_Name", "Add Product");
         startActivity(intent);

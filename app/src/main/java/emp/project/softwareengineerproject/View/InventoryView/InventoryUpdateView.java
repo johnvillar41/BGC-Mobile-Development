@@ -51,7 +51,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     private Toolbar toolbar;
     static InputStream fileInputStream;
 
-    private InventoryUpdatePresenter presenter;
+    private IUpdateInventory.IUpdatePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         btn_save = findViewById(R.id.btn_save);
         btn_cancel = findViewById(R.id.btn_back);
         try {
-            presenter.displayHints(ProductRecyclerView.MODEL);
+            presenter.displayHints(ProductRecyclerView.PRODUCT_MODEL);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -155,7 +155,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void goBack() {
-        ProductRecyclerView.MODEL.setProduct_id("-1");
+        ProductRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
         this.finish();
     }
 
@@ -163,7 +163,6 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     public void displayStatusMessage(String message, View v) {
         Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_SHORT);
         snackbar.show();
-
     }
 
     @Override
@@ -177,7 +176,14 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Bitmap originBitmap = null;
-        Uri selectedImage = data.getData();
+        Uri selectedImage;
+
+        try{
+            selectedImage = data.getData();
+        }catch (NullPointerException e){
+            return;
+        }
+
         InputStream imageStream;
 
         if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK
@@ -203,7 +209,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            ProductRecyclerView.MODEL.setProduct_id("-1");
+            ProductRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
             this.finish();
         }
         return super.onOptionsItemSelected(item);
