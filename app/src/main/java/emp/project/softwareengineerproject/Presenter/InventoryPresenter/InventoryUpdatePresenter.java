@@ -108,23 +108,21 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             PreparedStatement preparedStatement;
             if (model.getUpload_picture() != null) {
-
                 preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_picture=?" +
-                        ",product_name=? WHERE product_id=" + "'" + model.getProduct_id() + "'");
+                        "WHERE product_id=" + "'" + model.getProduct_id() + "'");
                 preparedStatement.setBlob(1, model.getUpload_picture());
+                preparedStatement.setString(2, model.getProduct_id());
             } else {
-                preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_name=? WHERE product_id=?");
+                preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_name=?," +
+                        "product_description=?,product_price=?,product_stocks=?,product_category=? WHERE product_id=?");
                 preparedStatement.setString(1, model.getProduct_name());
                 preparedStatement.setString(2, model.getProduct_id());
+                preparedStatement.setLong(3, model.getProduct_price());
+                preparedStatement.setInt(4, model.getProduct_stocks());
+                preparedStatement.setString(5, model.getProduct_category());
+                preparedStatement.setString(6, model.getProduct_id());
             }
             preparedStatement.executeUpdate();
-
-            String sqlcmd = "UPDATE products_table SET product_description=" + "'" + model.getProduct_description() + "'," +
-                    "product_price=" + model.getProduct_price() + "," + "product_stocks=" + model.getProduct_stocks() +
-                    " WHERE product_id=" + "'" + model.getProduct_id() + "'";
-            Statement statement = connection.createStatement();
-            statement.execute(sqlcmd);
-            statement.close();
             connection.close();
         }
 
@@ -140,7 +138,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             preparedStatement.setLong(3, model.getProduct_price());
             preparedStatement.setBlob(4, model.getUpload_picture());
             preparedStatement.setInt(5, model.getProduct_stocks());
-            preparedStatement.setString(6,model.getProduct_category());
+            preparedStatement.setString(6, model.getProduct_category());
             preparedStatement.execute();
             preparedStatement.close();
             connection.close();
