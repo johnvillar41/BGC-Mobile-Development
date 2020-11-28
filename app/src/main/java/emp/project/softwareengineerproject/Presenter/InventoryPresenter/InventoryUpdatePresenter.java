@@ -106,10 +106,11 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         public void updateProductToDB(InventoryModel model) throws SQLException, ClassNotFoundException {
             strictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-            String sql = "UPDATE products_table SET product_picture=?" +
-                    ",product_name=? WHERE product_id=" + "'" + model.getProduct_id() + "'";
-            PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
+            PreparedStatement preparedStatement;
             if (model.getUpload_picture() != null) {
+
+                preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_picture=?" +
+                        ",product_name=? WHERE product_id=" + "'" + model.getProduct_id() + "'");
                 preparedStatement.setBlob(1, model.getUpload_picture());
             } else {
                 preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_name=? WHERE product_id=?");

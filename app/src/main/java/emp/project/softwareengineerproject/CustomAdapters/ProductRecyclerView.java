@@ -67,8 +67,6 @@ public class ProductRecyclerView extends RecyclerView.Adapter<ProductRecyclerVie
         } else {
             holder.cardView_item.setCardBackgroundColor(Color.parseColor("#C58BE7"));
         }
-
-
         final Blob b = model.getProduct_picture();
         final int[] blobLength = new int[1];
         try {
