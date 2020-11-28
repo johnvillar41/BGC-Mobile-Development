@@ -1,6 +1,6 @@
-package emp.project.softwareengineerproject.View;
+package emp.project.softwareengineerproject.View.UsersActivityView;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,7 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -34,18 +33,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import emp.project.softwareengineerproject.CustomAdapters.ProductSearchedRecyclerView;
 import emp.project.softwareengineerproject.CustomAdapters.UserRecyclerView;
-import emp.project.softwareengineerproject.Interface.IUsersActivity;
+import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.UserModel;
-import emp.project.softwareengineerproject.Presenter.UsersPresenter;
+import emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersPresenter;
 import emp.project.softwareengineerproject.R;
-import emp.project.softwareengineerproject.View.InventoryView.InventorySearchItemView;
+import emp.project.softwareengineerproject.View.LoginActivityView;
 
-public class UsersActivityView extends AppCompatActivity implements IUsersActivity.IUsersView {
+public class UsersActivityView extends AppCompatActivity implements IUsers.IUsersView {
     private CircleImageView circleImageView;
     private CardView cardView;
-    private IUsersActivity.IUsersPresenter presenter;
+    private IUsers.IUsersPresenter presenter;
     private TextInputLayout txt_user_id, txt_username, txt_password, txt_real_name;
 
 
@@ -152,6 +150,12 @@ public class UsersActivityView extends AppCompatActivity implements IUsersActivi
     }
 
     @Override
+    public void goToAddPage() {
+        Intent intent=new Intent(this,UsersAddActivityView.class);
+        startActivity(intent);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_profile, menu);
         return true;
@@ -163,7 +167,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsersActivi
             this.finish();
         }
         if (item.getItemId() == R.id.action_addfav) {
-
+            presenter.onAddButtonClicked();
         }
         return super.onOptionsItemSelected(item);
     }

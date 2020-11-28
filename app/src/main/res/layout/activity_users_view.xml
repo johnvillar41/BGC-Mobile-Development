@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.UsersActivityView">
+    tools:context=".View.UsersActivityView.UsersActivityView">
     <androidx.appcompat.widget.Toolbar
         app:title="User Profile"
         android:elevation="10dp"

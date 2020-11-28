@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.Presenter;
+package emp.project.softwareengineerproject.Presenter.UsersPresenter;
 
 import android.os.StrictMode;
 
@@ -10,15 +10,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import emp.project.softwareengineerproject.Interface.IUsersActivity;
+import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.UserModel;
 
-public class UsersPresenter implements IUsersActivity.IUsersPresenter {
+public class UsersPresenter implements IUsers.IUsersPresenter {
     UserModel model;
-    IUsersActivity.IUsersDBhelper dBhelper;
-    IUsersActivity.IUsersView view;
+    IUsers.IUsersDBhelper dBhelper;
+    IUsers.IUsersView view;
 
-    public UsersPresenter(IUsersActivity.IUsersView view) {
+    public UsersPresenter(IUsers.IUsersView view) {
         this.view = view;
         this.dBhelper = new Dbhelper();
         this.model = new UserModel();
@@ -42,7 +42,12 @@ public class UsersPresenter implements IUsersActivity.IUsersPresenter {
         }
     }
 
-    private class Dbhelper implements IUsersActivity.IUsersDBhelper {
+    @Override
+    public void onAddButtonClicked() {
+        view.goToAddPage();
+    }
+
+    private class Dbhelper implements IUsers.IUsersDBhelper {
 
         private String DB_NAME = "jdbc:mysql://192.168.1.152:3306/agt_db";
         private String USER = "admin";
