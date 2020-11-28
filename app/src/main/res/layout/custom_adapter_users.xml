@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="10dp"
+    app:cardCornerRadius="5dp"
+    app:cardBackgroundColor="#323232"
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,22 +22,26 @@
             android:background="#000000"
             android:layout_margin="10dp"/>
         <TextView
+            android:textColor="#000000"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="User_ID"/>
         <TextView
+            android:textColor="#000000"
             android:id="@+id/txt_user_id"
             android:textStyle="italic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="User_ID"/>
         <TextView
+            android:textColor="#000000"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Username: "/>
         <TextView
+            android:textColor="#000000"
             android:id="@+id/txt_user_username"
             android:textStyle="italic"
             android:layout_width="wrap_content"

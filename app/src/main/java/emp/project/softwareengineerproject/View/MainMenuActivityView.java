@@ -81,7 +81,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         cardView_logout.setOnClickListener(this);
 
         //Programmatically loading images through glide library due to crash on loading large amounts of images
-        Glide.with(this).load(R.drawable.illustration).into(imageView_illustration);
+        Glide.with(this).load(R.drawable.logo_main).into(imageView_illustration);
         Glide.with(this).load(R.drawable.stocks_logo).into(image_inventory);
         Glide.with(this).load(R.drawable.sales_logo).into(image_sales);
         Glide.with(this).load(R.drawable.reports_logo).into(image_reports);
