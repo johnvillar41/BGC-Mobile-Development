@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsersAdd;
 import emp.project.softwareengineerproject.Model.UserModel;
 
@@ -43,9 +44,10 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
 
     private class DBhelper implements IUsersAdd.IUsersAddDBhelper {
 
-        private String DB_NAME = "jdbc:mysql://192.168.1.152:3306/agt_db";
-        private String USER = "admin";
-        private String PASS = "admin";
+        private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
+        private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();
+        private String PASS = EDatabaseCredentials.PASS.getDatabaseCredentials();
+
 
         @Override
         public void strictMode() throws ClassNotFoundException {

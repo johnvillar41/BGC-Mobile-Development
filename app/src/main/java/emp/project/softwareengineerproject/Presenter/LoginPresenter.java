@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
 import emp.project.softwareengineerproject.Interface.ILogin;
 import emp.project.softwareengineerproject.Model.UserModel;
 
@@ -39,11 +40,11 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
         }
     }
 
-    private class DBhelper implements ILogin.IDbHelper {
+    private static class DBhelper implements ILogin.IDbHelper {
 
-        private String DB_NAME = "jdbc:mysql://192.168.1.152:3306/agt_db";
-        private String USER = "admin";
-        private String PASS = "admin";
+        private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
+        private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();
+        private String PASS = EDatabaseCredentials.PASS.getDatabaseCredentials();
 
         @Override
         public void StrictMode() throws ClassNotFoundException {
@@ -54,7 +55,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
         }
 
         @Override
-        public boolean checkLoginCredentialsDB(UserModel model) throws ClassNotFoundException, SQLException {//Checks Login and also returns the User Object for Users Page
+        public boolean checkLoginCredentialsDB(UserModel model) throws ClassNotFoundException, SQLException {
             StrictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             String sqlSearch = "SELECT * FROM login_table WHERE user_username=?";

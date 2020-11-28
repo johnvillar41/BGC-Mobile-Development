@@ -13,7 +13,8 @@
         android:src="@drawable/ic_baseline_notifications_24"
         android:layout_margin="40dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        tools:ignore="RelativeOverlap" />
     <TextView
         android:elevation="10dp"
         android:background="@drawable/circle_textview"

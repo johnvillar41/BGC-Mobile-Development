@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 
@@ -57,9 +58,9 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
 
     private class DBhelper implements IInvetory.DBhelper {
 
-        private String DB_NAME = "jdbc:mysql://192.168.1.152:3306/agt_db";
-        private String USER = "admin";
-        private String PASS = "admin";
+        private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
+        private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();
+        private String PASS = EDatabaseCredentials.PASS.getDatabaseCredentials();
 
         @Override
         public void strictMode() throws ClassNotFoundException {
