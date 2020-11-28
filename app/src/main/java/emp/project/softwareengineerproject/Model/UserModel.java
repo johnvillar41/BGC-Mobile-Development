@@ -29,7 +29,7 @@ public class UserModel {
     }
 
 
-    public UserModel(String user_password, String user_username) {
+    public UserModel(String user_username,String user_password) {
         this.user_password = user_password;
         this.user_username = user_username;
     }
@@ -87,10 +87,14 @@ public class UserModel {
         if (realName.getEditText().getText().toString().isEmpty()) {
             realName.setError("Do not leave this empty!");
             isValid = false;
+        }
+        if (profileImage == null) {
+            isValid = false;
         } else if (username.getError() == null &&
                 password1.getError() == null &&
                 password2.getError() == null &&
-                realName.getError() == null) {
+                profileImage != null &&
+                realName.getError() == null){
             isValid = true;
         }
 

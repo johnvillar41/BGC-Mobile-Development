@@ -2,6 +2,7 @@ package emp.project.softwareengineerproject.CustomAdapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -131,6 +132,31 @@ public class ProductRecyclerView extends RecyclerView.Adapter<ProductRecyclerVie
                                 model.getProduct_stocks(), model.getProduct_category());
                     }
                 });
+            }
+        });
+        holder.cardView_item.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(context);
+                dialogBuilder.setTitle("Delete Item");
+                dialogBuilder.setIcon(R.drawable.ic_delete);
+                dialogBuilder.setMessage("Are you sure you want to delete this item?: "+model.getProduct_name());
+                dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            presenter.onCardViewLongClicked(model.getProduct_id());
+                            presenter.onSwipeRefresh();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                dialogBuilder.setNegativeButton("No",null);
+                dialogBuilder.show();
+                return true;
             }
         });
     }

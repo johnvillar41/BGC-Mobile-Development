@@ -25,7 +25,6 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
         this.model = new UserModel();
     }
 
-
     @Override
     public void onAddButtonClicked(TextInputLayout username, TextInputLayout password1, TextInputLayout password2, TextInputLayout realName, InputStream profileImage, View v) throws SQLException, ClassNotFoundException {
         UserModel newModel = model.validateAddUsers(username, password1, password2, realName, profileImage);

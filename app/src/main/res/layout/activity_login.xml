@@ -76,13 +76,26 @@
     <TextView
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="100dp"
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#a60f07"
         android:text="@string/agt_pos_and_inventory_system"
+        android:layout_alignParentEnd="true" />
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:layout_margin="25dp"
+        android:text="@string/project_automation_of_company_agt_to_be_passed_for_software_engineering_1"
         android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

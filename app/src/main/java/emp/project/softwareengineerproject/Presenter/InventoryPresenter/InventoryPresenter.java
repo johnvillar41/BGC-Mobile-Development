@@ -49,6 +49,11 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
         view.refreshPage();
     }
 
+    @Override
+    public void onCardViewLongClicked(String product_id) throws SQLException, ClassNotFoundException {
+        dBhelper.deleteItem(product_id);
+    }
+
 
     private class DBhelper implements IInvetory.DBhelper {
 
@@ -113,7 +118,16 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
             return list;
         }
 
-
+        @Override
+        public void deleteItem(String product_id) throws ClassNotFoundException, SQLException {
+            strictMode();
+            Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+            String deleteItem = "DELETE FROM products_table WHERE product_id=" + "'" + product_id + "'";
+            Statement statement = connection.createStatement();
+            statement.execute(deleteItem);
+            statement.close();
+            connection.close();
+        }
 
 
     }
