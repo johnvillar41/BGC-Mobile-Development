@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -30,7 +32,7 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.custom_adapter_notifications, parent, false);
-        return new NotificationRecyclerView.MyViewHolder(view);
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -39,7 +41,18 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
         holder.txt_title.setText(model.getNotif_title());
         holder.txt_date.setText(model.getNotif_date());
         holder.txt_content.setText(model.getNotif_content());
-        //set imageView Later
+        holder.txt_username.setText(model.getUser_name());
+        switch (model.getNotif_title()) {
+            case "Deleted product":
+                Glide.with(context).load(R.drawable.delete_logo).into(holder.circleImageView);
+                break;
+            case "Updated product":
+                Glide.with(context).load(R.drawable.update_logo).into(holder.circleImageView);
+                break;
+            case "Added product":
+                Glide.with(context).load(R.drawable.add_product).into(holder.circleImageView);
+                break;
+        }
     }
 
     private NotificationModel getItem(int position) {
@@ -51,9 +64,9 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
         return list.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         CircleImageView circleImageView;
-        TextView txt_title, txt_content, txt_date;
+        TextView txt_title, txt_content, txt_date, txt_username;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +74,7 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
             txt_title = itemView.findViewById(R.id.txt_notification_title);
             txt_content = itemView.findViewById(R.id.txt_content);
             txt_date = itemView.findViewById(R.id.txt_date);
+            txt_username = itemView.findViewById(R.id.txt_username);
         }
     }
 }
