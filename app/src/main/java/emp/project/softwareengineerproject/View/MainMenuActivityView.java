@@ -16,7 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.sql.SQLException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Interface.IMainMenu;
@@ -27,7 +30,7 @@ import emp.project.softwareengineerproject.View.UsersActivityView.UsersActivityV
 
 public class MainMenuActivityView extends AppCompatActivity implements IMainMenu.IMainMenuView, View.OnClickListener {
     private IMainMenu.IMainPresenter presenter;
-    private TextView txt_name;
+    private TextView txt_name, txt_number_notifs;
     private SharedPreferences sharedPreferences;
     public static String GET_PREFERENCES_REALNAME = null;
 
@@ -39,7 +42,11 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         setContentView(R.layout.activity_main_menu);
 
         initViews();
-        presenter.directUsernameDisplay();
+        try {
+            presenter.directUsernameDisplay();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -50,6 +57,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         Animation atg = AnimationUtils.loadAnimation(this, R.anim.atg);
 
         txt_name = findViewById(R.id.txt_name);
+        txt_number_notifs = findViewById(R.id.txt_number_notification);
         ImageView imageView_illustration = findViewById(R.id.image_illustration);
         CircleImageView image_inventory = findViewById(R.id.image_stocks);
         CircleImageView image_sales = findViewById(R.id.image_sales);
@@ -57,6 +65,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         CircleImageView image_users = findViewById(R.id.image_users);
         CircleImageView image_settings = findViewById(R.id.image_settings);
         CircleImageView image_signout = findViewById(R.id.image_signOut);
+        FloatingActionButton floatingActionButton = findViewById(R.id.fab_notifications);
 
         CardView cardView_inventory = findViewById(R.id.cardView_inventory);
         CardView cardView_sales = findViewById(R.id.cardView_sales);
@@ -80,6 +89,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         cardView_users.setOnClickListener(this);
         cardView_settings.setOnClickListener(this);
         cardView_logout.setOnClickListener(this);
+        floatingActionButton.setOnClickListener(this);
 
         //Programmatically loading images through glide library due to crash on loading large amounts of images
         Glide.with(this).load(R.drawable.logo_main).into(imageView_illustration);
@@ -89,7 +99,6 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         Glide.with(this).load(R.drawable.users_logo).into(image_users);
         Glide.with(this).load(R.drawable.settings_logo).into(image_settings);
         Glide.with(this).load(R.drawable.logout_logo).into(image_signout);
-
 
 
         if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES_USERNAME, null) == null) {
@@ -146,6 +155,17 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
     }
 
     @Override
+    public void gotoNotifications() {
+        Intent intent = new Intent(this, NotificationsActivityView.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void displayNumberOfNotifs(String numberOfNotifs) {
+        txt_number_notifs.setText(numberOfNotifs);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cardView_inventory: {
@@ -170,6 +190,10 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
             }
             case R.id.cardView_logout: {
                 presenter.onLogoutButtonClicked(v);
+                break;
+            }
+            case R.id.fab_notifications: {
+                presenter.onNotificationButtonClicked();
                 break;
             }
         }

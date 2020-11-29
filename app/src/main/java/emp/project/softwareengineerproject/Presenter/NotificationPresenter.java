@@ -2,6 +2,13 @@ package emp.project.softwareengineerproject.Presenter;
 
 import android.os.StrictMode;
 
+import java.sql.Array;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
@@ -26,8 +33,8 @@ public class NotificationPresenter implements INotification.INotificationPresent
     }
 
     @Override
-    public void getNotificationList(List<NotificationModel> list_notifs) {
-
+    public void getNotificationList() throws SQLException {
+        view.displayNotificationRecyclerView(dBhelper.fetchNotifsFromDB());
     }
 
     private class DBhelper implements INotification.INotificationDBhelper {
@@ -50,8 +57,19 @@ public class NotificationPresenter implements INotification.INotificationPresent
         }
 
         @Override
-        public List<NotificationModel> fetchNotifsFromDB() {
-            return null;
+        public List<NotificationModel> fetchNotifsFromDB() throws SQLException {
+            List<NotificationModel> list = new ArrayList<>();
+            Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+            Statement statement = connection.createStatement();
+            String sql = "SELECT * FROM notifications_table";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                model = new NotificationModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3)
+                        , resultSet.getString(4),
+                        resultSet.getString(5));
+                list.add(model);
+            }
+            return list;
         }
     }
 

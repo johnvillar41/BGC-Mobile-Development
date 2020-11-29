@@ -2,6 +2,8 @@ package emp.project.softwareengineerproject.Interface;
 
 import android.view.View;
 
+import java.sql.SQLException;
+
 public interface IMainMenu {
     interface IMainMenuView {
         void initViews();
@@ -20,6 +22,9 @@ public interface IMainMenu {
 
         void displayUsername();
 
+        void gotoNotifications();
+
+        void displayNumberOfNotifs(String numberOfNotifs);
     }
 
     interface IMainPresenter {
@@ -35,6 +40,14 @@ public interface IMainMenu {
 
         void onSettingsButtonClicked();
 
-        void directUsernameDisplay();
+        void directUsernameDisplay() throws SQLException;
+
+        void onNotificationButtonClicked();
+    }
+
+    interface IMainDbhelper {
+        void strictMode() throws ClassNotFoundException;
+
+        int getNumberOfNotifications() throws SQLException;
     }
 }

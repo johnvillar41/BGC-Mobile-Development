@@ -1,7 +1,10 @@
 package emp.project.softwareengineerproject.Presenter.UsersPresenter;
 
+import android.os.Build;
 import android.os.StrictMode;
 import android.view.View;
+
+import androidx.annotation.RequiresApi;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -10,10 +13,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsersAdd;
+import emp.project.softwareengineerproject.Model.NotificationModel;
 import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
     IUsersAdd.IUsersAddView view;
@@ -57,6 +64,7 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
             Class.forName("com.mysql.jdbc.Driver");
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void insertNewUserToDB(UserModel model) throws ClassNotFoundException, SQLException {
             strictMode();
@@ -69,6 +77,23 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
             preparedStatement.setBlob(4, model.getUploadUserImage());
             preparedStatement.execute();
             preparedStatement.close();
+            connection.close();
+
+            //notification for new account
+            String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            NotificationModel notificationModel;
+            notificationModel = new NotificationModel("Added new User", "Added user " + model.getUser_full_name(), String.valueOf(dtf.format(now)),
+                    MainMenuActivityView.GET_PREFERENCES_REALNAME);
+            com.mysql.jdbc.PreparedStatement preparedStatementUpdateNotification = (com.mysql.jdbc.PreparedStatement) connection.prepareStatement(sqlNotification);
+            preparedStatementUpdateNotification.setString(1, notificationModel.getNotif_title());
+            preparedStatementUpdateNotification.setString(2, notificationModel.getNotif_content());
+            preparedStatementUpdateNotification.setString(3, notificationModel.getNotif_date());
+            preparedStatementUpdateNotification.setString(4, notificationModel.getUser_name());
+            preparedStatementUpdateNotification.execute();
+            preparedStatementUpdateNotification.close();
+            preparedStatementUpdateNotification.close();
             connection.close();
         }
     }
