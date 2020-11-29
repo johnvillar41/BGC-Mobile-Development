@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.UsersActivityView.UsersAddActivityView"></activity>
+        <activity android:name=".View.NotificationsActivityView"></activity>
+        <activity android:name=".View.UsersActivityView.UsersAddActivityView" />
         <activity android:name=".View.LoadingScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

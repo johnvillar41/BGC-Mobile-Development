@@ -1,7 +1,11 @@
 package emp.project.softwareengineerproject.Presenter.InventoryPresenter;
 
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.StrictMode;
 import android.view.View;
+
+import androidx.annotation.RequiresApi;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.mysql.jdbc.PreparedStatement;
@@ -11,10 +15,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
+import emp.project.softwareengineerproject.Model.NotificationModel;
+import emp.project.softwareengineerproject.View.LoginActivityView;
+import emp.project.softwareengineerproject.View.MainMenuActivityView;
+
+import static com.mysql.jdbc.Messages.getString;
 
 public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresenter {
     IUpdateInventory.IUupdateInventoryView view;
@@ -103,6 +114,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             Class.forName("com.mysql.jdbc.Driver");
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void updateProductToDB(InventoryModel model) throws SQLException, ClassNotFoundException {
             strictMode();
@@ -124,9 +136,20 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                 preparedStatement.setString(6, model.getProduct_id());
             }
             preparedStatement.executeUpdate();
+
+            String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            NotificationModel notificationModel;
+            notificationModel = new NotificationModel("Updated product", "Updated product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
+                    MainMenuActivityView.GET_PREFERENCES_REALNAME);
+            addNotifications(connection,sqlNotification,notificationModel);
+            preparedStatement.close();
+
             connection.close();
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void addNewProduct(InventoryModel model) throws ClassNotFoundException, SQLException {
             strictMode();
@@ -142,7 +165,32 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             preparedStatement.setString(6, model.getProduct_category());
             preparedStatement.execute();
             preparedStatement.close();
+
+            String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            NotificationModel notificationModel;
+            notificationModel = new NotificationModel("Added product", "Added product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
+                    MainMenuActivityView.GET_PREFERENCES_REALNAME);
+            addNotifications(connection,sqlNotification,notificationModel);
+            preparedStatement.close();
             connection.close();
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public void addNotifications(Connection connection,String sqlNotification,NotificationModel notificationModel) throws ClassNotFoundException, SQLException {
+            strictMode();
+            //Adding notifications on database
+
+            PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(sqlNotification);
+            preparedStatement.setString(1, notificationModel.getNotif_title());
+            preparedStatement.setString(2, notificationModel.getNotif_content());
+            preparedStatement.setString(3, notificationModel.getNotif_date());
+            preparedStatement.setString(4, notificationModel.getUser_name());
+            preparedStatement.execute();
+            preparedStatement.close();
+
         }
     }
 }

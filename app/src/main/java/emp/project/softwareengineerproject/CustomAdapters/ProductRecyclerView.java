@@ -143,7 +143,7 @@ public class ProductRecyclerView extends RecyclerView.Adapter<ProductRecyclerVie
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            presenter.onCardViewLongClicked(model.getProduct_id());
+                            presenter.onCardViewLongClicked(model.getProduct_id(),model.getProduct_name());
                             presenter.onSwipeRefresh();
                         } catch (SQLException e) {
                             e.printStackTrace();

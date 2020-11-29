@@ -32,7 +32,7 @@ public interface IInvetory {
 
         void onSwipeRefresh();
 
-        void onCardViewLongClicked(String product_id) throws SQLException, ClassNotFoundException;
+        void onCardViewLongClicked(String product_id,String product_name) throws SQLException, ClassNotFoundException;
     }
 
     interface DBhelper {
@@ -40,6 +40,6 @@ public interface IInvetory {
 
         List<InventoryModel>[] getProductFromDB() throws ClassNotFoundException, SQLException, InterruptedException;
 
-        void deleteItem(String product_id) throws ClassNotFoundException, SQLException;
+        void deleteItem(String product_id,InventoryModel model) throws ClassNotFoundException, SQLException;
     }
 }

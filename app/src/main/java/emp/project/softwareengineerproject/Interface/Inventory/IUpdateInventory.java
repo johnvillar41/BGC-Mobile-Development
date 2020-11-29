@@ -5,9 +5,11 @@ import android.view.View;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Model.InventoryModel;
+import emp.project.softwareengineerproject.Model.NotificationModel;
 
 public interface IUpdateInventory {
     interface IUupdateInventoryView {
@@ -29,7 +31,8 @@ public interface IUpdateInventory {
                                         TextInputLayout txt_product_description,
                                         TextInputLayout txt_product_Price,
                                         TextInputLayout txt_product_Stocks, InputStream upload_picture,
-                                        TextInputLayout txt_product_category,View v) throws SQLException;
+                                        TextInputLayout txt_product_category, View v) throws SQLException;
+
         void onAddProductButtonClicked(TextInputLayout product_name,
                                        TextInputLayout product_description,
                                        TextInputLayout product_price,
@@ -50,5 +53,7 @@ public interface IUpdateInventory {
         void updateProductToDB(InventoryModel model) throws SQLException, ClassNotFoundException;
 
         void addNewProduct(InventoryModel model) throws ClassNotFoundException, SQLException;
+
+        void addNotifications(Connection connection, String sqlNotification, NotificationModel notificationModel) throws ClassNotFoundException, SQLException;
     }
 }

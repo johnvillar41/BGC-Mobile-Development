@@ -29,6 +29,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
     private IMainMenu.IMainPresenter presenter;
     private TextView txt_name;
     private SharedPreferences sharedPreferences;
+    public static String GET_PREFERENCES_REALNAME = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,8 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         Glide.with(this).load(R.drawable.settings_logo).into(image_settings);
         Glide.with(this).load(R.drawable.logout_logo).into(image_signout);
 
+
+
         if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES_USERNAME, null) == null) {
             this.finish();
         }
@@ -139,6 +142,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
     @Override
     public void displayUsername() {
         txt_name.setText(sharedPreferences.getString(LoginActivityView.MyPREFERENCES_NAME, null));
+        GET_PREFERENCES_REALNAME = txt_name.getText().toString();
     }
 
     @Override
