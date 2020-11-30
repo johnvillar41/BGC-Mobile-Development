@@ -10,12 +10,18 @@ public interface INotification {
         void initViews() throws SQLException;
 
         void displayNotificationRecyclerView(List<NotificationModel> list_notifs);
+
+        void showDatePicker();
     }
 
     interface INotificationPresenter {
+        void onDateButtonClicked();
+
         void onSwipeDeleteNotification(String notif_id);
 
         void getNotificationList() throws SQLException;
+
+        void onSearchNotificationYesClicked(String date) throws SQLException;
     }
 
     interface INotificationDBhelper {
@@ -23,6 +29,7 @@ public interface INotification {
 
         void deleteNotifOnDB(String notif_id);
 
-        List<NotificationModel> fetchNotifsFromDB() throws SQLException;
+        List<NotificationModel> fetchNotifsFromDB(String date_today) throws SQLException;
+
     }
 }

@@ -59,6 +59,11 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:visibility="gone"
+                            android:id="@+id/empty_image_greenhouse"/>
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView_greenHouse"
                             android:layout_width="match_parent"
@@ -91,6 +96,11 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:visibility="gone"
+                            android:id="@+id/empty_image_hydroponics"/>
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView_hydroPonics"
                             android:layout_width="match_parent"
@@ -123,6 +133,11 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:visibility="gone"
+                            android:id="@+id/empty_image_others"/>
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView_others"
                             android:layout_width="match_parent"

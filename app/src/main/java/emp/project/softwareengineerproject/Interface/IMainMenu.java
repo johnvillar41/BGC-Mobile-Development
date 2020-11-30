@@ -48,6 +48,6 @@ public interface IMainMenu {
     interface IMainDbhelper {
         void strictMode() throws ClassNotFoundException;
 
-        int getNumberOfNotifications() throws SQLException;
+        int getNumberOfNotifications(String date) throws SQLException;
     }
 }

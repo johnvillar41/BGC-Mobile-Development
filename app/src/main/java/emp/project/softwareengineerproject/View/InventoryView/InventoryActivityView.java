@@ -16,9 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
+
 import java.sql.SQLException;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.CustomAdapters.ProductRecyclerView;
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
@@ -31,6 +34,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     private IInvetory.IinventoryPresenter presenter;
     private ProgressBar progressBar, progressBar_greenHouse, progressBar_hydroponics, progressBar_others;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private CircleImageView image_empty_greenhouse, image_empty_hydroponics, image_empty_others;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,9 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         recyclerView_Hydroponics = findViewById(R.id.recyclerView_hydroPonics);
         recyclerView_others = findViewById(R.id.recyclerView_others);
         swipeRefreshLayout = findViewById(R.id.refresh);
+        image_empty_greenhouse = findViewById(R.id.empty_image_greenhouse);
+        image_empty_hydroponics = findViewById(R.id.empty_image_hydroponics);
+        image_empty_others = findViewById(R.id.empty_image_others);
         presenter.getGreenHouseFromDB();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -101,18 +108,36 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
                         recyclerView_GreenHouse.setLayoutManager(layoutManagerGreenhouse);
                         recyclerView_GreenHouse.setAdapter(adapterGreenhouse);
                         progressBar_greenHouse.setVisibility(View.INVISIBLE);
+                        if (adapterGreenhouse.getItemCount() == 0) {
+                            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).into(image_empty_greenhouse);
+                            image_empty_greenhouse.setVisibility(View.VISIBLE);
+                        } else {
+                            image_empty_greenhouse.setVisibility(View.GONE);
+                        }
 
                         ProductRecyclerView adapterHydroponics = new ProductRecyclerView(
                                 InventoryActivityView.this, productList[1]);
                         recyclerView_Hydroponics.setLayoutManager(layoutManagerHydroponics);
                         recyclerView_Hydroponics.setAdapter(adapterHydroponics);
                         progressBar_hydroponics.setVisibility(View.INVISIBLE);
+                        if (adapterHydroponics.getItemCount() == 0) {
+                            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).into(image_empty_hydroponics);
+                            image_empty_hydroponics.setVisibility(View.VISIBLE);
+                        } else {
+                            image_empty_hydroponics.setVisibility(View.GONE);
+                        }
 
                         ProductRecyclerView adapterOthers = new ProductRecyclerView(
                                 InventoryActivityView.this, productList[2]);
                         recyclerView_others.setLayoutManager(layoutManagerOthers);
                         recyclerView_others.setAdapter(adapterOthers);
                         progressBar_others.setVisibility(View.INVISIBLE);
+                        if (adapterOthers.getItemCount() == 0) {
+                            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).into(image_empty_others);
+                            image_empty_others.setVisibility(View.VISIBLE);
+                        } else {
+                            image_empty_others.setVisibility(View.GONE);
+                        }
                     }
                 });
             }
@@ -165,14 +190,19 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            this.finish();
-        }
-        if (item.getItemId() == R.id.action_addfav) {
-            presenter.onAddProductButtonClicked();
-        }
-        if (item.getItemId() == R.id.search_item) {
-            presenter.searchButtonClicked();
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                this.finish();
+                break;
+            }
+            case R.id.action_addfav: {
+                presenter.onAddProductButtonClicked();
+                break;
+            }
+            case R.id.search_item: {
+                presenter.searchButtonClicked();
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,19 +1,37 @@
 package emp.project.softwareengineerproject.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.graphics.drawable.ColorDrawable;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.DatePicker;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.CustomAdapters.NotificationRecyclerView;
 import emp.project.softwareengineerproject.CustomAdapters.ProductSearchedRecyclerView;
 import emp.project.softwareengineerproject.Interface.INotification;
@@ -26,6 +44,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
 
     INotification.INotificationPresenter presenter;
     RecyclerView recyclerView;
+    CircleImageView circleImageView_empty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +63,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
     public void initViews() throws SQLException {
         presenter = new NotificationPresenter(this);
         recyclerView = findViewById(R.id.recyclerView_notification);
+        circleImageView_empty = findViewById(R.id.empty_image);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,6 +87,12 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
                                 NotificationsActivityView.this, list_notifs);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
+                        if (adapter.getItemCount() == 0) {
+                            Glide.with(NotificationsActivityView.this).load(R.drawable.no_notifications_logo).into(circleImageView_empty);
+                            circleImageView_empty.setVisibility(View.VISIBLE);
+                        } else {
+                            circleImageView_empty.setVisibility(View.GONE);
+                        }
                     }
                 });
             }
@@ -75,9 +101,47 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
     }
 
     @Override
+    public void showDatePicker() {
+        //set actions
+        DatePickerDialog datePicker;
+        final Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        datePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                calendar.set(year, month, dayOfMonth);
+                String dateString = sdf.format(calendar.getTime());
+                Toast.makeText(NotificationsActivityView.this, dateString, Toast.LENGTH_LONG).show();
+
+                // Set search on notifications
+                try {
+                    presenter.onSearchNotificationYesClicked(dateString);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, year, month, day);
+        datePicker.show();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_notification, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             this.finish();
+        }
+        if (item.getItemId() == R.id.action_date) {
+            presenter.onDateButtonClicked();
         }
         return super.onOptionsItemSelected(item);
     }

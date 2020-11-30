@@ -21,6 +21,12 @@
             android:id="@+id/recyclerView_notification"
             android:layout_height="match_parent"/>
     </LinearLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginTop="?actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/empty_image"/>
 
 
 </RelativeLayout>
