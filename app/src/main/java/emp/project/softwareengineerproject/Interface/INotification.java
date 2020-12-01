@@ -17,8 +17,6 @@ public interface INotification {
     interface INotificationPresenter {
         void onDateButtonClicked();
 
-        void onSwipeDeleteNotification(String notif_id);
-
         void getNotificationList() throws SQLException;
 
         void onSearchNotificationYesClicked(String date) throws SQLException;
@@ -26,8 +24,6 @@ public interface INotification {
 
     interface INotificationDBhelper {
         void StrictMode() throws ClassNotFoundException;
-
-        void deleteNotifOnDB(String notif_id);
 
         List<NotificationModel> fetchNotifsFromDB(String date_today) throws SQLException;
 

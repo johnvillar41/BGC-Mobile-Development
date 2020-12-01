@@ -126,7 +126,6 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
             }
         }, year, month, day);
         datePicker.show();
-
     }
 
     @Override

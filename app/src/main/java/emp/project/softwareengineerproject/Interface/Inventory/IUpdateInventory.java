@@ -22,6 +22,8 @@ public interface IUpdateInventory {
         void displayStatusMessage(String message, View v);
 
         void loadImageFromGallery();
+
+        void showCheckAnimation();
     }
 
     interface IUpdatePresenter {
@@ -44,6 +46,8 @@ public interface IUpdateInventory {
         void displayHints(InventoryModel model) throws SQLException;
 
         void ImageButtonClicked();
+
+        void directCheckAnimation();
     }
 
     interface IDbHelper {

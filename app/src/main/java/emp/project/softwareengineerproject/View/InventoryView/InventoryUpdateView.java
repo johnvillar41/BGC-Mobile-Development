@@ -1,23 +1,33 @@
 package emp.project.softwareengineerproject.View.InventoryView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
@@ -116,6 +126,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                 txt_product_Price,
                                 txt_product_Stocks, fileInputStream,
                                 txt_product_category, v);
+                        presenter.directCheckAnimation();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -136,6 +147,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                             txt_product_Price,
                             txt_product_Stocks, fileInputStream,
                             txt_product_category, v);
+                    presenter.directCheckAnimation();
                 }
             });
         }
@@ -172,15 +184,40 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         startActivityForResult(intent, IMAGE_PICK_CODE);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void showCheckAnimation() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_popup_check, null);
+        dialogBuilder.setView(dialogView);
+
+        AnimatedVectorDrawableCompat avd;
+        AnimatedVectorDrawable avd2;
+        ImageView imageView_done = dialogView.findViewById(R.id.done_check);
+        Drawable drawable = imageView_done.getDrawable();
+        if (drawable instanceof AnimatedVectorDrawableCompat) {
+            avd = (AnimatedVectorDrawableCompat) drawable;
+            avd.start();
+        } else if (drawable instanceof AnimatedVectorDrawable) {
+            avd2 = (AnimatedVectorDrawable) drawable;
+            avd2.start();
+        }
+
+        final AlertDialog dialog = dialogBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Bitmap originBitmap = null;
         Uri selectedImage;
 
-        try{
+        try {
             selectedImage = data.getData();
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return;
         }
 

@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.RequiresApi;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.mysql.jdbc.PacketTooBigException;
 import com.mysql.jdbc.PreparedStatement;
 
 import java.io.InputStream;
@@ -57,8 +58,11 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                     txt_product_description, txt_product_Price,
                     txt_product_Stocks, product_id, upload_picture, txt_product_category));
             view.displayStatusMessage("Successfully Updated Product!", v);
+
         } catch (ClassNotFoundException e) {
             view.displayStatusMessage("Error Updating Product!", v);
+        } catch (PacketTooBigException e) {
+            view.displayStatusMessage(e.getMessage(), v);
         }
     }
 
@@ -82,6 +86,8 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                         product_stocks,
                         inputStream, product_category));
                 view.displayStatusMessage("Successfully creating product!", v);
+            } catch (PacketTooBigException e) {
+                view.displayStatusMessage(e.getMessage(), v);
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
             }
@@ -98,6 +104,11 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
     @Override
     public void ImageButtonClicked() {
         view.loadImageFromGallery();
+    }
+
+    @Override
+    public void directCheckAnimation() {
+        view.showCheckAnimation();
     }
 
     private static class DBhelper implements IUpdateInventory.IDbHelper {
@@ -143,7 +154,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             NotificationModel notificationModel;
             notificationModel = new NotificationModel("Updated product", "Updated product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
                     MainMenuActivityView.GET_PREFERENCES_REALNAME);
-            addNotifications(connection,sqlNotification,notificationModel);
+            addNotifications(connection, sqlNotification, notificationModel);
             preparedStatement.close();
 
             connection.close();
@@ -172,14 +183,14 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             NotificationModel notificationModel;
             notificationModel = new NotificationModel("Added product", "Added product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
                     MainMenuActivityView.GET_PREFERENCES_REALNAME);
-            addNotifications(connection,sqlNotification,notificationModel);
+            addNotifications(connection, sqlNotification, notificationModel);
             preparedStatement.close();
             connection.close();
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
-        public void addNotifications(Connection connection,String sqlNotification,NotificationModel notificationModel) throws ClassNotFoundException, SQLException {
+        public void addNotifications(Connection connection, String sqlNotification, NotificationModel notificationModel) throws ClassNotFoundException, SQLException {
             strictMode();
             //Adding notifications on database
 

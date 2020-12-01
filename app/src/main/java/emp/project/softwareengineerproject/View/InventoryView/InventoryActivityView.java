@@ -87,6 +87,20 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     }
 
     @Override
+    protected void onResume() {
+        try {
+            presenter.getGreenHouseFromDB();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        super.onResume();
+    }
+
+    @Override
     public void displayRecyclerView(final List<InventoryModel>[] productList) {
         progressBar_greenHouse.setVisibility(View.VISIBLE);
         progressBar_hydroponics.setVisibility(View.VISIBLE);

@@ -37,10 +37,6 @@ public class NotificationPresenter implements INotification.INotificationPresent
         view.showDatePicker();
     }
 
-    @Override
-    public void onSwipeDeleteNotification(String notif_id) {
-
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -67,11 +63,6 @@ public class NotificationPresenter implements INotification.INotificationPresent
             policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             Class.forName("com.mysql.jdbc.Driver");
-        }
-
-        @Override
-        public void deleteNotifOnDB(String notif_id) {
-
         }
 
         @Override

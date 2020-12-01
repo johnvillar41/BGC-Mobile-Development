@@ -165,6 +165,17 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         txt_number_notifs.setText(numberOfNotifs);
     }
 
+    //calling on resume method lifecycle of android to refresh the number of notifications set on main view
+    @Override
+    protected void onResume() {
+        try {
+            presenter.directUsernameDisplay();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        super.onResume();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
