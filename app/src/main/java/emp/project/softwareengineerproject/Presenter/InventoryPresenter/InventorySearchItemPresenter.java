@@ -18,20 +18,20 @@ import emp.project.softwareengineerproject.Model.InventoryModel;
 public class InventorySearchItemPresenter implements ISearchInventory.ISearchInventoryPresenter {
     ISearchInventory.ISearchInventoryView view;
     InventoryModel model;
-    ISearchInventory.ISearchInventoryDBhelper dBhelper;
+    ISearchInventory.ISearchInventoryService service;
 
     public InventorySearchItemPresenter(ISearchInventory.ISearchInventoryView view) {
         this.view = view;
         this.model = new InventoryModel();
-        this.dBhelper = new DBhelper();
+        this.service = new InventorySearchItemService();
     }
 
     @Override
     public void onSearchItemProduct(String product_name) throws ClassNotFoundException {
-        view.displayRecyclerView(dBhelper.getSearchedProductFromDB(product_name));
+        view.displayRecyclerView(service.getSearchedProductFromDB(product_name));
     }
 
-    private class DBhelper implements ISearchInventory.ISearchInventoryDBhelper {
+    private class InventorySearchItemService implements ISearchInventory.ISearchInventoryService {
 
         private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
         private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();

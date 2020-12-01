@@ -24,7 +24,7 @@ public interface IUsers {
         void onAddButtonClicked();
     }
 
-    interface IUsersDBhelper {
+    interface IUsersService {
         void strictMode() throws ClassNotFoundException;
 
         UserModel getUserProfileFromDB(String user_id) throws ClassNotFoundException, SQLException;

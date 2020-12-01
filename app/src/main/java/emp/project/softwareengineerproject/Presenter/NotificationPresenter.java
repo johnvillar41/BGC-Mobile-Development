@@ -22,12 +22,12 @@ import emp.project.softwareengineerproject.Model.NotificationModel;
 public class NotificationPresenter implements INotification.INotificationPresenter {
 
     INotification.INotificationView view;
-    INotification.INotificationDBhelper dBhelper;
+    INotification.INotificationService service;
     NotificationModel model;
 
     public NotificationPresenter(INotification.INotificationView view) {
         this.view = view;
-        this.dBhelper = new DBhelper();
+        this.service = new NotificationService();
         this.model = new NotificationModel();
     }
 
@@ -43,15 +43,15 @@ public class NotificationPresenter implements INotification.INotificationPresent
     public void getNotificationList() throws SQLException {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
-        view.displayNotificationRecyclerView(dBhelper.fetchNotifsFromDB(dtf.format(now)));
+        view.displayNotificationRecyclerView(service.fetchNotifsFromDB(dtf.format(now)));
     }
 
     @Override
     public void onSearchNotificationYesClicked(String date) throws SQLException {
-        view.displayNotificationRecyclerView(dBhelper.fetchNotifsFromDB(date));
+        view.displayNotificationRecyclerView(service.fetchNotifsFromDB(date));
     }
 
-    private class DBhelper implements INotification.INotificationDBhelper {
+    private class NotificationService implements INotification.INotificationService {
 
         private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
         private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();

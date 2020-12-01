@@ -22,7 +22,7 @@ public interface INotification {
         void onSearchNotificationYesClicked(String date) throws SQLException;
     }
 
-    interface INotificationDBhelper {
+    interface INotificationService {
         void StrictMode() throws ClassNotFoundException;
 
         List<NotificationModel> fetchNotifsFromDB(String date_today) throws SQLException;

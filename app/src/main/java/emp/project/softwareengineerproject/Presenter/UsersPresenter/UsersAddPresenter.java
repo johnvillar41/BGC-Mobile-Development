@@ -24,12 +24,12 @@ import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
     IUsersAdd.IUsersAddView view;
-    IUsersAdd.IUsersAddDBhelper dBhelper;
+    IUsersAdd.IUsersAddService service;
     UserModel model;
 
     public UsersAddPresenter(IUsersAdd.IUsersAddView view) {
         this.view = view;
-        this.dBhelper = new DBhelper();
+        this.service = new UsersAddService();
         this.model = new UserModel();
     }
 
@@ -37,7 +37,7 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
     public void onAddButtonClicked(TextInputLayout username, TextInputLayout password1, TextInputLayout password2, TextInputLayout realName, InputStream profileImage, View v) throws SQLException, ClassNotFoundException {
         UserModel newModel = model.validateAddUsers(username, password1, password2, realName, profileImage);
         if (newModel != null) {
-            dBhelper.insertNewUserToDB(newModel);
+            service.insertNewUserToDB(newModel);
             view.onStatusDisplayMessage("Successfully Added new User!", v);
         } else {
             view.onStatusDisplayMessage("Error Adding User!", v);
@@ -49,7 +49,7 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
         view.loadImageFromGallery();
     }
 
-    private class DBhelper implements IUsersAdd.IUsersAddDBhelper {
+    private class UsersAddService implements IUsersAdd.IUsersAddService {
 
         private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
         private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();

@@ -7,6 +7,7 @@ import com.mysql.jdbc.Blob;
 import java.io.InputStream;
 import java.io.Serializable;
 
+@SuppressWarnings("ALL")
 public class InventoryModel implements Serializable {
     String product_id, product_name, product_description;
     long product_price;
@@ -118,7 +119,7 @@ public class InventoryModel implements Serializable {
                                           TextInputLayout product_category) {
 
 
-        String message = null;
+        boolean isValid = false;
         if (product_name.getEditText().getText().toString().isEmpty()) {
             product_name.setError("Dont leave this empty!");
         }
@@ -132,7 +133,7 @@ public class InventoryModel implements Serializable {
             product_stocks.setError("Dont leave this empty!");
         }
         if (product_picture == null) {
-            message = "Dont leave image empty!";
+            isValid = false;
         }
         if (product_category.getEditText().getText().toString().isEmpty()) {
             product_category.setError("Dont leave this empty!");
@@ -141,7 +142,7 @@ public class InventoryModel implements Serializable {
                 product_description.getError() == null &&
                 product_price.getError() == null &&
                 product_stocks.getError() == null &&
-                message == null
+                isValid == false
         ) {
             return new InventoryModel(product_name.getEditText().getText().toString(),
                     product_description.getEditText().getText().toString(),

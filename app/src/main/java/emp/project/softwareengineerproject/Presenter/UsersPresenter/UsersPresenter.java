@@ -16,24 +16,24 @@ import emp.project.softwareengineerproject.Model.UserModel;
 
 public class UsersPresenter implements IUsers.IUsersPresenter {
     UserModel model;
-    IUsers.IUsersDBhelper dBhelper;
+    IUsers.IUsersService service;
     IUsers.IUsersView view;
 
     public UsersPresenter(IUsers.IUsersView view) {
         this.view = view;
-        this.dBhelper = new Dbhelper();
+        this.service = new UsersService();
         this.model = new UserModel();
     }
 
     @Override
     public void onPageDisplayProfile(String user_id) throws SQLException, ClassNotFoundException {
-        view.displayProfile(dBhelper.getUserProfileFromDB(user_id));
+        view.displayProfile(service.getUserProfileFromDB(user_id));
     }
 
     @Override
     public void onViewButtonClicked() {
         try {
-            view.displayPopupUsers(dBhelper.getUsersListFromDB());
+            view.displayPopupUsers(service.getUsersListFromDB());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -48,7 +48,7 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
         view.goToAddPage();
     }
 
-    private class Dbhelper implements IUsers.IUsersDBhelper {
+    private class UsersService implements IUsers.IUsersService {
 
         private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
         private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();

@@ -50,7 +50,7 @@ public interface IUpdateInventory {
         void directCheckAnimation();
     }
 
-    interface IDbHelper {
+    interface IUpdateInventoryService {
 
         void strictMode() throws ClassNotFoundException;
 

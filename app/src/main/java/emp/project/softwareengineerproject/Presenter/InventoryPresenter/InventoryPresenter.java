@@ -28,18 +28,18 @@ import emp.project.softwareengineerproject.View.MainMenuActivityView;
 public class InventoryPresenter extends Activity implements IInvetory.IinventoryPresenter {
     private IInvetory.IinventoryView view;
     private InventoryModel model;
-    private IInvetory.DBhelper dBhelper;
+    private IInvetory.IInventoryService service;
 
     public InventoryPresenter(IInvetory.IinventoryView view) {
         this.view = view;
         this.model = new InventoryModel();
-        this.dBhelper = new DBhelper();
+        this.service = new InventoryService();
     }
 
     @Override
     public void getGreenHouseFromDB() throws InterruptedException, SQLException, ClassNotFoundException {
         view.showProgressDialog();
-        view.displayRecyclerView(dBhelper.getProductFromDB());
+        view.displayRecyclerView(service.getProductFromDB());
         view.hideProgressDialog();
     }
 
@@ -61,11 +61,11 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
     @Override
     public void onCardViewLongClicked(String product_id,String product_name) throws SQLException, ClassNotFoundException {
         model.setProduct_name(product_name);
-        dBhelper.deleteItem(product_id,model);
+        service.deleteItem(product_id,model);
     }
 
 
-    private class DBhelper implements IInvetory.DBhelper {
+    private class InventoryService implements IInvetory.IInventoryService {
 
         private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
         private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();

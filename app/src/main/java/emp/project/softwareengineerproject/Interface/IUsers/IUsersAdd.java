@@ -24,7 +24,7 @@ public interface IUsersAdd {
         void onImageButtonClicked();
     }
 
-    interface IUsersAddDBhelper {
+    interface IUsersAddService {
         void strictMode() throws ClassNotFoundException;
 
         void insertNewUserToDB(UserModel model) throws ClassNotFoundException, SQLException;

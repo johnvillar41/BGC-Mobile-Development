@@ -25,13 +25,13 @@ import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresenter {
     IUpdateInventory.IUupdateInventoryView view;
-    IUpdateInventory.IDbHelper dBhelper;
+    IUpdateInventory.IUpdateInventoryService service;
     InventoryModel model;
 
     public InventoryUpdatePresenter(IUpdateInventory.IUupdateInventoryView view) {
         this.view = view;
         this.model = new InventoryModel();
-        this.dBhelper = new DBhelper();
+        this.service = new InventoryUpdateService();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
 
 
 
-            dBhelper.updateProductToDB(model.validateProductOnUpdate(texts, upload_picture, product_id));
+            service.updateProductToDB(model.validateProductOnUpdate(texts, upload_picture, product_id));
             if (model.validateProductOnUpdate(texts, upload_picture, product_id) != null) {
                 view.showCheckAnimation();
                 view.displayStatusMessage("Successfully Updated Product!", v);
@@ -87,7 +87,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                 product_stocks,
                 inputStream, product_category) != null) {
             try {
-                dBhelper.addNewProduct(model.validateProductOnAdd(product_name,
+                service.addNewProduct(model.validateProductOnAdd(product_name,
                         product_description,
                         product_price,
                         product_stocks,
@@ -119,7 +119,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         view.showCheckAnimation();
     }
 
-    private static class DBhelper implements IUpdateInventory.IDbHelper {
+    private static class InventoryUpdateService implements IUpdateInventory.IUpdateInventoryService {
 
         private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
         private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();

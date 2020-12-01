@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
@@ -62,6 +63,8 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
         txt_realName = findViewById(R.id.txt_fullName);
         btn_add_user = findViewById(R.id.btn_add_user);
         profile_imagePicture = findViewById(R.id.image_profile);
+
+        Glide.with(this).load(R.drawable.add_image).into(profile_imagePicture);
 
         btn_add_user.setOnClickListener(new View.OnClickListener() {
             @Override

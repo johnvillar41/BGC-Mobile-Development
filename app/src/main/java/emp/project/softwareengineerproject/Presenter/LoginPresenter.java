@@ -17,19 +17,19 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
     public static String USER_REAL_NAME = "NAME";
     private ILogin.ILoginView view;
     private UserModel model;
-    private ILogin.IDbHelper dBhelper;
+    private ILogin.ILoginService service;
 
     public LoginPresenter(ILogin.ILoginView view) {
         this.view = view;
         this.model = new UserModel();
-        this.dBhelper = new DBhelper();
+        this.service = new LoginService();
     }
 
     @Override
     public void onLoginButtonClicked(String username, String password, View v) throws SQLException, ClassNotFoundException {
         model = new UserModel(username, password);
         if (model.validateCredentials(model) == null) {
-            boolean success = dBhelper.checkLoginCredentialsDB(model);
+            boolean success = service.checkLoginCredentialsDB(model);
             if (success) {
                 view.onSuccess("Logging in!", v);
                 view.goToMainPage();
@@ -40,7 +40,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
         }
     }
 
-    private static class DBhelper implements ILogin.IDbHelper {
+    private static class LoginService implements ILogin.ILoginService {
 
         private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
         private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();

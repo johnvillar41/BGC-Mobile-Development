@@ -40,6 +40,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.CustomAdapters.ProductRecyclerView;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
@@ -51,7 +52,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     private static final int IMAGE_PICK_CODE = 1000;
     private TextInputLayout editText_productTitle;
     @SuppressLint("StaticFieldLeak")
-    private static ImageView imageView;
+    private static CircleImageView imageView;
     private TextInputLayout txt_product_description;
     private TextInputLayout txt_product_Price;
     private TextInputLayout txt_product_Stocks;
@@ -90,6 +91,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         txt_product_category = findViewById(R.id.txt_product_category);
         btn_save = findViewById(R.id.btn_save);
         btn_cancel = findViewById(R.id.btn_back);
+        Glide.with(this).load(R.drawable.add_image).into(imageView);
         try {
             presenter.displayHints(ProductRecyclerView.PRODUCT_MODEL);
         } catch (SQLException e) {

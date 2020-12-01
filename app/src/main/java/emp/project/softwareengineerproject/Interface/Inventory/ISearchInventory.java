@@ -11,7 +11,7 @@ public interface ISearchInventory {
     interface  ISearchInventoryPresenter{
         void onSearchItemProduct(String product_name) throws ClassNotFoundException;
     }
-    interface  ISearchInventoryDBhelper{
+    interface ISearchInventoryService {
         void strictMode() throws ClassNotFoundException;
 
         List<InventoryModel>getSearchedProductFromDB(String searchedItem) throws ClassNotFoundException;

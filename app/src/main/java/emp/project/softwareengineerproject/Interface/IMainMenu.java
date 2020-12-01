@@ -45,7 +45,7 @@ public interface IMainMenu {
         void onNotificationButtonClicked();
     }
 
-    interface IMainDbhelper {
+    interface IMainService {
         void strictMode() throws ClassNotFoundException;
 
         int getNumberOfNotifications(String date) throws SQLException;

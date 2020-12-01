@@ -35,7 +35,7 @@ public interface IInvetory {
         void onCardViewLongClicked(String product_id,String product_name) throws SQLException, ClassNotFoundException;
     }
 
-    interface DBhelper {
+    interface IInventoryService {
         void strictMode() throws ClassNotFoundException;
 
         List<InventoryModel>[] getProductFromDB() throws ClassNotFoundException, SQLException, InterruptedException;
