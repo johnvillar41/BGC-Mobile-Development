@@ -46,13 +46,13 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
         setContentView(R.layout.activity_notifications_view);
         try {
             initViews();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void initViews() throws SQLException {
+    public void initViews() throws SQLException, ClassNotFoundException {
         presenter = new NotificationPresenter(this);
         recyclerView = findViewById(R.id.recyclerView_notification);
         circleImageView_empty = findViewById(R.id.empty_image);
@@ -112,7 +112,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
                 // Set search on notifications
                 try {
                     presenter.onSearchNotificationYesClicked(dateString);
-                } catch (SQLException e) {
+                } catch (SQLException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }

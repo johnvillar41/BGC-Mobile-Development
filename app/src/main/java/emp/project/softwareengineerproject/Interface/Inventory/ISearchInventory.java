@@ -2,6 +2,7 @@ package emp.project.softwareengineerproject.Interface.Inventory;
 
 import java.util.List;
 
+import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 
 public interface ISearchInventory {
@@ -11,8 +12,7 @@ public interface ISearchInventory {
     interface  ISearchInventoryPresenter{
         void onSearchItemProduct(String product_name) throws ClassNotFoundException;
     }
-    interface ISearchInventoryService {
-        void strictMode() throws ClassNotFoundException;
+    interface ISearchInventoryService extends IServiceStrictMode {
 
         List<InventoryModel>getSearchedProductFromDB(String searchedItem) throws ClassNotFoundException;
     }

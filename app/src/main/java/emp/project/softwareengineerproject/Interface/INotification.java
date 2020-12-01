@@ -7,7 +7,7 @@ import emp.project.softwareengineerproject.Model.NotificationModel;
 
 public interface INotification {
     interface INotificationView {
-        void initViews() throws SQLException;
+        void initViews() throws SQLException, ClassNotFoundException;
 
         void displayNotificationRecyclerView(List<NotificationModel> list_notifs);
 
@@ -17,15 +17,14 @@ public interface INotification {
     interface INotificationPresenter {
         void onDateButtonClicked();
 
-        void getNotificationList() throws SQLException;
+        void getNotificationList() throws SQLException, ClassNotFoundException;
 
-        void onSearchNotificationYesClicked(String date) throws SQLException;
+        void onSearchNotificationYesClicked(String date) throws SQLException, ClassNotFoundException;
     }
 
-    interface INotificationService {
-        void StrictMode() throws ClassNotFoundException;
+    interface INotificationService extends IServiceStrictMode{
 
-        List<NotificationModel> fetchNotifsFromDB(String date_today) throws SQLException;
+        List<NotificationModel> fetchNotifsFromDB(String date_today) throws SQLException, ClassNotFoundException;
 
     }
 }

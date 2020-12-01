@@ -40,14 +40,14 @@ public class NotificationPresenter implements INotification.INotificationPresent
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void getNotificationList() throws SQLException {
+    public void getNotificationList() throws SQLException, ClassNotFoundException {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
         view.displayNotificationRecyclerView(service.fetchNotifsFromDB(dtf.format(now)));
     }
 
     @Override
-    public void onSearchNotificationYesClicked(String date) throws SQLException {
+    public void onSearchNotificationYesClicked(String date) throws SQLException, ClassNotFoundException {
         view.displayNotificationRecyclerView(service.fetchNotifsFromDB(date));
     }
 
@@ -58,7 +58,7 @@ public class NotificationPresenter implements INotification.INotificationPresent
         private String PASS = EDatabaseCredentials.PASS.getDatabaseCredentials();
 
         @Override
-        public void StrictMode() throws ClassNotFoundException {
+        public void strictMode() throws ClassNotFoundException {
             StrictMode.ThreadPolicy policy;
             policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -66,7 +66,8 @@ public class NotificationPresenter implements INotification.INotificationPresent
         }
 
         @Override
-        public List<NotificationModel> fetchNotifsFromDB(String date_today) throws SQLException {
+        public List<NotificationModel> fetchNotifsFromDB(String date_today) throws SQLException, ClassNotFoundException {
+            strictMode();
             List<NotificationModel> list = new ArrayList<>();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             Statement statement = connection.createStatement();

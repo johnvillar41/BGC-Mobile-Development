@@ -3,6 +3,7 @@ package emp.project.softwareengineerproject.Interface.Inventory;
 import java.sql.SQLException;
 import java.util.List;
 
+import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 
 public interface IInvetory {
@@ -35,8 +36,7 @@ public interface IInvetory {
         void onCardViewLongClicked(String product_id,String product_name) throws SQLException, ClassNotFoundException;
     }
 
-    interface IInventoryService {
-        void strictMode() throws ClassNotFoundException;
+    interface IInventoryService extends IServiceStrictMode {
 
         List<InventoryModel>[] getProductFromDB() throws ClassNotFoundException, SQLException, InterruptedException;
 

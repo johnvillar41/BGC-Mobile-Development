@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Model.NotificationModel;
 
@@ -50,9 +51,7 @@ public interface IUpdateInventory {
         void directCheckAnimation();
     }
 
-    interface IUpdateInventoryService {
-
-        void strictMode() throws ClassNotFoundException;
+    interface IUpdateInventoryService extends IServiceStrictMode {
 
         void updateProductToDB(InventoryModel model) throws SQLException, ClassNotFoundException;
 

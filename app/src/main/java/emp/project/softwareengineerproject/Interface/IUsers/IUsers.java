@@ -3,6 +3,7 @@ package emp.project.softwareengineerproject.Interface.IUsers;
 import java.sql.SQLException;
 import java.util.List;
 
+import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
 import emp.project.softwareengineerproject.Model.UserModel;
 
 public interface IUsers {
@@ -24,8 +25,7 @@ public interface IUsers {
         void onAddButtonClicked();
     }
 
-    interface IUsersService {
-        void strictMode() throws ClassNotFoundException;
+    interface IUsersService extends IServiceStrictMode {
 
         UserModel getUserProfileFromDB(String user_id) throws ClassNotFoundException, SQLException;
 

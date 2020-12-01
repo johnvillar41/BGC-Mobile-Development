@@ -21,8 +21,8 @@ public interface ILogin {
         void onLoginButtonClicked(String username, String password, View view) throws SQLException, ClassNotFoundException;
     }
 
-    interface ILoginService {
-        void StrictMode() throws ClassNotFoundException;
+    interface ILoginService extends IServiceStrictMode{
+
 
         boolean checkLoginCredentialsDB(UserModel model) throws ClassNotFoundException, SQLException;
     }

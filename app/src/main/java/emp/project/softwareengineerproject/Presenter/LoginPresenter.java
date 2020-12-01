@@ -47,7 +47,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
         private String PASS = EDatabaseCredentials.PASS.getDatabaseCredentials();
 
         @Override
-        public void StrictMode() throws ClassNotFoundException {
+        public void strictMode() throws ClassNotFoundException {
             StrictMode.ThreadPolicy policy;
             policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -56,7 +56,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
 
         @Override
         public boolean checkLoginCredentialsDB(UserModel model) throws ClassNotFoundException, SQLException {
-            StrictMode();
+            strictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             String sqlSearch = "SELECT * FROM login_table WHERE user_username=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlSearch);
@@ -75,6 +75,8 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                 return false;
             }
         }
+
+
     }
 
 }

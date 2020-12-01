@@ -7,6 +7,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.io.InputStream;
 import java.sql.SQLException;
 
+import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
 import emp.project.softwareengineerproject.Model.UserModel;
 
 public interface IUsersAdd {
@@ -24,8 +25,7 @@ public interface IUsersAdd {
         void onImageButtonClicked();
     }
 
-    interface IUsersAddService {
-        void strictMode() throws ClassNotFoundException;
+    interface IUsersAddService extends IServiceStrictMode {
 
         void insertNewUserToDB(UserModel model) throws ClassNotFoundException, SQLException;
     }
