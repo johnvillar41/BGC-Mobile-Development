@@ -126,7 +126,6 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                 txt_product_Price,
                                 txt_product_Stocks, fileInputStream,
                                 txt_product_category, v);
-                        presenter.directCheckAnimation();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -147,7 +146,6 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                             txt_product_Price,
                             txt_product_Stocks, fileInputStream,
                             txt_product_category, v);
-                    presenter.directCheckAnimation();
                 }
             });
         }

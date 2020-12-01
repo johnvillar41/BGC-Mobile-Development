@@ -29,7 +29,7 @@ public class UserModel {
     }
 
 
-    public UserModel(String user_username,String user_password) {
+    public UserModel(String user_username, String user_password) {
         this.user_password = user_password;
         this.user_username = user_username;
     }
@@ -94,7 +94,7 @@ public class UserModel {
                 password1.getError() == null &&
                 password2.getError() == null &&
                 profileImage != null &&
-                realName.getError() == null){
+                realName.getError() == null) {
             isValid = true;
         }
 

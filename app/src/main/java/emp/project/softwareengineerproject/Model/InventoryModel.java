@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.Model;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mysql.jdbc.Blob;
 
@@ -84,71 +85,39 @@ public class InventoryModel implements Serializable {
         this.product_name = product_name;
     }
 
-    public void setProduct_description(String product_description) {
-        this.product_description = product_description;
-    }
-
-    public void setProduct_price(long product_price) {
-        this.product_price = product_price;
-    }
-
-    public void setProduct_stocks(int product_stocks) {
-        this.product_stocks = product_stocks;
-    }
-
     public void setProduct_id(String product_id) {
         this.product_id = product_id;
     }
 
+    public InventoryModel validateProductOnUpdate(TextInputLayout[] text, InputStream upload_picture, String product_id) {
+        //getting the values from the parameters then checking whether one editText is empty and thus if empty get the value from hints
+        String[] textData = new String[5];
+        for (int i = 0; i < text.length; i++) {
+            if (text[i].getEditText().getText().toString().isEmpty()) {
+                textData[i] = text[i].getHint().toString();
+            } else {
+                textData[i] = text[i].getEditText().getText().toString();
+            }
+        }
 
-    public void setProduct_category(String product_category) {
-        this.product_category = product_category;
+        return new InventoryModel(
+                product_id,
+                textData[0],
+                textData[1],
+                Long.parseLong(textData[2]),
+                Integer.parseInt(textData[3]),
+                upload_picture,
+                textData[4]);
     }
 
-    public InventoryModel validateUpdate(TextInputLayout editText_productTitle,
-                                         TextInputLayout txt_product_description,
-                                         TextInputLayout txt_product_Price,
-                                         TextInputLayout txt_product_Stocks, String product_id, InputStream product_picture,
-                                         TextInputLayout txt_product_category) {
-        if (editText_productTitle.getEditText().getText().toString().isEmpty()) {
-            setProduct_name((((TextInputLayout) editText_productTitle).getHint().toString()));
-        } else {
-            setProduct_name(editText_productTitle.getEditText().getText().toString());
-        }
-
-        if (txt_product_description.getEditText().getText().toString().isEmpty()) {
-            setProduct_description(((TextInputLayout) txt_product_description).getHint().toString());
-        } else {
-            setProduct_description(txt_product_description.getEditText().getText().toString());
-        }
-
-        if (txt_product_Price.getEditText().getText().toString().isEmpty()) {
-            setProduct_price(Long.parseLong(((TextInputLayout) txt_product_Price).getHint().toString()));
-        } else {
-            setProduct_price(Long.parseLong(txt_product_Price.getEditText().getText().toString()));
-        }
-
-        if ((txt_product_Stocks.getEditText().getText().toString().isEmpty())) {
-            setProduct_stocks(Integer.parseInt(((TextInputLayout) txt_product_Stocks).getHint().toString()));
-        } else {
-            setProduct_stocks(Integer.parseInt(txt_product_Stocks.getEditText().getText().toString()));
-        }
-
-        if (txt_product_category.getEditText().getText().toString().isEmpty()) {
-            setProduct_category(((TextInputLayout) txt_product_category).getHint().toString());
-        } else {
-            setProduct_category(txt_product_category.getEditText().getText().toString());
-        }
-
-        return new InventoryModel(product_id, getProduct_name(), getProduct_description(), getProduct_price(), getProduct_stocks(), product_picture, getProduct_category());
-    }
-
-    public InventoryModel validateProduct(TextInputLayout product_name,
+   public InventoryModel validateProductOnAdd(TextInputLayout product_name,
                                           TextInputLayout product_description,
                                           TextInputLayout product_price,
                                           TextInputLayout product_stocks,
                                           InputStream product_picture,
                                           TextInputLayout product_category) {
+
+
         String message = null;
         if (product_name.getEditText().getText().toString().isEmpty()) {
             product_name.setError("Dont leave this empty!");
@@ -172,8 +141,8 @@ public class InventoryModel implements Serializable {
                 product_description.getError() == null &&
                 product_price.getError() == null &&
                 product_stocks.getError() == null &&
-                message ==null
-                ) {
+                message == null
+        ) {
             return new InventoryModel(product_name.getEditText().getText().toString(),
                     product_description.getEditText().getText().toString(),
                     Long.parseLong(product_price.getEditText().getText().toString()),

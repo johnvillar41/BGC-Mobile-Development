@@ -1,6 +1,5 @@
 package emp.project.softwareengineerproject.Presenter.InventoryPresenter;
 
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.StrictMode;
 import android.view.View;
@@ -15,7 +14,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -23,10 +21,7 @@ import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Model.NotificationModel;
-import emp.project.softwareengineerproject.View.LoginActivityView;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
-
-import static com.mysql.jdbc.Messages.getString;
 
 public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresenter {
     IUpdateInventory.IUupdateInventoryView view;
@@ -54,10 +49,20 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                            InputStream upload_picture,
                                            TextInputLayout txt_product_category, View v) throws SQLException {
         try {
-            dBhelper.updateProductToDB(model.validateUpdate(editText_productTitle,
-                    txt_product_description, txt_product_Price,
-                    txt_product_Stocks, product_id, upload_picture, txt_product_category));
-            view.displayStatusMessage("Successfully Updated Product!", v);
+            TextInputLayout[] texts = new TextInputLayout[5];
+            texts[0] = editText_productTitle;
+            texts[1] = txt_product_description;
+            texts[2] = txt_product_Price;
+            texts[3] = txt_product_Stocks;
+            texts[4] = txt_product_category;
+
+
+
+            dBhelper.updateProductToDB(model.validateProductOnUpdate(texts, upload_picture, product_id));
+            if (model.validateProductOnUpdate(texts, upload_picture, product_id) != null) {
+                view.showCheckAnimation();
+                view.displayStatusMessage("Successfully Updated Product!", v);
+            }
 
         } catch (ClassNotFoundException e) {
             view.displayStatusMessage("Error Updating Product!", v);
@@ -74,17 +79,20 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                           InputStream inputStream,
                                           TextInputLayout product_category,
                                           View v) {
-        if (model.validateProduct(product_name,
+
+
+        if (model.validateProductOnAdd(product_name,
                 product_description,
                 product_price,
                 product_stocks,
                 inputStream, product_category) != null) {
             try {
-                dBhelper.addNewProduct(model.validateProduct(product_name,
+                dBhelper.addNewProduct(model.validateProductOnAdd(product_name,
                         product_description,
                         product_price,
                         product_stocks,
                         inputStream, product_category));
+                view.showCheckAnimation();
                 view.displayStatusMessage("Successfully creating product!", v);
             } catch (PacketTooBigException e) {
                 view.displayStatusMessage(e.getMessage(), v);
