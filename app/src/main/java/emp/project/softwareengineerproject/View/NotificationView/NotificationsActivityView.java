@@ -1,21 +1,17 @@
-package emp.project.softwareengineerproject.View;
+package emp.project.softwareengineerproject.View.NotificationView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.graphics.drawable.ColorDrawable;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,17 +24,13 @@ import com.bumptech.glide.Glide;
 
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import emp.project.softwareengineerproject.CustomAdapters.NotificationRecyclerView;
-import emp.project.softwareengineerproject.CustomAdapters.ProductSearchedRecyclerView;
 import emp.project.softwareengineerproject.Interface.INotification;
 import emp.project.softwareengineerproject.Model.NotificationModel;
 import emp.project.softwareengineerproject.Presenter.NotificationPresenter;
 import emp.project.softwareengineerproject.R;
-import emp.project.softwareengineerproject.View.InventoryView.InventorySearchItemView;
 
 public class NotificationsActivityView extends AppCompatActivity implements INotification.INotificationView {
 

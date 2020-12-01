@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.View.UsersActivityView;
+package emp.project.softwareengineerproject.View.UsersView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

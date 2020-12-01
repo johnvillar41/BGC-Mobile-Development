@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.CustomAdapters;
+package emp.project.softwareengineerproject.View.InventoryView;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -23,11 +23,11 @@ import java.util.List;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.R;
 
-public class ProductSearchedRecyclerView extends RecyclerView.Adapter<ProductSearchedRecyclerView.MyViewHolder> {
+public class InventorySearchedRecyclerView extends RecyclerView.Adapter<InventorySearchedRecyclerView.MyViewHolder> {
     List<InventoryModel> list;
     Context context;
 
-    public ProductSearchedRecyclerView(List<InventoryModel> list, Context context) {
+    public InventorySearchedRecyclerView(List<InventoryModel> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -37,7 +37,7 @@ public class ProductSearchedRecyclerView extends RecyclerView.Adapter<ProductSea
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.custom_adapter_search_product, parent, false);
-        return new ProductSearchedRecyclerView.MyViewHolder(view);
+        return new InventorySearchedRecyclerView.MyViewHolder(view);
     }
 
     @Override

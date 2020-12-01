@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.CustomAdapters;
+package emp.project.softwareengineerproject.View.NotificationView;
 
 import android.content.Context;
 import android.view.LayoutInflater;

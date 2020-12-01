@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.CustomAdapters;
+package emp.project.softwareengineerproject.View.InventoryView;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,9 +31,8 @@ import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryPresenter;
 import emp.project.softwareengineerproject.R;
-import emp.project.softwareengineerproject.View.InventoryView.InventoryUpdateView;
 
-public class ProductRecyclerView extends RecyclerView.Adapter<ProductRecyclerView.MyViewHolder> {
+public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecyclerView.MyViewHolder> {
 
 
     public static InventoryModel PRODUCT_MODEL;
@@ -41,7 +40,7 @@ public class ProductRecyclerView extends RecyclerView.Adapter<ProductRecyclerVie
     List<InventoryModel> list;
     InventoryPresenter presenter;
 
-    public ProductRecyclerView(Context context, List<InventoryModel> list) {
+    public InventoryRecyclerView(Context context, List<InventoryModel> list) {
         this.context = context;
         this.list = list;
         this.presenter = new InventoryPresenter((IInvetory.IinventoryView) context);
@@ -53,7 +52,7 @@ public class ProductRecyclerView extends RecyclerView.Adapter<ProductRecyclerVie
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.custom_adapter_greenhouse, parent, false);
-        return new ProductRecyclerView.MyViewHolder(view);
+        return new InventoryRecyclerView.MyViewHolder(view);
     }
 
     @Override
@@ -124,7 +123,7 @@ public class ProductRecyclerView extends RecyclerView.Adapter<ProductRecyclerVie
                     public void onClick(View v) {
                         Intent intent = new Intent(context, InventoryUpdateView.class);
                         context.startActivity(intent);
-                        ProductRecyclerView.PRODUCT_MODEL = new InventoryModel(model.getProduct_id(),
+                        InventoryRecyclerView.PRODUCT_MODEL = new InventoryModel(model.getProduct_id(),
                                 model.getProduct_name(), model.getProduct_description(),
                                 model.getProduct_price(), model.getProduct_picture(),
                                 model.getProduct_stocks(), model.getProduct_category());

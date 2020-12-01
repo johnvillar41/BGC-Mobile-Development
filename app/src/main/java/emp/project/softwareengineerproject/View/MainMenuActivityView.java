@@ -26,7 +26,8 @@ import emp.project.softwareengineerproject.Interface.IMainMenu;
 import emp.project.softwareengineerproject.Presenter.MainMenuPresenter;
 import emp.project.softwareengineerproject.R;
 import emp.project.softwareengineerproject.View.InventoryView.InventoryActivityView;
-import emp.project.softwareengineerproject.View.UsersActivityView.UsersActivityView;
+import emp.project.softwareengineerproject.View.NotificationView.NotificationsActivityView;
+import emp.project.softwareengineerproject.View.UsersView.UsersActivityView;
 
 public class MainMenuActivityView extends AppCompatActivity implements IMainMenu.IMainMenuView, View.OnClickListener {
     private IMainMenu.IMainPresenter presenter;

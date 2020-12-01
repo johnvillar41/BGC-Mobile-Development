@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.View.UsersActivityView;
+package emp.project.softwareengineerproject.View.UsersView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,7 +33,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import emp.project.softwareengineerproject.CustomAdapters.UserRecyclerView;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.UserModel;
 import emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersPresenter;

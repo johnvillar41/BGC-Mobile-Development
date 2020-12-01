@@ -15,7 +15,6 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 
 import java.util.List;
 
-import emp.project.softwareengineerproject.CustomAdapters.ProductSearchedRecyclerView;
 import emp.project.softwareengineerproject.Interface.Inventory.ISearchInventory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventorySearchItemPresenter;
@@ -67,7 +66,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ProductSearchedRecyclerView adapter = new ProductSearchedRecyclerView(
+                        InventorySearchedRecyclerView adapter = new InventorySearchedRecyclerView(
                                 product_list, InventorySearchItemView.this);
                         recyclerViewSearchedItem.setLayoutManager(layoutManager);
                         recyclerViewSearchedItem.setAdapter(adapter);

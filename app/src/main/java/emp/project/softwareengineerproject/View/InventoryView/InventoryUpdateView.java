@@ -1,7 +1,6 @@
 package emp.project.softwareengineerproject.View.InventoryView;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,7 +18,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,7 +39,6 @@ import java.io.InputStream;
 import java.sql.SQLException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import emp.project.softwareengineerproject.CustomAdapters.ProductRecyclerView;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryUpdatePresenter;
@@ -93,7 +90,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         btn_cancel = findViewById(R.id.btn_back);
         Glide.with(this).load(R.drawable.add_image).into(imageView);
         try {
-            presenter.displayHints(ProductRecyclerView.PRODUCT_MODEL);
+            presenter.displayHints(InventoryRecyclerView.PRODUCT_MODEL);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -167,7 +164,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void goBack() {
-        ProductRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
+        InventoryRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
         this.finish();
     }
 
@@ -246,7 +243,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            ProductRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
+            InventoryRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
             this.finish();
         }
         return super.onOptionsItemSelected(item);

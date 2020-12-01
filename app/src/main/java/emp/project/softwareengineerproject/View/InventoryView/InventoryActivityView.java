@@ -22,7 +22,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import emp.project.softwareengineerproject.CustomAdapters.ProductRecyclerView;
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryPresenter;
@@ -117,7 +116,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ProductRecyclerView adapterGreenhouse = new ProductRecyclerView(
+                        InventoryRecyclerView adapterGreenhouse = new InventoryRecyclerView(
                                 InventoryActivityView.this, productList[0]);
                         recyclerView_GreenHouse.setLayoutManager(layoutManagerGreenhouse);
                         recyclerView_GreenHouse.setAdapter(adapterGreenhouse);
@@ -129,7 +128,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
                             image_empty_greenhouse.setVisibility(View.GONE);
                         }
 
-                        ProductRecyclerView adapterHydroponics = new ProductRecyclerView(
+                        InventoryRecyclerView adapterHydroponics = new InventoryRecyclerView(
                                 InventoryActivityView.this, productList[1]);
                         recyclerView_Hydroponics.setLayoutManager(layoutManagerHydroponics);
                         recyclerView_Hydroponics.setAdapter(adapterHydroponics);
@@ -141,7 +140,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
                             image_empty_hydroponics.setVisibility(View.GONE);
                         }
 
-                        ProductRecyclerView adapterOthers = new ProductRecyclerView(
+                        InventoryRecyclerView adapterOthers = new InventoryRecyclerView(
                                 InventoryActivityView.this, productList[2]);
                         recyclerView_others.setLayoutManager(layoutManagerOthers);
                         recyclerView_others.setAdapter(adapterOthers);
@@ -161,7 +160,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     public void goToAddProductPage() {
-        ProductRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
+        InventoryRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
         Intent intent = new Intent(this, InventoryUpdateView.class);
         intent.putExtra("Button_Name", "Add Product");
         startActivity(intent);

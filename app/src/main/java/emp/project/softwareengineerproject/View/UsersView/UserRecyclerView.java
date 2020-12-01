@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.CustomAdapters;
+package emp.project.softwareengineerproject.View.UsersView;
 
 import android.content.Context;
 import android.graphics.Bitmap;
