@@ -59,9 +59,9 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final InventoryModel model = getItem(position);
 
-        if (model.getProduct_category().equals("Greenhouse")) {
+        if (model.getProduct_category().equals("GREENHOUSE")) {
             holder.cardView_item.setCardBackgroundColor(Color.parseColor("#90ee90"));
-        } else if (model.getProduct_category().equals("Hydroponics")) {
+        } else if (model.getProduct_category().equals("HYDROPONICS")) {
             holder.cardView_item.setCardBackgroundColor(Color.parseColor("#b5651d"));
         } else {
             holder.cardView_item.setCardBackgroundColor(Color.parseColor("#C58BE7"));

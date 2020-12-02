@@ -56,10 +56,8 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             texts[3] = txt_product_Stocks;
             texts[4] = txt_product_category;
 
-
-
-            service.updateProductToDB(model.validateProductOnUpdate(texts, upload_picture, product_id));
             if (model.validateProductOnUpdate(texts, upload_picture, product_id) != null) {
+                service.updateProductToDB(model.validateProductOnUpdate(texts, upload_picture, product_id));
                 view.showCheckAnimation();
                 view.displayStatusMessage("Successfully Updated Product!", v);
             }

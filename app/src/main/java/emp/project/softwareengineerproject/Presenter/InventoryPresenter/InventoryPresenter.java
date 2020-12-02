@@ -40,6 +40,7 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
     public void getGreenHouseFromDB() throws InterruptedException, SQLException, ClassNotFoundException {
         view.showProgressDialog();
         view.displayRecyclerView(service.getProductFromDB());
+        view.displayCategory(service.getCategoriesFromDB());
         view.hideProgressDialog();
     }
 
@@ -59,9 +60,14 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
     }
 
     @Override
-    public void onCardViewLongClicked(String product_id,String product_name) throws SQLException, ClassNotFoundException {
+    public void onCardViewLongClicked(String product_id, String product_name) throws SQLException, ClassNotFoundException {
         model.setProduct_name(product_name);
-        service.deleteItem(product_id,model);
+        service.deleteItem(product_id, model);
+    }
+
+    @Override
+    public void onItemSpinnerSelected(String selectedItem) throws SQLException, ClassNotFoundException {
+        view.displayRecyclerViewFromCategory(service.getCategorizedItemsFromDB(selectedItem));
     }
 
 
@@ -130,7 +136,7 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
-        public void deleteItem(String product_id,InventoryModel model) throws ClassNotFoundException, SQLException {
+        public void deleteItem(String product_id, InventoryModel model) throws ClassNotFoundException, SQLException {
             strictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             String deleteItem = "DELETE FROM products_table WHERE product_id=" + "'" + product_id + "'";
@@ -154,6 +160,43 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
 
             statement.close();
             connection.close();
+        }
+
+        @Override
+        public List<String> getCategoriesFromDB() throws ClassNotFoundException, SQLException {
+            strictMode();
+            List<String> tempList = new ArrayList<>();
+            List<String> finalList = new ArrayList<>();
+            Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+            String selectCategory = "SELECT * FROM products_table";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(selectCategory);
+            while (resultSet.next()) {
+                tempList.add(resultSet.getString(7));
+            }
+            for (int i = 0; i < tempList.size(); i++) {
+                if (!finalList.contains(tempList.get(i))) {
+                    finalList.add(tempList.get(i));
+                }
+            }
+            return finalList;
+
+        }
+
+        @Override
+        public List<InventoryModel> getCategorizedItemsFromDB(String category) throws ClassNotFoundException, SQLException {
+            strictMode();
+            List<InventoryModel> list = new ArrayList<>();
+            String sql = "SELECT * FROM products_table WHERE product_category=" + "'" + category + "'";
+            Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                model = new InventoryModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getLong(4),
+                        (Blob) resultSet.getBlob(5), resultSet.getInt(6), resultSet.getString(7));
+                list.add(model);
+            }
+            return list;
         }
 
 

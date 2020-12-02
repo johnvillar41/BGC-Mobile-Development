@@ -128,6 +128,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/enter_product_category_here">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:inputType="textCapCharacters"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         />

@@ -22,6 +22,10 @@ public interface IInvetory {
 
         void refreshPage();
 
+        void displayCategory(List<String>categories);
+
+        void displayRecyclerViewFromCategory(List<InventoryModel>list);
+
     }
 
     interface IinventoryPresenter {
@@ -34,6 +38,8 @@ public interface IInvetory {
         void onSwipeRefresh();
 
         void onCardViewLongClicked(String product_id,String product_name) throws SQLException, ClassNotFoundException;
+
+        void onItemSpinnerSelected(String selectedItem) throws SQLException, ClassNotFoundException;
     }
 
     interface IInventoryService extends IServiceStrictMode {
@@ -41,5 +47,9 @@ public interface IInvetory {
         List<InventoryModel>[] getProductFromDB() throws ClassNotFoundException, SQLException, InterruptedException;
 
         void deleteItem(String product_id,InventoryModel model) throws ClassNotFoundException, SQLException;
+
+        List<String>getCategoriesFromDB() throws ClassNotFoundException, SQLException;
+
+        List<InventoryModel> getCategorizedItemsFromDB(String category) throws ClassNotFoundException, SQLException;
     }
 }

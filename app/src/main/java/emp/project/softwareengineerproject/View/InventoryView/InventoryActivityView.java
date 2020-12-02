@@ -7,7 +7,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +38,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     private ProgressBar progressBar, progressBar_greenHouse, progressBar_hydroponics, progressBar_others;
     private SwipeRefreshLayout swipeRefreshLayout;
     private CircleImageView image_empty_greenhouse, image_empty_hydroponics, image_empty_others;
+    private Spinner spinner_category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +78,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         image_empty_greenhouse = findViewById(R.id.empty_image_greenhouse);
         image_empty_hydroponics = findViewById(R.id.empty_image_hydroponics);
         image_empty_others = findViewById(R.id.empty_image_others);
+        spinner_category = findViewById(R.id.spinner_category);
         presenter.getGreenHouseFromDB();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -158,6 +164,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         thread.start();
     }
 
+
     @Override
     public void goToAddProductPage() {
         InventoryRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
@@ -192,6 +199,47 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void displayCategory(List<String> categories) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+        spinner_category.setAdapter(adapter);
+        spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = spinner_category.getSelectedItem().toString();
+                try {
+                    presenter.onItemSpinnerSelected(selectedItem);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    @Override
+    public void displayRecyclerViewFromCategory(List<InventoryModel> list) {
+        LinearLayoutManager linearLayoutManager
+                = new LinearLayoutManager(InventoryActivityView.this, LinearLayoutManager.HORIZONTAL, false);
+        InventoryRecyclerView adapter = new InventoryRecyclerView(
+                InventoryActivityView.this, list);
+        recyclerView_others.setLayoutManager(linearLayoutManager);
+        recyclerView_others.setAdapter(adapter);
+        progressBar_others.setVisibility(View.INVISIBLE);
+        if (adapter.getItemCount() == 0) {
+            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).into(image_empty_others);
+            image_empty_others.setVisibility(View.VISIBLE);
+        } else {
+            image_empty_others.setVisibility(View.GONE);
         }
     }
 
