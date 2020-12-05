@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.NotificationView.NotificationsActivityView"></activity>
+        <activity android:name=".View.SalesView.SalesTransactionView"></activity>
+        <activity android:name=".View.SalesView.SalesAddActivityView" />
+        <activity android:name=".View.NotificationView.NotificationsActivityView" />
         <activity android:name=".View.UsersView.UsersAddActivityView" />
         <activity android:name=".View.LoadingScreen">
             <intent-filter>
@@ -28,7 +30,7 @@
         <activity android:name=".View.SettingsActivityView" />
         <activity android:name=".View.UsersView.UsersActivityView" />
         <activity android:name=".View.ReportsActivityView" />
-        <activity android:name=".View.SalesActivityView" />
+        <activity android:name=".View.SalesView.SalesActivityView" />
         <activity android:name=".View.InventoryView.InventoryActivityView" />
         <activity android:name=".View.MainMenuActivityView" />
         <activity android:name=".View.LoginActivityView" />
