@@ -14,9 +14,9 @@ public interface IInvetory {
 
         void goToAddProductPage();
 
-        void showProgressDialog();
+        void showProgressBarRecyclers();
 
-        void hideProgressDialog();
+        void hideProgressBarReyclers();
 
         void goToSearchPage();
 

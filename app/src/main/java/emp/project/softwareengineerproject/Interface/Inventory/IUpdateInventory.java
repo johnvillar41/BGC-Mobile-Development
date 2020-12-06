@@ -47,8 +47,6 @@ public interface IUpdateInventory {
         void displayHints(InventoryModel model) throws SQLException;
 
         void ImageButtonClicked();
-
-        void directCheckAnimation();
     }
 
     interface IUpdateInventoryService extends IServiceStrictMode {

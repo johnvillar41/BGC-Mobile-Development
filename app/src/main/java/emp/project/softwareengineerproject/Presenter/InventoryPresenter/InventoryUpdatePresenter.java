@@ -112,10 +112,6 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         view.loadImageFromGallery();
     }
 
-    @Override
-    public void directCheckAnimation() {
-        view.showCheckAnimation();
-    }
 
     private static class InventoryUpdateService implements IUpdateInventory.IUpdateInventoryService {
 

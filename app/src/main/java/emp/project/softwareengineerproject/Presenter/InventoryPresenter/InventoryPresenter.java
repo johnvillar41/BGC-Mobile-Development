@@ -37,11 +37,44 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
     }
 
     @Override
-    public void getGreenHouseFromDB() throws InterruptedException, SQLException, ClassNotFoundException {
-        view.showProgressDialog();
-        view.displayRecyclerView(service.getProductFromDB());
-        view.displayCategory(service.getCategoriesFromDB());
-        view.hideProgressDialog();
+    public void getGreenHouseFromDB() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.showProgressBarRecyclers();
+                    }
+                });
+                final List<InventoryModel> productlistDb[] = new ArrayList[3];
+                List<String> productList = new ArrayList<>();
+                try {
+                    productlistDb[0] = service.getProductFromDB()[0];
+                    productlistDb[1] = service.getProductFromDB()[1];
+                    productlistDb[2] = service.getProductFromDB()[2];
+                    productList = service.getCategoriesFromDB();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                final List<String> finalProductList = productList;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayRecyclerView(productlistDb);
+                        view.displayCategory(finalProductList);
+                        view.hideProgressBarReyclers();
+                    }
+                });
+
+            }
+
+        });
+        thread.start();
     }
 
     @Override
