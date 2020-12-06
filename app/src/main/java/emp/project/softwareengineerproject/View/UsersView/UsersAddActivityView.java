@@ -56,7 +56,7 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
 
         txt_username = findViewById(R.id.txt_username);
         txt_password1 = findViewById(R.id.txt_password1);

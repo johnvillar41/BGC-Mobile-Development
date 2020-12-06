@@ -70,7 +70,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
         toolbar.setTitle("User Profile");
 
         circleImageView = findViewById(R.id.profile_image);

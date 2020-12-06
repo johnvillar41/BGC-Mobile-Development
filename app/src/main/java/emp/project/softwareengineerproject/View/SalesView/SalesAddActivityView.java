@@ -50,7 +50,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
         FloatingActionButton floatingActionButton_Cart = findViewById(R.id.fab_cart);
         recyclerView = findViewById(R.id.recyclerView_Sale);
 
