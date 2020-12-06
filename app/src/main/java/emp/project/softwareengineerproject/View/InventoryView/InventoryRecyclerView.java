@@ -62,7 +62,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
         if (model.getProduct_category().equals("GREENHOUSE")) {
             holder.cardView_item.setCardBackgroundColor(Color.parseColor("#90ee90"));
         } else if (model.getProduct_category().equals("HYDROPONICS")) {
-            holder.cardView_item.setCardBackgroundColor(Color.parseColor("#b5651d"));
+            holder.cardView_item.setCardBackgroundColor(Color.parseColor("#add8e6"));
         } else {
             holder.cardView_item.setCardBackgroundColor(Color.parseColor("#C58BE7"));
         }

@@ -100,7 +100,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         Glide.with(this).load(R.drawable.reports_logo).into(image_reports);
         Glide.with(this).load(R.drawable.users_logo).into(image_users);
         Glide.with(this).load(R.drawable.settings_logo).into(image_settings);
-        Glide.with(this).load(R.drawable.logout_logo).into(image_signout);
+        Glide.with(this).load(R.drawable.ic_baseline_exit_to_app_24).into(image_signout);
 
 
         if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES_USERNAME, null) == null) {

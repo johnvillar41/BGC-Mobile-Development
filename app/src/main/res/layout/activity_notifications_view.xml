@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             app:title="Notifications"
-            app:titleTextColor="#ffffff"
+            app:titleTextColor="#000000"
             android:background="#f9b207"
             android:id="@+id/toolbar"/>
         <androidx.recyclerview.widget.RecyclerView

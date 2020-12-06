@@ -41,6 +41,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
         txt_searchItem = findViewById(R.id.txt_searchItem);
         recyclerViewSearchedItem = findViewById(R.id.recyclerView_SearchProduct);

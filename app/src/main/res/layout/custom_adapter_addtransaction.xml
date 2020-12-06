@@ -29,6 +29,7 @@
                     android:text="Product Name"/>
 
                 <Spinner
+                    android:visibility="invisible"
                     android:layout_width="100sp"
                     android:layout_height="30sp"
                     android:id="@+id/spinner_number"
@@ -37,6 +38,7 @@
 
         </LinearLayout>
         <CheckBox
+            android:clickable="true"
             android:id="@+id/checkbox_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

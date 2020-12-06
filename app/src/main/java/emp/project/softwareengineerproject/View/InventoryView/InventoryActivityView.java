@@ -64,6 +64,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
         presenter = new InventoryPresenter(this);
 

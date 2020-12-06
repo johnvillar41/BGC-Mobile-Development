@@ -79,6 +79,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
         editText_productTitle = findViewById(R.id.txt_product_name);
         imageView = findViewById(R.id.image_product);

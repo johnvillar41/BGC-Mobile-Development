@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#a60f07</item>
-        <item name="colorPrimaryDark">#a60f07</item>
-        <item name="colorAccent">#a60f07</item>
+        <item name="colorPrimary">#f9b207</item>
+        <item name="colorPrimaryDark">#f9b207</item>
+        <item name="colorAccent">#f9b207</item>
     </style>
 
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">

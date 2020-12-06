@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#323232"
     tools:context=".View.InventoryView.InventoryActivityView">
 
     <ProgressBar
@@ -20,7 +21,7 @@
         android:orientation="vertical">
         <androidx.appcompat.widget.Toolbar
             app:title="Inventory"
-            app:titleTextColor="#ffffff"
+            app:titleTextColor="#000000"
             android:id="@+id/toolbar"
             android:background="#f9b207"
             android:layout_width="match_parent"
@@ -43,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         tools:ignore="UseCompoundDrawables">
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:src="@drawable/greenhouse_logo"
@@ -53,6 +54,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
+                            android:textColor="#000000"
                             android:textSize="30sp"
                             android:text="@string/green_house"/>
                     </LinearLayout>
@@ -80,12 +82,13 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         tools:ignore="UseCompoundDrawables">
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:src="@drawable/hydroponics_logo"
                             tools:ignore="ContentDescription" />
                         <TextView
+                            android:textColor="#000000"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -117,12 +120,13 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         tools:ignore="UseCompoundDrawables">
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:src="@drawable/hydroponics_logo"
                             tools:ignore="ContentDescription" />
                         <TextView
+                            android:textColor="#000000"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

@@ -8,7 +8,7 @@
     tools:context=".View.UsersView.UsersAddActivityView">
 
     <androidx.appcompat.widget.Toolbar
-        app:titleTextColor="#ffffff"
+        app:titleTextColor="#000000"
         android:id="@+id/toolbar"
         app:title="Add new Users"
         android:background="#f9b207"

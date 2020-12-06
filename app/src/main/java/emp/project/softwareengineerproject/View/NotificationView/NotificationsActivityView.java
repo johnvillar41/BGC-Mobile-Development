@@ -61,6 +61,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
         presenter.getNotificationList();
     }

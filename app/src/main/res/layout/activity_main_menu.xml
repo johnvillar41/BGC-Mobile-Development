@@ -6,19 +6,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#f9b207"
     tools:context=".View.MainMenuActivityView">
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:id="@+id/fab_notifications"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_notifications_24"
-        android:layout_margin="40dp"
+        app:srcCompat="@drawable/ic_baseline_notifications_24"
+        android:layout_marginTop="260dp"
+        android:layout_marginRight="40dp"
+        app:backgroundTint="#f9b207"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         tools:ignore="RelativeOverlap" />
     <TextView
         android:elevation="10dp"
         android:background="@drawable/circle_textview"
-        android:layout_margin="35sp"
+        android:layout_marginTop="255dp"
+        android:layout_marginRight="40dp"
         android:gravity="center"
         android:layout_alignParentRight="true"
         android:id="@+id/txt_number_notification"
@@ -26,7 +30,6 @@
         android:textColor="#000000"
         android:layout_height="24dp"
         android:text="0"/>
-
     <LinearLayout
         android:elevation="10dp"
         android:layout_margin="5dp"
@@ -36,12 +39,12 @@
         <TextView
             android:textStyle="bold"
             android:textSize="30sp"
-            android:textColor="#a60f07"
+            android:textColor="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Welcome! "/>
         <TextView
-            android:textColor="#a60f07"
+            android:textColor="#000000"
             android:textStyle="italic"
             android:id="@+id/txt_name"
             android:textSize="30sp"
@@ -56,7 +59,7 @@
         android:orientation="vertical">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             android:layout_marginTop="50dp"
             android:id="@+id/image_illustration" />
         <LinearLayout
@@ -77,7 +80,7 @@
                     android:layout_width="100sp"
                     android:layout_height="150sp"
                     app:cardCornerRadius="10dp"
-                    app:cardBackgroundColor="#add8e6"
+                    app:cardBackgroundColor="#000000"
                     android:focusable="true">
                     <LinearLayout
                         android:gravity="center"
@@ -105,7 +108,7 @@
                     android:layout_width="100sp"
                     android:layout_height="150sp"
                     app:cardCornerRadius="10dp"
-                    app:cardBackgroundColor="#90EE90"
+                    app:cardBackgroundColor="#000000"
                     android:focusable="true">
                     <LinearLayout
                         android:orientation="vertical"
@@ -132,7 +135,7 @@
                     android:layout_width="100sp"
                     android:layout_height="150sp"
                     app:cardCornerRadius="10dp"
-                    app:cardBackgroundColor="#DC6F6F"
+                    app:cardBackgroundColor="#000000"
                     android:focusable="true">
                     <LinearLayout
                         android:orientation="vertical"
@@ -164,7 +167,7 @@
                     android:layout_width="100sp"
                     android:layout_height="150sp"
                     app:cardCornerRadius="10dp"
-                    app:cardBackgroundColor="#B266FF"
+                    app:cardBackgroundColor="#000000"
                     android:focusable="true">
                     <LinearLayout
                         android:orientation="vertical"
@@ -192,7 +195,7 @@
                     android:layout_width="100sp"
                     android:layout_height="150sp"
                     app:cardCornerRadius="10dp"
-                    app:cardBackgroundColor="#FFFF99"
+                    app:cardBackgroundColor="#000000"
                     android:focusable="true">
                     <LinearLayout
                         android:orientation="vertical"
@@ -203,7 +206,7 @@
                             android:textStyle="bold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="#000000"
+                            android:textColor="#FFFFFF"
                             android:text="@string/settings"/>
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="80dp"
@@ -219,7 +222,7 @@
                     android:layout_width="100sp"
                     android:layout_height="150sp"
                     app:cardCornerRadius="10dp"
-                    app:cardBackgroundColor="#CC0000"
+                    app:cardBackgroundColor="#000000"
                     android:focusable="true">
                     <LinearLayout
                         android:orientation="vertical"

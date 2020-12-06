@@ -7,7 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,8 +24,6 @@ import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesAddPresenter;
 import emp.project.softwareengineerproject.R;
-import emp.project.softwareengineerproject.View.InventoryView.InventoryActivityView;
-import emp.project.softwareengineerproject.View.InventoryView.InventoryRecyclerView;
 
 public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd.ISalesAddView {
     private ISalesAdd.ISalesAddPresenter presenter;
@@ -36,7 +33,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_sales_add_view);
+        setContentView(R.layout.activity_sales_add_transaction_view);
 
         try {
             initViews();
@@ -53,6 +50,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
         FloatingActionButton floatingActionButton_Cart = findViewById(R.id.fab_cart);
         recyclerView = findViewById(R.id.recyclerView_Sale);
 

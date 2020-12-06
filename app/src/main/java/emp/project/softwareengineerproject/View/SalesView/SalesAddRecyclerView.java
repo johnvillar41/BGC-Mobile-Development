@@ -50,7 +50,7 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         InventoryModel model = getItem(position);
         final Blob b = model.getProduct_picture();
         final int[] blobLength = new int[1];
@@ -69,6 +69,16 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
         }
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(context,android.R.layout.simple_spinner_dropdown_item, arrNumber);
         holder.spinner_total_number.setAdapter(adapter);
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.spinner_total_number.getVisibility()==View.INVISIBLE)
+                    holder.spinner_total_number.setVisibility(View.VISIBLE);
+                else
+                    holder.spinner_total_number.setVisibility(View.INVISIBLE);
+            }
+        });
+
     }
 
     @Override

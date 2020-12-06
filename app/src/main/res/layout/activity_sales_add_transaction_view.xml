@@ -11,7 +11,7 @@
         android:orientation="vertical"
         >
         <androidx.appcompat.widget.Toolbar
-            app:titleTextColor="#ffffff"
+            app:titleTextColor="#000000"
             android:id="@+id/toolbar"
             app:title="Add Transaction Sale"
             android:background="#f9b207"

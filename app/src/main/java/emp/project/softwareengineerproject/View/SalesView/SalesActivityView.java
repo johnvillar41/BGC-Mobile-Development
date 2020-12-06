@@ -52,14 +52,15 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
         image_view_transactions = findViewById(R.id.image_view_transactions);
 
         //Using Glide library to load images to avoid crash
-        Glide.with(this).load(R.drawable.add_logo).into(image_create_sale);
-        Glide.with(this).load(R.drawable.logo_transaction_list).into(image_view_transactions);
+        Glide.with(this).load(R.drawable.ic_money).into(image_create_sale);
+        Glide.with(this).load(R.drawable.ic_list).into(image_view_transactions);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
         presenter = new SalesPresenter(this);
 
