@@ -40,13 +40,13 @@ public interface IMainMenu {
 
         void onSettingsButtonClicked();
 
-        void directUsernameDisplay() throws SQLException;
+        void directUsernameDisplay() throws SQLException, ClassNotFoundException;
 
         void onNotificationButtonClicked();
     }
 
     interface IMainService extends IServiceStrictMode {
 
-        int getNumberOfNotifications(String date) throws SQLException;
+        int getNumberOfNotifications(String date) throws SQLException, ClassNotFoundException;
     }
 }

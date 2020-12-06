@@ -63,7 +63,7 @@ public class SalesPresenter implements ISales.ISalesPresenter {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                model = new SalesModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4));
+                model = new SalesModel(resultSet.getString(1), resultSet.getBlob(2), resultSet.getString(3), resultSet.getString(4));
                 list.add(model);
             }
             return list;
@@ -80,7 +80,6 @@ public class SalesPresenter implements ISales.ISalesPresenter {
             while (resultSet.next()) {
                 totalTransaction += resultSet.getLong(4);
             }
-
             return totalTransaction;
         }
 

@@ -46,7 +46,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         initViews();
         try {
             presenter.directUsernameDisplay();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -172,7 +172,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
     protected void onResume() {
         try {
             presenter.directUsernameDisplay();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         super.onResume();

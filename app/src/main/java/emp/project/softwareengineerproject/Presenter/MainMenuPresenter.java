@@ -58,7 +58,7 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void directUsernameDisplay() throws SQLException {
+    public void directUsernameDisplay() throws SQLException, ClassNotFoundException {
         view.displayUsername();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
@@ -85,7 +85,8 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
         }
 
         @Override
-        public int getNumberOfNotifications(String date) throws SQLException {
+        public int getNumberOfNotifications(String date) throws SQLException, ClassNotFoundException {
+            strictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             Statement statement = connection.createStatement();
             String sqlGetNumberOfNotifs = "SELECT COUNT(*) FROM notifications_table WHERE notif_date LIKE " + "'" + date + "%'";
