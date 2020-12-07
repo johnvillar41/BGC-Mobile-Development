@@ -28,6 +28,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mysql.jdbc.Blob;
@@ -89,7 +91,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         txt_product_category = findViewById(R.id.txt_product_category);
         btn_save = findViewById(R.id.btn_save);
         btn_cancel = findViewById(R.id.btn_back);
-        Glide.with(this).load(R.drawable.add_image).into(imageView);
+        Glide.with(this).load(R.drawable.add_image).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView);
         try {
             presenter.displayHints(InventoryRecyclerView.PRODUCT_MODEL);
         } catch (SQLException e) {
@@ -114,7 +116,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
             blobLength = (int) b.length();
             final byte[] blobAsBytes = b.getBytes(1, blobLength);
             Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-            Glide.with(this).load(btm).into(imageView);
+            Glide.with(this).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView);
 
             btn_save.setOnClickListener(new View.OnClickListener() {
                 @Override

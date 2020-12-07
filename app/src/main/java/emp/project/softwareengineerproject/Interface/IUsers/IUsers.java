@@ -15,6 +15,10 @@ public interface IUsers {
         void displayPopupUsers(List<UserModel> userList) throws InterruptedException;
 
         void goToAddPage();
+
+        void displayProgressBar();
+
+        void hideProgressBar();
     }
 
     interface IUsersPresenter {

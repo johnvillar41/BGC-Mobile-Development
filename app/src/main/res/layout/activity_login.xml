@@ -69,7 +69,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login"
                 android:backgroundTint="#a60f07"
-                android:drawableStart="@drawable/ic_login" />
+                android:drawableStart="@drawable/ic_login"
+                tools:targetApi="lollipop" />
+            <com.google.android.material.progressindicator.ProgressIndicator
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Indeterminate"
+                android:id="@+id/progress_bar_login"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

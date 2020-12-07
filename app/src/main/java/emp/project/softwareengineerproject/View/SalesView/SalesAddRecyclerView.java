@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.mysql.jdbc.Blob;
 
 import java.sql.SQLException;
@@ -58,7 +60,7 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
             blobLength[0] = (int) b.length();
             byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
             Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-            Glide.with(context).load(btm).into(holder.circleImageView);
+            Glide.with(context).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
         } catch (SQLException e) {
             e.printStackTrace();
         }

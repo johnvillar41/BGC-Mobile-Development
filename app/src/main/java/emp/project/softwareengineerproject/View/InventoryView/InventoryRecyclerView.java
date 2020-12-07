@@ -21,6 +21,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.mysql.jdbc.Blob;
 
 import java.sql.SQLException;
@@ -72,7 +74,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
             blobLength[0] = (int) b.length();
             byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
             Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-            Glide.with(context).load(btm).into(holder.image_product);
+            Glide.with(context).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.image_product);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -103,7 +105,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                     blobLength[0] = (int) b.length();
                     byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
                     Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-                    Glide.with(context).load(btm).into(imageView_product);
+                    Glide.with(context).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView_product);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

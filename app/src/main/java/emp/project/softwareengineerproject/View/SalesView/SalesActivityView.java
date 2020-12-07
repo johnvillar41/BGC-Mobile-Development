@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.sql.SQLException;
 
@@ -52,8 +54,8 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
         image_view_transactions = findViewById(R.id.image_view_transactions);
 
         //Using Glide library to load images to avoid crash
-        Glide.with(this).load(R.drawable.ic_money).into(image_create_sale);
-        Glide.with(this).load(R.drawable.ic_list).into(image_view_transactions);
+        Glide.with(this).load(R.drawable.ic_money).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_create_sale);
+        Glide.with(this).load(R.drawable.ic_list).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_view_transactions);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);

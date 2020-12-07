@@ -25,4 +25,16 @@
     <string name="product_stock_number">Product stock number</string>
     <string name="search_product_name">Search Product Name</string>
     <string name="project_automation_of_company_agt_to_be_passed_for_software_engineering_1">Project Automation of Company AGT to be passed for Software Engineering 1</string>
+    <string name="_0">0</string>
+    <string name="welcome">Welcome!</string>
+    <string name="name_here">Name here</string>
+    <string name="user_id">User ID</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="full_name">Full Name</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="enter_password_here">Enter Password Here</string>
+    <string name="re_enter_your_password">Re-enter your Password</string>
+    <string name="enter_full_name_here">Enter Full name here</string>
+    <string name="add_user">Add User</string>
 </resources>

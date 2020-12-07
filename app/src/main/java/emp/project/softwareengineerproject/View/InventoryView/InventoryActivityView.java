@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -127,7 +129,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         recyclerView_GreenHouse.setAdapter(adapterGreenhouse);
         progressBar_greenHouse.setVisibility(View.INVISIBLE);
         if (adapterGreenhouse.getItemCount() == 0) {
-            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).into(image_empty_greenhouse);
+            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_greenhouse);
             image_empty_greenhouse.setVisibility(View.VISIBLE);
         } else {
             image_empty_greenhouse.setVisibility(View.GONE);
@@ -137,7 +139,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         recyclerView_Hydroponics.setAdapter(adapterHydroponics);
         progressBar_hydroponics.setVisibility(View.INVISIBLE);
         if (adapterHydroponics.getItemCount() == 0) {
-            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).into(image_empty_hydroponics);
+            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_hydroponics);
             image_empty_hydroponics.setVisibility(View.VISIBLE);
         } else {
             image_empty_hydroponics.setVisibility(View.GONE);
@@ -148,7 +150,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         recyclerView_others.setAdapter(adapterOthers);
         progressBar_others.setVisibility(View.INVISIBLE);
         if (adapterOthers.getItemCount() == 0) {
-            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).into(image_empty_others);
+            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_others);
             image_empty_others.setVisibility(View.VISIBLE);
         } else {
             image_empty_others.setVisibility(View.GONE);
@@ -234,7 +236,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         recyclerView_others.setAdapter(adapter);
         progressBar_others.setVisibility(View.INVISIBLE);
         if (adapter.getItemCount() == 0) {
-            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).into(image_empty_others);
+            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_others);
             image_empty_others.setVisibility(View.VISIBLE);
         } else {
             image_empty_others.setVisibility(View.GONE);

@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.progressindicator.ProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -31,6 +32,7 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
     private ILogin.ILoginPresenter presenter;
     public static final String MyPREFERENCES_USERNAME = "MyPrefs";
     public static final String MyPREFERENCES_NAME = "NAME";
+    private ProgressIndicator progressIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +45,12 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
 
     @Override
     public void initViews() {
-        presenter = new LoginPresenter(this);
+        presenter = new LoginPresenter(this,this);
         btn_login = findViewById(R.id.btn_login);
         txt_username = findViewById(R.id.textField_username);
         txt_password = findViewById(R.id.textField_password);
+        progressIndicator = findViewById(R.id.progress_bar_login);
+        progressIndicator.hide();
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -66,6 +70,7 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
 
     @Override
     public void onSuccess(String message, View v) {
+        //hides keyboard
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_SHORT);
@@ -74,6 +79,7 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
 
     @Override
     public void onError(String message, View v) {
+        //hides keyboard
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_SHORT);
@@ -90,5 +96,15 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
         finish();
         Intent intent = new Intent(this, MainMenuActivityView.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void displayProgressBar() {
+        progressIndicator.show();
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressIndicator.hide();
     }
 }

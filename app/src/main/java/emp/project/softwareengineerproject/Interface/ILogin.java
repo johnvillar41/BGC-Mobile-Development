@@ -15,6 +15,10 @@ public interface ILogin {
         void onError(String message, View v);
 
         void goToMainPage();
+
+        void displayProgressBar();
+
+        void hideProgressBar();
     }
 
     interface ILoginPresenter {

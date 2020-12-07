@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -44,13 +46,13 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
         holder.txt_username.setText(model.getUser_name());
         switch (model.getNotif_title()) {
             case "Deleted product":
-                Glide.with(context).load(R.drawable.delete_logo).into(holder.circleImageView);
+                Glide.with(context).load(R.drawable.delete_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
                 break;
             case "Updated product":
-                Glide.with(context).load(R.drawable.update_logo).into(holder.circleImageView);
+                Glide.with(context).load(R.drawable.update_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
                 break;
             case "Added product":
-                Glide.with(context).load(R.drawable.add_product).into(holder.circleImageView);
+                Glide.with(context).load(R.drawable.add_product).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
                 break;
         }
     }

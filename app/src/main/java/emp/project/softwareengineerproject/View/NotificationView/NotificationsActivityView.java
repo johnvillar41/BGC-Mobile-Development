@@ -21,6 +21,8 @@ import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -81,7 +83,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
                         if (adapter.getItemCount() == 0) {
-                            Glide.with(NotificationsActivityView.this).load(R.drawable.no_notifications_logo).into(circleImageView_empty);
+                            Glide.with(NotificationsActivityView.this).load(R.drawable.no_notifications_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(circleImageView_empty);
                             circleImageView_empty.setVisibility(View.VISIBLE);
                         } else {
                             circleImageView_empty.setVisibility(View.GONE);

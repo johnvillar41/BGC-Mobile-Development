@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.Presenter.UsersPresenter;
 
+import android.content.Context;
 import android.os.StrictMode;
 
 import java.sql.Connection;
@@ -13,21 +14,55 @@ import java.util.List;
 import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.View.UsersView.UsersActivityView;
 
 public class UsersPresenter implements IUsers.IUsersPresenter {
     UserModel model;
     IUsers.IUsersService service;
     IUsers.IUsersView view;
+    UsersActivityView context;
 
-    public UsersPresenter(IUsers.IUsersView view) {
+    public UsersPresenter(IUsers.IUsersView view, Context context) {
         this.view = view;
         this.service = new UsersService();
         this.model = new UserModel();
+        this.context = (UsersActivityView) context;
     }
 
     @Override
-    public void onPageDisplayProfile(String user_id) throws SQLException, ClassNotFoundException {
-        view.displayProfile(service.getUserProfileFromDB(user_id));
+    public void onPageDisplayProfile(final String user_id) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressBar();
+                    }
+                });
+                try {
+                    final UserModel model = service.getUserProfileFromDB(user_id);
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayProfile(model);
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.hideProgressBar();
+                    }
+                });
+            }
+        });
+        thread.start();
+
     }
 
     @Override

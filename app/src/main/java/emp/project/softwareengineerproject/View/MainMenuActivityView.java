@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -94,13 +96,13 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         floatingActionButton.setOnClickListener(this);
 
         //Programmatically loading images through glide library due to crash on loading large amounts of images
-        Glide.with(this).load(R.drawable.logo_main).into(imageView_illustration);
-        Glide.with(this).load(R.drawable.stocks_logo).into(image_inventory);
-        Glide.with(this).load(R.drawable.sales_logo).into(image_sales);
-        Glide.with(this).load(R.drawable.reports_logo).into(image_reports);
-        Glide.with(this).load(R.drawable.users_logo).into(image_users);
-        Glide.with(this).load(R.drawable.settings_logo).into(image_settings);
-        Glide.with(this).load(R.drawable.ic_baseline_exit_to_app_24).into(image_signout);
+        Glide.with(this).asBitmap().load(R.drawable.logo_main).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView_illustration);
+        Glide.with(this).asBitmap().load(R.drawable.stocks_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_inventory);
+        Glide.with(this).asBitmap().load(R.drawable.sales_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_sales);
+        Glide.with(this).asBitmap().load(R.drawable.reports_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_reports);
+        Glide.with(this).asBitmap().load(R.drawable.users_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_users);
+        Glide.with(this).asBitmap().load(R.drawable.settings_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_settings);
+        Glide.with(this).asBitmap().load(R.drawable.ic_baseline_exit_to_app_24).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_signout);
 
 
         if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES_USERNAME, null) == null) {

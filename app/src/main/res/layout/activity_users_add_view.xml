@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".View.UsersView.UsersAddActivityView">
 
     <androidx.appcompat.widget.Toolbar
@@ -30,7 +29,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/txt_username"
             style="@style/LoginTextInputLayoutStyle"
-            android:hint="Enter Username">
+            android:hint="@string/enter_username">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +42,7 @@
             android:layout_marginTop="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Password Here">
+            android:hint="@string/enter_password_here">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txt_password2"
-            android:hint="Re-enter your Password">
+            android:hint="@string/re_enter_your_password">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +68,7 @@
             style="@style/LoginTextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Full name here">
+            android:hint="@string/enter_full_name_here">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,7 +79,7 @@
             android:id="@+id/btn_add_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add User"/>
+            android:text="@string/add_user"/>
     </LinearLayout>
 
 

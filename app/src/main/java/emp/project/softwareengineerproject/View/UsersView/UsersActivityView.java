@@ -25,7 +25,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.progressindicator.ProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.sql.Blob;
@@ -44,6 +47,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
     private CardView cardView;
     private IUsers.IUsersPresenter presenter;
     private TextInputLayout txt_user_id, txt_username, txt_password, txt_real_name;
+    private ProgressIndicator progressIndicator;
 
 
     @Override
@@ -64,7 +68,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
 
     @Override
     public void initViews() throws SQLException, ClassNotFoundException {
-        presenter = new UsersPresenter(this);
+        presenter = new UsersPresenter(this,this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,7 +84,9 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         txt_password = findViewById(R.id.user_password);
         txt_real_name = findViewById(R.id.user_real_name);
         cardView = findViewById(R.id.cardView_Profile);
-        FloatingActionButton floatingActionButton=findViewById(R.id.fab_view);
+        progressIndicator = findViewById(R.id.progress_bar_users);
+        progressIndicator.hide();
+        FloatingActionButton floatingActionButton = findViewById(R.id.fab_view);
         SharedPreferences sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES_USERNAME, MODE_PRIVATE);
         presenter.onPageDisplayProfile(sharedPreferences.getString(LoginActivityView.MyPREFERENCES_USERNAME, null));
 
@@ -106,7 +112,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
             blobLength = (int) b.length();
             byte[] blobAsBytes = b.getBytes(1, blobLength);
             Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-            Glide.with(this).load(btm).into(circleImageView);
+            Glide.with(this).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(circleImageView);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -151,8 +157,18 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
 
     @Override
     public void goToAddPage() {
-        Intent intent=new Intent(this,UsersAddActivityView.class);
+        Intent intent = new Intent(this, UsersAddActivityView.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void displayProgressBar() {
+        progressIndicator.show();
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressIndicator.hide();
     }
 
     @Override
