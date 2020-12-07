@@ -5,6 +5,7 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
 import emp.project.softwareengineerproject.Model.InventoryModel;
+import emp.project.softwareengineerproject.Model.SalesModel;
 
 public interface ISalesAdd {
     interface ISalesAddView {
@@ -24,7 +25,7 @@ public interface ISalesAdd {
     }
 
     interface ISalesAddService extends IServiceStrictMode {
-        void insertOrderToDB() throws SQLException, ClassNotFoundException;
+        void insertOrderToDB(SalesModel model) throws SQLException, ClassNotFoundException;
 
         List<InventoryModel> getProductListFromDB() throws ClassNotFoundException, SQLException;
 

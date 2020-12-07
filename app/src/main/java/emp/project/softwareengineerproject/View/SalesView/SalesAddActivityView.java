@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -100,12 +99,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //db operations
-                long total_price = 0;
-                for (int i = 0; i < SalesModel.cartList.size(); i++) {
-                    total_price += SalesModel.cartList.get(i).getNewPrice();
-                }
-                Toast.makeText(SalesAddActivityView.this,String.valueOf(total_price),Toast.LENGTH_SHORT).show();
+                presenter.onConfirmButtonClicked();
             }
         });
 

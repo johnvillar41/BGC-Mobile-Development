@@ -71,6 +71,7 @@ public class SalesAddRecyclerView2 extends RecyclerView.Adapter<SalesAddRecycler
             public void onItemSelected(AdapterView<?> parent, View view, int p, long id) {
                 long newValue = model.getProduct_price() * Long.parseLong(parent.getSelectedItem().toString());
                 SalesModel.cartList.get(position).setNewPrice(newValue);
+                SalesModel.cartList.get(position).setTotal_number_of_products(parent.getSelectedItem().toString());
             }
 
             @Override

@@ -49,16 +49,6 @@ public class InventoryModel implements Serializable {
     public InventoryModel() {
     }
 
-    long newPrice;
-
-    public long getNewPrice() {
-        return newPrice;
-    }
-
-    public void setNewPrice(long newPrice) {
-        this.newPrice = newPrice;
-    }
-
     public void setProduct_price(long product_price) {
         this.product_price = product_price;
     }
@@ -165,6 +155,24 @@ public class InventoryModel implements Serializable {
         } else {
             return null;
         }
+    }
+    long newPrice;
+    private String total_number_of_products;
+
+    public long getNewPrice() {
+        return newPrice;
+    }
+
+    public void setNewPrice(long newPrice) {
+        this.newPrice = newPrice;
+    }
+
+    public String getTotal_number_of_products() {
+        return total_number_of_products;
+    }
+
+    public void setTotal_number_of_products(String total_number_of_products) {
+        this.total_number_of_products = total_number_of_products;
     }
 
 }
