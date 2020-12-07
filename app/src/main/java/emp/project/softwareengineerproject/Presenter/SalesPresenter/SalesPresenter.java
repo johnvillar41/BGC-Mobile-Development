@@ -13,17 +13,20 @@ import java.util.List;
 import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
 import emp.project.softwareengineerproject.Interface.ISales.ISales;
 import emp.project.softwareengineerproject.Model.SalesModel;
+import emp.project.softwareengineerproject.View.SalesView.SalesActivityView;
 
 public class SalesPresenter implements ISales.ISalesPresenter {
 
     private ISales.ISalesView view;
     private ISales.ISalesService service;
     private SalesModel model;
+    private SalesActivityView context;
 
-    public SalesPresenter(ISales.ISalesView view) {
+    public SalesPresenter(ISales.ISalesView view, SalesActivityView context) {
         this.view = view;
         this.model = new SalesModel();
         this.service = new SalesService();
+        this.context = context;
     }
 
     @Override
@@ -37,8 +40,29 @@ public class SalesPresenter implements ISales.ISalesPresenter {
     }
 
     @Override
-    public void onLoadPage() throws SQLException, ClassNotFoundException {
-        view.displayTotalBalance(String.valueOf(service.getTotalTransactionsFromDB()));
+    public void onLoadPage() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final String totalTransactions = String.valueOf(service.getTotalTransactionsFromDB());
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayProgressIndicator();
+                            view.displayTotalBalance(totalTransactions);
+                            view.hideProgressIndicator();
+                        }
+                    });
+
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }); thread.start();
+
     }
 
     private class SalesService implements ISales.ISalesService {
@@ -64,7 +88,7 @@ public class SalesPresenter implements ISales.ISalesPresenter {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 model = new SalesModel(resultSet.getString(1), resultSet.getBlob(2), resultSet.getString(3),
-                        resultSet.getLong(4),resultSet.getString(5),resultSet.getString(6),resultSet.getString(7));
+                        resultSet.getLong(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7));
                 list.add(model);
             }
             return list;

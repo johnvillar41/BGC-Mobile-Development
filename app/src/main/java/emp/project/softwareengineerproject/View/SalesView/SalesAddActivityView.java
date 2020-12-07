@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.progressindicator.ProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.sql.SQLException;
@@ -36,6 +37,7 @@ import emp.project.softwareengineerproject.R;
 
 public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd.ISalesAddView {
     private ISalesAdd.ISalesAddPresenter presenter;
+    private ProgressIndicator progressIndicator;
     RecyclerView recyclerView;
 
     @Override
@@ -63,8 +65,9 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
         FloatingActionButton floatingActionButton_Cart = findViewById(R.id.fab_cart);
         recyclerView = findViewById(R.id.recyclerView_Sale);
+        progressIndicator = findViewById(R.id.progressBar_AddSales);
 
-        presenter = new SalesAddPresenter(this);
+        presenter = new SalesAddPresenter(this, this);
         presenter.directProductList();
         floatingActionButton_Cart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +160,16 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
     public void displayOnErrorMessage(String message, View v) {
         Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_SHORT);
         snackbar.show();
+    }
+
+    @Override
+    public void displayProgressIndicator() {
+        progressIndicator.show();
+    }
+
+    @Override
+    public void hideProgressIndicator() {
+        progressIndicator.hide();
     }
 
     @Override

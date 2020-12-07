@@ -15,6 +15,10 @@ public interface ISales {
         void goToSaleActivity();
 
         void goToTransActionActivity();
+
+        void displayProgressIndicator();
+
+        void hideProgressIndicator();
     }
     interface ISalesPresenter{
         void onCreateSaleClicked();

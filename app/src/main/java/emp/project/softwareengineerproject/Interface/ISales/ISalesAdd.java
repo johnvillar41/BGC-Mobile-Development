@@ -20,6 +20,10 @@ public interface ISalesAdd {
         void displaySuccessfullPrompt();
 
         void displayOnErrorMessage(String message, View v);
+
+        void displayProgressIndicator();
+
+        void hideProgressIndicator();
     }
 
     interface ISalesAddPresenter {

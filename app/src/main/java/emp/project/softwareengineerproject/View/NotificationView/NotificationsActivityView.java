@@ -1,12 +1,5 @@
 package emp.project.softwareengineerproject.View.NotificationView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.icu.text.SimpleDateFormat;
@@ -20,9 +13,17 @@ import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.progressindicator.ProgressIndicator;
 
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -39,6 +40,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
     INotification.INotificationPresenter presenter;
     RecyclerView recyclerView;
     CircleImageView circleImageView_empty;
+    ProgressIndicator progressIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +57,10 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
 
     @Override
     public void initViews() throws SQLException, ClassNotFoundException {
-        presenter = new NotificationPresenter(this);
+        presenter = new NotificationPresenter(this,this);
         recyclerView = findViewById(R.id.recyclerView_notification);
         circleImageView_empty = findViewById(R.id.empty_image);
+        progressIndicator = findViewById(R.id.progressBar_Notifications);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -121,6 +124,16 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
             }
         }, year, month, day);
         datePicker.show();
+    }
+
+    @Override
+    public void displayProgressIndicator() {
+        progressIndicator.show();
+    }
+
+    @Override
+    public void hideProgressIndicator() {
+        progressIndicator.hide();
     }
 
     @Override

@@ -25,17 +25,20 @@ import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Model.NotificationModel;
 import emp.project.softwareengineerproject.Model.SalesModel;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
+import emp.project.softwareengineerproject.View.SalesView.SalesAddActivityView;
 
 public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
 
     ISalesAdd.ISalesAddView view;
     ISalesAdd.ISalesAddService service;
     SalesModel model;
+    SalesAddActivityView context;
 
-    public SalesAddPresenter(ISalesAdd.ISalesAddView view) {
+    public SalesAddPresenter(ISalesAdd.ISalesAddView view, SalesAddActivityView context) {
         this.view = view;
         this.model = new SalesModel();
         this.service = new SalesAddService();
+        this.context = context;
     }
 
     @Override
@@ -44,8 +47,31 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
     }
 
     @Override
-    public void directProductList() throws SQLException, ClassNotFoundException {
-        view.displayProductRecyclerView(service.getProductListFromDB());
+    public void directProductList() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final List<InventoryModel> productList = service.getProductListFromDB();
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayProgressIndicator();
+                            view.displayProductRecyclerView(productList);
+                            view.hideProgressIndicator();
+                        }
+                    });
+
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+
     }
 
     @Override
@@ -54,10 +80,10 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
             model = new SalesModel(SalesModel.cartList.get(i).getProduct_picture(), SalesModel.cartList.get(i).getProduct_name(),
                     SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products());
             try {
-                if(service.insertOrderToDB(model)){
+                if (service.insertOrderToDB(model)) {
                     view.displaySuccessfullPrompt();
                 } else {
-                    view.displayOnErrorMessage("Number of products not enough",v);
+                    view.displayOnErrorMessage("Number of products not enough", v);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -68,7 +94,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
 
     }
 
-    private class SalesAddService implements ISalesAdd.ISalesAddService {
+    private static class SalesAddService implements ISalesAdd.ISalesAddService {
 
         private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
         private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();
@@ -86,7 +112,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
         @Override
         public boolean insertOrderToDB(SalesModel model) throws SQLException, ClassNotFoundException {
             strictMode();
-            if(checkIfProductIsEnough(model.getProduct_id(),model.getTotal_number_of_products())){
+            if (checkIfProductIsEnough(model.getProduct_id(), model.getTotal_number_of_products())) {
                 String sql = "INSERT INTO sales_table(sales_title,sales_image,sales_transaction_value,product_id,total_number_of_products) VALUES(?,?,?,?,?)";
                 Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);

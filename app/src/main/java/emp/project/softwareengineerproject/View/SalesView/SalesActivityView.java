@@ -16,8 +16,10 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.progressindicator.ProgressIndicator;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Interface.ISales.ISales;
@@ -29,6 +31,7 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
     private ImageView image_create_sale;
     private CircleImageView image_view_transactions;
     private ISales.ISalesPresenter presenter;
+    private ProgressIndicator progressIndicator;
 
 
     @Override
@@ -52,6 +55,7 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
         txtBalance = findViewById(R.id.txt_balance);
         image_create_sale = findViewById(R.id.image_create_sale);
         image_view_transactions = findViewById(R.id.image_view_transactions);
+        progressIndicator = findViewById(R.id.progressBar_Sales);
 
         //Using Glide library to load images to avoid crash
         Glide.with(this).load(R.drawable.ic_money).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_create_sale);
@@ -62,9 +66,9 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
 
-        presenter = new SalesPresenter(this);
+        presenter = new SalesPresenter(this,SalesActivityView.this);
 
         presenter.onLoadPage();
 
@@ -97,7 +101,10 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
 
     @Override
     public void displayTotalBalance(String totalBalance) {
-        txtBalance.setText(totalBalance);
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        decimalFormat.setGroupingUsed(true);
+        decimalFormat.setGroupingSize(3);
+        txtBalance.setText(decimalFormat.format(Integer.parseInt(totalBalance)));
     }
 
     @Override
@@ -110,6 +117,16 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
     public void goToTransActionActivity() {
         Intent intent = new Intent(this, SalesTransactionView.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void displayProgressIndicator() {
+        progressIndicator.show();
+    }
+
+    @Override
+    public void hideProgressIndicator() {
+        progressIndicator.hide();
     }
 
     @Override

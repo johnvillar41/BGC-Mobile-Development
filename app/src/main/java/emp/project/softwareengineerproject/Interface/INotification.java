@@ -12,6 +12,10 @@ public interface INotification {
         void displayNotificationRecyclerView(List<NotificationModel> list_notifs);
 
         void showDatePicker();
+
+        void displayProgressIndicator();
+
+        void hideProgressIndicator();
     }
 
     interface INotificationPresenter {
