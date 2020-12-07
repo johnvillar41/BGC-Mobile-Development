@@ -6,6 +6,7 @@ import com.mysql.jdbc.Blob;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,13 +31,18 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
     }
 
     @Override
-    public void onCartButtonClicked() {
-        view.displayCart();
+    public void onCartButtonClicked(List<InventoryModel> cartList) {
+        view.displayCart(cartList);
     }
 
     @Override
     public void directProductList() throws SQLException, ClassNotFoundException {
         view.displayProductRecyclerView(service.getProductListFromDB());
+    }
+
+    @Override
+    public void onConfirmButtonClicked() {
+        //calculate total value
     }
 
     private class SalesAddService implements ISalesAdd.ISalesAddService {
@@ -54,8 +60,14 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
         }
 
         @Override
-        public void insertOrderToDB() {
-
+        public void insertOrderToDB() throws SQLException, ClassNotFoundException {
+            strictMode();
+            String sql = "INSERT INTO sales_table VALUES(?,?,?)";
+            Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,model.getSales_title());
+            preparedStatement.setBlob(2,model.getSales_image());
+            //preparedStatement
         }
 
         @Override

@@ -29,8 +29,6 @@
     <string name="welcome">Welcome!</string>
     <string name="name_here">Name here</string>
     <string name="user_id">User ID</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
     <string name="full_name">Full Name</string>
     <string name="enter_username">Enter Username</string>
     <string name="enter_password_here">Enter Password Here</string>

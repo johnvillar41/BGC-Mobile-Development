@@ -6,9 +6,7 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,8 +18,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.mysql.jdbc.Blob;
 
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -53,7 +49,7 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        InventoryModel model = getItem(position);
+        final InventoryModel model = getItem(position);
         final Blob b = model.getProduct_picture();
         final int[] blobLength = new int[1];
         try {
@@ -65,19 +61,14 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
             e.printStackTrace();
         }
         holder.txt_productName.setText(model.getProduct_name());
-        Integer[] arrNumber = new Integer[10];
-        for (int i = 0; i < arrNumber.length; i++) {
-            arrNumber[i] = i+1;
-        }
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(context,android.R.layout.simple_spinner_dropdown_item, arrNumber);
-        holder.spinner_total_number.setAdapter(adapter);
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(holder.spinner_total_number.getVisibility()==View.INVISIBLE)
-                    holder.spinner_total_number.setVisibility(View.VISIBLE);
-                else
-                    holder.spinner_total_number.setVisibility(View.INVISIBLE);
+                if (holder.checkBox.isChecked()) {
+                    SalesModel.cartList.add(model);
+                } else {
+                    SalesModel.cartList.remove(model);
+                }
             }
         });
 
@@ -93,14 +84,12 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
         CircleImageView circleImageView;
         TextView txt_productName;
         CheckBox checkBox;
-        Spinner spinner_total_number;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             circleImageView = itemView.findViewById(R.id.image_product);
             txt_productName = itemView.findViewById(R.id.txt_product_name);
             checkBox = itemView.findViewById(R.id.checkbox_product);
-            spinner_total_number = itemView.findViewById(R.id.spinner_number);
         }
     }
 }

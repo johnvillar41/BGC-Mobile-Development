@@ -1,6 +1,5 @@
 package emp.project.softwareengineerproject.Model;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mysql.jdbc.Blob;
 
@@ -48,6 +47,20 @@ public class InventoryModel implements Serializable {
     }
 
     public InventoryModel() {
+    }
+
+    long newPrice;
+
+    public long getNewPrice() {
+        return newPrice;
+    }
+
+    public void setNewPrice(long newPrice) {
+        this.newPrice = newPrice;
+    }
+
+    public void setProduct_price(long product_price) {
+        this.product_price = product_price;
     }
 
     public InputStream getUpload_picture() {
@@ -153,4 +166,5 @@ public class InventoryModel implements Serializable {
             return null;
         }
     }
+
 }

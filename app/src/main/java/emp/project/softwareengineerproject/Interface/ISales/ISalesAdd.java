@@ -10,20 +10,23 @@ public interface ISalesAdd {
     interface ISalesAddView {
         void initViews() throws SQLException, ClassNotFoundException;
 
-        void displayCart();
+        void displayCart(List<InventoryModel> cartList);
 
         void displayProductRecyclerView(List<InventoryModel> list);
     }
 
     interface ISalesAddPresenter {
-        void onCartButtonClicked();
+        void onCartButtonClicked(List<InventoryModel> salesModels);
 
         void directProductList() throws SQLException, ClassNotFoundException;
+
+        void onConfirmButtonClicked();
     }
 
     interface ISalesAddService extends IServiceStrictMode {
-        void insertOrderToDB();
+        void insertOrderToDB() throws SQLException, ClassNotFoundException;
 
         List<InventoryModel> getProductListFromDB() throws ClassNotFoundException, SQLException;
+
     }
 }

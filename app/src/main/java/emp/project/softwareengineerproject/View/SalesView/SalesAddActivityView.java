@@ -1,12 +1,5 @@
 package emp.project.softwareengineerproject.View.SalesView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +7,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -22,12 +24,14 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
 import emp.project.softwareengineerproject.Model.InventoryModel;
+import emp.project.softwareengineerproject.Model.SalesModel;
 import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesAddPresenter;
 import emp.project.softwareengineerproject.R;
 
 public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd.ISalesAddView {
     private ISalesAdd.ISalesAddPresenter presenter;
     RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,25 +63,58 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         floatingActionButton_Cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.onCartButtonClicked();
+                presenter.onCartButtonClicked(SalesModel.cartList);
             }
         });
     }
 
     @Override
-    public void displayCart() {
+    public void displayCart(List<InventoryModel> cartList) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
 
         View dialogView = inflater.inflate(R.layout.custom_popup_cart, null);
         dialogBuilder.setView(dialogView);
-        //add algo here
 
-        AlertDialog alertDialog = dialogBuilder.create();
+        final RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerView_cart);
+        Button btn_back = dialogView.findViewById(R.id.btn_back);
+        Button btn_confirm = dialogView.findViewById(R.id.btn_confirm);
+
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(SalesAddActivityView.this, LinearLayoutManager.VERTICAL, false);
+        SalesAddRecyclerView2 adapter = new SalesAddRecyclerView2(
+                cartList, SalesAddActivityView.this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        final AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         alertDialog.show();
 
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        btn_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //db operations
+                long total_price = 0;
+                for (int i = 0; i < SalesModel.cartList.size(); i++) {
+                    total_price += SalesModel.cartList.get(i).getNewPrice();
+                }
+                Toast.makeText(SalesAddActivityView.this,String.valueOf(total_price),Toast.LENGTH_SHORT).show();
+            }
+        });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        SalesModel.cartList.clear();
+        super.onBackPressed();
     }
 
     @Override
@@ -93,6 +130,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            SalesModel.cartList.clear();
             this.finish();
         }
         return super.onOptionsItemSelected(item);
