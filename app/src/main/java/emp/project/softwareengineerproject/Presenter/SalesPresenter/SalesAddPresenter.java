@@ -57,7 +57,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                 if(service.insertOrderToDB(model)){
                     view.displaySuccessfullPrompt();
                 } else {
-                    view.displayOnErrorMessage("Error",v);
+                    view.displayOnErrorMessage("Number of products not enough",v);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

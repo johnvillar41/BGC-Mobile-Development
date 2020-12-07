@@ -142,7 +142,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                 preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_name=?," +
                         "product_description=?,product_price=?,product_stocks=?,product_category=? WHERE product_id=?");
                 preparedStatement.setString(1, model.getProduct_name());
-                preparedStatement.setString(2, model.getProduct_id());
+                preparedStatement.setString(2, model.getProduct_description());
                 preparedStatement.setLong(3, model.getProduct_price());
                 preparedStatement.setInt(4, model.getProduct_stocks());
                 preparedStatement.setString(5, model.getProduct_category());
