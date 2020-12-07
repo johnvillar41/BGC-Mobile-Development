@@ -1,5 +1,7 @@
 package emp.project.softwareengineerproject.Interface.ISales;
 
+import android.view.View;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,6 +16,10 @@ public interface ISalesAdd {
         void displayCart(List<InventoryModel> cartList);
 
         void displayProductRecyclerView(List<InventoryModel> list);
+
+        void displaySuccessfullPrompt();
+
+        void displayOnErrorMessage(String message, View v);
     }
 
     interface ISalesAddPresenter {
@@ -21,13 +27,15 @@ public interface ISalesAdd {
 
         void directProductList() throws SQLException, ClassNotFoundException;
 
-        void onConfirmButtonClicked();
+        void onConfirmButtonClicked(View v);
     }
 
     interface ISalesAddService extends IServiceStrictMode {
-        void insertOrderToDB(SalesModel model) throws SQLException, ClassNotFoundException;
+        boolean insertOrderToDB(SalesModel model) throws SQLException, ClassNotFoundException;
 
         List<InventoryModel> getProductListFromDB() throws ClassNotFoundException, SQLException;
+
+        boolean checkIfProductIsEnough(String product_id,String total_orders) throws ClassNotFoundException, SQLException;
 
     }
 }

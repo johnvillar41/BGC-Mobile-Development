@@ -1,6 +1,9 @@
 package emp.project.softwareengineerproject.View.SalesView;
 
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -8,15 +11,19 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -99,7 +106,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.onConfirmButtonClicked();
+                presenter.onConfirmButtonClicked(v);
             }
         });
 
@@ -119,6 +126,37 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
                 list, SalesAddActivityView.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void displaySuccessfullPrompt() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_popup_check, null);
+        dialogBuilder.setView(dialogView);
+
+        AnimatedVectorDrawableCompat avd;
+        AnimatedVectorDrawable avd2;
+        ImageView imageView_done = dialogView.findViewById(R.id.done_check);
+        Drawable drawable = imageView_done.getDrawable();
+        if (drawable instanceof AnimatedVectorDrawableCompat) {
+            avd = (AnimatedVectorDrawableCompat) drawable;
+            avd.start();
+        } else if (drawable instanceof AnimatedVectorDrawable) {
+            avd2 = (AnimatedVectorDrawable) drawable;
+            avd2.start();
+        }
+
+        final AlertDialog dialog = dialogBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    @Override
+    public void displayOnErrorMessage(String message, View v) {
+        Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 
     @Override

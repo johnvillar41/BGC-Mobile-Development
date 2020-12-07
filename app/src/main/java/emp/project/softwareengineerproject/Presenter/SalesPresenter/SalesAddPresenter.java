@@ -2,6 +2,7 @@ package emp.project.softwareengineerproject.Presenter.SalesPresenter;
 
 import android.os.Build;
 import android.os.StrictMode;
+import android.view.View;
 
 import androidx.annotation.RequiresApi;
 
@@ -48,14 +49,16 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
     }
 
     @Override
-    public void onConfirmButtonClicked() {
-        long total_price = 0;
+    public void onConfirmButtonClicked(View v) {
         for (int i = 0; i < SalesModel.cartList.size(); i++) {
-            //total_price += SalesModel.cartList.get(i).getNewPrice();
             model = new SalesModel(SalesModel.cartList.get(i).getProduct_picture(), SalesModel.cartList.get(i).getProduct_name(),
                     SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products());
             try {
-                service.insertOrderToDB(model);
+                if(service.insertOrderToDB(model)){
+                    view.displaySuccessfullPrompt();
+                } else {
+                    view.displayOnErrorMessage("Error",v);
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -81,40 +84,45 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
-        public void insertOrderToDB(SalesModel model) throws SQLException, ClassNotFoundException {
+        public boolean insertOrderToDB(SalesModel model) throws SQLException, ClassNotFoundException {
             strictMode();
-            String sql = "INSERT INTO sales_table(sales_title,sales_image,sales_transaction_value,product_id,total_number_of_products) VALUES(?,?,?,?,?)";
-            Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, model.getSales_title());
-            preparedStatement.setBlob(2, model.getSales_image());
-            preparedStatement.setLong(3, model.getProduct_total());
-            preparedStatement.setString(4, model.getProduct_id());
-            preparedStatement.setString(5, model.getTotal_number_of_products());
-            preparedStatement.execute();
+            if(checkIfProductIsEnough(model.getProduct_id(),model.getTotal_number_of_products())){
+                String sql = "INSERT INTO sales_table(sales_title,sales_image,sales_transaction_value,product_id,total_number_of_products) VALUES(?,?,?,?,?)";
+                Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, model.getSales_title());
+                preparedStatement.setBlob(2, model.getSales_image());
+                preparedStatement.setLong(3, model.getProduct_total());
+                preparedStatement.setString(4, model.getProduct_id());
+                preparedStatement.setString(5, model.getTotal_number_of_products());
+                preparedStatement.execute();
+
+                //Update Products
+                String sqlMinusStocks = "UPDATE products_table SET product_stocks=product_stocks-" + "'" + model.getTotal_number_of_products() + "' WHERE product_id=" + "'" +
+                        model.getProduct_id() + "'";
+                Statement statement = connection.createStatement();
+                statement.execute(sqlMinusStocks);
 
 
-            //Update Products
-            String sqlMinusStocks = "UPDATE products_table SET product_stocks=product_stocks-" + "'" + model.getTotal_number_of_products() + "' WHERE product_id="+"'"+
-                    model.getProduct_id()+"'";
-            Statement statement = connection.createStatement();
-            statement.execute(sqlMinusStocks);
+                //Update Notifications
+                String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+                NotificationModel notificationModel;
+                notificationModel = new NotificationModel("Added sales", "Added sales " + model.getSales_title(), String.valueOf(dtf.format(now)),
+                        MainMenuActivityView.GET_PREFERENCES_REALNAME);
+                com.mysql.jdbc.PreparedStatement preparedStatement2 = (com.mysql.jdbc.PreparedStatement) connection.prepareStatement(sqlNotification);
+                preparedStatement2.setString(1, notificationModel.getNotif_title());
+                preparedStatement2.setString(2, notificationModel.getNotif_content());
+                preparedStatement2.setString(3, notificationModel.getNotif_date());
+                preparedStatement2.setString(4, notificationModel.getUser_name());
+                preparedStatement2.execute();
+                preparedStatement2.close();
+                return true;
+            } else {
+                return false;
+            }
 
-
-            //Update Notifications
-            String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            NotificationModel notificationModel;
-            notificationModel = new NotificationModel("Added sales", "Added sales " + model.getSales_title(), String.valueOf(dtf.format(now)),
-                    MainMenuActivityView.GET_PREFERENCES_REALNAME);
-            com.mysql.jdbc.PreparedStatement preparedStatement2 = (com.mysql.jdbc.PreparedStatement) connection.prepareStatement(sqlNotification);
-            preparedStatement2.setString(1, notificationModel.getNotif_title());
-            preparedStatement2.setString(2, notificationModel.getNotif_content());
-            preparedStatement2.setString(3, notificationModel.getNotif_date());
-            preparedStatement2.setString(4, notificationModel.getUser_name());
-            preparedStatement2.execute();
-            preparedStatement2.close();
 
         }
 
@@ -134,6 +142,24 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                 list.add(model);
             }
             return list;
+        }
+
+        @Override
+        public boolean checkIfProductIsEnough(String product_id, String total_orders) throws ClassNotFoundException, SQLException {
+            strictMode();
+            boolean isValid = false;
+            String sqlSelect = "SELECT product_stocks FROM products_table WHERE product_id=" + "'" + product_id + "'";
+            Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlSelect);
+            while (resultSet.next()) {
+                if (Integer.parseInt(resultSet.getString(1)) < Integer.parseInt(total_orders)) {
+                    isValid = false;
+                } else {
+                    isValid = true;
+                }
+            }
+            return isValid;
         }
 
 
