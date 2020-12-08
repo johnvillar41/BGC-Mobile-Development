@@ -30,6 +30,7 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.progressindicator.ProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mysql.jdbc.Blob;
@@ -45,6 +46,7 @@ import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryUpdatePresenter;
 import emp.project.softwareengineerproject.R;
+
 @SuppressLint("StaticFieldLeak")
 public class InventoryUpdateView extends AppCompatActivity implements IUpdateInventory.IUupdateInventoryView {
 
@@ -58,6 +60,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     private Button btn_save;
     private Button btn_cancel;
     private Toolbar toolbar;
+    private ProgressIndicator progressIndicator;
     static InputStream fileInputStream;
 
     private IUpdateInventory.IUpdatePresenter presenter;
@@ -74,7 +77,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void initViews() {
-        presenter = new InventoryUpdatePresenter(this);
+        presenter = new InventoryUpdatePresenter(this, this);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -90,6 +93,8 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         txt_product_category = findViewById(R.id.txt_product_category);
         btn_save = findViewById(R.id.btn_save);
         btn_cancel = findViewById(R.id.btn_back);
+        progressIndicator = findViewById(R.id.progressBar_Inventory);
+        progressIndicator.hide();
         Glide.with(this).load(R.drawable.add_image).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(IMAGE_VIEW);
         try {
             presenter.displayHints(InventoryRecyclerView.PRODUCT_MODEL);
@@ -100,41 +105,60 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void setHints(final InventoryModel model) throws SQLException {
-        if (!model.getProduct_id().equals("-1")) {//This checks the id of the current product
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setTitle("Update Product");
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
-            editText_productTitle.setHint(model.getProduct_name());
-            txt_product_description.setHint(model.getProduct_description());
-            txt_product_Price.setHint(String.valueOf(model.getProduct_price()));
-            txt_product_Stocks.setHint(String.valueOf(model.getProduct_stocks()));
-            txt_product_category.setHint(model.getProduct_category());
-            Blob b;
-            b = model.getProduct_picture();
-            int blobLength;
+        try {
+            if (!model.getProduct_id().equals("-1")) {//This checks the id of the current product
+                setSupportActionBar(toolbar);
+                getSupportActionBar().setTitle("Update Product");
+                getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
+                editText_productTitle.setHint(model.getProduct_name());
+                txt_product_description.setHint(model.getProduct_description());
+                txt_product_Price.setHint(String.valueOf(model.getProduct_price()));
+                txt_product_Stocks.setHint(String.valueOf(model.getProduct_stocks()));
+                txt_product_category.setHint(model.getProduct_category());
+                Blob b;
+                b = model.getProduct_picture();
+                int blobLength;
 
-            blobLength = (int) b.length();
-            final byte[] blobAsBytes = b.getBytes(1, blobLength);
-            Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-            Glide.with(this).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(IMAGE_VIEW);
+                blobLength = (int) b.length();
+                final byte[] blobAsBytes = b.getBytes(1, blobLength);
+                Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
+                Glide.with(this).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(IMAGE_VIEW);
 
-            btn_save.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        presenter.onSaveProductButtonClicked(model.getProduct_id(),
+                btn_save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            presenter.onSaveProductButtonClicked(model.getProduct_id(),
+                                    editText_productTitle,
+                                    txt_product_description,
+                                    txt_product_Price,
+                                    txt_product_Stocks, fileInputStream,
+                                    txt_product_category, v);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+            } else {
+                setSupportActionBar(toolbar);
+                getSupportActionBar().setTitle("Add Product");
+                getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
+                Intent intent = getIntent();
+                btn_save.setText(intent.getStringExtra("Button_Name"));
+                btn_save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        presenter.onAddProductButtonClicked(
                                 editText_productTitle,
                                 txt_product_description,
                                 txt_product_Price,
                                 txt_product_Stocks, fileInputStream,
                                 txt_product_category, v);
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
-
-                }
-            });
-        } else {
+                });
+            }
+        } catch (NullPointerException e) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle("Add Product");
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
@@ -164,6 +188,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 presenter.onCancelButtonClicked();
             }
         });
+
     }
 
     @Override
@@ -183,6 +208,16 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, IMAGE_PICK_CODE);
+    }
+
+    @Override
+    public void showProgressIndicator() {
+        progressIndicator.show();
+    }
+
+    @Override
+    public void hideProgressIndicator() {
+        progressIndicator.hide();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

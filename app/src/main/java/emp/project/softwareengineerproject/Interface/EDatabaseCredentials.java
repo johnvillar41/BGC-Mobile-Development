@@ -2,16 +2,19 @@ package emp.project.softwareengineerproject.Interface;
 
 public enum EDatabaseCredentials {
 
+
     DB_NAME("jdbc:mysql://192.168.1.152:3306/agt_db"),
     USER("admin"),
     PASS("admin");
 
 
-   /*
-    DB_NAME("jdbc:mysql://192.168.254.121:3306/agt_db"),
+
+
+
+    /*DB_NAME("jdbc:mysql://192.168.254.123:3306/agt_db"),
     USER("admin"),
-    PASS("admin");
-    */
+    PASS("admin");*/
+
 
 
 

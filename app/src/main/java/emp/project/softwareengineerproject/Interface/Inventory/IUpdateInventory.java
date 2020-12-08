@@ -24,6 +24,10 @@ public interface IUpdateInventory {
 
         void loadImageFromGallery();
 
+        void showProgressIndicator();
+
+        void hideProgressIndicator();
+
         void showCheckAnimation();
     }
 
