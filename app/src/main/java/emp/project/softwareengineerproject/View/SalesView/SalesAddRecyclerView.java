@@ -3,6 +3,7 @@ package emp.project.softwareengineerproject.View.SalesView;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,7 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final InventoryModel model = getItem(position);
         final Blob b = model.getProduct_picture();
+
         final int[] blobLength = new int[1];
         try {
             blobLength[0] = (int) b.length();
@@ -60,7 +62,14 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        if (model.getProduct_stocks() == 0) {
+            holder.checkBox.setVisibility(View.GONE);
+            holder.txtProduct_stocks.setTextColor(Color.parseColor("#FD0303"));
+        } else {
+            holder.checkBox.setVisibility(View.VISIBLE);
+        }
         holder.txt_productName.setText(model.getProduct_name());
+        holder.txtProduct_stocks.setText(String.valueOf(model.getProduct_stocks()));
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +91,7 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView circleImageView;
-        TextView txt_productName;
+        TextView txt_productName, txtProduct_stocks;
         CheckBox checkBox;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -90,6 +99,7 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
             circleImageView = itemView.findViewById(R.id.image_product);
             txt_productName = itemView.findViewById(R.id.txt_product_name);
             checkBox = itemView.findViewById(R.id.checkbox_product);
+            txtProduct_stocks = itemView.findViewById(R.id.txt_product_stocks);
         }
     }
 }

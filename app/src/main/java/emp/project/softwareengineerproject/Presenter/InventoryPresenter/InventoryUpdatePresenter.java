@@ -116,7 +116,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                           final InputStream inputStream,
                                           final TextInputLayout product_category,
                                           final View v) {
-
+        //This is a lame execution of thread but this will work for now
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -135,49 +135,56 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                 product_price,
                                 product_stocks,
                                 inputStream, product_category);
+                        if (modelFinal[0] != null) {
+                            Thread thread1 = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        service.addNewProduct(model.validateProductOnAdd(product_name,
+                                                product_description,
+                                                product_price,
+                                                product_stocks,
+                                                inputStream, product_category));
+                                        context.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                view.showCheckAnimation();
+                                                view.displayStatusMessage("Successfully creating product!", v);
+                                                view.hideProgressIndicator();
+                                            }
+                                        });
+                                    } catch (final PacketTooBigException e) {
+                                        context.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                view.displayStatusMessage(e.getMessage(), v);
+                                                view.hideProgressIndicator();
+                                            }
+                                        });
+                                    } catch (ClassNotFoundException | SQLException e) {
+                                        context.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                view.displayStatusMessage(e.getMessage(), v);
+                                                view.hideProgressIndicator();
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                            thread1.start();
+                        } else {
+                            context.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.displayStatusMessage("Error creating product!", v);
+                                    view.hideProgressIndicator();
+                                }
+                            });
+                        }
                     }
                 });
-                if (modelFinal[0] != null) {
-                    try {
-                        service.addNewProduct(model.validateProductOnAdd(product_name,
-                                product_description,
-                                product_price,
-                                product_stocks,
-                                inputStream, product_category));
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.showCheckAnimation();
-                                view.displayStatusMessage("Successfully creating product!", v);
-                                view.hideProgressIndicator();
-                            }
-                        });
-                    } catch (final PacketTooBigException e) {
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.displayStatusMessage(e.getMessage(), v);
-                                view.hideProgressIndicator();
-                            }
-                        });
-                    } catch (ClassNotFoundException | SQLException e) {
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.displayStatusMessage(e.getMessage(), v);
-                                view.hideProgressIndicator();
-                            }
-                        });
-                    }
-                } else {
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.displayStatusMessage("Error creating product!", v);
-                            view.hideProgressIndicator();
-                        }
-                    });
-                }
+
             }
         });
         thread.start();

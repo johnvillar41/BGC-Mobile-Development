@@ -16,7 +16,7 @@
         tools:targetApi="lollipop" />
     <com.google.android.material.progressindicator.ProgressIndicator
         android:id="@+id/progress_bar_users"
-        app:indicatorColor="#000000"
+        app:indicatorColor="#FD0303"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="?actionBarSize"
