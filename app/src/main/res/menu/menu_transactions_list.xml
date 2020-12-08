@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_sortfab"
+        android:icon="@drawable/ic_baseline_sort_24"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item android:id="@+id/sort_by_date"
+                android:icon="@drawable/ic_date"
+                android:title="Sort By Date" />
+            <item android:id="@+id/show_all"
+                android:icon="@drawable/ic_show_all"
+                android:title="Show All Items" />
+        </menu>
+    </item>
+</menu>

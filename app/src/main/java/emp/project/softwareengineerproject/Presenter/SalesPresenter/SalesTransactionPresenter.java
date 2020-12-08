@@ -1,12 +1,17 @@
 package emp.project.softwareengineerproject.Presenter.SalesPresenter;
 
+import android.os.Build;
 import android.os.StrictMode;
+
+import androidx.annotation.RequiresApi;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +31,33 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
         this.service = new SalesService();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onLoadPageDisplay() {
+        try {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDateTime now = LocalDateTime.now();
+            view.displayRecyclerView(service.getSearchedTransactionListFromDB(dtf.format(now)));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onSearchNotificationYesClicked(String date) {
+        try {
+            view.displayRecyclerView(service.getSearchedTransactionListFromDB(date));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onShowAllListClicked() {
         try {
             view.displayRecyclerView(service.getTransactionsFromDB());
         } catch (ClassNotFoundException e) {
@@ -67,5 +97,22 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
             }
             return list;
         }
+
+        @Override
+        public List<SalesModel> getSearchedTransactionListFromDB(String date) throws ClassNotFoundException, SQLException {
+            strictMode();
+            List<SalesModel> list = new ArrayList<>();
+            String sqlGetSalesList = "SELECT * FROM sales_table WHERE sales_date="+"'"+date+"'";
+            Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlGetSalesList);
+            while (resultSet.next()) {
+                model = new SalesModel(resultSet.getString(1),  resultSet.getString(2),resultSet.getBlob(3), resultSet.getLong(4),
+                        resultSet.getString(5), resultSet.getString(6), resultSet.getString(7));
+                list.add(model);
+            }
+            return list;
+        }
+
     }
 }

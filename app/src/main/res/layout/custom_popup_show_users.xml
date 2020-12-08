@@ -13,6 +13,7 @@
             android:layout_height="30sp"
             android:background="#f9b207"/>
         <TextView
+            android:textColor="#000000"
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,6 +23,8 @@
             android:text="List of Users"
             android:textStyle="bold"/>
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_margin="5dp"
+            android:background="@drawable/background_spinner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/recyclerView_Users"/>

@@ -5,5 +5,5 @@
         android:id="@+id/action_date"
         android:title=""
         app:showAsAction="always"
-        android:icon="@drawable/ic_date" />
+        android:icon="@drawable/ic_date_black" />
 </menu>

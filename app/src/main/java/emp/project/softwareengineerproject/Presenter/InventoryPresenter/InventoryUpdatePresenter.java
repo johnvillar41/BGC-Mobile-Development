@@ -137,7 +137,6 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                 preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_picture=?" +
                         "WHERE product_id=" + "'" + model.getProduct_id() + "'");
                 preparedStatement.setBlob(1, model.getUpload_picture());
-                preparedStatement.setString(2, model.getProduct_id());
             } else {
                 preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_name=?," +
                         "product_description=?,product_price=?,product_stocks=?,product_category=? WHERE product_id=?");

@@ -1,16 +1,25 @@
 package emp.project.softwareengineerproject.View.SalesView;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.DatePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Calendar;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.ISales.ISalesTransactions;
@@ -47,6 +56,41 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_transactions_list, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            this.finish();
+        }
+        if(item.getItemId() == R.id.sort_by_date){
+            DatePickerDialog datePicker;
+            final Calendar calendar = Calendar.getInstance();
+            final int year = calendar.get(Calendar.YEAR);
+            final int month = calendar.get(Calendar.MONTH);
+            final int day = calendar.get(Calendar.DAY_OF_MONTH);
+            datePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                    calendar.set(year, month, dayOfMonth);
+                    String dateString = sdf.format(calendar.getTime());
+                    Toast.makeText(SalesTransactionView.this, dateString, Toast.LENGTH_LONG).show();
+                    presenter.onSearchNotificationYesClicked(dateString);
+                }
+            }, year, month, day);
+            datePicker.show();
+        }
+        if(item.getItemId() == R.id.show_all){
+            presenter.onShowAllListClicked();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void displayRecyclerView(final List<SalesModel> transactionList) {
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -67,11 +111,5 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
         thread.start();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            this.finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 }

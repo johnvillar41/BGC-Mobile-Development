@@ -14,8 +14,14 @@ public interface ISalesTransactions {
     }
     interface ISalesTransactionPresenter{
         void onLoadPageDisplay();
+        
+        void onSearchNotificationYesClicked(String date);
+
+        void onShowAllListClicked();
     }
     interface ISalesTransactionService extends IServiceStrictMode {
         List<SalesModel> getTransactionsFromDB() throws ClassNotFoundException, SQLException;
+
+        List<SalesModel> getSearchedTransactionListFromDB(String date) throws ClassNotFoundException, SQLException;
     }
 }
