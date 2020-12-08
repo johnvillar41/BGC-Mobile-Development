@@ -74,11 +74,15 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onConfirmButtonClicked(View v) {
         for (int i = 0; i < SalesModel.cartList.size(); i++) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDateTime now = LocalDateTime.now();
             model = new SalesModel(SalesModel.cartList.get(i).getProduct_picture(), SalesModel.cartList.get(i).getProduct_name(),
-                    SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products());
+                    SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products(),
+                    String.valueOf(dtf.format(now)));
             try {
                 if (service.insertOrderToDB(model)) {
                     view.displaySuccessfullPrompt();
@@ -113,7 +117,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
         public boolean insertOrderToDB(SalesModel model) throws SQLException, ClassNotFoundException {
             strictMode();
             if (checkIfProductIsEnough(model.getProduct_id(), model.getTotal_number_of_products())) {
-                String sql = "INSERT INTO sales_table(sales_title,sales_image,sales_transaction_value,product_id,total_number_of_products) VALUES(?,?,?,?,?)";
+                String sql = "INSERT INTO sales_table(sales_title,sales_image,sales_transaction_value,product_id,total_number_of_products,sales_date) VALUES(?,?,?,?,?,?)";
                 Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, model.getSales_title());
@@ -121,6 +125,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                 preparedStatement.setLong(3, model.getProduct_total());
                 preparedStatement.setString(4, model.getProduct_id());
                 preparedStatement.setString(5, model.getTotal_number_of_products());
+                preparedStatement.setString(6,model.getSales_date());
                 preparedStatement.execute();
 
                 //Update Products

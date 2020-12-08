@@ -87,8 +87,8 @@ public class SalesPresenter implements ISales.ISalesPresenter {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                model = new SalesModel(resultSet.getString(1), resultSet.getBlob(2), resultSet.getString(3),
-                        resultSet.getLong(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7));
+                model = new SalesModel(resultSet.getString(1),  resultSet.getString(2),resultSet.getBlob(3), resultSet.getLong(4),
+                        resultSet.getString(5), resultSet.getString(6), resultSet.getString(7));
                 list.add(model);
             }
             return list;

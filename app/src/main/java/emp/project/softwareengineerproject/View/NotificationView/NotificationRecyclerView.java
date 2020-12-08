@@ -52,8 +52,10 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
                 Glide.with(context).load(R.drawable.update_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
                 break;
             case "Added product":
-            case "Added sales":
                 Glide.with(context).load(R.drawable.add_product).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+                break;
+            case "Added sales":
+                Glide.with(context).load(R.drawable.ic_money_large).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
                 break;
         }
     }

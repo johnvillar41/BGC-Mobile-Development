@@ -5,34 +5,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SalesModel {
-    private String sales_id;
+    private String sales_id, sales_title,product_id,total_number_of_products,sales_date;
     private Blob sales_image;
-    private String sales_title;
     private long product_total;
-    private String sales_transaction;
-    private String product_id;
-    private String total_number_of_products;
 
 
     public static List<InventoryModel> cartList = new ArrayList<>();
 
 
-    public SalesModel(String sales_id, Blob sales_image, String sales_title, long product_total, String sales_transaction, String product_id, String total_number_of_products) {
+    public SalesModel(String sales_id, String sales_title,Blob sales_image,long product_total, String product_id, String total_number_of_products, String sales_date ) {
         this.sales_id = sales_id;
-        this.sales_image = sales_image;
         this.sales_title = sales_title;
-        this.product_total = product_total;
-        this.sales_transaction = sales_transaction;
         this.product_id = product_id;
         this.total_number_of_products = total_number_of_products;
+        this.sales_date = sales_date;
+        this.sales_image = sales_image;
+        this.product_total = product_total;
     }
 
-    public SalesModel(Blob sales_image, String sales_title, long product_total, String product_id, String total_number_of_products) {
+    public SalesModel(Blob sales_image, String sales_title, long product_total, String product_id, String total_number_of_products, String sales_date) {
         this.sales_image = sales_image;
         this.sales_title = sales_title;
         this.product_id = product_id;
         this.product_total = product_total;
         this.total_number_of_products = total_number_of_products;
+        this.sales_date = sales_date;
     }
 
     public String getTotal_number_of_products() {
@@ -63,8 +60,7 @@ public class SalesModel {
         return sales_title;
     }
 
-
-    public String getSales_transaction() {
-        return sales_transaction;
+    public String getSales_date() {
+        return sales_date;
     }
 }

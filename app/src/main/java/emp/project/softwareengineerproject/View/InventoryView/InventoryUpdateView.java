@@ -45,13 +45,12 @@ import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryUpdatePresenter;
 import emp.project.softwareengineerproject.R;
-
+@SuppressLint("StaticFieldLeak")
 public class InventoryUpdateView extends AppCompatActivity implements IUpdateInventory.IUupdateInventoryView {
 
     private static final int IMAGE_PICK_CODE = 1000;
     private TextInputLayout editText_productTitle;
-    @SuppressLint("StaticFieldLeak")
-    private static CircleImageView imageView;
+    private static CircleImageView IMAGE_VIEW;
     private TextInputLayout txt_product_description;
     private TextInputLayout txt_product_Price;
     private TextInputLayout txt_product_Stocks;
@@ -84,14 +83,14 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
         editText_productTitle = findViewById(R.id.txt_product_name);
-        imageView = findViewById(R.id.image_product);
+        IMAGE_VIEW = findViewById(R.id.image_product);
         txt_product_description = findViewById(R.id.txt_product_description);
         txt_product_Price = findViewById(R.id.txt_product_Price);
         txt_product_Stocks = findViewById(R.id.txt_product_Stocks);
         txt_product_category = findViewById(R.id.txt_product_category);
         btn_save = findViewById(R.id.btn_save);
         btn_cancel = findViewById(R.id.btn_back);
-        Glide.with(this).load(R.drawable.add_image).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView);
+        Glide.with(this).load(R.drawable.add_image).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(IMAGE_VIEW);
         try {
             presenter.displayHints(InventoryRecyclerView.PRODUCT_MODEL);
         } catch (SQLException e) {
@@ -104,6 +103,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         if (!model.getProduct_id().equals("-1")) {//This checks the id of the current product
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle("Update Product");
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
             editText_productTitle.setHint(model.getProduct_name());
             txt_product_description.setHint(model.getProduct_description());
             txt_product_Price.setHint(String.valueOf(model.getProduct_price()));
@@ -116,7 +116,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
             blobLength = (int) b.length();
             final byte[] blobAsBytes = b.getBytes(1, blobLength);
             Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-            Glide.with(this).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView);
+            Glide.with(this).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(IMAGE_VIEW);
 
             btn_save.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -137,6 +137,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         } else {
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle("Add Product");
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
             Intent intent = getIntent();
             btn_save.setText(intent.getStringExtra("Button_Name"));
             btn_save.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +152,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 }
             });
         }
-        imageView.setOnClickListener(new View.OnClickListener() {
+        IMAGE_VIEW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.ImageButtonClicked();
@@ -233,8 +234,8 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 e.printStackTrace();
             }
             if (originBitmap != null) {
-                imageView.setImageBitmap(originBitmap);
-                Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                IMAGE_VIEW.setImageBitmap(originBitmap);
+                Bitmap image = ((BitmapDrawable) IMAGE_VIEW.getDrawable()).getBitmap();
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                 fileInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());

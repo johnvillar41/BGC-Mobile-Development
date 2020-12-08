@@ -58,8 +58,8 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
         progressIndicator = findViewById(R.id.progressBar_Sales);
 
         //Using Glide library to load images to avoid crash
-        Glide.with(this).load(R.drawable.ic_money).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_create_sale);
-        Glide.with(this).load(R.drawable.ic_list).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_view_transactions);
+        Glide.with(this).load(R.drawable.ic_money_large).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_create_sale);
+        Glide.with(this).load(R.drawable.ic_list_large).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_view_transactions);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);

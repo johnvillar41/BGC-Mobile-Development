@@ -159,6 +159,7 @@ public class InventoryModel implements Serializable {
     long newPrice;
     private String total_number_of_products;
 
+
     public long getNewPrice() {
         return newPrice;
     }
