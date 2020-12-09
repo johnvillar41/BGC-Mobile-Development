@@ -77,9 +77,10 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onConfirmButtonClicked(final View v) {
-        Thread thread=new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                List<Boolean> isSuccessful = new ArrayList<>();
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -93,31 +94,54 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                             SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products(),
                             String.valueOf(dtf.format(now)));
                     try {
-                        if (service.insertOrderToDB(model)) {
-                            context.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    view.displaySuccessfullPrompt();
-                                    view.hideProgressIndicatorCart();
-                                }
-                            });
-                        } else {
-                            context.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    view.displayOnErrorMessage("Number of products not enough", v);
-                                    view.hideProgressIndicatorCart();
-                                }
-                            });
-                        }
+                        isSuccessful.add(service.insertOrderToDB(model));
                     } catch (SQLException e) {
-                        view.displayOnErrorMessage(e.getMessage(),v);
+                        view.displayOnErrorMessage(e.getMessage(), v);
+                        isSuccessful.add(false);
                     } catch (ClassNotFoundException e) {
-                        view.displayOnErrorMessage(e.getMessage(),v);
+                        view.displayOnErrorMessage(e.getMessage(), v);
+                        isSuccessful.add(false);
+                    }
+
+
+                }
+                boolean finalSuccess = true;
+                if (SalesModel.cartList.size() == 0) {
+                    finalSuccess = false;
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.hideProgressIndicatorCart();
+                            view.displayOnErrorMessage("Cart is Empty!",v);
+                        }
+                    });
+                }
+
+                for (int i = 0; i < isSuccessful.size(); i++) {
+                    if (!isSuccessful.get(i)) {
+                        context.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                view.displayOnErrorMessage("Number of products not enough", v);
+                                view.hideProgressIndicatorCart();
+                            }
+                        });
+                        finalSuccess = false;
+                        break;
                     }
                 }
+                if (finalSuccess) {
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displaySuccessfullPrompt();
+                            view.hideProgressIndicatorCart();
+                        }
+                    });
+                }
             }
-        });thread.start();
+        });
+        thread.start();
 
 
     }
@@ -149,7 +173,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                 preparedStatement.setLong(3, model.getProduct_total());
                 preparedStatement.setString(4, model.getProduct_id());
                 preparedStatement.setString(5, model.getTotal_number_of_products());
-                preparedStatement.setString(6,model.getSales_date());
+                preparedStatement.setString(6, model.getSales_date());
                 preparedStatement.execute();
 
                 //Update Products

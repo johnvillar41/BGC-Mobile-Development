@@ -19,6 +19,10 @@ public interface IUsers {
         void displayProgressBar();
 
         void hideProgressBar();
+
+        void displayprogressBar_UsersPopup();
+
+        void hideprogressBar_UsersPopup();
     }
 
     interface IUsersPresenter {

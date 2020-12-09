@@ -67,15 +67,31 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
 
     @Override
     public void onViewButtonClicked() {
-        try {
-            view.displayPopupUsers(service.getUsersListFromDB());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final List<UserModel> userList = service.getUsersListFromDB();
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                view.displayPopupUsers(userList);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            view.hideprogressBar_UsersPopup();
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
     }
 
     @Override

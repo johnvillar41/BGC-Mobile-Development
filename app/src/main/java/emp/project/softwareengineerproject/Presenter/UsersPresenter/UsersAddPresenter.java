@@ -62,7 +62,7 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                                         context.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                view.onStatusDisplayMessage(e.getMessage(), v);
+                                                view.displayStatusMessage(e.getMessage(), v);
                                                 view.hideProgressIndicator();
                                             }
                                         });
@@ -80,7 +80,7 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                             context.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    view.onStatusDisplayMessage("Error Adding User!", v);
+                                    view.displayStatusMessage("Error Adding User!", v);
                                     view.hideProgressIndicator();
                                 }
                             });
@@ -89,7 +89,7 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                             context.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    view.onStatusDisplayMessage("Successfully Added new User!", v);
+                                    view.displayStatusMessage("Successfully Added new User!", v);
                                     view.hideProgressIndicator();
                                     view.displayCheckAnimation();
                                 }

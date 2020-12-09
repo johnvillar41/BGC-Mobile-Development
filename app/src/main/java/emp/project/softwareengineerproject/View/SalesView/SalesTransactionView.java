@@ -7,9 +7,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.progressindicator.ProgressIndicator;
 
 import java.util.Calendar;
@@ -33,6 +38,7 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
     private ISalesTransactions.ISalesTransactionPresenter presenter;
     private RecyclerView recyclerView;
     private ProgressIndicator progressIndicator;
+    private ImageView empty_image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,7 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
     public void initViews() {
         presenter = new SalesTransactionPresenter(this, this);
         recyclerView = findViewById(R.id.recyclerView_transactions);
+        empty_image = findViewById(R.id.empty_image_transaction);
         progressIndicator = findViewById(R.id.progressBar_TransactionList);
         progressIndicator.hide();
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -109,6 +116,12 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
                                 transactionList, SalesTransactionView.this);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
+                        if (adapter.getItemCount() == 0) {
+                            Glide.with(SalesTransactionView.this).load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(empty_image);
+                            empty_image.setVisibility(View.VISIBLE);
+                        } else {
+                            empty_image.setVisibility(View.GONE);
+                        }
                     }
                 });
             }

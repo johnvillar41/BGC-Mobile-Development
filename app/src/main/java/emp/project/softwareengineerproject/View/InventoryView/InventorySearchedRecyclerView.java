@@ -3,7 +3,6 @@ package emp.project.softwareengineerproject.View.InventoryView;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,13 +44,6 @@ public class InventorySearchedRecyclerView extends RecyclerView.Adapter<Inventor
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         InventoryModel model = getItem(position);
-        if (model.getProduct_category().equals("GREENHOUSE")) {
-            holder.cardView_item.setCardBackgroundColor(Color.parseColor("#90ee90"));
-        } else if (model.getProduct_category().equals("HYDROPONICS")) {
-            holder.cardView_item.setCardBackgroundColor(Color.parseColor("#b5651d"));
-        } else {
-            holder.cardView_item.setCardBackgroundColor(Color.parseColor("#C58BE7"));
-        }
         final Blob b = model.getProduct_picture();
         final int[] blobLength = new int[1];
         try {

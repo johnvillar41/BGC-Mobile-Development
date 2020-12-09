@@ -67,19 +67,28 @@ public class UserModel {
         if (username.getEditText().getText().toString().isEmpty()) {
             username.setError("Do not leave this empty!");
             isValid = false;
+        } else {
+            username.setError(null);
         }
         if (password1.getEditText().getText().toString().isEmpty()) {
             password1.setError("Do not leave this empty!");
             isValid = false;
+        } else {
+            password1.setError(null);
         }
         if (password2.getEditText().getText().toString().isEmpty()) {
             password2.setError("Do not leave this empty!");
             isValid = false;
+        } else {
+            password2.setError(null);
         }
-        if (!password1.getEditText().getText().toString().equals(password2.getEditText().getText().toString())) {
+        if (!password1.getEditText().getText().toString().equals(password2.getEditText().getText().toString()) || password1.getEditText().getText().toString().isEmpty()) {
             password1.setError("Passwords do not match!");
             password2.setError("Passwords do not match!");
             isValid = false;
+        } else {
+            password1.setError(null);
+            password2.setError(null);
         }
         if (password1.getEditText().getText().toString().equals(password2.getEditText().getText().toString())) {
             finalPassword = password1.getEditText().getText().toString();
@@ -87,6 +96,8 @@ public class UserModel {
         if (realName.getEditText().getText().toString().isEmpty()) {
             realName.setError("Do not leave this empty!");
             isValid = false;
+        } else {
+            realName.setError(null);
         }
         if (profileImage == null) {
             isValid = false;

@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
@@ -26,7 +27,6 @@ import com.bumptech.glide.request.RequestOptions;
 import java.sql.SQLException;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryPresenter;
@@ -38,7 +38,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     private IInvetory.IinventoryPresenter presenter;
     private ProgressBar progressBar_greenHouse, progressBar_hydroponics, progressBar_others;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private CircleImageView image_empty_greenhouse, image_empty_hydroponics, image_empty_others;
+    private ImageView image_empty_greenhouse, image_empty_hydroponics, image_empty_others;
     private Spinner spinner_category;
 
     @Override
@@ -128,7 +128,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         recyclerView_GreenHouse.setAdapter(adapterGreenhouse);
         progressBar_greenHouse.setVisibility(View.INVISIBLE);
         if (adapterGreenhouse.getItemCount() == 0) {
-            Glide.with(getApplicationContext()).load(R.drawable.no_notifications_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_greenhouse);
+            Glide.with(getApplicationContext()).load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_greenhouse);
             image_empty_greenhouse.setVisibility(View.VISIBLE);
         } else {
             image_empty_greenhouse.setVisibility(View.GONE);
@@ -138,7 +138,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         recyclerView_Hydroponics.setAdapter(adapterHydroponics);
         progressBar_hydroponics.setVisibility(View.INVISIBLE);
         if (adapterHydroponics.getItemCount() == 0) {
-            Glide.with(getApplicationContext()).load(R.drawable.no_notifications_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_hydroponics);
+            Glide.with(getApplicationContext()).load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_hydroponics);
             image_empty_hydroponics.setVisibility(View.VISIBLE);
         } else {
             image_empty_hydroponics.setVisibility(View.GONE);
@@ -147,7 +147,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         recyclerView_others.setAdapter(adapterOthers);
         progressBar_others.setVisibility(View.INVISIBLE);
         if (adapterOthers.getItemCount() == 0) {
-            Glide.with(getApplicationContext()).load(R.drawable.no_notifications_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_others);
+            Glide.with(getApplicationContext()).load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_others);
             image_empty_others.setVisibility(View.VISIBLE);
         } else {
             image_empty_others.setVisibility(View.GONE);
@@ -240,7 +240,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         recyclerView_others.setAdapter(adapter);
         progressBar_others.setVisibility(View.INVISIBLE);
         if (adapter.getItemCount() == 0) {
-            Glide.with(InventoryActivityView.this).load(R.drawable.no_notifications_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_others);
+            Glide.with(InventoryActivityView.this).load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_others);
             image_empty_others.setVisibility(View.VISIBLE);
         } else {
             image_empty_others.setVisibility(View.GONE);

@@ -18,7 +18,6 @@ import android.view.animation.AnimationUtils;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,6 +47,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
     private IUsers.IUsersPresenter presenter;
     private TextInputLayout txt_user_id, txt_username, txt_password, txt_real_name;
     private ProgressIndicator progressIndicator;
+    private ProgressIndicator progressIndicatorPopup;
 
 
     @Override
@@ -68,7 +68,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
 
     @Override
     public void initViews() throws SQLException, ClassNotFoundException {
-        presenter = new UsersPresenter(this,this);
+        presenter = new UsersPresenter(this, this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -123,34 +123,22 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
     }
 
     @Override
-    public void displayPopupUsers(final List<UserModel> userList) throws InterruptedException {
+    public void displayPopupUsers(final List<UserModel> userList) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(UsersActivityView.this);
         LayoutInflater inflater = (UsersActivityView.this).getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.custom_popup_show_users, null);
         dialogBuilder.setView(dialogView);
 
-        final RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerView_Users);
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final LinearLayoutManager layoutManager
-                        = new LinearLayoutManager(UsersActivityView.this, LinearLayoutManager.VERTICAL, false);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        UserRecyclerView adapter = new UserRecyclerView(
-                                userList, UsersActivityView.this);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter);
-                    }
-                });
-            }
-        });
-        thread.start();
-        thread.join();
+        RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerView_Users);
+        progressIndicatorPopup = dialogView.findViewById(R.id.progressBar_UsersPopup);
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(UsersActivityView.this, LinearLayoutManager.VERTICAL, false);
+        UserRecyclerView adapter = new UserRecyclerView(
+                userList, UsersActivityView.this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
-
-        final AlertDialog dialog = dialogBuilder.create();
+        AlertDialog dialog = dialogBuilder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.show();
     }
@@ -169,6 +157,16 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
     @Override
     public void hideProgressBar() {
         progressIndicator.hide();
+    }
+
+    @Override
+    public void displayprogressBar_UsersPopup() {
+        progressIndicatorPopup.show();
+    }
+
+    @Override
+    public void hideprogressBar_UsersPopup() {
+        progressIndicatorPopup.hide();
     }
 
     @Override

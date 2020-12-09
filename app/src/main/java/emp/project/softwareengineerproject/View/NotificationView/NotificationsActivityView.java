@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,7 +30,6 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Interface.INotification;
 import emp.project.softwareengineerproject.Model.NotificationModel;
 import emp.project.softwareengineerproject.Presenter.NotificationPresenter;
@@ -39,7 +39,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
 
     INotification.INotificationPresenter presenter;
     RecyclerView recyclerView;
-    CircleImageView circleImageView_empty;
+    ImageView circleImageView_empty;
     ProgressIndicator progressIndicator;
 
     @Override
@@ -73,30 +73,25 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
 
     @Override
     public void displayNotificationRecyclerView(final List<NotificationModel> list_notifs) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final LinearLayoutManager layoutManager
-                        = new LinearLayoutManager(NotificationsActivityView.this, LinearLayoutManager.VERTICAL, false);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        NotificationRecyclerView adapter = new NotificationRecyclerView(
-                                NotificationsActivityView.this, list_notifs);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter);
-                        if (adapter.getItemCount() == 0) {
-                            Glide.with(NotificationsActivityView.this).load(R.drawable.no_notifications_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(circleImageView_empty);
-                            circleImageView_empty.setVisibility(View.VISIBLE);
-                        } else {
-                            circleImageView_empty.setVisibility(View.GONE);
-                        }
-                    }
-                });
-            }
-        });
-        thread.start();
+
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(NotificationsActivityView.this, LinearLayoutManager.VERTICAL, false);
+        NotificationRecyclerView adapter = new NotificationRecyclerView(
+                NotificationsActivityView.this, list_notifs);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        if (adapter.getItemCount() == 0) {
+            Glide.with(NotificationsActivityView.this).load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(circleImageView_empty);
+            circleImageView_empty.setVisibility(View.VISIBLE);
+        } else {
+            circleImageView_empty.setVisibility(View.GONE);
+        }
     }
+
+
+
+
+
 
     @Override
     public void showDatePicker() {

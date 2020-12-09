@@ -1,10 +1,12 @@
 package emp.project.softwareengineerproject.View.SalesView;
 
+import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,12 +14,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
@@ -161,8 +165,14 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
 
     @Override
     public void displayOnErrorMessage(String message, View v) {
-        Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_SHORT);
-        snackbar.show();
+        Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
+        snack.getView().setBackgroundColor(Color.parseColor("#f9b207"));
+        View view = snack.getView();
+        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+        tv.setTextColor(ContextCompat.getColor(SalesAddActivityView.this, R.color.black));
+        tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
+        tv.setGravity(Gravity.CENTER);
+        snack.show();
     }
 
     @Override

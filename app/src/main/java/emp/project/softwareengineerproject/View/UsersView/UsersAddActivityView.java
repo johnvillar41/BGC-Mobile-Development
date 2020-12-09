@@ -3,6 +3,7 @@ package emp.project.softwareengineerproject.View.UsersView;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -10,12 +11,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +26,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import com.bumptech.glide.Glide;
@@ -110,8 +114,15 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
     }
 
     @Override
-    public void onStatusDisplayMessage(String message, View v) {
-        Snackbar.make(v, message, Snackbar.LENGTH_SHORT).show();
+    public void displayStatusMessage(String message, View v) {
+        Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
+        snack.getView().setBackgroundColor(Color.parseColor("#f9b207"));
+        View view = snack.getView();
+        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+        tv.setTextColor(ContextCompat.getColor(UsersAddActivityView.this, R.color.black));
+        tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
+        tv.setGravity(Gravity.CENTER);
+        snack.show();
     }
 
     @Override
