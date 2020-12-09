@@ -64,8 +64,8 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:clickable="true"
                     android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_width="150sp"
+                    android:layout_height="150sp"
                     android:id="@+id/image_product"
                     android:focusable="true" />
                 <TextView

@@ -15,6 +15,14 @@
         android:background="#f9b207"
         app:title="Transaction Lists"
         app:titleTextColor="#000000" />
+    <com.google.android.material.progressindicator.ProgressIndicator
+        android:id="@+id/progressBar_TransactionList"
+        style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Indeterminate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        app:indicatorColor="#FD0303"
+        tools:targetApi="lollipop" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_transactions"
         android:layout_width="match_parent"

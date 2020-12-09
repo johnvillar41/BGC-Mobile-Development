@@ -21,27 +21,86 @@ import emp.project.softwareengineerproject.Interface.IUsers.IUsersAdd;
 import emp.project.softwareengineerproject.Model.NotificationModel;
 import emp.project.softwareengineerproject.Model.UserModel;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
+import emp.project.softwareengineerproject.View.UsersView.UsersAddActivityView;
 
 public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
     IUsersAdd.IUsersAddView view;
     IUsersAdd.IUsersAddService service;
     UserModel model;
+    UsersAddActivityView context;
 
-    public UsersAddPresenter(IUsersAdd.IUsersAddView view) {
+    public UsersAddPresenter(IUsersAdd.IUsersAddView view, UsersAddActivityView context) {
         this.view = view;
         this.service = new UsersAddService();
         this.model = new UserModel();
+        this.context = context;
     }
 
     @Override
-    public void onAddButtonClicked(TextInputLayout username, TextInputLayout password1, TextInputLayout password2, TextInputLayout realName, InputStream profileImage, View v) throws SQLException, ClassNotFoundException {
-        UserModel newModel = model.validateAddUsers(username, password1, password2, realName, profileImage);
-        if (newModel != null) {
-            service.insertNewUserToDB(newModel);
-            view.onStatusDisplayMessage("Successfully Added new User!", v);
-        } else {
-            view.onStatusDisplayMessage("Error Adding User!", v);
-        }
+    public void onAddButtonClicked(final TextInputLayout username, final TextInputLayout password1, final TextInputLayout password2,
+                                   final TextInputLayout realName, final InputStream profileImage, final View v) {
+
+        Thread thread = new Thread(new Runnable() {
+            Boolean ifSuccess = true;
+
+            @Override
+            public void run() {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressIndicator();
+                        final UserModel newModel = model.validateAddUsers(username, password1, password2, realName, profileImage);
+                        if (newModel != null) {
+
+                            final Thread thread1 = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        service.insertNewUserToDB(newModel);
+                                    } catch (final Exception e) {
+                                        ifSuccess = false;
+                                        context.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                view.onStatusDisplayMessage(e.getMessage(), v);
+                                                view.hideProgressIndicator();
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                            thread1.start();
+                            try {
+                                thread1.join();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            ifSuccess = false;
+                            context.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.onStatusDisplayMessage("Error Adding User!", v);
+                                    view.hideProgressIndicator();
+                                }
+                            });
+                        }
+                        if (ifSuccess) {
+                            context.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.onStatusDisplayMessage("Successfully Added new User!", v);
+                                    view.hideProgressIndicator();
+                                    view.displayCheckAnimation();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+        thread.start();
+
     }
 
     @Override
@@ -77,7 +136,6 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
             preparedStatement.setBlob(4, model.getUploadUserImage());
             preparedStatement.execute();
             preparedStatement.close();
-            connection.close();
 
             //notification for new account
             String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";

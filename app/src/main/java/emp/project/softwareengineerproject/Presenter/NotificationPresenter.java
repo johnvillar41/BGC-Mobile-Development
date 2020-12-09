@@ -73,8 +73,28 @@ public class NotificationPresenter implements INotification.INotificationPresent
     }
 
     @Override
-    public void onSearchNotificationYesClicked(String date) throws SQLException, ClassNotFoundException {
-        view.displayNotificationRecyclerView(service.fetchNotifsFromDB(date));
+    public void onSearchNotificationYesClicked(final String date) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressIndicator();
+                        try {
+                            view.displayNotificationRecyclerView(service.fetchNotifsFromDB(date));
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        view.hideProgressIndicator();
+                    }
+                });
+            }
+        });
+        thread.start();
+
     }
 
     private class NotificationService implements INotification.INotificationService {

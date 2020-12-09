@@ -11,6 +11,10 @@ public interface ISalesTransactions {
         void initViews();
 
         void displayRecyclerView(List<SalesModel>transactionList);
+
+        void displayProgressIndicator();
+
+        void hideProgressIndicator();
     }
     interface ISalesTransactionPresenter{
         void onLoadPageDisplay();

@@ -18,53 +18,127 @@ import java.util.List;
 import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesTransactions;
 import emp.project.softwareengineerproject.Model.SalesModel;
+import emp.project.softwareengineerproject.View.SalesView.SalesTransactionView;
 
 public class SalesTransactionPresenter implements ISalesTransactions.ISalesTransactionPresenter {
 
     ISalesTransactions.ISalesTransactionsView view;
     SalesModel model;
     ISalesTransactions.ISalesTransactionService service;
+    SalesTransactionView context;
 
-    public SalesTransactionPresenter(ISalesTransactions.ISalesTransactionsView view) {
+    public SalesTransactionPresenter(ISalesTransactions.ISalesTransactionsView view, SalesTransactionView context) {
         this.view = view;
         this.model = new SalesModel();
         this.service = new SalesService();
+        this.context = context;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onLoadPageDisplay() {
-        try {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            LocalDateTime now = LocalDateTime.now();
-            view.displayRecyclerView(service.getSearchedTransactionListFromDB(dtf.format(now)));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressIndicator();
+                    }
+                });
+                try {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                    LocalDateTime now = LocalDateTime.now();
+                    final List<SalesModel> transactionList = service.getSearchedTransactionListFromDB(dtf.format(now));
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayRecyclerView(transactionList);
+                            view.hideProgressIndicator();
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.hideProgressIndicator();
+                        }
+                    });
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.hideProgressIndicator();
+                        }
+                    });
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 
     @Override
-    public void onSearchNotificationYesClicked(String date) {
-        try {
-            view.displayRecyclerView(service.getSearchedTransactionListFromDB(date));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void onSearchNotificationYesClicked(final String date) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressIndicator();
+                    }
+                });
+                try {
+                    final List<SalesModel> transactionList = service.getSearchedTransactionListFromDB(date);
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayRecyclerView(transactionList);
+                            view.hideProgressIndicator();
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
     }
 
     @Override
     public void onShowAllListClicked() {
-        try {
-            view.displayRecyclerView(service.getTransactionsFromDB());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressIndicator();
+                    }
+                });
+                try {
+                    final List<SalesModel> transactionList = service.getTransactionsFromDB();
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayRecyclerView(transactionList);
+                            view.hideProgressIndicator();
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
     }
 
     private class SalesService implements ISalesTransactions.ISalesTransactionService {
@@ -91,7 +165,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlGetSalesList);
             while (resultSet.next()) {
-                model = new SalesModel(resultSet.getString(1),  resultSet.getString(2),resultSet.getBlob(3), resultSet.getLong(4),
+                model = new SalesModel(resultSet.getString(1), resultSet.getString(2), resultSet.getBlob(3), resultSet.getLong(4),
                         resultSet.getString(5), resultSet.getString(6), resultSet.getString(7));
                 list.add(model);
             }
@@ -102,12 +176,12 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
         public List<SalesModel> getSearchedTransactionListFromDB(String date) throws ClassNotFoundException, SQLException {
             strictMode();
             List<SalesModel> list = new ArrayList<>();
-            String sqlGetSalesList = "SELECT * FROM sales_table WHERE sales_date="+"'"+date+"'";
+            String sqlGetSalesList = "SELECT * FROM sales_table WHERE sales_date=" + "'" + date + "'";
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlGetSalesList);
             while (resultSet.next()) {
-                model = new SalesModel(resultSet.getString(1),  resultSet.getString(2),resultSet.getBlob(3), resultSet.getLong(4),
+                model = new SalesModel(resultSet.getString(1), resultSet.getString(2), resultSet.getBlob(3), resultSet.getLong(4),
                         resultSet.getString(5), resultSet.getString(6), resultSet.getString(7));
                 list.add(model);
             }

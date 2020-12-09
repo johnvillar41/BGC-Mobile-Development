@@ -61,7 +61,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     private Button btn_cancel;
     private Toolbar toolbar;
     private ProgressIndicator progressIndicator;
-    static InputStream fileInputStream;
+    static InputStream FILE_INPUT_STREAM;
 
     private IUpdateInventory.IUpdatePresenter presenter;
 
@@ -132,7 +132,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                     editText_productTitle,
                                     txt_product_description,
                                     txt_product_Price,
-                                    txt_product_Stocks, fileInputStream,
+                                    txt_product_Stocks, FILE_INPUT_STREAM,
                                     txt_product_category, v);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -153,7 +153,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                 editText_productTitle,
                                 txt_product_description,
                                 txt_product_Price,
-                                txt_product_Stocks, fileInputStream,
+                                txt_product_Stocks, FILE_INPUT_STREAM,
                                 txt_product_category, v);
                     }
                 });
@@ -171,7 +171,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                             editText_productTitle,
                             txt_product_description,
                             txt_product_Price,
-                            txt_product_Stocks, fileInputStream,
+                            txt_product_Stocks, FILE_INPUT_STREAM,
                             txt_product_category, v);
                 }
             });
@@ -246,36 +246,55 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap originBitmap = null;
-        Uri selectedImage;
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressIndicator.show();
+                    }
+                });
+                Bitmap originBitmap = null;
+                Uri selectedImage;
+                try {
+                    selectedImage = data.getData();
+                } catch (NullPointerException e) {
+                    return;
+                }
 
-        try {
-            selectedImage = data.getData();
-        } catch (NullPointerException e) {
-            return;
-        }
+                InputStream imageStream;
 
-        InputStream imageStream;
+                if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK
+                        && null != data) {
 
-        if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK
-                && null != data) {
+                    try {
+                        imageStream = getContentResolver().openInputStream(selectedImage);
+                        originBitmap = BitmapFactory.decodeStream(imageStream);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    if (originBitmap != null) {
+                        final Bitmap finalOriginBitmap = originBitmap;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                IMAGE_VIEW.setImageBitmap(finalOriginBitmap);
+                                Bitmap image = ((BitmapDrawable) IMAGE_VIEW.getDrawable()).getBitmap();
+                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                FILE_INPUT_STREAM = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+                                progressIndicator.hide();
+                            }
+                        });
 
-            try {
-                imageStream = getContentResolver().openInputStream(selectedImage);
-                originBitmap = BitmapFactory.decodeStream(imageStream);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                    }
+                }
             }
-            if (originBitmap != null) {
-                IMAGE_VIEW.setImageBitmap(originBitmap);
-                Bitmap image = ((BitmapDrawable) IMAGE_VIEW.getDrawable()).getBitmap();
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                fileInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-            }
-        }
+        });thread.start();
+
     }
 
 

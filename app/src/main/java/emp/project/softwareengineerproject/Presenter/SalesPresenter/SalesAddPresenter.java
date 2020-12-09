@@ -76,25 +76,49 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onConfirmButtonClicked(View v) {
-        for (int i = 0; i < SalesModel.cartList.size(); i++) {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            LocalDateTime now = LocalDateTime.now();
-            model = new SalesModel(SalesModel.cartList.get(i).getProduct_picture(), SalesModel.cartList.get(i).getProduct_name(),
-                    SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products(),
-                    String.valueOf(dtf.format(now)));
-            try {
-                if (service.insertOrderToDB(model)) {
-                    view.displaySuccessfullPrompt();
-                } else {
-                    view.displayOnErrorMessage("Number of products not enough", v);
+    public void onConfirmButtonClicked(final View v) {
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressIndicatorCart();
+                    }
+                });
+                for (int i = 0; i < SalesModel.cartList.size(); i++) {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                    LocalDateTime now = LocalDateTime.now();
+                    model = new SalesModel(SalesModel.cartList.get(i).getProduct_picture(), SalesModel.cartList.get(i).getProduct_name(),
+                            SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products(),
+                            String.valueOf(dtf.format(now)));
+                    try {
+                        if (service.insertOrderToDB(model)) {
+                            context.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.displaySuccessfullPrompt();
+                                    view.hideProgressIndicatorCart();
+                                }
+                            });
+                        } else {
+                            context.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.displayOnErrorMessage("Number of products not enough", v);
+                                    view.hideProgressIndicatorCart();
+                                }
+                            });
+                        }
+                    } catch (SQLException e) {
+                        view.displayOnErrorMessage(e.getMessage(),v);
+                    } catch (ClassNotFoundException e) {
+                        view.displayOnErrorMessage(e.getMessage(),v);
+                    }
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
-        }
+        });thread.start();
+
 
     }
 

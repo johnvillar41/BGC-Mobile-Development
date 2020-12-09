@@ -19,6 +19,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.progressindicator.ProgressIndicator;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -30,6 +32,7 @@ import emp.project.softwareengineerproject.R;
 public class SalesTransactionView extends AppCompatActivity implements ISalesTransactions.ISalesTransactionsView {
     private ISalesTransactions.ISalesTransactionPresenter presenter;
     private RecyclerView recyclerView;
+    private ProgressIndicator progressIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +46,10 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
 
     @Override
     public void initViews() {
-        presenter = new SalesTransactionPresenter(this);
-        recyclerView=findViewById(R.id.recyclerView_transactions);
-
+        presenter = new SalesTransactionPresenter(this, this);
+        recyclerView = findViewById(R.id.recyclerView_transactions);
+        progressIndicator = findViewById(R.id.progressBar_TransactionList);
+        progressIndicator.hide();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,12 +64,13 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
         getMenuInflater().inflate(R.menu.menu_transactions_list, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             this.finish();
         }
-        if(item.getItemId() == R.id.sort_by_date){
+        if (item.getItemId() == R.id.sort_by_date) {
             DatePickerDialog datePicker;
             final Calendar calendar = Calendar.getInstance();
             final int year = calendar.get(Calendar.YEAR);
@@ -84,7 +89,7 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
             }, year, month, day);
             datePicker.show();
         }
-        if(item.getItemId() == R.id.show_all){
+        if (item.getItemId() == R.id.show_all) {
             presenter.onShowAllListClicked();
         }
         return super.onOptionsItemSelected(item);
@@ -109,6 +114,16 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
             }
         });
         thread.start();
+    }
+
+    @Override
+    public void displayProgressIndicator() {
+        progressIndicator.show();
+    }
+
+    @Override
+    public void hideProgressIndicator() {
+        progressIndicator.hide();
     }
 
 

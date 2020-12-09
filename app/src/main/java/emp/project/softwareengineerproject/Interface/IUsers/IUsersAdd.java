@@ -17,6 +17,12 @@ public interface IUsersAdd {
         void loadImageFromGallery();
 
         void onStatusDisplayMessage(String message, View v);
+
+        void displayProgressIndicator();
+
+        void hideProgressIndicator();
+
+        void displayCheckAnimation();
     }
 
     interface IUsersAddPresenter {

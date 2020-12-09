@@ -14,6 +14,16 @@
         android:background="#f9b207"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"/>
+    <com.google.android.material.progressindicator.ProgressIndicator
+        android:id="@+id/progressBar_AddNewUsers"
+        style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Indeterminate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="?actionBarSize"
+        android:elevation="10dp"
+        app:indicatorColor="#FD0303"
+        tools:targetApi="lollipop" />
     <LinearLayout
         android:gravity="center"
         android:layout_width="match_parent"

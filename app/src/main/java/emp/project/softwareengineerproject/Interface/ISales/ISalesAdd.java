@@ -24,6 +24,10 @@ public interface ISalesAdd {
         void displayProgressIndicator();
 
         void hideProgressIndicator();
+
+        void displayProgressIndicatorCart();
+
+        void hideProgressIndicatorCart();
     }
 
     interface ISalesAddPresenter {

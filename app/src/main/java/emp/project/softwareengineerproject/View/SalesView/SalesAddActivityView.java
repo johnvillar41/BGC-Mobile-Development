@@ -38,6 +38,7 @@ import emp.project.softwareengineerproject.R;
 public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd.ISalesAddView {
     private ISalesAdd.ISalesAddPresenter presenter;
     private ProgressIndicator progressIndicator;
+    private ProgressIndicator progressIndicatorCart;
     RecyclerView recyclerView;
 
     @Override
@@ -88,6 +89,8 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         final RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerView_cart);
         Button btn_back = dialogView.findViewById(R.id.btn_back);
         Button btn_confirm = dialogView.findViewById(R.id.btn_confirm);
+        progressIndicatorCart = dialogView.findViewById(R.id.progressBar_Cart);
+        progressIndicatorCart.hide();
 
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(SalesAddActivityView.this, LinearLayoutManager.VERTICAL, false);
@@ -170,6 +173,16 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
     @Override
     public void hideProgressIndicator() {
         progressIndicator.hide();
+    }
+
+    @Override
+    public void displayProgressIndicatorCart() {
+        progressIndicatorCart.show();
+    }
+
+    @Override
+    public void hideProgressIndicatorCart() {
+        progressIndicatorCart.hide();
     }
 
     @Override
