@@ -1,6 +1,8 @@
 package emp.project.softwareengineerproject.Presenter.UsersPresenter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.StrictMode;
 
 import java.sql.Connection;
@@ -14,6 +16,7 @@ import java.util.List;
 import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.View.LoginActivityView;
 import emp.project.softwareengineerproject.View.UsersView.UsersActivityView;
 
 public class UsersPresenter implements IUsers.IUsersPresenter {
@@ -80,7 +83,6 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            view.hideprogressBar_UsersPopup();
                         }
                     });
                 } catch (ClassNotFoundException e) {
@@ -97,6 +99,29 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
     @Override
     public void onAddButtonClicked() {
         view.goToAddPage();
+    }
+
+    @Override
+    public void onEditAccountButtonClicked(String id, String username, String password, String fullname) {
+        if (!view.makeTextViewsEdittable()) {
+            try {
+                model = new UserModel(id, username, password, fullname);
+                if (service.updateNewUserCredentials(model)) {
+                    view.displayStatusMessage("Saving... Please Wait");
+                    SharedPreferences sharedPreferences = context.getSharedPreferences(LoginActivityView.MyPREFERENCES_USERNAME, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.apply();
+                    context.finish();
+                    Intent intent = new Intent(context, LoginActivityView.class);
+                    context.startActivity(intent);
+                } else {
+                    view.displayStatusMessage("Error!");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private class UsersService implements IUsers.IUsersService {
@@ -143,6 +168,24 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                 list.add(model);
             }
             return list;
+        }
+
+        @Override
+        public boolean updateNewUserCredentials(UserModel model) {
+            boolean isSuccesfull;
+            try {
+                Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+                String sqlUpdate = "UPDATE login_table " +
+                        "SET user_username='" + model.getUser_username() + "',user_password='" + model.getUser_password() + "',user_name='" + model.getUser_full_name() + "'" +
+                        "WHERE user_id='" + model.getUser_id() + "'";
+                Statement statement = connection.createStatement();
+                statement.execute(sqlUpdate);
+                isSuccesfull = true;
+            } catch (Exception e) {
+                isSuccesfull = false;
+            }
+            return isSuccesfull;
+
         }
     }
 }

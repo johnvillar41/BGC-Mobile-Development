@@ -20,7 +20,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
 
     @Override
     public void onPageLoad() {
-
+        
     }
 
     private class ReportsService implements IReports.IReportsService {

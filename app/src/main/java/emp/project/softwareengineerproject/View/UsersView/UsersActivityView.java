@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -47,7 +48,6 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
     private IUsers.IUsersPresenter presenter;
     private TextInputLayout txt_user_id, txt_username, txt_password, txt_real_name;
     private ProgressIndicator progressIndicator;
-    private ProgressIndicator progressIndicatorPopup;
 
 
     @Override
@@ -83,6 +83,9 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         txt_username = findViewById(R.id.user_username);
         txt_password = findViewById(R.id.user_password);
         txt_real_name = findViewById(R.id.user_real_name);
+        txt_username.setEnabled(false);
+        txt_password.setEnabled(false);
+        txt_real_name.setEnabled(false);
         cardView = findViewById(R.id.cardView_Profile);
         progressIndicator = findViewById(R.id.progress_bar_users);
         progressIndicator.hide();
@@ -130,7 +133,6 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         dialogBuilder.setView(dialogView);
 
         RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerView_Users);
-        progressIndicatorPopup = dialogView.findViewById(R.id.progressBar_UsersPopup);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(UsersActivityView.this, LinearLayoutManager.VERTICAL, false);
         UserRecyclerView adapter = new UserRecyclerView(
@@ -160,13 +162,27 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
     }
 
     @Override
-    public void displayprogressBar_UsersPopup() {
-        progressIndicatorPopup.show();
+    public boolean makeTextViewsEdittable() {
+        boolean isEnabled;
+        if (txt_password.isEnabled() || txt_password.isEnabled() || txt_real_name.isEnabled()) {
+            displayStatusMessage("Saved");
+            txt_username.setEnabled(false);
+            txt_password.setEnabled(false);
+            txt_real_name.setEnabled(false);
+            isEnabled = false;
+        } else {
+            displayStatusMessage("You can now Edit your credentials! To save your credentials click on edit icon again!");
+            txt_username.setEnabled(true);
+            txt_password.setEnabled(true);
+            txt_real_name.setEnabled(true);
+            isEnabled = true;
+        }
+        return isEnabled;
     }
 
     @Override
-    public void hideprogressBar_UsersPopup() {
-        progressIndicatorPopup.hide();
+    public void displayStatusMessage(String message) {
+        Toast.makeText(UsersActivityView.this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -182,6 +198,13 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         }
         if (item.getItemId() == R.id.action_addfav) {
             presenter.onAddButtonClicked();
+        }
+        if (item.getItemId() == R.id.action_editfav) {
+            presenter.onEditAccountButtonClicked(
+                    txt_user_id.getEditText().getText().toString(),
+                    txt_username.getEditText().getText().toString(),
+                    txt_password.getEditText().getText().toString(),
+                    txt_real_name.getEditText().getText().toString());
         }
         return super.onOptionsItemSelected(item);
     }

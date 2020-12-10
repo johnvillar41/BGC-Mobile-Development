@@ -192,7 +192,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
     }
 
     @Override
-    public void displayHints(InventoryModel model) throws SQLException {
+    public void onPageLoadHints(InventoryModel model) throws SQLException {
         view.setHints(model);
     }
 

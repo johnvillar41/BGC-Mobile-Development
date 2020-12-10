@@ -20,9 +20,9 @@ public interface IUsers {
 
         void hideProgressBar();
 
-        void displayprogressBar_UsersPopup();
+        boolean makeTextViewsEdittable();
 
-        void hideprogressBar_UsersPopup();
+        void displayStatusMessage(String message);
     }
 
     interface IUsersPresenter {
@@ -31,6 +31,8 @@ public interface IUsers {
         void onViewButtonClicked();
 
         void onAddButtonClicked();
+
+        void onEditAccountButtonClicked(String id,String username,String password,String fullname);
     }
 
     interface IUsersService extends IServiceStrictMode {
@@ -38,5 +40,7 @@ public interface IUsers {
         UserModel getUserProfileFromDB(String user_id) throws ClassNotFoundException, SQLException;
 
         List<UserModel>getUsersListFromDB() throws ClassNotFoundException, SQLException;
+
+        boolean updateNewUserCredentials(UserModel model) throws SQLException;
     }
 }

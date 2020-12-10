@@ -48,7 +48,7 @@ public interface IUpdateInventory {
                                        TextInputLayout product_category,
                                        View v);
 
-        void displayHints(InventoryModel model) throws SQLException;
+        void onPageLoadHints(InventoryModel model) throws SQLException;
 
         void ImageButtonClicked();
     }

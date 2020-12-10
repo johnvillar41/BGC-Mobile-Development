@@ -101,7 +101,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         progressIndicator.hide();
         Glide.with(this).load(R.drawable.add_image).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(IMAGE_VIEW);
         try {
-            presenter.displayHints(InventoryRecyclerView.PRODUCT_MODEL);
+            presenter.onPageLoadHints(InventoryRecyclerView.PRODUCT_MODEL);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -272,6 +272,12 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 try {
                     selectedImage = data.getData();
                 } catch (NullPointerException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressIndicator.hide();
+                        }
+                    });
                     return;
                 }
 
@@ -292,11 +298,21 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                             @Override
                             public void run() {
                                 IMAGE_VIEW.setImageBitmap(finalOriginBitmap);
-                                Bitmap image = ((BitmapDrawable) IMAGE_VIEW.getDrawable()).getBitmap();
-                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                                image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                                FILE_INPUT_STREAM = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-                                progressIndicator.hide();
+                                Thread thread1=new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Bitmap image = ((BitmapDrawable) IMAGE_VIEW.getDrawable()).getBitmap();
+                                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                        image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                        FILE_INPUT_STREAM = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progressIndicator.hide();
+                                            }
+                                        });
+                                    }
+                                });thread1.start();
                             }
                         });
 

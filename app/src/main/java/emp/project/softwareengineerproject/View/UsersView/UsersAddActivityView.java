@@ -68,7 +68,7 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
 
     @Override
     public void initViews() {
-        presenter = new UsersAddPresenter(this,this);
+        presenter = new UsersAddPresenter(this, this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -165,7 +165,7 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Thread thread=new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
@@ -179,6 +179,12 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
                 try {
                     selectedImage = data.getData();
                 } catch (NullPointerException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressIndicator.hide();
+                        }
+                    });
                     return;
                 }
 
@@ -199,18 +205,29 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
                             @Override
                             public void run() {
                                 PROFILE_PICTURE.setImageBitmap(finalOriginBitmap);
-                                Bitmap image = ((BitmapDrawable) PROFILE_PICTURE.getDrawable()).getBitmap();
-                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                                image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                                FILE_INPUT_STREAM = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-                                progressIndicator.hide();
-
+                                Thread thread1 = new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Bitmap image = ((BitmapDrawable) PROFILE_PICTURE.getDrawable()).getBitmap();
+                                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                        image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                        FILE_INPUT_STREAM = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progressIndicator.hide();
+                                            }
+                                        });
+                                    }
+                                });
+                                thread1.start();
                             }
                         });
                     }
                 }
             }
-        });thread.start();
+        });
+        thread.start();
 
     }
 
