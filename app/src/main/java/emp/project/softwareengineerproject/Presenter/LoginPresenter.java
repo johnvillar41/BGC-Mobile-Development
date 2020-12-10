@@ -1,6 +1,5 @@
 package emp.project.softwareengineerproject.Presenter;
 
-import android.app.Activity;
 import android.os.StrictMode;
 import android.view.View;
 
@@ -62,7 +61,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                view.onError("User not found!", v);
+                                view.onError("Error!", v);
                                 view.hideProgressBar();
                             }
                         });
@@ -100,20 +99,16 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
         public boolean checkLoginCredentialsDB(UserModel model) throws ClassNotFoundException, SQLException {
             strictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-            String sqlSearch = "SELECT * FROM login_table WHERE user_username=?";
+            String sqlSearch = "SELECT * FROM login_table WHERE user_username=? AND user_password=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlSearch);
             preparedStatement.setString(1, model.getUser_username());
+            preparedStatement.setString(2,model.getUser_password());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 LoginPresenter.USER_REAL_NAME = resultSet.getString(4);
-                resultSet.close();
-                preparedStatement.close();
-                connection.close();
                 return true;
             } else {
-                resultSet.close();
-                preparedStatement.close();
-                connection.close();
+
                 return false;
             }
         }

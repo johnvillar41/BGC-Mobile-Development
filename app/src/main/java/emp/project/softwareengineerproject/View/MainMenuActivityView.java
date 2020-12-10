@@ -1,8 +1,5 @@
 package emp.project.softwareengineerproject.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +11,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -176,6 +176,9 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
             presenter.directUsernameDisplay();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+        }
+        if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES_USERNAME, null) == null) {
+            this.finish();
         }
         super.onResume();
     }

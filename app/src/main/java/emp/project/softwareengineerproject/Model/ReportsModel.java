@@ -1,22 +1,22 @@
 package emp.project.softwareengineerproject.Model;
 
 public class ReportsModel {
-    private int sales_transaction_value;
-    private String sales_date;
+    private int date_month;
+    private float total_transactions_monthly;
 
-    public ReportsModel(String sales_date, int sales_transaction_value) {
-        this.sales_date = sales_date;
-        this.sales_transaction_value = sales_transaction_value;
+    public ReportsModel(int date_month, float total_transactions_monthly) {
+        this.date_month = date_month;
+        this.total_transactions_monthly = total_transactions_monthly;
     }
 
     public ReportsModel() {
     }
 
-    public String getSales_date() {
-        return sales_date;
+    public int getDate_month() {
+        return date_month;
     }
 
-    public int getSales_transaction_value() {
-        return sales_transaction_value;
+    public float getTotal_transactions_monthly() {
+        return total_transactions_monthly;
     }
 }
