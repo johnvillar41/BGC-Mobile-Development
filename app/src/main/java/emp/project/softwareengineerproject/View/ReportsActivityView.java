@@ -44,7 +44,7 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
 
     @Override
     public void initViews() throws SQLException, ClassNotFoundException {
-        presenter = new ReportsPresenter(this);
+        presenter = new ReportsPresenter(this,this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,7 +66,7 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
                     i));
         }
 
-        BarDataSet bardataset = new BarDataSet(entries, "Cells");
+        BarDataSet bardataset = new BarDataSet(entries, "");
 
 
         ArrayList<String> labels = new ArrayList<>();
@@ -85,6 +85,7 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
 
         BarData data = new BarData(labels, bardataset);
         barChart.setData(data);
+        barChart.setDescription("Total Sales Monthly");
 
         bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
 
