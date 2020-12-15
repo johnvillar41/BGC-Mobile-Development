@@ -39,20 +39,19 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         strictMode();
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         PreparedStatement preparedStatement;
-        if (model.getUpload_picture() != null) {
-            preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_picture=?" +
-                    "WHERE product_id=" + "'" + model.getProduct_id() + "'");
-            preparedStatement.setBlob(1, model.getUpload_picture());
-        } else {
+
+
+
             preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_name=?," +
-                    "product_description=?,product_price=?,product_stocks=?,product_category=? WHERE product_id=?");
+                    "product_description=?,product_price=?,product_stocks=?,product_category=?,product_picture=?WHERE product_id=?");
             preparedStatement.setString(1, model.getProduct_name());
             preparedStatement.setString(2, model.getProduct_description());
             preparedStatement.setLong(3, model.getProduct_price());
             preparedStatement.setInt(4, model.getProduct_stocks());
             preparedStatement.setString(5, model.getProduct_category());
-            preparedStatement.setString(6, model.getProduct_id());
-        }
+            preparedStatement.setBlob(6, model.getUpload_picture());
+            preparedStatement.setString(7, model.getProduct_id());
+
         preparedStatement.executeUpdate();
 
         String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";

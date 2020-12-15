@@ -94,7 +94,6 @@ public class InventoryModel implements Serializable {
     }
 
     public InventoryModel validateProductOnUpdate(TextInputLayout[] text, InputStream upload_picture, String product_id) {
-        //getting the values from the parameters then checking whether one editText is empty and thus if empty get the value from hints
         String[] textData = new String[5];
         for (int i = 0; i < text.length; i++) {
             if (text[i].getEditText().getText().toString().isEmpty()) {
@@ -106,12 +105,12 @@ public class InventoryModel implements Serializable {
 
         return new InventoryModel(
                 product_id,
-                textData[0],
-                textData[1],
+                String.valueOf(textData[0]),
+                String.valueOf(textData[1]),
                 Long.parseLong(textData[2]),
                 Integer.parseInt(textData[3]),
                 upload_picture,
-                textData[4]);
+                String.valueOf(textData[4]));
     }
 
    public InventoryModel validateProductOnAdd(TextInputLayout product_name,
