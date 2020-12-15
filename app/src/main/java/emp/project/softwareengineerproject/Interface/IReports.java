@@ -10,7 +10,11 @@ public interface IReports {
     interface IReportsView{
         void initViews() throws SQLException, ClassNotFoundException;
 
-        void displayCharts(ArrayList<ReportsModel> chartList);
+        void displayBarChart(ArrayList<ReportsModel> chartList);
+
+        void displayProgressIndicator();
+
+        void hideProgressIndicator();
     }
     interface IReportsPresenter{
         void onPageLoad() throws SQLException, ClassNotFoundException;

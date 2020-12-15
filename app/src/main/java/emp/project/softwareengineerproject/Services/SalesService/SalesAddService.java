@@ -53,7 +53,7 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
             preparedStatement.setString(4, model.getProduct_id());
             preparedStatement.setString(5, model.getTotal_number_of_products());
             preparedStatement.setString(6, model.getSales_date());
-            preparedStatement.setString(7,model.getDate_month());
+            preparedStatement.setString(7, model.getDate_month());
             preparedStatement.execute();
 
             //Update Products
@@ -112,11 +112,16 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlSelect);
         while (resultSet.next()) {
-            if (Integer.parseInt(resultSet.getString(1)) < Integer.parseInt(total_orders)) {
+            try {
+                if (resultSet.getInt(1) < Integer.parseInt(total_orders)) {
+                    isValid = false;
+                } else {
+                    isValid = true;
+                }
+            } catch(Exception e) {
                 isValid = false;
-            } else {
-                isValid = true;
             }
+
         }
         return isValid;
     }

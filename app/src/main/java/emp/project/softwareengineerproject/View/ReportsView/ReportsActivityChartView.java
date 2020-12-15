@@ -1,6 +1,7 @@
-package emp.project.softwareengineerproject.View;
+package emp.project.softwareengineerproject.View.ReportsView;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,6 +15,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.progressindicator.ProgressIndicator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,15 +25,25 @@ import emp.project.softwareengineerproject.Model.ReportsModel;
 import emp.project.softwareengineerproject.Presenter.ReportsPresenter;
 import emp.project.softwareengineerproject.R;
 
-public class ReportsActivityView extends AppCompatActivity implements IReports.IReportsView {
+public class ReportsActivityChartView extends AppCompatActivity implements IReports.IReportsView {
     IReports.IReportsPresenter presenter;
+    ProgressIndicator progressIndicator;
+
+    /**
+     * 1)Barchart-DONE
+     * TODO:
+     * 2)PieChart
+     * 3)Summary Report per month,List of all sales product by user(admin),Total value of sales monthly
+     * c)List of user logs(List of sales made by user and their total contribution)(Total value of sales per user)
+     *
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_reports_view);
+        setContentView(R.layout.activity_reports_chart_view);
 
         try {
             initViews();
@@ -44,8 +56,10 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
 
     @Override
     public void initViews() throws SQLException, ClassNotFoundException {
-        presenter = new ReportsPresenter(this,this);
+        presenter = new ReportsPresenter(this, this);
 
+        progressIndicator = findViewById(R.id.progressBar_Reports);
+        progressIndicator.hide();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -56,7 +70,7 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
     }
 
     @Override
-    public void displayCharts(ArrayList<ReportsModel> chartList) {
+    public void displayBarChart(ArrayList<ReportsModel> chartList) {
 
         BarChart barChart = (BarChart) findViewById(R.id.barChart);
 
@@ -67,7 +81,6 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
         }
 
         BarDataSet bardataset = new BarDataSet(entries, "");
-
 
         ArrayList<String> labels = new ArrayList<>();
         labels.add("Jan");
@@ -92,6 +105,22 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
         barChart.animateY(5000);
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_report, menu);
+        return true;
+    }
+
+    @Override
+    public void displayProgressIndicator() {
+        progressIndicator.show();
+    }
+
+    @Override
+    public void hideProgressIndicator() {
+        progressIndicator.hide();
     }
 
     @Override

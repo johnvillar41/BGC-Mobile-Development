@@ -60,9 +60,9 @@ public class SalesAddRecyclerView2 extends RecyclerView.Adapter<SalesAddRecycler
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Integer[] arrNums = new Integer[10];
+        Integer[] arrNums = new Integer[11];
         for (int i = 0; i < arrNums.length; i++) {
-            arrNums[i] = i + 1;
+            arrNums[i] = i;
         }
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, arrNums);
         holder.spinner.setAdapter(adapter);

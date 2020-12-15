@@ -70,23 +70,34 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Boolean> isSuccessful = new ArrayList<>();
+                final List<Boolean> isSuccessful = new ArrayList<>();
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicatorCart();
                     }
                 });
+                boolean isZero = false;
                 for (int i = 0; i < SalesModel.cartList.size(); i++) {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
                     LocalDateTime now = LocalDateTime.now();
 
                     DateTimeFormatter dtf_month = DateTimeFormatter.ofPattern("MM");
-                    LocalDateTime now_month=LocalDateTime.now();
+                    LocalDateTime now_month = LocalDateTime.now();
 
                     model = new SalesModel(SalesModel.cartList.get(i).getProduct_picture(), SalesModel.cartList.get(i).getProduct_name(),
                             SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products(),
-                            String.valueOf(dtf.format(now)),String.valueOf(dtf_month.format(now_month)));
+                            String.valueOf(dtf.format(now)), String.valueOf(dtf_month.format(now_month)));
+                    try{
+                        if (SalesModel.cartList.get(i).getTotal_number_of_products().equals(String.valueOf(0)) ||
+                                SalesModel.cartList.get(i).getTotal_number_of_products().equals(null)) {
+                            isSuccessful.add(false);
+                            isZero = true;
+                        }
+                    } catch (NullPointerException e) {
+                        view.displayOnErrorMessage(e.getMessage(),v);
+                    }
+
                     try {
                         isSuccessful.add(service.insertOrderToDB(model));
                     } catch (SQLException e) {
@@ -96,6 +107,11 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                         view.displayOnErrorMessage(e.getMessage(), v);
                         isSuccessful.add(false);
                     }
+                    /**
+                     * should add a break here, to remove excess code
+                     * 1)remove List of booleans instead if Successful became false instantly break out of loop
+                     * 2)Refractor all of this code logic
+                     */
 
 
                 }
@@ -106,9 +122,12 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                         @Override
                         public void run() {
                             view.hideProgressIndicatorCart();
-                            view.displayOnErrorMessage("Cart is Empty!",v);
+                            view.displayOnErrorMessage("Cart is Empty!", v);
                         }
                     });
+                }
+                if(isZero){
+                    view.displayOnErrorMessage("Products have zero values", v);
                 }
 
                 for (int i = 0; i < isSuccessful.size(); i++) {
@@ -136,7 +155,6 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
             }
         });
         thread.start();
-
 
     }
 

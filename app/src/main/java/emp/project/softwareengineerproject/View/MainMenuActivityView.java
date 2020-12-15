@@ -29,6 +29,7 @@ import emp.project.softwareengineerproject.Presenter.MainMenuPresenter;
 import emp.project.softwareengineerproject.R;
 import emp.project.softwareengineerproject.View.InventoryView.InventoryActivityView;
 import emp.project.softwareengineerproject.View.NotificationView.NotificationsActivityView;
+import emp.project.softwareengineerproject.View.ReportsView.ReportsActivityChartView;
 import emp.project.softwareengineerproject.View.SalesView.SalesActivityView;
 import emp.project.softwareengineerproject.View.UsersView.UsersActivityView;
 
@@ -136,7 +137,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
 
     @Override
     public void goToReports() {
-        Intent intent = new Intent(this, ReportsActivityView.class);
+        Intent intent = new Intent(this, ReportsActivityChartView.class);
         startActivity(intent);
     }
 

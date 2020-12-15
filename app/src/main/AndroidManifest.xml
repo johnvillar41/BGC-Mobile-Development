@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="emp.project.softwareengineerproject">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,14 +11,14 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".View.SalesView.SalesTransactionView"/>
-        <activity android:name=".View.SalesView.SalesAddActivityView" />
-        <activity android:name=".View.NotificationView.NotificationsActivityView" />
-        <activity android:name=".View.UsersView.UsersAddActivityView" />
+        android:theme="@style/AppTheme"
+        tools:targetApi="q">
+
+
         <activity android:name=".View.LoadingScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,16 +26,47 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.InventoryView.InventorySearchItemView" />
-        <activity android:name=".View.InventoryView.InventoryUpdateView" />
-        <activity android:name=".View.SettingsActivityView" />
-        <activity android:name=".View.UsersView.UsersActivityView" />
-        <activity android:name=".View.ReportsActivityView" />
-        <activity android:name=".View.SalesView.SalesActivityView" />
-        <activity android:name=".View.InventoryView.InventoryActivityView"
-            android:launchMode='singleTask'/>
-        <activity android:name=".View.MainMenuActivityView" />
-        <activity android:name=".View.LoginActivityView" />
+
+
+        <activity
+            android:name=".View.SalesView.SalesTransactionView"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.SalesView.SalesAddActivityView"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.NotificationView.NotificationsActivityView"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.UsersView.UsersAddActivityView"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.InventoryView.InventorySearchItemView"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.InventoryView.InventoryUpdateView"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.SettingsActivityView"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.UsersView.UsersActivityView"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.ReportsView.ReportsActivityChartView"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.SalesView.SalesActivityView"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.InventoryView.InventoryActivityView"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.MainMenuActivityView"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".View.LoginActivityView"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

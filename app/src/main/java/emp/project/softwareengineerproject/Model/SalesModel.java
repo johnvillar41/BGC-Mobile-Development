@@ -79,4 +79,8 @@ public class SalesModel {
     public String getSales_date() {
         return sales_date;
     }
+
+    public void setTotal_number_of_products(String total_number_of_products) {
+        this.total_number_of_products = total_number_of_products;
+    }
 }
