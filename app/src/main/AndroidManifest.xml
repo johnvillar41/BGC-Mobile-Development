@@ -53,7 +53,7 @@
             android:name=".View.UsersView.UsersActivityView"
             android:launchMode="singleTask" />
         <activity
-            android:name=".View.ReportsView.ReportsActivityChartView"
+            android:name=".View.ReportsView.ReportsActivityView"
             android:launchMode="singleTask" />
         <activity
             android:name=".View.SalesView.SalesActivityView"

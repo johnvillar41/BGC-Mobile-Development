@@ -15,6 +15,8 @@ public interface IReports {
         void displayProgressIndicator();
 
         void hideProgressIndicator();
+
+        void displayRecyclerView(List<ReportsModel> reportList);
     }
     interface IReportsPresenter{
         void onPageLoad() throws SQLException, ClassNotFoundException;
@@ -22,6 +24,6 @@ public interface IReports {
     interface IReportsService extends IServiceStrictMode{
         List<ReportsModel> getMonthValuesFromDB() throws SQLException, ClassNotFoundException;
 
-
+        List<ReportsModel> getRecyclerViewValuesFromDB() throws ClassNotFoundException, SQLException;
     }
 }

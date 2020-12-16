@@ -9,6 +9,8 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -19,15 +21,17 @@ import com.google.android.material.progressindicator.ProgressIndicator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IReports;
 import emp.project.softwareengineerproject.Model.ReportsModel;
 import emp.project.softwareengineerproject.Presenter.ReportsPresenter;
 import emp.project.softwareengineerproject.R;
 
-public class ReportsActivityChartView extends AppCompatActivity implements IReports.IReportsView {
-    IReports.IReportsPresenter presenter;
-    ProgressIndicator progressIndicator;
+public class ReportsActivityView extends AppCompatActivity implements IReports.IReportsView {
+    private IReports.IReportsPresenter presenter;
+    private ProgressIndicator progressIndicator;
+    private RecyclerView recyclerView;
 
     /**
      * 1)Barchart-DONE
@@ -35,7 +39,6 @@ public class ReportsActivityChartView extends AppCompatActivity implements IRepo
      * 2)PieChart
      * 3)Summary Report per month,List of all sales product by user(admin),Total value of sales monthly
      * c)List of user logs(List of sales made by user and their total contribution)(Total value of sales per user)
-     *
      */
 
     @Override
@@ -43,7 +46,7 @@ public class ReportsActivityChartView extends AppCompatActivity implements IRepo
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_reports_chart_view);
+        setContentView(R.layout.activity_reports__view);
 
         try {
             initViews();
@@ -60,6 +63,7 @@ public class ReportsActivityChartView extends AppCompatActivity implements IRepo
 
         progressIndicator = findViewById(R.id.progressBar_Reports);
         progressIndicator.hide();
+        recyclerView = findViewById(R.id.recyclerView_Reports);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -121,6 +125,16 @@ public class ReportsActivityChartView extends AppCompatActivity implements IRepo
     @Override
     public void hideProgressIndicator() {
         progressIndicator.hide();
+    }
+
+    @Override
+    public void displayRecyclerView(List<ReportsModel> reportList) {
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(ReportsActivityView.this, LinearLayoutManager.VERTICAL, false);
+        ReportsRecyclerView adapter = new ReportsRecyclerView(
+                reportList, ReportsActivityView.this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

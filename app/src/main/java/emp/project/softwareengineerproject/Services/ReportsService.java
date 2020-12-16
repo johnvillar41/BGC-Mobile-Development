@@ -61,5 +61,31 @@ public class ReportsService implements IReports.IReportsService {
         return reportsList;
     }
 
+    @Override
+    public List<ReportsModel> getRecyclerViewValuesFromDB() throws ClassNotFoundException, SQLException {
+        strictMode();
+        List<ReportsModel> list = new ArrayList<>();
+        int counter = 0;
+        int total_transactions = 0;
+        String date_month = null;
+        String sales_date = "";
+        for (int i = 0; i < 13; i++) {
+            String sql = "SELECT date_month,sales_transaction_value,sales_date from sales_table WHERE date_month=" + "'" + (counter++) + "'";
+            Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                total_transactions += Integer.parseInt(resultSet.getString(2));
+                sales_date = resultSet.getString(3);
+                date_month = resultSet.getString(1);
+                model = new ReportsModel(Integer.parseInt(date_month), total_transactions, sales_date);
+                list.add(model);
+
+            }
+
+        }
+        return list;
+    }
+
 
 }

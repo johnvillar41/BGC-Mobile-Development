@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#323232"
-    tools:context=".View.ReportsView.ReportsActivityChartView">
+    tools:context=".View.ReportsView.ReportsActivityView">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
