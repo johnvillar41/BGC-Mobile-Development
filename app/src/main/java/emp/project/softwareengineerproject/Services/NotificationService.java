@@ -10,15 +10,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
+import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.INotification;
 import emp.project.softwareengineerproject.Model.NotificationModel;
 
 public class NotificationService implements INotification.INotificationService {
 
-    private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
-    private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();
-    private String PASS = EDatabaseCredentials.PASS.getDatabaseCredentials();
+    private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
+    private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
+    private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
     private NotificationModel model;
 

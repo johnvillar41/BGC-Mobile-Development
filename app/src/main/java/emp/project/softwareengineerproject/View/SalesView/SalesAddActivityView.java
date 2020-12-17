@@ -43,7 +43,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
     private ISalesAdd.ISalesAddPresenter presenter;
     private ProgressIndicator progressIndicator;
     private ProgressIndicator progressIndicatorCart;
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

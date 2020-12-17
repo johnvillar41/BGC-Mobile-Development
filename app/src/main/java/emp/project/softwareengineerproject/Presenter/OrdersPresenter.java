@@ -35,7 +35,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
                 });
 
                 try {
-                    final List<OrdersModel> ordersList = service.getOrdersFromDB(Status.PENDING.getStatus());
+                    final List<OrdersModel> ordersList = service.getOrdersFromDB(STATUS.PENDING.getStatus());
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -67,7 +67,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
                 });
 
                 try {
-                    final List<OrdersModel> ordersList = service.getOrdersFromDB(Status.FINISHED.getStatus());
+                    final List<OrdersModel> ordersList = service.getOrdersFromDB(STATUS.FINISHED.getStatus());
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -99,7 +99,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
                 });
 
                 try {
-                    final List<OrdersModel> ordersList = service.getOrdersFromDB(Status.CANCELLED.getStatus());
+                    final List<OrdersModel> ordersList = service.getOrdersFromDB(STATUS.CANCELLED.getStatus());
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -118,17 +118,18 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         thread.start();
     }
 
-    private enum Status {
+    private enum STATUS {
         PENDING("Processing"),
         CANCELLED("Cancelled"),
         FINISHED("Finished");
 
         private String status;
 
-        Status(String status) {
+        STATUS(String status) {
             this.status = status;
         }
-        private String getStatus(){
+
+        private String getStatus() {
             return status;
         }
     }

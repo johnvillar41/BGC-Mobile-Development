@@ -25,14 +25,6 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
         this.context = context;
     }
 
-    @NonNull
-    @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.custom_adapter_orders, parent, false);
-        return new OrdersRecyclerView.MyViewHolder(view);
-    }
-
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         OrdersModel model = getItem(position);
@@ -43,11 +35,43 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
         holder.customer_email.setText(model.getCustomer_email());
         holder.txt_total.setText(model.getOrder_total_price());
         holder.txt_order_id.setText(model.getOrder_id());
-        if (model.getOrder_status().equals("Processing")) {
+
+        if (model.getOrder_status().equals(STATUS.PENDING.getStatus())) {
             holder.order_status.setTextColor(Color.parseColor("#024C05"));
         }
+        else if(model.getOrder_status().equals(STATUS.CANCELLED.getStatus())){
+            holder.order_status.setTextColor(Color.parseColor("#FF0000"));
+        }
+        else if(model.getOrder_status().equals(STATUS.FINISHED.getStatus())){
+            holder.order_status.setTextColor(Color.parseColor("#0000ff"));
+        }
+
         holder.order_status.setText(model.getOrder_status());
 
+    }
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.custom_adapter_orders, parent, false);
+        return new OrdersRecyclerView.MyViewHolder(view);
+    }
+
+    private enum STATUS {
+        PENDING("Processing"),
+        CANCELLED("Cancelled"),
+        FINISHED("Finished");
+
+        private String status;
+
+        STATUS(String status) {
+            this.status = status;
+        }
+
+        private String getStatus() {
+            return status;
+        }
     }
 
     @Override

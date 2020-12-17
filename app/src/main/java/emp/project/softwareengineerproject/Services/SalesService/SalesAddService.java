@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
+import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Model.NotificationModel;
@@ -27,9 +27,9 @@ import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class SalesAddService implements ISalesAdd.ISalesAddService {
 
-    private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
-    private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();
-    private String PASS = EDatabaseCredentials.PASS.getDatabaseCredentials();
+    private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
+    private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
+    private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
     @Override
     public void strictMode() throws ClassNotFoundException {

@@ -44,22 +44,37 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
         holder.txt_date.setText(model.getNotif_date());
         holder.txt_content.setText(model.getNotif_content());
         holder.txt_username.setText(model.getUser_name());
-        switch (model.getNotif_title()) {
-            case "Deleted product":
-                Glide.with(context).load(R.drawable.delete_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-                break;
-            case "Updated product":
-                Glide.with(context).load(R.drawable.update_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-                break;
-            case "Added product":
-                Glide.with(context).load(R.drawable.add_product).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-                break;
-            case "Added sales":
-                Glide.with(context).load(R.drawable.ic_money_large).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-                break;
-            case"Added new User":
-                Glide.with(context).load(R.drawable.ic_add_user).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-                break;
+
+        if (model.getNotif_title().equals(PRODUCT_STATUS.DELETED_PRODUCT.getProduct_status())) {
+            Glide.with(context).load(R.drawable.delete_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+        } else if (model.getNotif_title().equals(PRODUCT_STATUS.UPDATED_PRODUCT.getProduct_status())) {
+            Glide.with(context).load(R.drawable.update_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+        } else if (model.getNotif_title().equals(PRODUCT_STATUS.ADDED_PRODUCT.getProduct_status())) {
+            Glide.with(context).load(R.drawable.add_product).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+        } else if (model.getNotif_title().equals(PRODUCT_STATUS.ADDED_SALES.getProduct_status())) {
+            Glide.with(context).load(R.drawable.ic_money_large).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+        } else if (model.getNotif_title().equals(PRODUCT_STATUS.ADDED_NEW_USER.getProduct_status())) {
+            Glide.with(context).load(R.drawable.ic_add_user).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+        }
+
+    }
+
+
+    private enum PRODUCT_STATUS {
+        DELETED_PRODUCT("Deleted product"),
+        UPDATED_PRODUCT("Updated product"),
+        ADDED_PRODUCT("Added product"),
+        ADDED_SALES("Added sales"),
+        ADDED_NEW_USER("Added new User");
+
+        private String product_status;
+
+        PRODUCT_STATUS(String product_status) {
+            this.product_status = product_status;
+        }
+
+        private String getProduct_status() {
+            return product_status;
         }
     }
 

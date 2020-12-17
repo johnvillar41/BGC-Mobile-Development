@@ -8,13 +8,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
+import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.IMainMenu;
 
 public class MainMenuService implements IMainMenu.IMainService {
-    private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
-    private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();
-    private String PASS = EDatabaseCredentials.PASS.getDatabaseCredentials();
+    private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
+    private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
+    private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
 
     @Override

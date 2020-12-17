@@ -84,12 +84,13 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                         }
                     });
                 } catch (final SQLException e) {
-                    context.runOnUiThread(new Runnable() {
+                    e.printStackTrace();
+                    /*context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayStatusMessage(e.getMessage(), v);
                         }
-                    });
+                    });*/
                 }
             }
         });

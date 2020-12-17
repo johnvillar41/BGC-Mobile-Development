@@ -107,13 +107,6 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                         view.displayOnErrorMessage(e.getMessage(), v);
                         isSuccessful.add(false);
                     }
-                    /**
-                     * should add a break here, to remove excess code
-                     * 1)remove List of booleans instead if Successful became false instantly break out of loop
-                     * 2)Refractor all of this code logic
-                     */
-
-
                 }
                 boolean finalSuccess = true;
                 if (SalesModel.cartList.size() == 0) {

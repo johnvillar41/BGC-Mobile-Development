@@ -10,16 +10,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
+import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.OrdersModel;
 
 public class OrdersService implements IOrders.IOrdersService {
 
     private OrdersModel model;
-    private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
-    private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();
-    private String PASS = EDatabaseCredentials.PASS.getDatabaseCredentials();
+    private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
+    private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
+    private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
     public OrdersService(OrdersModel model) {
         this.model = model;

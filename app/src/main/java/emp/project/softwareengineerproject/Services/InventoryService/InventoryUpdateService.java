@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import emp.project.softwareengineerproject.Interface.EDatabaseCredentials;
+import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Model.NotificationModel;
@@ -21,9 +21,9 @@ import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class InventoryUpdateService implements IUpdateInventory.IUpdateInventoryService {
 
-    private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
-    private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();
-    private String PASS = EDatabaseCredentials.PASS.getDatabaseCredentials();
+    private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
+    private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
+    private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
     @Override
     public void strictMode() throws ClassNotFoundException {
@@ -42,15 +42,15 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
 
 
 
-            preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_name=?," +
-                    "product_description=?,product_price=?,product_stocks=?,product_category=?,product_picture=?WHERE product_id=?");
-            preparedStatement.setString(1, model.getProduct_name());
-            preparedStatement.setString(2, model.getProduct_description());
-            preparedStatement.setLong(3, model.getProduct_price());
-            preparedStatement.setInt(4, model.getProduct_stocks());
-            preparedStatement.setString(5, model.getProduct_category());
-            preparedStatement.setBlob(6, model.getUpload_picture());
-            preparedStatement.setString(7, model.getProduct_id());
+        preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_name=?," +
+                "product_description=?,product_price=?,product_stocks=?,product_category=?,product_picture=?WHERE product_id=?");
+        preparedStatement.setString(1, model.getProduct_name());
+        preparedStatement.setString(2, model.getProduct_description());
+        preparedStatement.setLong(3, model.getProduct_price());
+        preparedStatement.setInt(4, model.getProduct_stocks());
+        preparedStatement.setString(5, model.getProduct_category());
+        preparedStatement.setBlob(6, model.getUpload_picture());
+        preparedStatement.setString(7, model.getProduct_id());
 
         preparedStatement.executeUpdate();
 

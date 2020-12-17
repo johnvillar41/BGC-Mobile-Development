@@ -11,10 +11,10 @@ import emp.project.softwareengineerproject.View.ReportsView.ReportsActivityView;
 
 public class ReportsPresenter implements IReports.IReportsPresenter {
 
-    IReports.IReportsView view;
-    ReportsModel model;
-    IReports.IReportsService service;
-    ReportsActivityView context;
+    private IReports.IReportsView view;
+    private ReportsModel model;
+    private IReports.IReportsService service;
+    private ReportsActivityView context;
 
     public ReportsPresenter(IReports.IReportsView view, ReportsActivityView context) {
         this.view = view;

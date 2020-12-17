@@ -16,10 +16,10 @@ import emp.project.softwareengineerproject.View.SalesView.SalesTransactionView;
 
 public class SalesTransactionPresenter implements ISalesTransactions.ISalesTransactionPresenter {
 
-    ISalesTransactions.ISalesTransactionsView view;
-    SalesModel model;
-    ISalesTransactions.ISalesTransactionService service;
-    SalesTransactionView context;
+    private ISalesTransactions.ISalesTransactionsView view;
+    private SalesModel model;
+    private ISalesTransactions.ISalesTransactionService service;
+    private SalesTransactionView context;
 
     public SalesTransactionPresenter(ISalesTransactions.ISalesTransactionsView view, SalesTransactionView context) {
         this.view = view;
