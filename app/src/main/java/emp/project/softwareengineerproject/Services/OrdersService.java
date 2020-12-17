@@ -20,6 +20,7 @@ public class OrdersService implements IOrders.IOrdersService {
     private String DB_NAME = EDatabaseCredentials.DB_NAME.getDatabaseCredentials();
     private String USER = EDatabaseCredentials.USER.getDatabaseCredentials();
     private String PASS = EDatabaseCredentials.PASS.getDatabaseCredentials();
+
     public OrdersService(OrdersModel model) {
         this.model = model;
     }
@@ -33,10 +34,10 @@ public class OrdersService implements IOrders.IOrdersService {
     }
 
     @Override
-    public List<OrdersModel> getOrdersFromDB() throws ClassNotFoundException, SQLException {
+    public List<OrdersModel> getOrdersFromDB(String status) throws ClassNotFoundException, SQLException {
         strictMode();
         List<OrdersModel> list = new ArrayList<>();
-        String sqlGetOrders = "SELECT * FROM customer_orders_table";
+        String sqlGetOrders = "SELECT * FROM customer_orders_table WHERE order_status=" + "'" + status + "'";
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         PreparedStatement preparedStatement = connection.prepareStatement(sqlGetOrders);
         ResultSet resultSet = preparedStatement.executeQuery();

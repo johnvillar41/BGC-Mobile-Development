@@ -17,10 +17,14 @@ public interface IOrders {
     }
 
     interface IOrdersPresenter {
-        void onPageLoad();
+        void onNavigationPendingOrders();
+
+        void onNavigationFinishedOrders();
+
+        void onNavigationCancelledOrders();
     }
 
     interface IOrdersService extends IServiceStrictMode {
-        List<OrdersModel> getOrdersFromDB() throws ClassNotFoundException, SQLException;
+        List<OrdersModel> getOrdersFromDB(String status) throws ClassNotFoundException, SQLException;
     }
 }

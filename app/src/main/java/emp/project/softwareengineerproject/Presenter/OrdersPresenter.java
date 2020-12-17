@@ -23,7 +23,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
     }
 
     @Override
-    public void onPageLoad() {
+    public void onNavigationPendingOrders() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -35,7 +35,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
                 });
 
                 try {
-                    final List<OrdersModel> ordersList =  service.getOrdersFromDB();
+                    final List<OrdersModel> ordersList = service.getOrdersFromDB(Status.PENDING.getStatus());
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -50,6 +50,86 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
                 }
 
             }
-        });thread.start();
+        });
+        thread.start();
+    }
+
+    @Override
+    public void onNavigationFinishedOrders() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressIndicator();
+                    }
+                });
+
+                try {
+                    final List<OrdersModel> ordersList = service.getOrdersFromDB(Status.FINISHED.getStatus());
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayRecyclerView(ordersList);
+                            view.hideProgressIndicator();
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        thread.start();
+    }
+
+    @Override
+    public void onNavigationCancelledOrders() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressIndicator();
+                    }
+                });
+
+                try {
+                    final List<OrdersModel> ordersList = service.getOrdersFromDB(Status.CANCELLED.getStatus());
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayRecyclerView(ordersList);
+                            view.hideProgressIndicator();
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        thread.start();
+    }
+
+    private enum Status {
+        PENDING("Processing"),
+        CANCELLED("Cancelled"),
+        FINISHED("Finished");
+
+        private String status;
+
+        Status(String status) {
+            this.status = status;
+        }
+        private String getStatus(){
+            return status;
+        }
     }
 }
