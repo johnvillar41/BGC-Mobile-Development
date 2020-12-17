@@ -29,6 +29,7 @@ import emp.project.softwareengineerproject.Presenter.MainMenuPresenter;
 import emp.project.softwareengineerproject.R;
 import emp.project.softwareengineerproject.View.InventoryView.InventoryActivityView;
 import emp.project.softwareengineerproject.View.NotificationView.NotificationsActivityView;
+import emp.project.softwareengineerproject.View.OrdersView.OrdersActivityView;
 import emp.project.softwareengineerproject.View.ReportsView.ReportsActivityView;
 import emp.project.softwareengineerproject.View.SalesView.SalesActivityView;
 import emp.project.softwareengineerproject.View.UsersView.UsersActivityView;
@@ -56,6 +57,9 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
 
     @Override
     public void initViews() {
+        /**
+         * Shared Preferences for getting the session of the user
+         */
         sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES_USERNAME, MODE_PRIVATE);
 
         presenter = new MainMenuPresenter(this);
@@ -96,13 +100,16 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         cardView_logout.setOnClickListener(this);
         floatingActionButton.setOnClickListener(this);
 
-        //Programmatically loading images through glide library due to crash on loading large amounts of images
+        /**
+         * Programmatically loading images through glide library due to
+         * crash on loading large amounts of images
+         */
         Glide.with(this).asBitmap().load(R.drawable.logo_main).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView_illustration);
         Glide.with(this).asBitmap().load(R.drawable.stocks_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_inventory);
         Glide.with(this).asBitmap().load(R.drawable.sales_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_sales);
         Glide.with(this).asBitmap().load(R.drawable.reports_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_reports);
         Glide.with(this).asBitmap().load(R.drawable.users_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_users);
-        Glide.with(this).asBitmap().load(R.drawable.settings_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_settings);
+        Glide.with(this).asBitmap().load(R.drawable.orders_online).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_settings);
         Glide.with(this).asBitmap().load(R.drawable.ic_baseline_exit_to_app_24).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_signout);
 
 
@@ -149,7 +156,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
 
     @Override
     public void goToSettings() {
-        Intent intent = new Intent(this, SettingsActivityView.class);
+        Intent intent = new Intent(this, OrdersActivityView.class);
         startActivity(intent);
     }
 
@@ -170,7 +177,10 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         txt_number_notifs.setText(numberOfNotifs);
     }
 
-    //calling on resume method lifecycle of android to refresh the number of notifications set on main view
+    /**
+     *  calling on resume method lifecycle of android to
+     *  refresh the number of notifications set on main view
+     */
     @Override
     protected void onResume() {
         try {

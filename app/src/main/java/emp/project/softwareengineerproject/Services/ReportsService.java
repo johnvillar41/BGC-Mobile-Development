@@ -67,8 +67,8 @@ public class ReportsService implements IReports.IReportsService {
         List<ReportsModel> list = new ArrayList<>();
         int counter = 0;
         int total_transactions = 0;
-        String date_month = null;
-        String sales_date = "";
+        String date_month;
+        String sales_date;
         for (int i = 0; i < 13; i++) {
             String sql = "SELECT date_month,sales_transaction_value,sales_date from sales_table WHERE date_month=" + "'" + (counter++) + "'";
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);

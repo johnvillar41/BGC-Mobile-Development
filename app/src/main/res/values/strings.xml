@@ -35,4 +35,5 @@
     <string name="re_enter_your_password">Re-enter your Password</string>
     <string name="enter_full_name_here">Enter Full name here</string>
     <string name="add_user">Add User</string>
+    <string name="orders">Orders</string>
 </resources>

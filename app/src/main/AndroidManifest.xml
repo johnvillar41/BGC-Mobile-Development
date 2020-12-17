@@ -47,7 +47,7 @@
             android:name=".View.InventoryView.InventoryUpdateView"
             android:launchMode="singleTask" />
         <activity
-            android:name=".View.SettingsActivityView"
+            android:name=".View.OrdersView.OrdersActivityView"
             android:launchMode="singleTask" />
         <activity
             android:name=".View.UsersView.UsersActivityView"
