@@ -80,7 +80,7 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
         LinearLayoutManager linearLayoutManager
                 = new LinearLayoutManager(OrdersActivityView.this, LinearLayoutManager.VERTICAL, false);
         OrdersRecyclerView adapter = new OrdersRecyclerView(
-                orderList, OrdersActivityView.this);
+                orderList, OrdersActivityView.this,OrdersActivityView.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         if (adapter.getItemCount() == 0) {
@@ -89,6 +89,7 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
             imageView.setImageDrawable(null);
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

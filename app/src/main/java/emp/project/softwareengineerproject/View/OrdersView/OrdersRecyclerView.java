@@ -3,8 +3,12 @@ package emp.project.softwareengineerproject.View.OrdersView;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,43 +16,94 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.OrdersModel;
+import emp.project.softwareengineerproject.Presenter.OrdersPresenter;
 import emp.project.softwareengineerproject.R;
 
 public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.MyViewHolder> {
 
     List<OrdersModel> list;
     Context context;
+    IOrders.IOrdersPresenter presenter;
+    OrdersActivityView activity;
 
-    public OrdersRecyclerView(List<OrdersModel> list, Context context) {
+    public OrdersRecyclerView(List<OrdersModel> list, Context context, OrdersActivityView activity) {
         this.list = list;
         this.context = context;
+        this.activity = activity;
+        this.presenter = new OrdersPresenter(activity, activity);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        OrdersModel model = getItem(position);
-        holder.txt_year.setText(model.getOrder_date_year());
-        holder.txt_day.setText(model.getOrder_date_day());
-        holder.txt_month.setText(model.getOrder_date_month());
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        final OrdersModel model = getItem(position);
+
         holder.customer_name.setText(model.getCustomer_name());
         holder.customer_email.setText(model.getCustomer_email());
         holder.txt_total.setText(model.getOrder_total_price());
         holder.txt_order_id.setText(model.getOrder_id());
-
+        holder.txt_order_date.setText(model.getOrder_date());
         if (model.getOrder_status().equals(STATUS.PENDING.getStatus())) {
-            holder.order_status.setTextColor(Color.parseColor("#024C05"));
-        }
-        else if(model.getOrder_status().equals(STATUS.CANCELLED.getStatus())){
-            holder.order_status.setTextColor(Color.parseColor("#FF0000"));
-        }
-        else if(model.getOrder_status().equals(STATUS.FINISHED.getStatus())){
-            holder.order_status.setTextColor(Color.parseColor("#0000ff"));
+            holder.layout_background_color.setBackgroundColor(Color.parseColor(COLORS.GREEN.getColor()));
+        } else if (model.getOrder_status().equals(STATUS.CANCELLED.getStatus())) {
+            holder.layout_background_color.setBackgroundColor(Color.parseColor(COLORS.RED.getColor()));
+        } else if (model.getOrder_status().equals(STATUS.FINISHED.getStatus())) {
+            holder.layout_background_color.setBackgroundColor(Color.parseColor(COLORS.BLUE.getColor()));
         }
 
         holder.order_status.setText(model.getOrder_status());
 
+        holder.imageView_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(context, holder.imageView_menu);
+                popup.inflate(R.menu.menu_orders);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.page_pending_orders:
+                                presenter.onMenuPendingClicked(model.getOrder_id());
+                                if(!model.getOrder_status().equals(STATUS.PENDING.getStatus())){
+                                    list.remove(position);
+                                    notifyItemRangeChanged(position,list.size());
+                                    notifyItemRemoved(position);
+                                    notifyDataSetChanged();
+                                    presenter.addNotification(STATUS.PENDING_NOTIF.getStatus(),STATUS.NOTIF_CONTENT.getStatus());
+                                }
+                                return true;
+                            case R.id.page_finished_orders:
+                                presenter.onMenuFinishClicked(model.getOrder_id());
+                                if(!model.getOrder_status().equals(STATUS.FINISHED.getStatus())){
+                                    list.remove(position);
+                                    notifyItemRangeChanged(position,list.size());
+                                    notifyItemRemoved(position);
+                                    notifyDataSetChanged();
+                                    presenter.addNotification(STATUS.FINISHED_NOTIF.getStatus(),STATUS.NOTIF_CONTENT.getStatus());
+                                }
+                                return true;
+                            case R.id.page_cancelled_orders:
+                                presenter.onMenuCancelClicked(model.getOrder_id());
+                                if(!model.getOrder_status().equals(STATUS.CANCELLED.getStatus())){
+                                    list.remove(position);
+                                    notifyItemRangeChanged(position,list.size());
+                                    notifyItemRemoved(position);
+                                    notifyDataSetChanged();
+                                    presenter.addNotification(STATUS.CANCELLED_NOTIF.getStatus(),STATUS.NOTIF_CONTENT.getStatus());
+                                }
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                popup.show();
+            }
+        });
     }
+
 
     @NonNull
     @Override
@@ -58,10 +113,31 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
         return new OrdersRecyclerView.MyViewHolder(view);
     }
 
+    private enum COLORS {
+        GREEN("#024C05"),
+        BLUE("#0000ff"),
+        RED("#FF0000");
+        private String color;
+
+        COLORS(String color) {
+            this.color = color;
+        }
+
+        private String getColor() {
+            return color;
+        }
+    }
+
     private enum STATUS {
         PENDING("Processing"),
         CANCELLED("Cancelled"),
-        FINISHED("Finished");
+        FINISHED("Finished"),
+
+        PENDING_NOTIF("Order moved to pending"),
+        CANCELLED_NOTIF("Order cancelled"),
+        FINISHED_NOTIF("Order is finished"),
+
+        NOTIF_CONTENT("Order Update");
 
         private String status;
 
@@ -85,18 +161,20 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txt_year, txt_day, txt_month, txt_order_id, customer_name, customer_email, txt_total, order_status;
+        TextView txt_order_date, txt_order_id, customer_name, customer_email, txt_total, order_status;
+        LinearLayout layout_background_color;
+        ImageView imageView_menu;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            txt_year = itemView.findViewById(R.id.txt_year);
-            txt_day = itemView.findViewById(R.id.txt_day);
-            txt_month = itemView.findViewById(R.id.txt_month);
+            layout_background_color = itemView.findViewById(R.id.txt_background_color);
+            txt_order_date = itemView.findViewById(R.id.txt_date);
             txt_order_id = itemView.findViewById(R.id.txt_order_number);
             customer_name = itemView.findViewById(R.id.txt_customer_name);
             customer_email = itemView.findViewById(R.id.txt_customer_email);
             txt_total = itemView.findViewById(R.id.txt_total_value);
             order_status = itemView.findViewById(R.id.txt_status);
+            imageView_menu = itemView.findViewById(R.id.image_menu_orders);
         }
     }
 }
