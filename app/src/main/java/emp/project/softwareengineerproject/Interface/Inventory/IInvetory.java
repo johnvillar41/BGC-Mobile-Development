@@ -16,7 +16,7 @@ public interface IInvetory {
         /**
          * This will display the list of products into the recyclerView
          *
-         * @param productList is a list of all the products agt has in the database
+         * @param productList is a list of all the products agt company has in the database
          */
         void displayRecyclerView(List<InventoryModel>[] productList);
 

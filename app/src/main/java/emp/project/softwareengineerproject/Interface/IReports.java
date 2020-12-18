@@ -7,6 +7,9 @@ import java.util.List;
 import emp.project.softwareengineerproject.Model.ReportsModel;
 
 public interface IReports {
+    /**
+     * This will be refractored soon still on working progress
+     */
     interface IReportsView{
         void initViews() throws SQLException, ClassNotFoundException;
 

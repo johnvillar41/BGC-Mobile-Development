@@ -28,6 +28,9 @@ public interface IMainMenu {
     }
 
     interface IMainPresenter {
+        /**
+         * Handles all the click events on the main screen and redirects them to their specified activities
+         * */
         void onLogoutButtonClicked(View v);
 
         void onInventoryButtonClicked();
@@ -40,13 +43,21 @@ public interface IMainMenu {
 
         void onSettingsButtonClicked();
 
+        void onNotificationButtonClicked();
+
+        /**
+         * Directs the username string to be displayed on the main screen
+         */
         void directUsernameDisplay() throws SQLException, ClassNotFoundException;
 
-        void onNotificationButtonClicked();
+
     }
 
     interface IMainService extends IServiceStrictMode {
-
+        /**
+         * Gets the total number of notifications per day on the database
+         * @return will return the total number of notifications per day
+         */
         int getNumberOfNotifications(String date) throws SQLException, ClassNotFoundException;
     }
 }
