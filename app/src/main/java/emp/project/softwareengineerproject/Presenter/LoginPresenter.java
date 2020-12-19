@@ -1,6 +1,8 @@
 package emp.project.softwareengineerproject.Presenter;
 
+import android.app.Activity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import java.sql.SQLException;
 
@@ -25,6 +27,8 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
 
     @Override
     public void onLoginButtonClicked(final String username, final String password, final View v) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

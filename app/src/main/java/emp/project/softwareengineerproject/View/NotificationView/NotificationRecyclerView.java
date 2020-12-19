@@ -55,6 +55,12 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
             Glide.with(context).load(R.drawable.ic_money_large).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
         } else if (model.getNotif_title().equals(PRODUCT_STATUS.ADDED_NEW_USER.getProduct_status())) {
             Glide.with(context).load(R.drawable.ic_add_user).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+        } else if(model.getNotif_title().equals(PRODUCT_STATUS.ORDER_PENDING.getProduct_status())){
+            Glide.with(context).load(R.drawable.update_icon_order).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+        } else if(model.getNotif_title().equals(PRODUCT_STATUS.ORDER_FINISHED.getProduct_status())){
+            Glide.with(context).load(R.drawable.update_icon_order).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+        } else if(model.getNotif_title().equals(PRODUCT_STATUS.ORDER_CANCEL.getProduct_status())){
+            Glide.with(context).load(R.drawable.update_icon_order).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
         }
 
     }
@@ -65,7 +71,10 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
         UPDATED_PRODUCT("Updated product"),
         ADDED_PRODUCT("Added product"),
         ADDED_SALES("Added sales"),
-        ADDED_NEW_USER("Added new User");
+        ADDED_NEW_USER("Added new User"),
+        ORDER_PENDING("Order moved to pending"),
+        ORDER_FINISHED("Order is finished"),
+        ORDER_CANCEL("Order cancelled");
 
         private String product_status;
 

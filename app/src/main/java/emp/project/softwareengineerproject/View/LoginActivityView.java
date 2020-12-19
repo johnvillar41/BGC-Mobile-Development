@@ -1,18 +1,21 @@
 package emp.project.softwareengineerproject.View;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.ProgressIndicator;
@@ -33,6 +36,14 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
     public static final String MyPREFERENCES_USERNAME = "MyPrefs";
     public static final String MyPREFERENCES_NAME = "NAME";
     private ProgressIndicator progressIndicator;
+
+    /**
+     * TODO
+     * 1)Add an alertDialog on the search inventory activity for CRUD
+     * 2)Change the icons for the orders in notificationActivity
+     * 3)Change the design in the reports activity
+     * 4)Add a delete button in the orders activity
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +84,13 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
         //hides keyboard
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_SHORT);
-        snackbar.show();
+        Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
+        View view = snack.getView();
+        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+        tv.setTextColor(ContextCompat.getColor(LoginActivityView.this, android.R.color.holo_orange_dark));
+        tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check, 0, 0, 0);
+        tv.setGravity(Gravity.CENTER);
+        snack.show();
     }
 
     @Override
@@ -82,8 +98,13 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
         //hides keyboard
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_SHORT);
-        snackbar.show();
+        Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
+        View view = snack.getView();
+        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+        tv.setTextColor(ContextCompat.getColor(LoginActivityView.this,android.R.color.holo_orange_dark));
+        tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
+        tv.setGravity(Gravity.CENTER);
+        snack.show();
     }
 
     @Override
