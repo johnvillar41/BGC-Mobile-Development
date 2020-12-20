@@ -50,15 +50,15 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                             view.showProgressIndicator();
                         }
                     });
-                    TextInputLayout[] texts = new TextInputLayout[5];
-                    texts[0] = editText_productTitle;
-                    texts[1] = txt_product_description;
-                    texts[2] = txt_product_Price;
-                    texts[3] = txt_product_Stocks;
-                    texts[4] = txt_product_category;
+                    TextInputLayout[] arrTexts = new TextInputLayout[5];
+                    arrTexts[0] = editText_productTitle;
+                    arrTexts[1] = txt_product_description;
+                    arrTexts[2] = txt_product_Price;
+                    arrTexts[3] = txt_product_Stocks;
+                    arrTexts[4] = txt_product_category;
 
-                    if (model.validateProductOnUpdate(texts, upload_picture, product_id) != null) {
-                        service.updateProductToDB(model.validateProductOnUpdate(texts, upload_picture, product_id));
+                    if (model.validateProductOnUpdate(arrTexts, upload_picture, product_id) != null) {
+                        service.updateProductToDB(model.validateProductOnUpdate(arrTexts, upload_picture, product_id));
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -84,13 +84,12 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                         }
                     });
                 } catch (final SQLException e) {
-                    e.printStackTrace();
-                    /*context.runOnUiThread(new Runnable() {
+                    context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayStatusMessage(e.getMessage(), v);
                         }
-                    });*/
+                    });
                 }
             }
         });
@@ -106,35 +105,28 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                           final InputStream inputStream,
                                           final TextInputLayout product_category,
                                           final View v) {
-        //This is a lame execution of thread but this will work for now
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                final TextInputLayout[] arrTextInputLayouts = new TextInputLayout[5];
+                arrTextInputLayouts[0] = product_name;
+                arrTextInputLayouts[1] = product_description;
+                arrTextInputLayouts[2] = product_price;
+                arrTextInputLayouts[3] = product_stocks;
+                arrTextInputLayouts[4] = product_category;
+
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.showProgressIndicator();
-                    }
-                });
-                final InventoryModel[] modelFinal = new InventoryModel[1];
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        modelFinal[0] = model.validateProductOnAdd(product_name,
-                                product_description,
-                                product_price,
-                                product_stocks,
-                                inputStream, product_category);
-                        if (modelFinal[0] != null) {
+                        final InventoryModel modelFinal = model.validateProductOnAdd(arrTextInputLayouts, inputStream);
+                        if (modelFinal != null) {
                             Thread thread1 = new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     try {
-                                        service.addNewProduct(model.validateProductOnAdd(product_name,
-                                                product_description,
-                                                product_price,
-                                                product_stocks,
-                                                inputStream, product_category));
+                                        service.addNewProduct(modelFinal);
                                         context.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
@@ -190,7 +182,6 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
     public void ImageButtonClicked() {
         view.loadImageFromGallery();
     }
-
 
 
 }

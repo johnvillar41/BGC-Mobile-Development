@@ -8,12 +8,12 @@ import java.io.Serializable;
 
 @SuppressWarnings("ALL")
 public class InventoryModel implements Serializable {
-    String product_id, product_name, product_description;
-    long product_price;
-    Blob product_picture;
-    int product_stocks;
-    InputStream upload_picture;
-    String product_category;
+    private String product_id, product_name, product_description;
+    private long product_price;
+    private Blob product_picture;
+    private int product_stocks;
+    private InputStream upload_picture;
+    private String product_category;
 
     public InventoryModel(String product_id, String product_name, String product_description,
                           long product_price, Blob product_picture, int product_stocks, String product_category) {
@@ -113,48 +113,33 @@ public class InventoryModel implements Serializable {
                 String.valueOf(textData[4]));
     }
 
-   public InventoryModel validateProductOnAdd(TextInputLayout product_name,
-                                          TextInputLayout product_description,
-                                          TextInputLayout product_price,
-                                          TextInputLayout product_stocks,
-                                          InputStream product_picture,
-                                          TextInputLayout product_category) {
-
-
+    public InventoryModel validateProductOnAdd(TextInputLayout[] textInputLayouts, InputStream product_picture) {
         boolean isValid = false;
-        if (product_name.getEditText().getText().toString().isEmpty()) {
-            product_name.setError("Dont leave this empty!");
+
+        for (TextInputLayout txt : textInputLayouts) {
+            if (txt.getEditText().getText().toString().isEmpty()) {
+                txt.setError("Dont leave this empty!");
+            } else {
+                txt.setErrorEnabled(false);
+            }
         }
-        if (product_description.getEditText().getText().toString().isEmpty()) {
-            product_description.setError("Dont leave this empty!");
-        }
-        if (product_price.getEditText().getText().toString().isEmpty()) {
-            product_price.setError("Dont leave this empty!");
-        }
-        if (product_stocks.getEditText().getText().toString().isEmpty()) {
-            product_stocks.setError("Dont leave this empty!");
-        }
-        if (product_picture == null) {
-            isValid = false;
-        }
-        if (product_category.getEditText().getText().toString().isEmpty()) {
-            product_category.setError("Dont leave this empty!");
-        }
-        if (product_name.getError() == null &&
-                product_description.getError() == null &&
-                product_price.getError() == null &&
-                product_stocks.getError() == null &&
-                isValid == false
-        ) {
-            return new InventoryModel(product_name.getEditText().getText().toString(),
-                    product_description.getEditText().getText().toString(),
-                    Long.parseLong(product_price.getEditText().getText().toString()),
-                    Integer.parseInt(product_stocks.getEditText().getText().toString()),
-                    product_picture, product_category.getEditText().getText().toString());
+
+        if (textInputLayouts[0].getError() == null &&
+                textInputLayouts[1].getError() == null &&
+                textInputLayouts[2].getError() == null &&
+                textInputLayouts[3].getError() == null &&
+                isValid == false) {
+            return new InventoryModel(
+                    textInputLayouts[0].getEditText().getText().toString(),
+                    textInputLayouts[1].getEditText().getText().toString(),
+                    Long.parseLong(textInputLayouts[2].getEditText().getText().toString()),
+                    Integer.parseInt(textInputLayouts[3].getEditText().getText().toString()),
+                    product_picture, textInputLayouts[4].getEditText().getText().toString());
         } else {
             return null;
         }
     }
+
     long newPrice;
     private String total_number_of_products;
 
