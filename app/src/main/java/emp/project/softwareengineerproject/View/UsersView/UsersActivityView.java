@@ -91,7 +91,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         progressIndicator.hide();
         FloatingActionButton floatingActionButton = findViewById(R.id.fab_view);
         SharedPreferences sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE);
-        presenter.onPageDisplayProfile(sharedPreferences.getString(LoginActivityView.MyPREFERENCES, null));
+        presenter.onPageDisplayProfile(sharedPreferences.getString(LoginActivityView.USERNAME_PREFS, null));
 
         Animation atg = AnimationUtils.loadAnimation(this, R.anim.atg);
         Animation atg2 = AnimationUtils.loadAnimation(this, R.anim.atg2);
@@ -109,9 +109,9 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
 
     @Override
     public void displayProfile(UserModel model) {
-        Blob b = model.getUser_image();
-        int blobLength;
         try {
+            Blob b = model.getUser_image();
+            int blobLength;
             blobLength = (int) b.length();
             byte[] blobAsBytes = b.getBytes(1, blobLength);
             Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);

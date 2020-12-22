@@ -113,7 +113,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         Glide.with(this).asBitmap().load(R.drawable.ic_baseline_exit_to_app_24).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_signout);
 
 
-        if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES, null) == null) {
+        if (sharedPreferences.getString(LoginActivityView.USERNAME_PREFS, null) == null) {
             this.finish();
         }
     }
@@ -124,9 +124,9 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        this.finish();
         Intent intent = new Intent(this, LoginActivityView.class);
         startActivity(intent);
+        this.finish();
         Snackbar.make(v, "Logging out of session!", Snackbar.LENGTH_SHORT).show();
     }
 
@@ -188,7 +188,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES, null) == null) {
+        if (sharedPreferences.getString(LoginActivityView.USERNAME_PREFS, null) == null) {
             this.finish();
         }
         super.onResume();

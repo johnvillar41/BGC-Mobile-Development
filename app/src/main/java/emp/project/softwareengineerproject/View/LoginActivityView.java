@@ -117,9 +117,9 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
         editor.putString(USERNAME_PREFS, txt_username.getEditText().getText().toString());
         editor.putString(MyPREFERENCES_NAME, LoginPresenter.USER_REAL_NAME);
         editor.apply();
-        finish();
         Intent intent = new Intent(this, MainMenuActivityView.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
