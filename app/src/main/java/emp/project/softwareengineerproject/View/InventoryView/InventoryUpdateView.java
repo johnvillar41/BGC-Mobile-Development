@@ -102,6 +102,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         Glide.with(this).load(R.drawable.add_image).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(IMAGE_VIEW);
         try {
             presenter.onPageLoadHints(InventoryRecyclerView.PRODUCT_MODEL);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

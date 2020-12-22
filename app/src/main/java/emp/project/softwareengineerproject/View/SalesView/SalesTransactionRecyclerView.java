@@ -1,12 +1,15 @@
 package emp.project.softwareengineerproject.View.SalesView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -16,17 +19,23 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import emp.project.softwareengineerproject.Interface.ISales.ISalesTransactions;
 import emp.project.softwareengineerproject.Model.SalesModel;
+import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesTransactionPresenter;
 import emp.project.softwareengineerproject.R;
 
 public class SalesTransactionRecyclerView extends RecyclerView.Adapter<SalesTransactionRecyclerView.MyViewHolder> {
 
     List<SalesModel> list;
     Context context;
+    ISalesTransactions.ISalesTransactionsView activityView;
+    ISalesTransactions.ISalesTransactionPresenter presenter;
 
-    public SalesTransactionRecyclerView(List<SalesModel> list, Context context) {
+    public SalesTransactionRecyclerView(List<SalesModel> list, Context context, ISalesTransactions.ISalesTransactionsView activityView) {
         this.list = list;
         this.context = context;
+        this.activityView = activityView;
+        this.presenter = new SalesTransactionPresenter(this.activityView, (SalesTransactionView) this.context);
     }
 
     @NonNull
@@ -39,13 +48,31 @@ public class SalesTransactionRecyclerView extends RecyclerView.Adapter<SalesTran
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        SalesModel model = getItem(position);
+        final SalesModel model = getItem(position);
         holder.txt_date.setText(model.getSales_date());
         holder.txt_product_name.setText(model.getSales_title());
         holder.txt_product_id.setText(model.getProduct_id());
         Glide.with(context).load(R.drawable.ic_money_large).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
         holder.txt_total_products.setText(model.getTotal_number_of_products());
         holder.txt_totalValue.setText(String.valueOf(model.getProduct_total()));
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                androidx.appcompat.app.AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                dialogBuilder.setTitle("Delete Item");
+                dialogBuilder.setIcon(R.drawable.ic_delete);
+                dialogBuilder.setMessage("Are you sure you want to delete this Sales Item?: " + model.getSales_id());
+                dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        presenter.onLongCardViewClicked(model.getSales_id());
+                    }
+                });
+                dialogBuilder.setNegativeButton("No", null);
+                dialogBuilder.show();
+                return true;
+            }
+        });
 
     }
 
@@ -62,6 +89,7 @@ public class SalesTransactionRecyclerView extends RecyclerView.Adapter<SalesTran
         CircleImageView circleImageView;
         TextView txt_product_name, txt_product_id, txt_date, txt_total_products;
         TextView txt_totalValue;
+        CardView cardView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +99,7 @@ public class SalesTransactionRecyclerView extends RecyclerView.Adapter<SalesTran
             txt_date = itemView.findViewById(R.id.txt_date);
             txt_total_products = itemView.findViewById(R.id.txt_total_products);
             txt_totalValue = itemView.findViewById(R.id.txt_total_value);
+            cardView = itemView.findViewById(R.id.cardView_Transactions);
         }
     }
 }

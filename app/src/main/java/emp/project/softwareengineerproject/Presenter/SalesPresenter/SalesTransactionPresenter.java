@@ -135,5 +135,35 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
 
     }
 
+    @Override
+    public void onLongCardViewClicked(final String id) {
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressIndicator();
+                    }
+                });
+                try {
+                    service.deleteItem(id);
+                    view.displayRecyclerView(service.getTransactionsFromDB());
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.hideProgressIndicator();
+                    }
+                });
+            }
+        });thread.start();
+
+    }
+
 
 }

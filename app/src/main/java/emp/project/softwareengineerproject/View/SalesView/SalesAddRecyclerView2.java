@@ -23,7 +23,6 @@ import com.mysql.jdbc.Blob;
 import java.sql.SQLException;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Model.SalesModel;
 import emp.project.softwareengineerproject.R;
@@ -96,7 +95,7 @@ public class SalesAddRecyclerView2 extends RecyclerView.Adapter<SalesAddRecycler
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        CircleImageView imageView;
+        ImageView imageView;
         ImageView imageViewRemoveItem;
         TextView txt_name;
         Spinner spinner;

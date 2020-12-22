@@ -66,4 +66,13 @@ public class SalesTransactionService implements ISalesTransactions.ISalesTransac
         }
         return list;
     }
+
+    @Override
+    public void deleteItem(String id) throws ClassNotFoundException, SQLException {
+        strictMode();
+        String sqlDelete = "DELETE FROM sales_table WHERE sales_id=" + "'" + id + "'";
+        Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+        Statement statement = connection.createStatement();
+        statement.execute(sqlDelete);
+    }
 }

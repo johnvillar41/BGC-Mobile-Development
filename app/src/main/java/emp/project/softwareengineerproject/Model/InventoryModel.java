@@ -124,6 +124,10 @@ public class InventoryModel implements Serializable {
             }
         }
 
+        if (product_picture != null) {
+            isValid = true;
+        }
+
         if (textInputLayouts[0].getError() == null &&
                 textInputLayouts[1].getError() == null &&
                 textInputLayouts[2].getError() == null &&

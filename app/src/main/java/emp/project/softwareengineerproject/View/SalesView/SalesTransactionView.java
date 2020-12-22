@@ -113,7 +113,7 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
                     @Override
                     public void run() {
                         SalesTransactionRecyclerView adapter = new SalesTransactionRecyclerView(
-                                transactionList, SalesTransactionView.this);
+                                transactionList, SalesTransactionView.this,SalesTransactionView.this);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
                         if (adapter.getItemCount() == 0) {

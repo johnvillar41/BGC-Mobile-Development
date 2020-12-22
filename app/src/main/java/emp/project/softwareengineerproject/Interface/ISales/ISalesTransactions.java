@@ -46,6 +46,11 @@ public interface ISalesTransactions {
          * Handles the display all menu item clicked to display all the notifications overall.
          */
         void onShowAllListClicked();
+
+        /**
+         * Will delete the item
+         */
+        void onLongCardViewClicked(String id);
     }
     interface ISalesTransactionService extends IServiceStrictMode {
         /**
@@ -60,5 +65,11 @@ public interface ISalesTransactions {
          * @return returns a list of transactions on a specific date
          */
         List<SalesModel> getSearchedTransactionListFromDB(String date) throws ClassNotFoundException, SQLException;
+
+        /**
+         * Deletes item from the database
+         * @param id id of the certain product to be deleted
+         */
+        void deleteItem(String id) throws ClassNotFoundException, SQLException;
     }
 }

@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.View.SalesView;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -117,6 +118,19 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
             @Override
             public void onClick(View v) {
                 presenter.onConfirmButtonClicked(v);
+            }
+        });
+
+        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                try {
+                    presenter.directProductList();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

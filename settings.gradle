@@ -1,3 +1,4 @@
+include ':mysql-connector-java-8.0.21'
 include ':sql'
 include ':jboss-javax-sql-api_7.0_spec-1.1.0.Final'
 include ':mysql-connector-java-5.1.9'
