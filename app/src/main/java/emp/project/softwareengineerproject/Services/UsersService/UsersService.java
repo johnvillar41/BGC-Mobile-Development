@@ -1,18 +1,26 @@
 package emp.project.softwareengineerproject.Services.UsersService;
 
+import android.os.Build;
 import android.os.StrictMode;
+
+import androidx.annotation.RequiresApi;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
+import emp.project.softwareengineerproject.Model.NotificationModel;
 import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class UsersService implements IUsers.IUsersService {
 
@@ -83,6 +91,7 @@ public class UsersService implements IUsers.IUsersService {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void deleteSpecificUserFromDB(String username) {
         try {
@@ -91,6 +100,21 @@ public class UsersService implements IUsers.IUsersService {
             String sqlDelete = "DELETE FROM login_table WHERE user_username=" + "'" + username + "'";
             Statement statement = connection.createStatement();
             statement.execute(sqlDelete);
+
+            /**
+             * Create Notification here
+             */
+            String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            NotificationModel notificationModel = new NotificationModel("Deleted User", "Deleted User: " + username, String.valueOf(dtf.format(now)),
+                    MainMenuActivityView.GET_PREFERENCES_REALNAME);
+            PreparedStatement preparedStatementUpdateNotification = connection.prepareStatement(sqlNotification);
+            preparedStatementUpdateNotification.setString(1, notificationModel.getNotif_title());
+            preparedStatementUpdateNotification.setString(2, notificationModel.getNotif_content());
+            preparedStatementUpdateNotification.setString(3, notificationModel.getNotif_date());
+            preparedStatementUpdateNotification.setString(4, notificationModel.getUser_name());
+            preparedStatementUpdateNotification.execute();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

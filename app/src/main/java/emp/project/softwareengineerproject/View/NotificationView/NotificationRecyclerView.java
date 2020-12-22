@@ -61,6 +61,8 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
             Glide.with(context).load(R.drawable.update_icon_order).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
         } else if(model.getNotif_title().equals(PRODUCT_STATUS.ORDER_CANCEL.getProduct_status())){
             Glide.with(context).load(R.drawable.update_icon_order).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+        } else if(model.getNotif_title().equals(PRODUCT_STATUS.DELETED_USER.getProduct_status())){
+            Glide.with(context).load(R.drawable.baseline_person_remove_black_18dp).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
         }
 
     }
@@ -74,7 +76,8 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
         ADDED_NEW_USER("Added new User"),
         ORDER_PENDING("Order moved to pending"),
         ORDER_FINISHED("Order is finished"),
-        ORDER_CANCEL("Order cancelled");
+        ORDER_CANCEL("Order cancelled"),
+        DELETED_USER("Deleted User");
 
         private String product_status;
 

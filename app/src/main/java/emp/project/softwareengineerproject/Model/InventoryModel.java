@@ -132,7 +132,7 @@ public class InventoryModel implements Serializable {
                 textInputLayouts[1].getError() == null &&
                 textInputLayouts[2].getError() == null &&
                 textInputLayouts[3].getError() == null &&
-                isValid == false) {
+                isValid == true) {
             return new InventoryModel(
                     textInputLayouts[0].getEditText().getText().toString(),
                     textInputLayouts[1].getEditText().getText().toString(),
