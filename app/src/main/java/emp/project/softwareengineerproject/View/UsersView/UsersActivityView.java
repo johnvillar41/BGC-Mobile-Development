@@ -90,8 +90,8 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         progressIndicator = findViewById(R.id.progress_bar_users);
         progressIndicator.hide();
         FloatingActionButton floatingActionButton = findViewById(R.id.fab_view);
-        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES_USERNAME, MODE_PRIVATE);
-        presenter.onPageDisplayProfile(sharedPreferences.getString(LoginActivityView.MyPREFERENCES_USERNAME, null));
+        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE);
+        presenter.onPageDisplayProfile(sharedPreferences.getString(LoginActivityView.MyPREFERENCES, null));
 
         Animation atg = AnimationUtils.loadAnimation(this, R.anim.atg);
         Animation atg2 = AnimationUtils.loadAnimation(this, R.anim.atg2);
@@ -136,7 +136,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(UsersActivityView.this, LinearLayoutManager.VERTICAL, false);
         UserRecyclerView adapter = new UserRecyclerView(
-                userList, UsersActivityView.this);
+                userList, UsersActivityView.this, UsersActivityView.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 

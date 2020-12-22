@@ -82,4 +82,18 @@ public class UsersService implements IUsers.IUsersService {
         return isSuccesfull;
 
     }
+
+    @Override
+    public void deleteSpecificUserFromDB(String username) {
+        try {
+            strictMode();
+            Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+            String sqlDelete = "DELETE FROM login_table WHERE user_username=" + "'" + username + "'";
+            Statement statement = connection.createStatement();
+            statement.execute(sqlDelete);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

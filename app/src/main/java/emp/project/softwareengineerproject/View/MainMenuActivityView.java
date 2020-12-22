@@ -60,7 +60,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         /**
          * Shared Preferences for getting the session of the user
          */
-        sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES_USERNAME, MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE);
 
         presenter = new MainMenuPresenter(this);
         Animation atg = AnimationUtils.loadAnimation(this, R.anim.atg);
@@ -113,14 +113,14 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         Glide.with(this).asBitmap().load(R.drawable.ic_baseline_exit_to_app_24).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_signout);
 
 
-        if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES_USERNAME, null) == null) {
+        if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES, null) == null) {
             this.finish();
         }
     }
 
     @Override
     public void goToLoginScreen(View v) {
-        sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES_USERNAME, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
@@ -188,7 +188,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES_USERNAME, null) == null) {
+        if (sharedPreferences.getString(LoginActivityView.MyPREFERENCES, null) == null) {
             this.finish();
         }
         super.onResume();

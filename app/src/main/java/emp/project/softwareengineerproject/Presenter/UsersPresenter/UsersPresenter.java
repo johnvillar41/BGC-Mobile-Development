@@ -14,10 +14,10 @@ import emp.project.softwareengineerproject.View.LoginActivityView;
 import emp.project.softwareengineerproject.View.UsersView.UsersActivityView;
 
 public class UsersPresenter implements IUsers.IUsersPresenter {
-    UserModel model;
-    IUsers.IUsersService service;
-    IUsers.IUsersView view;
-    UsersActivityView context;
+    private UserModel model;
+    private IUsers.IUsersService service;
+    private IUsers.IUsersView view;
+    private UsersActivityView context;
 
     public UsersPresenter(IUsers.IUsersView view, Context context) {
         this.view = view;
@@ -102,7 +102,7 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                 model = new UserModel(id, username, password, fullname);
                 if (service.updateNewUserCredentials(model)) {
                     view.displayStatusMessage("Saving... Please Wait");
-                    SharedPreferences sharedPreferences = context.getSharedPreferences(LoginActivityView.MyPREFERENCES_USERNAME, Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreferences = context.getSharedPreferences(LoginActivityView.MyPREFERENCES, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.clear();
                     editor.apply();
@@ -116,6 +116,42 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void onCardViewLongClicked(final String usernameToBeDeleted, final String username) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressBar();
+                    }
+                });
+                if (username.equals(usernameToBeDeleted)) {
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayStatusMessage("You cannot delete your own account!");
+                            view.hideProgressBar();
+                        }
+                    });
+                } else {
+                    service.deleteSpecificUserFromDB(usernameToBeDeleted);
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayStatusMessage("User Deleted!");
+                            view.hideProgressBar();
+                        }
+                    });
+
+                }
+            }
+        });
+        thread.start();
+
     }
 
 

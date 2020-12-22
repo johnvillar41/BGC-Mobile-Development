@@ -1,6 +1,8 @@
 package emp.project.softwareengineerproject.View.UsersView;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -9,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,16 +24,23 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersPresenter;
 import emp.project.softwareengineerproject.R;
+import emp.project.softwareengineerproject.View.LoginActivityView;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyViewHolder> {
     List<UserModel> list;
     Context context;
+    IUsers.IUsersPresenter presenter;
 
-    public UserRecyclerView(List<UserModel> list, Context context) {
+    public UserRecyclerView(List<UserModel> list, Context context, IUsers.IUsersView activity) {
         this.list = list;
         this.context = context;
+        this.presenter = new UsersPresenter(activity, context);
     }
 
     @NonNull
@@ -42,7 +53,7 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        UserModel model = getItem(position);
+        final UserModel model = getItem(position);
         final Blob b = (Blob) model.getUser_image();
         final int[] blobLength = new int[1];
         try {
@@ -55,6 +66,26 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyVi
         }
         holder.txt_userName.setText(model.getUser_username());
         holder.txt_userId.setText(model.getUser_id());
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                dialogBuilder.setTitle("Delete Item");
+                dialogBuilder.setIcon(R.drawable.ic_delete);
+                dialogBuilder.setMessage("Are you sure you want to delete this User?: " + model.getUser_full_name());
+                dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences mPrefs =context.getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE); //add key
+                        String username = mPrefs.getString(LoginActivityView.USERNAME_PREFS, null);
+                        presenter.onCardViewLongClicked(model.getUser_username(), username);
+                    }
+                });
+                dialogBuilder.setNegativeButton("No", null);
+                dialogBuilder.show();
+                return true;
+            }
+        });
     }
 
     private UserModel getItem(int position) {
@@ -69,12 +100,14 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
         CircleImageView circleImageView;
         TextView txt_userId, txt_userName;
+        CardView cardView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             txt_userId = itemView.findViewById(R.id.txt_user_id);
             txt_userName = itemView.findViewById(R.id.txt_user_username);
             circleImageView = itemView.findViewById(R.id.profile_image);
+            cardView = itemView.findViewById(R.id.cardView_Users);
         }
     }
 }

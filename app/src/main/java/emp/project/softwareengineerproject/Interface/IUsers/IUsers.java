@@ -82,6 +82,13 @@ public interface IUsers {
          * This will get all the parameters and redirects it to the service class for the dataase transaction
          */
         void onEditAccountButtonClicked(String id,String username,String password,String fullname);
+
+        /**
+         * This handles the cardView onclick listener of the user accounts displayed on the alertDialog to be either deleted or not
+         * @param usernameToBeDeleted id of user to be deleted
+         * @param username id of user logged in
+         */
+        void onCardViewLongClicked(String usernameToBeDeleted,String username);
     }
 
     interface IUsersService extends IServiceStrictMode {
@@ -102,5 +109,11 @@ public interface IUsers {
          * @return returns a boolean to check whether the update is successfull or not
          */
         boolean updateNewUserCredentials(UserModel model) throws SQLException;
+
+        /**
+         * Deletes user from the database
+         * @param usernameToBeDeleted id of user to be deleted
+         */
+        void deleteSpecificUserFromDB(String usernameToBeDeleted);
     }
 }

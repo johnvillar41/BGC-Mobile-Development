@@ -30,12 +30,15 @@ import emp.project.softwareengineerproject.Presenter.LoginPresenter;
 import emp.project.softwareengineerproject.R;
 
 public class LoginActivityView extends AppCompatActivity implements ILogin.ILoginView {
+
     private MaterialButton btn_login;
     private TextInputLayout txt_username, txt_password;
     private ILogin.ILoginPresenter presenter;
-    public static final String MyPREFERENCES_USERNAME = "MyPrefs";
-    public static final String MyPREFERENCES_NAME = "NAME";
     private ProgressIndicator progressIndicator;
+
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String MyPREFERENCES_NAME = "NAME";
+    public static final String USERNAME_PREFS = "Username_Prefs";
 
     /**
      * TODO
@@ -109,9 +112,9 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
 
     @Override
     public void goToMainPage() {
-        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES_USERNAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString(MyPREFERENCES_USERNAME, txt_username.getEditText().getText().toString());
+        editor.putString(USERNAME_PREFS, txt_username.getEditText().getText().toString());
         editor.putString(MyPREFERENCES_NAME, LoginPresenter.USER_REAL_NAME);
         editor.apply();
         finish();
