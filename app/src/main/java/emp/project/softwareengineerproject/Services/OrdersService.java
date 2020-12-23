@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -62,6 +63,32 @@ public class OrdersService implements IOrders.IOrdersService {
     }
 
     @Override
+    public List<OrdersModel> getCustomerSpecificOrders(String customer_email, String order_date) throws ClassNotFoundException, SQLException {
+        strictMode();
+        Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+        List<OrdersModel> list = new ArrayList<>();
+        /**
+         * Select customer orders
+         */
+        String sqlGetSpecificOrders = "SELECT * FROM customer_orders_table WHERE customer_email=" + "'" + customer_email + "'" + " AND order_date=" + "'" + order_date + "'";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlGetSpecificOrders);
+        while (resultSet.next()) {
+            /**
+             * Get the product id from customer_orders_table to gather the information from the products_table
+             */
+            String sqlGetProducts = "SELECT product_picture,product_name FROM products_table WHERE product_id=" + "'" + resultSet.getString(7) + "'";
+            PreparedStatement preparedStatement2 = connection.prepareStatement(sqlGetProducts);
+            ResultSet resultSet2 = preparedStatement2.executeQuery();
+            while (resultSet2.next()) {
+                model = new OrdersModel(resultSet.getString(7), resultSet.getString(8), resultSet2.getBlob(1), resultSet2.getString(2));
+                list.add(model);
+            }
+        }
+        return list;
+    }
+
+    @Override
     public void updateOrderFromDB(String order_id, String status) throws ClassNotFoundException, SQLException {
         strictMode();
         String sql = "UPDATE customer_orders_table SET order_status=? WHERE order_id=" + "'" + order_id + "'";
@@ -73,7 +100,7 @@ public class OrdersService implements IOrders.IOrdersService {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void addNotificationInDB(String title,String content) throws ClassNotFoundException, SQLException {
+    public void addNotificationInDB(String title, String content) throws ClassNotFoundException, SQLException {
         strictMode();
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";

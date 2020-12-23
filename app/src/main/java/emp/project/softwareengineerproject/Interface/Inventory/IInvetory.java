@@ -60,6 +60,10 @@ public interface IInvetory {
          */
         void displayRecyclerViewFromCategory(List<InventoryModel> list);
 
+        void displayProgressBarRecycler_Others();
+
+        void hideProgressBarRecycler_Others();
+
     }
 
     interface IinventoryPresenter {

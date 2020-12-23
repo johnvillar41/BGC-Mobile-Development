@@ -53,6 +53,7 @@ public interface IOrders {
          * @param content passes the content of the transaction to the service class
          */
         void addNotification(String title,String content);
+
     }
 
     interface IOrdersService extends IServiceStrictMode {
@@ -60,6 +61,8 @@ public interface IOrders {
          * Fetches the all the orders in database in their corresponding statuses
          */
         List<OrdersModel> getOrdersFromDB(String status) throws ClassNotFoundException, SQLException;
+
+        List<OrdersModel>getCustomerSpecificOrders(String customer_email,String order_date) throws ClassNotFoundException, SQLException;
 
         /**
          * Updates the order in the database

@@ -247,6 +247,16 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         }
     }
 
+    @Override
+    public void displayProgressBarRecycler_Others() {
+        progressBar_others.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBarRecycler_Others() {
+        progressBar_others.setVisibility(View.INVISIBLE);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

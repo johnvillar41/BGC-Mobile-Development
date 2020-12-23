@@ -34,7 +34,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <TextView
-                    android:textColor="#000000"
+                    android:textColor="#f9b207"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/product_name"
@@ -54,7 +54,7 @@
                         />
                 </com.google.android.material.textfield.TextInputLayout>
                 <TextView
-                    android:textColor="#000000"
+                    android:textColor="#f9b207"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/product_image"
@@ -69,7 +69,7 @@
                     android:id="@+id/image_product"
                     android:focusable="true" />
                 <TextView
-                    android:textColor="#000000"
+                    android:textColor="#f9b207"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Product Description"
@@ -89,7 +89,7 @@
                         />
                 </com.google.android.material.textfield.TextInputLayout>
                 <TextView
-                    android:textColor="#000000"
+                    android:textColor="#f9b207"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Product Price"
@@ -110,7 +110,7 @@
                         />
                 </com.google.android.material.textfield.TextInputLayout>
                 <TextView
-                    android:textColor="#000000"
+                    android:textColor="#f9b207"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Number of Stocks"
@@ -131,7 +131,7 @@
                         />
                 </com.google.android.material.textfield.TextInputLayout>
                 <TextView
-                    android:textColor="#000000"
+                    android:textColor="#f9b207"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Product Category"

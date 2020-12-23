@@ -3,7 +3,7 @@
         android:id="@+id/page_pending_orders"
         android:enabled="true"
         android:icon="@drawable/baseline_pending_actions_black_18dp"
-        android:title="Pending Orders"/>
+        android:title="Process Orders"/>
     <item
         android:id="@+id/page_finished_orders"
         android:enabled="true"

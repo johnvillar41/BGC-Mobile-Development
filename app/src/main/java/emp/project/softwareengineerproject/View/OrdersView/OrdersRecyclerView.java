@@ -1,7 +1,6 @@
 package emp.project.softwareengineerproject.View.OrdersView;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +11,13 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.AutoTransition;
+import androidx.transition.TransitionManager;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -20,6 +25,7 @@ import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.OrdersModel;
 import emp.project.softwareengineerproject.Presenter.OrdersPresenter;
 import emp.project.softwareengineerproject.R;
+import emp.project.softwareengineerproject.Services.OrdersService;
 
 public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.MyViewHolder> {
 
@@ -44,13 +50,13 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
         holder.txt_total.setText(model.getOrder_total_price());
         holder.txt_order_id.setText(model.getOrder_id());
         holder.txt_order_date.setText(model.getOrder_date());
-        if (model.getOrder_status().equals(STATUS.PENDING.getStatus())) {
-            holder.layout_background_color.setBackgroundColor(Color.parseColor(COLORS.GREEN.getColor()));
-        } else if (model.getOrder_status().equals(STATUS.CANCELLED.getStatus())) {
-            holder.layout_background_color.setBackgroundColor(Color.parseColor(COLORS.RED.getColor()));
-        } else if (model.getOrder_status().equals(STATUS.FINISHED.getStatus())) {
-            holder.layout_background_color.setBackgroundColor(Color.parseColor(COLORS.BLUE.getColor()));
-        }
+        /**if (model.getOrder_status().equals(STATUS.PENDING.getStatus())) {
+         holder.layout_background_color.setBackgroundColor(Color.parseColor(COLORS.GREEN.getColor()));
+         } else if (model.getOrder_status().equals(STATUS.CANCELLED.getStatus())) {
+         holder.layout_background_color.setBackgroundColor(Color.parseColor(COLORS.RED.getColor()));
+         } else if (model.getOrder_status().equals(STATUS.FINISHED.getStatus())) {
+         holder.layout_background_color.setBackgroundColor(Color.parseColor(COLORS.BLUE.getColor()));
+         }*/
 
         holder.order_status.setText(model.getOrder_status());
 
@@ -66,32 +72,32 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                         switch (item.getItemId()) {
                             case R.id.page_pending_orders:
                                 presenter.onMenuPendingClicked(model.getOrder_id());
-                                if(!model.getOrder_status().equals(STATUS.PENDING.getStatus())){
+                                if (!model.getOrder_status().equals(STATUS.PENDING.getStatus())) {
                                     list.remove(position);
-                                    notifyItemRangeChanged(position,list.size());
+                                    notifyItemRangeChanged(position, list.size());
                                     notifyItemRemoved(position);
                                     notifyDataSetChanged();
-                                    presenter.addNotification(STATUS.PENDING_NOTIF.getStatus(),STATUS.NOTIF_CONTENT.getStatus());
+                                    presenter.addNotification(STATUS.PENDING_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
                                 }
                                 return true;
                             case R.id.page_finished_orders:
                                 presenter.onMenuFinishClicked(model.getOrder_id());
-                                if(!model.getOrder_status().equals(STATUS.FINISHED.getStatus())){
+                                if (!model.getOrder_status().equals(STATUS.FINISHED.getStatus())) {
                                     list.remove(position);
-                                    notifyItemRangeChanged(position,list.size());
+                                    notifyItemRangeChanged(position, list.size());
                                     notifyItemRemoved(position);
                                     notifyDataSetChanged();
-                                    presenter.addNotification(STATUS.FINISHED_NOTIF.getStatus(),STATUS.NOTIF_CONTENT.getStatus());
+                                    presenter.addNotification(STATUS.FINISHED_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
                                 }
                                 return true;
                             case R.id.page_cancelled_orders:
                                 presenter.onMenuCancelClicked(model.getOrder_id());
-                                if(!model.getOrder_status().equals(STATUS.CANCELLED.getStatus())){
+                                if (!model.getOrder_status().equals(STATUS.CANCELLED.getStatus())) {
                                     list.remove(position);
-                                    notifyItemRangeChanged(position,list.size());
+                                    notifyItemRangeChanged(position, list.size());
                                     notifyItemRemoved(position);
                                     notifyDataSetChanged();
-                                    presenter.addNotification(STATUS.CANCELLED_NOTIF.getStatus(),STATUS.NOTIF_CONTENT.getStatus());
+                                    presenter.addNotification(STATUS.CANCELLED_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
                                 }
                                 return true;
                             default:
@@ -102,7 +108,38 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                 popup.show();
             }
         });
+        holder.expandable_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.expandableLayout.getVisibility() == View.VISIBLE) {
+                    TransitionManager.beginDelayedTransition(holder.cardView,
+                            new AutoTransition());
+                    holder.expandableLayout.setVisibility(View.GONE);
+                    holder.expandable_fab.setImageResource(R.drawable.animation_down);
+
+                } else {
+                    TransitionManager.beginDelayedTransition(holder.cardView,
+                            new AutoTransition());
+                    holder.expandableLayout.setVisibility(View.VISIBLE);
+                    holder.expandable_fab.setImageResource(R.drawable.animation_up);
+                    OrdersService service = new OrdersService(model);
+                    try {
+                        LinearLayoutManager linearLayoutManager
+                                = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+                        OrdersSpecificRecyclerView adapter = new OrdersSpecificRecyclerView(context,service.getCustomerSpecificOrders(model.getCustomer_email(),model.getOrder_date()));
+                        holder.recyclerView.setLayoutManager(linearLayoutManager);
+                        holder.recyclerView.setAdapter(adapter);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
+
     }
+
 
 
     @NonNull
@@ -162,12 +199,14 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView txt_order_date, txt_order_id, customer_name, customer_email, txt_total, order_status;
-        LinearLayout layout_background_color;
         ImageView imageView_menu;
+        FloatingActionButton expandable_fab;
+        LinearLayout expandableLayout;
+        CardView cardView;
+        RecyclerView recyclerView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            layout_background_color = itemView.findViewById(R.id.txt_background_color);
             txt_order_date = itemView.findViewById(R.id.txt_date);
             txt_order_id = itemView.findViewById(R.id.txt_order_number);
             customer_name = itemView.findViewById(R.id.txt_customer_name);
@@ -175,6 +214,10 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
             txt_total = itemView.findViewById(R.id.txt_total_value);
             order_status = itemView.findViewById(R.id.txt_status);
             imageView_menu = itemView.findViewById(R.id.image_menu_orders);
+            expandable_fab = itemView.findViewById(R.id.expandable_fab);
+            expandableLayout = itemView.findViewById(R.id.expandable_Layout);
+            cardView = itemView.findViewById(R.id.cardView_Orders);
+            recyclerView = itemView.findViewById(R.id.recyclerView_specific_orders);
         }
     }
 }

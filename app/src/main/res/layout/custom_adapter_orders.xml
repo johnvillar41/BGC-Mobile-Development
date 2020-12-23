@@ -6,103 +6,168 @@
     android:layout_marginLeft="5dp"
     android:layout_marginTop="5dp"
     android:layout_marginRight="5dp"
+    android:id="@+id/cardView_Orders"
     app:cardCornerRadius="5dp">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/txt_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Date here"
-            android:textColor="#000000"
-            android:textSize="20sp"/>
-        <ImageView
-            android:id="@+id/image_menu_orders"
-            android:layout_width="24sp"
-            android:layout_height="24sp"
-            android:layout_alignParentRight="true"
-            android:layout_margin="5dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/baseline_more_vert_black_18dp"
-            app:menu="@menu/menu_notification" />
-
-        <LinearLayout
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
+            android:layout_margin="10dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Order number: "
-                android:textColor="#000000" />
-
-            <TextView
-                android:id="@+id/txt_order_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="number: "
-                android:textColor="#000000" />
-
-
-            <TextView
-                android:id="@+id/txt_customer_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Customer Name here "
-                android:textColor="#000000" />
-
-            <TextView
-                android:id="@+id/txt_customer_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Customer email"
-                android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Total"
-                android:textColor="#000000" />
-
-            <TextView
-                android:id="@+id/txt_total_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="PHP 100"
-                android:textColor="#000000" />
-            <LinearLayout
-                android:id="@+id/txt_background_color"
+            <ImageView
+                android:id="@+id/image_menu_orders"
+                android:layout_width="24sp"
+                android:layout_height="24sp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="3dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/baseline_more_vert_black_18dp"
+                app:menu="@menu/menu_notification" />
+            <TableLayout
+                android:id="@+id/table_Layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#2F9833">
-                <TextView
-                    android:id="@+id/txt_status"
+                android:layout_height="wrap_content">
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Order number: "
+                        android:textColor="#000000"
+                        android:textSize="20dp" />
+                    <TextView
+                        android:id="@+id/txt_order_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="number: "
+                        android:textColor="#000000"
+                        android:textSize="20dp" />
+                </TableRow>
+
+                <View
                     android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@id/table_Layout"
+                    android:background="#c0c0c0"/>
+
+                <TableRow>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Order Status: "
+                        android:textColor="#000000"
+                        />
+                    <TextView
+                        android:id="@+id/txt_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Processing"
+                        android:textColor="#000000"
+                        />
+
+
+
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Order Date: "
+                        android:textColor="#000000"
+                        />
+                    <TextView
+                        android:id="@+id/txt_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date Here: "
+                        android:textColor="#000000"
+                        />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Customer Name: "
+                        android:textColor="#000000" />
+                    <TextView
+                        android:id="@+id/txt_customer_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Customer Name here "
+                        android:textColor="#000000" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Customer email: "
+                        android:textColor="#000000" />
+                    <TextView
+                        android:id="@+id/txt_customer_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Customer email"
+                        android:textColor="#000000" />
+                </TableRow>
+            </TableLayout>
+            <View
+                android:id="@+id/View_Line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/table_Layout"
+                android:background="#c0c0c0"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/View_Line"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="Processing"
-                    android:textColor="#000000"
-                    android:textSize="30sp"
-                    android:textStyle="italic" />
+                    android:text="Total: "
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/txt_total_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PHP 100"
+                    android:textColor="#000000" />
             </LinearLayout>
 
-
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/expandable_fab"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/View_Line"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:backgroundTint="#f9b207"
+                app:srcCompat="@drawable/ic_down" />
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/expandable_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_specific_orders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </RelativeLayout>
+
+
+
 
 
 

@@ -84,10 +84,40 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
     }
 
     @Override
-    public void onItemSpinnerSelected(String selectedItem) throws SQLException, ClassNotFoundException {
-        view.displayRecyclerViewFromCategory(service.getCategorizedItemsFromDB(selectedItem));
-    }
+    public void onItemSpinnerSelected(final String selectedItem) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressBarRecycler_Others();
+                    }
+                });
+                try {
+                    final List<InventoryModel> categrized_items = service.getCategorizedItemsFromDB(selectedItem);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayRecyclerViewFromCategory(categrized_items);
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.hideProgressBarRecycler_Others();
+                    }
+                });
+            }
+        });
+        thread.start();
 
+    }
 
 
 }
