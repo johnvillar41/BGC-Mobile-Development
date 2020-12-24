@@ -210,7 +210,7 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
                                     public void run() {
                                         Bitmap image = ((BitmapDrawable) PROFILE_PICTURE.getDrawable()).getBitmap();
                                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                                        image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                        image.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
                                         FILE_INPUT_STREAM = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
                                         runOnUiThread(new Runnable() {
                                             @Override

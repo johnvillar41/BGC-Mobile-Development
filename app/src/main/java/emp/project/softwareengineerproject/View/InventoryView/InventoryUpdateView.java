@@ -304,7 +304,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                     public void run() {
                                         Bitmap image = ((BitmapDrawable) IMAGE_VIEW.getDrawable()).getBitmap();
                                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                                        image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                        image.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
                                         FILE_INPUT_STREAM = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
                                         runOnUiThread(new Runnable() {
                                             @Override
