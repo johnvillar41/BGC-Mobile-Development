@@ -19,10 +19,10 @@ import emp.project.softwareengineerproject.View.SalesView.SalesAddActivityView;
 
 public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
 
-    ISalesAdd.ISalesAddView view;
-    ISalesAdd.ISalesAddService service;
-    SalesModel model;
-    SalesAddActivityView context;
+    private ISalesAdd.ISalesAddView view;
+    private ISalesAdd.ISalesAddService service;
+    private SalesModel model;
+    private SalesAddActivityView context;
 
     public SalesAddPresenter(ISalesAdd.ISalesAddView view, SalesAddActivityView context) {
         this.view = view;
@@ -99,7 +99,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                     }
 
                     try {
-                        isSuccessful.add(service.insertOrderToDB(model));
+                        isSuccessful.add(service.checkIfProductIsEnough(SalesModel.cartList.get(i).getProduct_id(),SalesModel.cartList.get(i).getTotal_number_of_products()));
                     } catch (SQLException e) {
                         view.displayOnErrorMessage(e.getMessage(), v);
                         isSuccessful.add(false);
@@ -124,6 +124,10 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                 }
 
                 for (int i = 0; i < isSuccessful.size(); i++) {
+                    /**
+                     * I planned on having a List<Booleans> for isSuccessfull variable to display an error message on each of
+                     * the recycler views if this will not be implemented, this algorithmn will be removed and refractored
+                     */
                     if (!isSuccessful.get(i)) {
                         context.runOnUiThread(new Runnable() {
                             @Override
@@ -140,6 +144,13 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            try {
+                                service.insertOrderToDB(model);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            }
                             view.displaySuccessfullPrompt();
                             view.hideProgressIndicatorCart();
                         }
