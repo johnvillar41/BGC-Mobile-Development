@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.Presenter;
 
+import android.app.Activity;
 import android.os.Build;
 import android.view.View;
 
@@ -12,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import emp.project.softwareengineerproject.Interface.IMainMenu;
 import emp.project.softwareengineerproject.Services.MainMenuService;
 
-public class MainMenuPresenter implements IMainMenu.IMainPresenter {
+public class MainMenuPresenter extends Activity implements IMainMenu.IMainPresenter {
     private IMainMenu.IMainMenuView view;
     private IMainMenu.IMainService service;
 
@@ -53,11 +54,34 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void directUsernameDisplay() throws SQLException, ClassNotFoundException {
-        view.displayUsername();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        LocalDateTime now = LocalDateTime.now();
-        view.displayNumberOfNotifs(String.valueOf(service.getNumberOfNotifications(dtf.format(now))));
+    public void directUsernameDisplay() {
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayUsername();
+                    }
+                });
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                LocalDateTime now = LocalDateTime.now();
+                try {
+                    final String numberOfNotifs=String.valueOf(service.getNumberOfNotifications(dtf.format(now)));
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayNumberOfNotifs(numberOfNotifs);
+                        }
+                    });
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });thread.start();
+
     }
 
     @Override

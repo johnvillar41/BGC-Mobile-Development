@@ -77,6 +77,7 @@ public class UsersService implements IUsers.IUsersService {
     public boolean updateNewUserCredentials(UserModel model) {
         boolean isSuccesfull;
         try {
+            strictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             String sqlUpdate = "UPDATE login_table " +
                     "SET user_username='" + model.getUser_username() + "',user_password='" + model.getUser_password() + "',user_name='" + model.getUser_full_name() + "'" +
@@ -85,6 +86,7 @@ public class UsersService implements IUsers.IUsersService {
             statement.execute(sqlUpdate);
             isSuccesfull = true;
         } catch (Exception e) {
+            e.printStackTrace();
             isSuccesfull = false;
         }
         return isSuccesfull;

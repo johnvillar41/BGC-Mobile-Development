@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.View.UsersView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -48,6 +49,8 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
     private IUsers.IUsersPresenter presenter;
     private TextInputLayout txt_user_id, txt_username, txt_password, txt_real_name;
     private ProgressIndicator progressIndicator;
+
+    private static int numberOfDialogs = 0;
 
 
     @Override
@@ -127,22 +130,32 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
 
     @Override
     public void displayPopupUsers(final List<UserModel> userList) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(UsersActivityView.this);
-        LayoutInflater inflater = (UsersActivityView.this).getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.custom_popup_show_users, null);
-        dialogBuilder.setView(dialogView);
+        numberOfDialogs++;
+        if (numberOfDialogs == 1) {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(UsersActivityView.this);
+            LayoutInflater inflater = (UsersActivityView.this).getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.custom_popup_show_users, null);
+            dialogBuilder.setView(dialogView);
 
-        RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerView_Users);
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(UsersActivityView.this, LinearLayoutManager.VERTICAL, false);
-        UserRecyclerView adapter = new UserRecyclerView(
-                userList, UsersActivityView.this, UsersActivityView.this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+            RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerView_Users);
+            LinearLayoutManager layoutManager
+                    = new LinearLayoutManager(UsersActivityView.this, LinearLayoutManager.VERTICAL, false);
+            UserRecyclerView adapter = new UserRecyclerView(
+                    userList, UsersActivityView.this, UsersActivityView.this);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
 
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.show();
+            AlertDialog dialog = dialogBuilder.create();
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.show();
+
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    numberOfDialogs = 0;
+                }
+            });
+        }
     }
 
     @Override

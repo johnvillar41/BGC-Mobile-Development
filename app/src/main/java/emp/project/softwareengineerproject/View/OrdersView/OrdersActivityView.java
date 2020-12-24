@@ -83,6 +83,7 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
                 orderList, OrdersActivityView.this,OrdersActivityView.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.scheduleLayoutAnimation();
         if (adapter.getItemCount() == 0) {
             Glide.with(this).asBitmap().load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView);
         } else {

@@ -80,6 +80,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
                 NotificationsActivityView.this, list_notifs);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.scheduleLayoutAnimation();
         if (adapter.getItemCount() == 0) {
             Glide.with(NotificationsActivityView.this).load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(circleImageView_empty);
             circleImageView_empty.setVisibility(View.VISIBLE);

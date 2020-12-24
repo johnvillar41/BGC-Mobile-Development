@@ -116,6 +116,7 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
                                 transactionList, SalesTransactionView.this,SalesTransactionView.this);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
+                        recyclerView.scheduleLayoutAnimation();
                         if (adapter.getItemCount() == 0) {
                             Glide.with(SalesTransactionView.this).load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(empty_image);
                             empty_image.setVisibility(View.VISIBLE);

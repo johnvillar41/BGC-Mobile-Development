@@ -46,6 +46,8 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
     private ProgressIndicator progressIndicatorCart;
     private RecyclerView recyclerView;
 
+    private static int numberOfDialogsOpen = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,61 +87,67 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
 
     @Override
     public void displayCart(List<InventoryModel> cartList) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
+        numberOfDialogsOpen++;
+        if (numberOfDialogsOpen == 1) {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
 
-        View dialogView = inflater.inflate(R.layout.custom_popup_cart, null);
-        dialogBuilder.setView(dialogView);
+            View dialogView = inflater.inflate(R.layout.custom_popup_cart, null);
+            dialogBuilder.setView(dialogView);
 
-        final RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerView_cart);
-        Button btn_back = dialogView.findViewById(R.id.btn_back);
-        Button btn_confirm = dialogView.findViewById(R.id.btn_confirm);
-        progressIndicatorCart = dialogView.findViewById(R.id.progressBar_Cart);
-        progressIndicatorCart.hide();
+            final RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerView_cart);
+            Button btn_back = dialogView.findViewById(R.id.btn_back);
+            Button btn_confirm = dialogView.findViewById(R.id.btn_confirm);
+            progressIndicatorCart = dialogView.findViewById(R.id.progressBar_Cart);
+            progressIndicatorCart.hide();
 
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(SalesAddActivityView.this, LinearLayoutManager.VERTICAL, false);
-        SalesAddRecyclerView2 adapter = new SalesAddRecyclerView2(
-                cartList, SalesAddActivityView.this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+            LinearLayoutManager layoutManager
+                    = new LinearLayoutManager(SalesAddActivityView.this, LinearLayoutManager.VERTICAL, false);
+            SalesAddRecyclerView2 adapter = new SalesAddRecyclerView2(
+                    cartList, SalesAddActivityView.this);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
 
-        final AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        alertDialog.show();
+            final AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            alertDialog.show();
 
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-        btn_confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onConfirmButtonClicked(v);
-            }
-        });
-
-        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                try {
-                    presenter.directProductList();
-                    SalesModel.cartList.clear();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+            btn_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
                 }
-            }
-        });
+            });
+            btn_confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    presenter.onConfirmButtonClicked(v);
+                }
+            });
+
+            alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    try {
+                        presenter.directProductList();
+                        SalesModel.cartList.clear();
+                        numberOfDialogsOpen = 0;
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
 
     }
 
     @Override
     public void onBackPressed() {
         SalesModel.cartList.clear();
+        numberOfDialogsOpen = 0;
         super.onBackPressed();
     }
 
