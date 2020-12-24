@@ -12,6 +12,10 @@ public interface ISearchInventory {
          * @param product_list displays a list of items which has the similar names
          */
         void displayRecyclerView(List<InventoryModel> product_list);
+
+        void displayProgressLoader();
+
+        void hideProgressLoader();
     }
     interface  ISearchInventoryPresenter{
         /**

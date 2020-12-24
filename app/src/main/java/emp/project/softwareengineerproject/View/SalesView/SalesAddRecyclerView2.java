@@ -59,11 +59,11 @@ public class SalesAddRecyclerView2 extends RecyclerView.Adapter<SalesAddRecycler
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Integer[] arrNums = new Integer[11];
+        String[] arrNums = new String[11];
         for (int i = 0; i < arrNums.length; i++) {
-            arrNums[i] = i;
+            arrNums[i] = String.valueOf(i);
         }
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, arrNums);
+        ArrayAdapter<String>adapter=new ArrayAdapter<>(context,android.R.layout.simple_spinner_dropdown_item,arrNums);
         holder.spinner.setAdapter(adapter);
         holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

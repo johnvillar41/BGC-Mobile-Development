@@ -1,15 +1,17 @@
 package emp.project.softwareengineerproject.View.InventoryView;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 
@@ -24,6 +26,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
     private FloatingSearchView txt_searchItem;
     private ISearchInventory.ISearchInventoryPresenter presenter;
     private RecyclerView recyclerViewSearchedItem;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
                 }
             }
         });
+        progressBar = findViewById(R.id.progressBar_search_item);
     }
 
     @Override
@@ -76,6 +80,16 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
             }
         });
         thread.start();
+    }
+
+    @Override
+    public void displayProgressLoader() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressLoader() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

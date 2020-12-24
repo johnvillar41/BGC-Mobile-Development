@@ -57,7 +57,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         final InventoryModel model = getItem(position);
         final Blob b = model.getProduct_picture();
         final int[] blobLength = new int[1];
@@ -136,7 +136,9 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                     public void onClick(DialogInterface dialog, int which) {
                         try {
                             presenter.onCardViewLongClicked(model.getProduct_id(),model.getProduct_name());
-                            presenter.onSwipeRefresh();
+                            list.remove(position);
+                            notifyItemRangeChanged(position, list.size());
+                            notifyItemRemoved(position);
                         } catch (SQLException e) {
                             e.printStackTrace();
                         } catch (ClassNotFoundException e) {

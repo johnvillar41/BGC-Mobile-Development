@@ -138,6 +138,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
     @Override
     public void onLongCardViewClicked(final String id) {
         Thread thread=new Thread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run() {
                 context.runOnUiThread(new Runnable() {
@@ -148,7 +149,6 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                 });
                 try {
                     service.deleteItem(id);
-                    view.displayRecyclerView(service.getTransactionsFromDB());
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {

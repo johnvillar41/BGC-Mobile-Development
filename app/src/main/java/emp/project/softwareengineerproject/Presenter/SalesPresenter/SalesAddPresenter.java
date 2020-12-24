@@ -8,7 +8,6 @@ import androidx.annotation.RequiresApi;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
@@ -70,92 +69,73 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                final List<Boolean> isSuccessful = new ArrayList<>();
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicatorCart();
                     }
                 });
-                boolean isZero = false;
+                boolean isValid = false;
                 for (int i = 0; i < SalesModel.cartList.size(); i++) {
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                    LocalDateTime now = LocalDateTime.now();
-
-                    DateTimeFormatter dtf_month = DateTimeFormatter.ofPattern("MM");
-                    LocalDateTime now_month = LocalDateTime.now();
-
-                    model = new SalesModel(SalesModel.cartList.get(i).getProduct_picture(), SalesModel.cartList.get(i).getProduct_name(),
-                            SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products(),
-                            String.valueOf(dtf.format(now)), String.valueOf(dtf_month.format(now_month)));
-                    try{
-                        if (SalesModel.cartList.get(i).getTotal_number_of_products().equals(String.valueOf(0)) ||
-                                SalesModel.cartList.get(i).getTotal_number_of_products().equals(null)) {
-                            isSuccessful.add(false);
-                            isZero = true;
-                        }
-                    } catch (NullPointerException e) {
-                        view.displayOnErrorMessage(e.getMessage(),v);
-                    }
-
                     try {
-                        isSuccessful.add(service.checkIfProductIsEnough(SalesModel.cartList.get(i).getProduct_id(),SalesModel.cartList.get(i).getTotal_number_of_products()));
-                    } catch (SQLException e) {
-                        view.displayOnErrorMessage(e.getMessage(), v);
-                        isSuccessful.add(false);
-                    } catch (ClassNotFoundException e) {
-                        view.displayOnErrorMessage(e.getMessage(), v);
-                        isSuccessful.add(false);
-                    }
-                }
-                boolean finalSuccess = true;
-                if (SalesModel.cartList.size() == 0) {
-                    finalSuccess = false;
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.hideProgressIndicatorCart();
-                            view.displayOnErrorMessage("Cart is Empty!", v);
-                        }
-                    });
-                }
-                if(isZero){
-                    view.displayOnErrorMessage("Products have zero values", v);
-                }
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                        LocalDateTime now = LocalDateTime.now();
 
-                for (int i = 0; i < isSuccessful.size(); i++) {
-                    /**
-                     * I planned on having a List<Booleans> for isSuccessfull variable to display an error message on each of
-                     * the recycler views if this will not be implemented, this algorithmn will be removed and refractored
-                     */
-                    if (!isSuccessful.get(i)) {
+                        DateTimeFormatter dtf_month = DateTimeFormatter.ofPattern("MM");
+                        LocalDateTime now_month = LocalDateTime.now();
+
+                        model = new SalesModel(SalesModel.cartList.get(i).getProduct_picture(), SalesModel.cartList.get(i).getProduct_name(),
+                                SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products(),
+                                String.valueOf(dtf.format(now)), String.valueOf(dtf_month.format(now_month)));
+
+                        isValid = service.checkIfProductIsEnough(SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products());
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        isValid = false;
+                    }
+
+                    if (SalesModel.cartList.get(i).getTotal_number_of_products().equals(String.valueOf(0)) || SalesModel.cartList.get(i).getTotal_number_of_products().equals(null)) {
+                        view.displayOnErrorMessage("One or more products have zero value!", v);
+                        isValid = false;
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                view.displayOnErrorMessage("Number of products not enough", v);
                                 view.hideProgressIndicatorCart();
                             }
                         });
-                        finalSuccess = false;
                         break;
                     }
+
+                    if (isValid) {
+                        try {
+                            service.insertOrderToDB(model);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-                if (finalSuccess) {
+                if (isValid) {
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                service.insertOrderToDB(model);
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
-                            }
                             view.displaySuccessfullPrompt();
                             view.hideProgressIndicatorCart();
                         }
                     });
+                } else {
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayOnErrorMessage("Products not enough!", v);
+                            view.hideProgressIndicatorCart();
+                        }
+                    });
                 }
+
             }
         });
         thread.start();

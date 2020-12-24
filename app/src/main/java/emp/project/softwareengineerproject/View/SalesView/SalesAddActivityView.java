@@ -126,6 +126,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
             public void onDismiss(DialogInterface dialog) {
                 try {
                     presenter.directProductList();
+                    SalesModel.cartList.clear();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {

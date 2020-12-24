@@ -47,7 +47,7 @@ public class SalesTransactionRecyclerView extends RecyclerView.Adapter<SalesTran
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         final SalesModel model = getItem(position);
         holder.txt_date.setText(model.getSales_date());
         holder.txt_product_name.setText(model.getSales_title());
@@ -66,6 +66,9 @@ public class SalesTransactionRecyclerView extends RecyclerView.Adapter<SalesTran
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         presenter.onLongCardViewClicked(model.getSales_id());
+                        list.remove(position);
+                        notifyItemRangeChanged(position, list.size());
+                        notifyItemRemoved(position);
                     }
                 });
                 dialogBuilder.setNegativeButton("No", null);
