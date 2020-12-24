@@ -74,9 +74,8 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                                 presenter.onMenuPendingClicked(model.getOrder_id());
                                 if (!model.getOrder_status().equals(STATUS.PENDING.getStatus())) {
                                     list.remove(position);
-                                    notifyItemRangeChanged(position, list.size());
                                     notifyItemRemoved(position);
-                                    notifyDataSetChanged();
+                                    notifyItemRangeChanged(position, list.size());
                                     presenter.addNotification(STATUS.PENDING_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
                                 }
                                 return true;
@@ -84,9 +83,8 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                                 presenter.onMenuFinishClicked(model.getOrder_id());
                                 if (!model.getOrder_status().equals(STATUS.FINISHED.getStatus())) {
                                     list.remove(position);
-                                    notifyItemRangeChanged(position, list.size());
                                     notifyItemRemoved(position);
-                                    notifyDataSetChanged();
+                                    notifyItemRangeChanged(position, list.size());
                                     presenter.addNotification(STATUS.FINISHED_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
                                 }
                                 return true;
@@ -94,9 +92,8 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                                 presenter.onMenuCancelClicked(model.getOrder_id());
                                 if (!model.getOrder_status().equals(STATUS.CANCELLED.getStatus())) {
                                     list.remove(position);
-                                    notifyItemRangeChanged(position, list.size());
                                     notifyItemRemoved(position);
-                                    notifyDataSetChanged();
+                                    notifyItemRangeChanged(position, list.size());
                                     presenter.addNotification(STATUS.CANCELLED_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
                                 }
                                 return true;

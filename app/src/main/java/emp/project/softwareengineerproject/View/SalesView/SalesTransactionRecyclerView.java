@@ -67,8 +67,8 @@ public class SalesTransactionRecyclerView extends RecyclerView.Adapter<SalesTran
                     public void onClick(DialogInterface dialog, int which) {
                         presenter.onLongCardViewClicked(model.getSales_id());
                         list.remove(position);
-                        notifyItemRangeChanged(position, list.size());
                         notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, list.size());
                     }
                 });
                 dialogBuilder.setNegativeButton("No", null);

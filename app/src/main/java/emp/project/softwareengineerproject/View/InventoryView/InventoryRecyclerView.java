@@ -147,8 +147,8 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                         try {
                             presenter.onCardViewLongClicked(model.getProduct_id(), model.getProduct_name());
                             list.remove(position);
-                            notifyItemRangeChanged(position, list.size());
                             notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, list.size());
                         } catch (SQLException e) {
                             e.printStackTrace();
                         } catch (ClassNotFoundException e) {
