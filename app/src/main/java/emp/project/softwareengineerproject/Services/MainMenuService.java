@@ -36,8 +36,15 @@ public class MainMenuService extends Activity implements IMainMenu.IMainService 
         String sqlGetNumberOfNotifs = "SELECT COUNT(*) FROM notifications_table WHERE notif_date LIKE " + "'" + date + "%'";
         ResultSet resultSet = statement.executeQuery(sqlGetNumberOfNotifs);
         if (resultSet.next()) {
-            return resultSet.getInt(1);
+            int numberOfNotifs = resultSet.getInt(1);
+            connection.close();
+            statement.close();
+            resultSet.close();
+            return numberOfNotifs;
         } else {
+            connection.close();
+            statement.close();
+            resultSet.close();
             return 0;
         }
     }
@@ -53,6 +60,9 @@ public class MainMenuService extends Activity implements IMainMenu.IMainService 
         while (resultSet.next()) {
             profileImage = resultSet.getBlob(1);
         }
+        connection.close();
+        statement.close();
+        resultSet.close();
         return profileImage;
     }
 }

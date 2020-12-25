@@ -32,11 +32,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.ProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.UserModel;
 import emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersPresenter;
@@ -195,8 +197,16 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
 
     @Override
     protected void onDestroy() {
+        try {
+            File dir = getCacheDir();
+            CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
+            cacheManager.deleteDir(dir);
+            cacheManager.clearGlideMemory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
         super.onDestroy();
-        Glide.get(getApplicationContext()).clearMemory();
     }
 
     @Override

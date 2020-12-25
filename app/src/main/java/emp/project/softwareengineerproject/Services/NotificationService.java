@@ -48,6 +48,9 @@ public class NotificationService implements INotification.INotificationService {
                     resultSet.getString(5));
             list.add(model);
         }
+        connection.close();
+        statement.close();
+        resultSet.close();
         return list;
     }
 }

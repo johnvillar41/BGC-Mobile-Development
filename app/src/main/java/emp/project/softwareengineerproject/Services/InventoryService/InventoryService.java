@@ -26,7 +26,7 @@ import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class InventoryService implements IInvetory.IInventoryService {
 
-    InventoryModel model;
+    private InventoryModel model;
     private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
     private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
     private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
@@ -117,6 +117,7 @@ public class InventoryService implements IInvetory.IInventoryService {
         preparedStatement.close();
 
         statement.close();
+        preparedStatement.close();
         connection.close();
     }
 
@@ -137,6 +138,9 @@ public class InventoryService implements IInvetory.IInventoryService {
                 finalList.add(tempList.get(i));
             }
         }
+        connection.close();
+        resultSet.close();
+        statement.close();
         return finalList;
 
     }
@@ -154,6 +158,9 @@ public class InventoryService implements IInvetory.IInventoryService {
                     (Blob) resultSet.getBlob(5), resultSet.getInt(6), resultSet.getString(7));
             list.add(model);
         }
+        connection.close();
+        statement.close();
+        resultSet.close();
         return list;
     }
 

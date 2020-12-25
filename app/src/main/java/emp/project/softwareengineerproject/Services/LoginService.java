@@ -38,9 +38,14 @@ public class LoginService implements ILogin.ILoginService {
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             LoginPresenter.USER_REAL_NAME = resultSet.getString(4);
+            connection.close();
+            preparedStatement.close();
+            resultSet.close();
             return true;
         } else {
-
+            connection.close();
+            preparedStatement.close();
+            resultSet.close();
             return false;
         }
     }

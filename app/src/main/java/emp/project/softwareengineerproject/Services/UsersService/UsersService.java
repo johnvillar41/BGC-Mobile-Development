@@ -50,9 +50,16 @@ public class UsersService implements IUsers.IUsersService {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlGetUserProfile);
         if (resultSet.next()) {
-            return new UserModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
+            model = new UserModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
                     resultSet.getString(4), resultSet.getBlob(5));
+            connection.close();
+            statement.close();
+            resultSet.close();
+            return model;
         } else {
+            connection.close();
+            statement.close();
+            resultSet.close();
             return null;
         }
     }
@@ -70,6 +77,9 @@ public class UsersService implements IUsers.IUsersService {
                     resultSet.getString(3), resultSet.getString(4), resultSet.getBlob(5));
             list.add(model);
         }
+        connection.close();
+        statement.close();
+        resultSet.close();
         return list;
     }
 
@@ -85,6 +95,8 @@ public class UsersService implements IUsers.IUsersService {
             Statement statement = connection.createStatement();
             statement.execute(sqlUpdate);
             isSuccesfull = true;
+            connection.close();
+            statement.close();
         } catch (Exception e) {
             e.printStackTrace();
             isSuccesfull = false;
@@ -117,6 +129,10 @@ public class UsersService implements IUsers.IUsersService {
             preparedStatementUpdateNotification.setString(3, notificationModel.getNotif_date());
             preparedStatementUpdateNotification.setString(4, notificationModel.getUser_name());
             preparedStatementUpdateNotification.execute();
+
+            connection.close();
+            statement.close();
+            preparedStatementUpdateNotification.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

@@ -39,11 +39,13 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsersAdd;
 import emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersAddPresenter;
 import emp.project.softwareengineerproject.R;
@@ -233,8 +235,16 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
 
     @Override
     protected void onDestroy() {
+        try {
+            File dir = getCacheDir();
+            CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
+            cacheManager.deleteDir(dir);
+            cacheManager.clearGlideMemory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
         super.onDestroy();
-        Glide.get(getApplicationContext()).clearMemory();
     }
 
     @Override

@@ -60,6 +60,7 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
 
         });
         thread.start();
+        thread.interrupt();
     }
 
     @Override
@@ -116,6 +117,7 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
             }
         });
         thread.start();
+        thread.interrupt();
 
     }
 

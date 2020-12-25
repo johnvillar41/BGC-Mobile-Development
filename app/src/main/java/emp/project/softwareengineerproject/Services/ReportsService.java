@@ -57,6 +57,9 @@ public class ReportsService implements IReports.IReportsService {
             if (true) {
                 total_value_per_month = 0;
             }
+            connection.close();
+            statement.close();
+            resultSet.close();
         }
         return reportsList;
     }
@@ -82,7 +85,9 @@ public class ReportsService implements IReports.IReportsService {
                 list.add(model);
 
             }
-
+            connection.close();
+            statement.close();
+            resultSet.close();
         }
         return list;
     }

@@ -75,8 +75,12 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
             preparedStatement2.setString(2, notificationModel.getNotif_content());
             preparedStatement2.setString(3, notificationModel.getNotif_date());
             preparedStatement2.setString(4, notificationModel.getUser_name());
+
             preparedStatement2.execute();
             preparedStatement2.close();
+            preparedStatement.close();
+            statement.close();
+            connection.close();
             return true;
         } else {
             return false;
@@ -100,6 +104,9 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
                     resultSet.getInt(6), resultSet.getString(7));
             list.add(model);
         }
+        statement.close();
+        resultSet.close();
+        connection.close();
         return list;
     }
 
@@ -123,6 +130,9 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
             }
 
         }
+        resultSet.close();
+        connection.close();
+        statement.close();
         return isValid;
     }
 

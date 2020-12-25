@@ -59,6 +59,9 @@ public class OrdersService implements IOrders.IOrdersService {
                     resultSet.getString(6));
             list.add(model);
         }
+        connection.close();
+        preparedStatement.close();
+        resultSet.close();
         return list;
     }
 
@@ -84,7 +87,11 @@ public class OrdersService implements IOrders.IOrdersService {
                 model = new OrdersModel(resultSet.getString(7), resultSet.getString(8), resultSet2.getBlob(1), resultSet2.getString(2));
                 list.add(model);
             }
+            preparedStatement2.close();
         }
+        connection.close();
+        statement.close();
+        resultSet.close();
         return list;
     }
 
@@ -96,6 +103,9 @@ public class OrdersService implements IOrders.IOrdersService {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, status);
         preparedStatement.executeUpdate();
+
+        connection.close();
+        preparedStatement.close();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -114,6 +124,9 @@ public class OrdersService implements IOrders.IOrdersService {
         preparedStatementUpdateNotification.setString(3, notificationModel.getNotif_date());
         preparedStatementUpdateNotification.setString(4, notificationModel.getUser_name());
         preparedStatementUpdateNotification.execute();
+
+        connection.close();
+        preparedStatementUpdateNotification.close();
 
     }
 

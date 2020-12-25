@@ -22,9 +22,11 @@ import com.google.android.material.progressindicator.ProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.Objects;
 
+import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.ILogin;
 import emp.project.softwareengineerproject.Presenter.LoginPresenter;
 import emp.project.softwareengineerproject.R;
@@ -134,5 +136,19 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
     @Override
     public void hideProgressBar() {
         progressIndicator.hide();
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            File dir = getCacheDir();
+            CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
+            cacheManager.deleteDir(dir);
+            cacheManager.clearGlideMemory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
+        super.onDestroy();
     }
 }

@@ -48,6 +48,10 @@ public class SalesTransactionService implements ISalesTransactions.ISalesTransac
                     resultSet.getString(5), resultSet.getString(6), resultSet.getString(7));
             list.add(model);
         }
+
+        connection.close();
+        statement.close();
+        resultSet.close();
         return list;
     }
 
@@ -64,6 +68,9 @@ public class SalesTransactionService implements ISalesTransactions.ISalesTransac
                     resultSet.getString(5), resultSet.getString(6), resultSet.getString(7));
             list.add(model);
         }
+        connection.close();
+        statement.close();
+        resultSet.close();
         return list;
     }
 
@@ -74,5 +81,8 @@ public class SalesTransactionService implements ISalesTransactions.ISalesTransac
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         Statement statement = connection.createStatement();
         statement.execute(sqlDelete);
+
+        connection.close();
+        statement.close();
     }
 }

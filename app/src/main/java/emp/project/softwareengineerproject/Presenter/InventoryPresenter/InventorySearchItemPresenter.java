@@ -47,7 +47,7 @@ public class InventorySearchItemPresenter extends Activity implements ISearchInv
             }
         });
         thread.start();
-
+        thread.interrupt();
     }
 
 

@@ -40,7 +40,7 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyVi
     public UserRecyclerView(List<UserModel> list, Context context, IUsers.IUsersView activity) {
         this.list = list;
         this.context = context;
-        this.presenter = new UsersPresenter(activity, context);
+        this.presenter = new UsersPresenter(activity, (UsersActivityView) context);
     }
 
     @NonNull

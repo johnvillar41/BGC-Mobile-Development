@@ -18,8 +18,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.progressindicator.ProgressIndicator;
 
+import java.io.File;
 import java.util.List;
 
+import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.OrdersModel;
 import emp.project.softwareengineerproject.Presenter.OrdersPresenter;
@@ -85,7 +87,11 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
         recyclerView.setAdapter(adapter);
         recyclerView.scheduleLayoutAnimation();
         if (adapter.getItemCount() == 0) {
-            Glide.with(this).asBitmap().load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView);
+            Glide.with(this)
+                    .load(R.drawable.no_result_imag2)
+                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
+                    .skipMemoryCache(true)
+                    .into(imageView);
         } else {
             imageView.setImageDrawable(null);
         }
@@ -93,8 +99,16 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
 
     @Override
     protected void onDestroy() {
+        try {
+            File dir = getCacheDir();
+            CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
+            cacheManager.deleteDir(dir);
+            cacheManager.clearGlideMemory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
         super.onDestroy();
-        Glide.get(getApplicationContext()).clearMemory();
     }
 
     @Override

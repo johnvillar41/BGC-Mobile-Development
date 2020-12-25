@@ -41,11 +41,13 @@ import com.mysql.jdbc.Blob;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryUpdatePresenter;
@@ -99,7 +101,11 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         btn_cancel = findViewById(R.id.btn_back);
         progressIndicator = findViewById(R.id.progressBar_Inventory);
         progressIndicator.hide();
-        Glide.with(this).load(R.drawable.add_image).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(IMAGE_VIEW);
+        Glide.with(this)
+                .load(R.drawable.add_image)
+                .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
+                .skipMemoryCache(true)
+                .into(IMAGE_VIEW);
         try {
             presenter.onPageLoadHints(InventoryRecyclerView.PRODUCT_MODEL);
 
@@ -127,7 +133,11 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 blobLength = (int) b.length();
                 final byte[] blobAsBytes = b.getBytes(1, blobLength);
                 Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-                Glide.with(this).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(IMAGE_VIEW);
+                Glide.with(this)
+                        .load(btm)
+                        .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
+                        .skipMemoryCache(true)
+                        .into(IMAGE_VIEW);
 
                 btn_save.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -326,8 +336,22 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         Glide.get(getApplicationContext()).clearMemory();
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Glide.get(getApplicationContext()).clearDiskCache();
+            }
+        });thread.start();
+        try {
+            File dir = getCacheDir();
+            CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
+            cacheManager.deleteDir(dir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
+        super.onDestroy();
     }
 
     @Override

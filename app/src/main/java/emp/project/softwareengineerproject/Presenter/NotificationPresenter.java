@@ -4,6 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,16 +17,16 @@ import emp.project.softwareengineerproject.View.NotificationView.NotificationsAc
 
 public class NotificationPresenter implements INotification.INotificationPresenter {
 
-    INotification.INotificationView view;
-    INotification.INotificationService service;
-    NotificationModel model;
-    NotificationsActivityView context;
+    private INotification.INotificationView view;
+    private INotification.INotificationService service;
+    private NotificationModel model;
+    private WeakReference<NotificationsActivityView> context;
 
     public NotificationPresenter(INotification.INotificationView view, NotificationsActivityView context) {
         this.view = view;
         this.model = new NotificationModel();
         this.service = new NotificationService(this.model);
-        this.context = context;
+        this.context = new WeakReference<>(context);
     }
 
 
@@ -52,7 +53,7 @@ public class NotificationPresenter implements INotification.INotificationPresent
                     e.printStackTrace();
                 }
                 final List<NotificationModel> finalNotifsList = notifsList;
-                context.runOnUiThread(new Runnable() {
+                context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -71,7 +72,7 @@ public class NotificationPresenter implements INotification.INotificationPresent
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.runOnUiThread(new Runnable() {
+                context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();

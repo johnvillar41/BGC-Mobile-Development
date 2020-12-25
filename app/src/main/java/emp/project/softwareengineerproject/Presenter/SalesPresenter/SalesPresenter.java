@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.Presenter.SalesPresenter;
 
+import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.ISales.ISales;
@@ -12,13 +13,13 @@ public class SalesPresenter implements ISales.ISalesPresenter {
     private ISales.ISalesView view;
     private ISales.ISalesService service;
     private SalesModel model;
-    private SalesActivityView context;
+    private WeakReference<SalesActivityView> context;
 
     public SalesPresenter(ISales.ISalesView view, SalesActivityView context) {
         this.view = view;
         this.model = new SalesModel();
         this.service = new SalesService(this.model);
-        this.context = context;
+        this.context = new WeakReference<>(context);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class SalesPresenter implements ISales.ISalesPresenter {
             public void run() {
                 try {
                     final String totalTransactions = String.valueOf(service.getTotalTransactionsFromDB());
-                    context.runOnUiThread(new Runnable() {
+                    context.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayProgressIndicator();

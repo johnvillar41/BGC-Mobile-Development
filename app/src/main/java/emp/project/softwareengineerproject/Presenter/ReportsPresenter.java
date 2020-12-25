@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.Presenter;
 
+import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +15,13 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
     private IReports.IReportsView view;
     private ReportsModel model;
     private IReports.IReportsService service;
-    private ReportsActivityView context;
+    private WeakReference<ReportsActivityView> context;
 
     public ReportsPresenter(IReports.IReportsView view, ReportsActivityView context) {
         this.view = view;
         this.model = new ReportsModel();
         this.service = new ReportsService(this.model);
-        this.context = context;
+        this.context = new WeakReference<>(context);
     }
 
     @Override
@@ -28,7 +29,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.runOnUiThread(new Runnable() {
+                context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -37,7 +38,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
                 try {
                     final ArrayList<ReportsModel> valuesList = (ArrayList<ReportsModel>) service.getMonthValuesFromDB();
                     final List<ReportsModel> reportsList = service.getRecyclerViewValuesFromDB();
-                    context.runOnUiThread(new Runnable() {
+                    context.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayBarChart(valuesList);
@@ -49,7 +50,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                context.runOnUiThread(new Runnable() {
+                context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.hideProgressIndicator();

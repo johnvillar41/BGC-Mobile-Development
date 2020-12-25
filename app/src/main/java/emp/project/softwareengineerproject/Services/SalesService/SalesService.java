@@ -43,6 +43,10 @@ public class SalesService implements ISales.ISalesService {
         while (resultSet.next()) {
             totalTransaction += resultSet.getLong(4);
         }
+
+        statement.close();
+        connection.close();
+        resultSet.close();
         return totalTransaction;
     }
 

@@ -1,7 +1,5 @@
 package emp.project.softwareengineerproject.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +9,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.File;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.R;
 
 public class LoadingScreen extends AppCompatActivity {
@@ -51,5 +54,19 @@ public class LoadingScreen extends AppCompatActivity {
                 finish();
             }
         }, 3000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            File dir = getCacheDir();
+            CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
+            cacheManager.deleteDir(dir);
+            cacheManager.clearGlideMemory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
+        super.onDestroy();
     }
 }

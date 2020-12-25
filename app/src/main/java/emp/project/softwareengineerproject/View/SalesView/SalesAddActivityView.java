@@ -27,14 +27,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.ProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
+import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Model.SalesModel;
@@ -203,8 +204,16 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
 
     @Override
     protected void onDestroy() {
+        try {
+            File dir = getCacheDir();
+            CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
+            cacheManager.deleteDir(dir);
+            cacheManager.clearGlideMemory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
         super.onDestroy();
-        Glide.get(getApplicationContext()).clearMemory();
     }
 
     @Override

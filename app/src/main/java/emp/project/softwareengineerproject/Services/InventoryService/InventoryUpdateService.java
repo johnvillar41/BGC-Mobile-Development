@@ -70,8 +70,9 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         notificationModel = new NotificationModel("Updated product", "Updated product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
                 MainMenuActivityView.GET_PREFERENCES_REALNAME);
         addNotifications(connection, sqlNotification, notificationModel);
-        preparedStatement.close();
 
+
+        preparedStatement.close();
         connection.close();
     }
 
@@ -99,6 +100,7 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         notificationModel = new NotificationModel("Added product", "Added product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
                 MainMenuActivityView.GET_PREFERENCES_REALNAME);
         addNotifications(connection, sqlNotification, notificationModel);
+
         preparedStatement.close();
         connection.close();
     }

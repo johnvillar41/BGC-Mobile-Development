@@ -4,6 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,13 +20,13 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
     private ISalesTransactions.ISalesTransactionsView view;
     private SalesModel model;
     private ISalesTransactions.ISalesTransactionService service;
-    private SalesTransactionView context;
+    private WeakReference<SalesTransactionView> context;
 
     public SalesTransactionPresenter(ISalesTransactions.ISalesTransactionsView view, SalesTransactionView context) {
         this.view = view;
         this.model = new SalesModel();
         this.service = new SalesTransactionService(this.model);
-        this.context = context;
+        this.context = new WeakReference<>(context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -35,7 +36,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
             @Override
             public void run() {
 
-                context.runOnUiThread(new Runnable() {
+                context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -45,7 +46,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
                     LocalDateTime now = LocalDateTime.now();
                     final List<SalesModel> transactionList = service.getSearchedTransactionListFromDB(dtf.format(now));
-                    context.runOnUiThread(new Runnable() {
+                    context.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayRecyclerView(transactionList);
@@ -53,7 +54,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                         }
                     });
                 } catch (ClassNotFoundException e) {
-                    context.runOnUiThread(new Runnable() {
+                    context.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.hideProgressIndicator();
@@ -61,7 +62,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                     });
                     e.printStackTrace();
                 } catch (SQLException e) {
-                    context.runOnUiThread(new Runnable() {
+                    context.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.hideProgressIndicator();
@@ -79,7 +80,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.runOnUiThread(new Runnable() {
+                context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -87,7 +88,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                 });
                 try {
                     final List<SalesModel> transactionList = service.getSearchedTransactionListFromDB(date);
-                    context.runOnUiThread(new Runnable() {
+                    context.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayRecyclerView(transactionList);
@@ -110,7 +111,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.runOnUiThread(new Runnable() {
+                context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -118,7 +119,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                 });
                 try {
                     final List<SalesModel> transactionList = service.getTransactionsFromDB();
-                    context.runOnUiThread(new Runnable() {
+                    context.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayRecyclerView(transactionList);
@@ -142,7 +143,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run() {
-                context.runOnUiThread(new Runnable() {
+                context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -155,7 +156,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                context.runOnUiThread(new Runnable() {
+                context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.hideProgressIndicator();

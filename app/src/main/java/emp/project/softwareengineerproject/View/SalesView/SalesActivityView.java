@@ -18,10 +18,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.progressindicator.ProgressIndicator;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.ISales.ISales;
 import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesPresenter;
 import emp.project.softwareengineerproject.R;
@@ -88,8 +90,16 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
 
     @Override
     protected void onDestroy() {
+        try {
+            File dir = getCacheDir();
+            CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
+            cacheManager.deleteDir(dir);
+            cacheManager.clearGlideMemory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
         super.onDestroy();
-        Glide.get(getApplicationContext()).clearMemory();
     }
 
     @Override

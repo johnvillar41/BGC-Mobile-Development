@@ -53,7 +53,11 @@ public class OrdersSpecificRecyclerView extends RecyclerView.Adapter<OrdersSpeci
             blobLength[0] = (int) b.length();
             byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
             Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-            Glide.with(context).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+            Glide.with(context)
+                    .load(btm)
+                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
+                    .skipMemoryCache(true)
+                    .into(holder.circleImageView);
         } catch (SQLException e) {
             e.printStackTrace();
         }

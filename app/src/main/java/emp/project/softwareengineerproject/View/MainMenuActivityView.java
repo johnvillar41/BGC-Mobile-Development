@@ -22,10 +22,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.sql.Blob;
 import java.sql.SQLException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.IMainMenu;
 import emp.project.softwareengineerproject.Presenter.MainMenuPresenter;
 import emp.project.softwareengineerproject.R;
@@ -119,6 +121,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         if (sharedPreferences.getString(LoginActivityView.USERNAME_PREFS, null) == null) {
             this.finish();
         }
+        presenter.directPictureDisplay();
     }
 
     @Override
@@ -212,10 +215,19 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         super.onResume();
     }
 
+
     @Override
     protected void onDestroy() {
+        try {
+            File dir = getCacheDir();
+            CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
+            cacheManager.deleteDir(dir);
+            cacheManager.clearGlideMemory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
         super.onDestroy();
-        Glide.get(getApplicationContext()).clearMemory();
     }
 
     @Override

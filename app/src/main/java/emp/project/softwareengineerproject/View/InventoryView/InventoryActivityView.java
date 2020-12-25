@@ -24,9 +24,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
+import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryPresenter;
@@ -41,6 +43,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     private ImageView image_empty_greenhouse, image_empty_hydroponics, image_empty_others;
     private Spinner spinner_category;
 
+    private Thread thread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +97,14 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     protected void onResume() {
+        Glide.get(getApplicationContext()).clearMemory();
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Glide.get(getApplicationContext()).clearDiskCache();
+            }
+        });
+        thread.start();
         try {
             presenter.getGreenHouseFromDB();
         } catch (InterruptedException e) {
@@ -159,18 +170,26 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     protected void onDestroy() {
+        try {
+            File dir = getCacheDir();
+            CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
+            cacheManager.deleteDir(dir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
+        thread.interrupt();
         super.onDestroy();
-        Glide.get(getApplicationContext()).clearMemory();
     }
 
     @Override
     public void goToAddProductPage() {
-        try{
+        try {
             InventoryRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
             Intent intent = new Intent(this, InventoryUpdateView.class);
             intent.putExtra("Button_Name", "Add Product");
             startActivity(intent);
-        } catch (Exception e){
+        } catch (Exception e) {
             Intent intent = new Intent(this, InventoryUpdateView.class);
             intent.putExtra("Button_Name", "Add Product");
             startActivity(intent);

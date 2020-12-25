@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.annotation.RequiresApi;
 
+import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,13 +22,13 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
     private ISalesAdd.ISalesAddView view;
     private ISalesAdd.ISalesAddService service;
     private SalesModel model;
-    private SalesAddActivityView context;
+    private WeakReference<SalesAddActivityView> context;
 
     public SalesAddPresenter(ISalesAdd.ISalesAddView view, SalesAddActivityView context) {
         this.view = view;
         this.model = new SalesModel();
         this.service = new SalesAddService();
-        this.context = context;
+        this.context = new WeakReference<>(context);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
             public void run() {
                 try {
                     final List<InventoryModel> productList = service.getProductListFromDB();
-                    context.runOnUiThread(new Runnable() {
+                    context.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayProductRecyclerView(productList);
@@ -54,7 +55,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                context.runOnUiThread(new Runnable() {
+                context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.hideProgressIndicator();
@@ -73,7 +74,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.runOnUiThread(new Runnable() {
+                context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicatorCart();
@@ -103,7 +104,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                     if (SalesModel.cartList.get(i).getTotal_number_of_products().equals(String.valueOf(0)) || SalesModel.cartList.get(i).getTotal_number_of_products().equals(null)) {
                         view.displayOnErrorMessage("One or more products have zero value!", v);
                         isValid = false;
-                        context.runOnUiThread(new Runnable() {
+                        context.get().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 view.hideProgressIndicatorCart();
@@ -123,7 +124,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                     }
                 }
                 if (isValid) {
-                    context.runOnUiThread(new Runnable() {
+                    context.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displaySuccessfullPrompt();
@@ -131,7 +132,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                         }
                     });
                 } else {
-                    context.runOnUiThread(new Runnable() {
+                    context.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayOnErrorMessage("Products not enough!", v);

@@ -94,7 +94,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             }
         });
         thread.start();
-
+        thread.interrupt();
     }
 
     @Override
@@ -170,7 +170,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             }
         });
         thread.start();
-
+        thread.interrupt();
     }
 
     @Override

@@ -69,11 +69,9 @@ public class MainMenuPresenter extends Activity implements IMainMenu.IMainPresen
                 LocalDateTime now = LocalDateTime.now();
                 try {
                     final String numberOfNotifs = String.valueOf(service.getNumberOfNotifications(dtf.format(now)));
-                    final Blob profile = service.getProfilePicture();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            view.displayProfileImage(profile);
                             view.displayNumberOfNotifs(numberOfNotifs);
                         }
                     });
@@ -86,6 +84,28 @@ public class MainMenuPresenter extends Activity implements IMainMenu.IMainPresen
         });
         thread.start();
 
+    }
+
+    @Override
+    public void directPictureDisplay() {
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final Blob profile = service.getProfilePicture();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayProfileImage(profile);
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });thread.start();
     }
 
     @Override

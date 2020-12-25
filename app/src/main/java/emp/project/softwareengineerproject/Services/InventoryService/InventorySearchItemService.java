@@ -49,6 +49,9 @@ public class InventorySearchItemService implements ISearchInventory.ISearchInven
                         (Blob) resultSet.getBlob(5), resultSet.getInt(6), resultSet.getString(7));
                 list.add(model);
             }
+            connection.close();
+            statement.close();
+            resultSet.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.ILogin;
@@ -16,23 +17,23 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
     private ILogin.ILoginView view;
     private UserModel model;
     private ILogin.ILoginService service;
-    private LoginActivityView context;
+    private WeakReference<LoginActivityView> context;
 
     public LoginPresenter(ILogin.ILoginView view, LoginActivityView context) {
         this.view = view;
         this.model = new UserModel();
         this.service = new LoginService();
-        this.context = context;
+        this.context = new WeakReference<>(context);
     }
 
     @Override
     public void onLoginButtonClicked(final String username, final String password, final View v) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) context.get().getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.runOnUiThread(new Runnable() {
+                context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressBar();
@@ -49,7 +50,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                         e.printStackTrace();
                     }
                     if (success) {
-                        context.runOnUiThread(new Runnable() {
+                        context.get().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 view.onSuccess("Logging in!", v);
@@ -57,7 +58,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                             }
                         });
                     } else {
-                        context.runOnUiThread(new Runnable() {
+                        context.get().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 view.onError("Error!", v);
@@ -66,7 +67,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                         });
                     }
                 } else {
-                    context.runOnUiThread(new Runnable() {
+                    context.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.onError(model.validateCredentials(model), v);
