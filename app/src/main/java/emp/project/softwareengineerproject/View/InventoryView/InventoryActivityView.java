@@ -157,6 +157,11 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Glide.get(getApplicationContext()).clearMemory();
+    }
 
     @Override
     public void goToAddProductPage() {

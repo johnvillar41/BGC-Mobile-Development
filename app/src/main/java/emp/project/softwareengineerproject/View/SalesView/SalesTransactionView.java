@@ -131,6 +131,12 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Glide.get(getApplicationContext()).clearMemory();
+    }
+
+    @Override
     public void displayProgressIndicator() {
         progressIndicator.show();
     }

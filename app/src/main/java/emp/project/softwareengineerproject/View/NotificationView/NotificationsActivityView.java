@@ -89,10 +89,11 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
         }
     }
 
-
-
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Glide.get(getApplicationContext()).clearMemory();
+    }
 
     @Override
     public void showDatePicker() {

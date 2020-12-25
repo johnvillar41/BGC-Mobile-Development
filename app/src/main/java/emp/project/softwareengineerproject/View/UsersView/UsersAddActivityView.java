@@ -232,6 +232,12 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Glide.get(getApplicationContext()).clearMemory();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             this.finish();

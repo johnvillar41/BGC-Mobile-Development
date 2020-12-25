@@ -213,6 +213,12 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Glide.get(getApplicationContext()).clearMemory();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cardView_inventory: {

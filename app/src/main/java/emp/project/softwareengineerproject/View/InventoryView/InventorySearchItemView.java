@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -80,6 +81,12 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
             }
         });
         thread.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Glide.get(getApplicationContext()).clearMemory();
     }
 
     @Override

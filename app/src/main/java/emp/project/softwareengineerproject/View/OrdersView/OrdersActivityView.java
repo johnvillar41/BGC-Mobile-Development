@@ -91,6 +91,11 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Glide.get(getApplicationContext()).clearMemory();
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

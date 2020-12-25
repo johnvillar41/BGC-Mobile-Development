@@ -87,6 +87,12 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Glide.get(getApplicationContext()).clearMemory();
+    }
+
+    @Override
     protected void onResume() {
         try {
             presenter.onLoadPage();

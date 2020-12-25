@@ -324,6 +324,11 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Glide.get(getApplicationContext()).clearMemory();
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

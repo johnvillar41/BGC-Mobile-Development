@@ -194,6 +194,12 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Glide.get(getApplicationContext()).clearMemory();
+    }
+
+    @Override
     public void displayStatusMessage(String message) {
         Toast.makeText(UsersActivityView.this, message, Toast.LENGTH_SHORT).show();
     }
