@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.View.SalesView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -51,14 +52,26 @@ public class SalesAddRecyclerView2 extends RecyclerView.Adapter<SalesAddRecycler
         holder.txt_name.setText(model.getProduct_name());
         final Blob b = model.getProduct_picture();
         final int[] blobLength = new int[1];
-        try {
-            blobLength[0] = (int) b.length();
-            byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
-            Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-            Glide.with(context).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.imageView);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    blobLength[0] = (int) b.length();
+                    byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
+                    final Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Glide.with(context).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.imageView);
+                        }
+                    });
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });thread.start();
+
         String[] arrNums = new String[11];
         for (int i = 0; i < arrNums.length; i++) {
             arrNums[i] = String.valueOf(i);

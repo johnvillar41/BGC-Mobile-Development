@@ -126,6 +126,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
         recyclerView_GreenHouse.setLayoutManager(layoutManagerGreenhouse);
         recyclerView_GreenHouse.setAdapter(adapterGreenhouse);
+        recyclerView_GreenHouse.scheduleLayoutAnimation();
         progressBar_greenHouse.setVisibility(View.INVISIBLE);
         if (adapterGreenhouse.getItemCount() == 0) {
             Glide.with(getApplicationContext()).load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_greenhouse);
@@ -136,6 +137,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
         recyclerView_Hydroponics.setLayoutManager(layoutManagerHydroponics);
         recyclerView_Hydroponics.setAdapter(adapterHydroponics);
+        recyclerView_Hydroponics.scheduleLayoutAnimation();
         progressBar_hydroponics.setVisibility(View.INVISIBLE);
         if (adapterHydroponics.getItemCount() == 0) {
             Glide.with(getApplicationContext()).load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_hydroponics);
@@ -145,6 +147,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         }
         recyclerView_others.setLayoutManager(layoutManagerOthers);
         recyclerView_others.setAdapter(adapterOthers);
+        recyclerView_others.scheduleLayoutAnimation();
         progressBar_others.setVisibility(View.INVISIBLE);
         if (adapterOthers.getItemCount() == 0) {
             Glide.with(getApplicationContext()).load(R.drawable.no_result_imag2).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_empty_others);

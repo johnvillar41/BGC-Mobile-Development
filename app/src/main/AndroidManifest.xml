@@ -44,6 +44,7 @@
         <activity
             android:name=".View.InventoryView.InventorySearchItemView"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:hardwareAccelerated="true"
             android:launchMode="singleTask" />
         <activity
             android:name=".View.InventoryView.InventoryUpdateView"

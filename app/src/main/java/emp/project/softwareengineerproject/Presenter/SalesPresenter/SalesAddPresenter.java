@@ -45,9 +45,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            view.displayProgressIndicator();
                             view.displayProductRecyclerView(productList);
-                            view.hideProgressIndicator();
                         }
                     });
 
@@ -56,6 +54,12 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.hideProgressIndicator();
+                    }
+                });
             }
         });
         thread.start();

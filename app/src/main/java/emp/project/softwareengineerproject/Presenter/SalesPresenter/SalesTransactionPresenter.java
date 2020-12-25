@@ -34,6 +34,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

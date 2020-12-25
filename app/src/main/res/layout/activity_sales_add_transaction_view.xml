@@ -31,6 +31,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layoutAnimation="@anim/layout_animation"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/recyclerView_Sale"/>
     </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton

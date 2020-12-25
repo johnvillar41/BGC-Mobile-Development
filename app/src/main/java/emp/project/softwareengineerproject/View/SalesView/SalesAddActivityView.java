@@ -107,6 +107,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
                     cartList, SalesAddActivityView.this);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
+            recyclerView.scheduleLayoutAnimation();
 
             final AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -159,6 +160,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
                 list, SalesAddActivityView.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.scheduleLayoutAnimation();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

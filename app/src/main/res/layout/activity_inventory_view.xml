@@ -63,6 +63,8 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView_greenHouse"
                             android:layout_width="match_parent"
+                            android:layoutAnimation="@anim/layout_animation"
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
                             android:layout_height="wrap_content"/>
                         <ProgressBar
                             android:id="@+id/progress_bar_greenhouse"
@@ -102,6 +104,8 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView_hydroPonics"
                             android:layout_width="match_parent"
+                            android:layoutAnimation="@anim/layout_animation"
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
                             android:layout_height="wrap_content"/>
                         <ProgressBar
                             android:id="@+id/progress_bar_hydroponics"
@@ -166,6 +170,8 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView_others"
                             android:layout_width="match_parent"
+                            android:layoutAnimation="@anim/layout_animation"
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
                             android:layout_height="wrap_content"/>
                         <ProgressBar
                             android:id="@+id/progress_bar_others"

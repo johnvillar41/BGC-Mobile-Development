@@ -83,7 +83,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                     dialogBuilder.setView(dialogView);
 
                     TextView txt_product_name = dialogView.findViewById(R.id.txt_product_name);
-                    ImageView imageView_product = dialogView.findViewById(R.id.image_product);
+                    final ImageView imageView_product = dialogView.findViewById(R.id.image_product);
                     TextView txt_product_description = dialogView.findViewById(R.id.txt_product_description);
                     TextView txt_product_Price = dialogView.findViewById(R.id.txt_product_Price);
                     TextView txt_product_Stocks = dialogView.findViewById(R.id.txt_product_Stocks);
@@ -95,14 +95,25 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                     dialog.show();
 
                     txt_product_name.setText(model.getProduct_name());
-                    try {
-                        blobLength[0] = (int) b.length();
-                        byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
-                        Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-                        Glide.with(context).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView_product);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    Thread thread=new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                blobLength[0] = (int) b.length();
+                                byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
+                                final Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
+                                ((Activity)context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Glide.with(context).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView_product);
+                                    }
+                                });
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });thread.start();
                     txt_product_description.setText(model.getProduct_description());
                     txt_product_Price.setText(String.valueOf(model.getProduct_price()));
                     txt_product_Stocks.setText(String.valueOf(model.getProduct_stocks()));

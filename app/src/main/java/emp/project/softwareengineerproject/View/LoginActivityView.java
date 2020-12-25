@@ -40,6 +40,8 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
     public static final String MyPREFERENCES_NAME = "NAME";
     public static final String USERNAME_PREFS = "Username_Prefs";
 
+    public static String USERNAME_VALUE = null;
+
     /**
      * TODO
      * 1)Add an alertDialog on the search inventory activity for CRUD
@@ -59,7 +61,7 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
 
     @Override
     public void initViews() {
-        presenter = new LoginPresenter(this,this);
+        presenter = new LoginPresenter(this, this);
         btn_login = findViewById(R.id.btn_login);
         txt_username = findViewById(R.id.textField_username);
         txt_password = findViewById(R.id.textField_password);
@@ -94,6 +96,8 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
         tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check, 0, 0, 0);
         tv.setGravity(Gravity.CENTER);
         snack.show();
+
+        USERNAME_VALUE = txt_username.getEditText().getText().toString();
     }
 
     @Override
@@ -104,7 +108,7 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
         Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
         View view = snack.getView();
         TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-        tv.setTextColor(ContextCompat.getColor(LoginActivityView.this,android.R.color.holo_orange_dark));
+        tv.setTextColor(ContextCompat.getColor(LoginActivityView.this, android.R.color.holo_orange_dark));
         tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
         tv.setGravity(Gravity.CENTER);
         snack.show();

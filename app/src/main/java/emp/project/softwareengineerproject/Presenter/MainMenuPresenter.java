@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.annotation.RequiresApi;
 
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -54,8 +55,8 @@ public class MainMenuPresenter extends Activity implements IMainMenu.IMainPresen
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void directUsernameDisplay() {
-        Thread thread=new Thread(new Runnable() {
+    public void directProfileDisplay() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
@@ -67,10 +68,12 @@ public class MainMenuPresenter extends Activity implements IMainMenu.IMainPresen
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
                 LocalDateTime now = LocalDateTime.now();
                 try {
-                    final String numberOfNotifs=String.valueOf(service.getNumberOfNotifications(dtf.format(now)));
+                    final String numberOfNotifs = String.valueOf(service.getNumberOfNotifications(dtf.format(now)));
+                    final Blob profile = service.getProfilePicture();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            view.displayProfileImage(profile);
                             view.displayNumberOfNotifs(numberOfNotifs);
                         }
                     });
@@ -80,7 +83,8 @@ public class MainMenuPresenter extends Activity implements IMainMenu.IMainPresen
                     e.printStackTrace();
                 }
             }
-        });thread.start();
+        });
+        thread.start();
 
     }
 

@@ -2,6 +2,7 @@ package emp.project.softwareengineerproject.Interface;
 
 import android.view.View;
 
+import java.sql.Blob;
 import java.sql.SQLException;
 
 public interface IMainMenu {
@@ -25,6 +26,8 @@ public interface IMainMenu {
         void gotoNotifications();
 
         void displayNumberOfNotifs(String numberOfNotifs);
+
+        void displayProfileImage(Blob profile);
     }
 
     interface IMainPresenter {
@@ -46,9 +49,9 @@ public interface IMainMenu {
         void onNotificationButtonClicked();
 
         /**
-         * Directs the username string to be displayed on the main screen
+         * Directs the username and profile picture to be displayed on the main screen
          */
-        void directUsernameDisplay() throws SQLException, ClassNotFoundException;
+        void directProfileDisplay() throws SQLException, ClassNotFoundException;
 
 
     }
@@ -59,5 +62,7 @@ public interface IMainMenu {
          * @return will return the total number of notifications per day
          */
         int getNumberOfNotifications(String date) throws SQLException, ClassNotFoundException;
+
+        Blob getProfilePicture() throws ClassNotFoundException, SQLException;
     }
 }

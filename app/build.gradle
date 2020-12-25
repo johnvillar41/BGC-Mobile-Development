@@ -53,5 +53,9 @@ dependencies {
     //Charts/Philjay
     implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
 
+    //Lottie animations
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
 
 }

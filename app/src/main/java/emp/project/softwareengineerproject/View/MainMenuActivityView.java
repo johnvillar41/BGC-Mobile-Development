@@ -3,13 +3,14 @@ package emp.project.softwareengineerproject.View;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.sql.Blob;
 import java.sql.SQLException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -39,6 +41,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
     private TextView txt_name, txt_number_notifs;
     private SharedPreferences sharedPreferences;
     public static String GET_PREFERENCES_REALNAME = null;
+    private CircleImageView image_profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
 
         initViews();
         try {
-            presenter.directUsernameDisplay();
+            presenter.directProfileDisplay();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -67,7 +70,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
 
         txt_name = findViewById(R.id.txt_name);
         txt_number_notifs = findViewById(R.id.txt_number_notification);
-        ImageView imageView_illustration = findViewById(R.id.image_illustration);
+        image_profile = findViewById(R.id.image_profile);
         CircleImageView image_inventory = findViewById(R.id.image_stocks);
         CircleImageView image_sales = findViewById(R.id.image_sales);
         CircleImageView image_reports = findViewById(R.id.image_report);
@@ -89,7 +92,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         cardView_users.setAnimation(atg);
         cardView_settings.setAnimation(atg);
         cardView_logout.setAnimation(atg);
-        imageView_illustration.setAnimation(atg);
+        //imageView_illustration.setAnimation(atg);
         txt_name.setAnimation(atg);
 
         cardView_inventory.setOnClickListener(this);
@@ -104,7 +107,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
          * Programmatically loading images through glide library due to
          * crash on loading large amounts of images
          */
-        Glide.with(this).asBitmap().load(R.drawable.logo_main).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(imageView_illustration);
+
         Glide.with(this).asBitmap().load(R.drawable.stocks_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_inventory);
         Glide.with(this).asBitmap().load(R.drawable.sales_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_sales);
         Glide.with(this).asBitmap().load(R.drawable.reports_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_reports);
@@ -177,14 +180,29 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         txt_number_notifs.setText(numberOfNotifs);
     }
 
+    @Override
+    public void displayProfileImage(Blob profile) {
+        Blob b = profile;
+        final int[] blobLength = new int[1];
+        try {
+            blobLength[0] = (int) b.length();
+            byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
+            Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
+            Glide.with(this).asBitmap().load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_profile);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /**
-     *  calling on resume method lifecycle of android to
-     *  refresh the number of notifications set on main view
+     * calling on resume method lifecycle of android to
+     * refresh the number of notifications set on main view
      */
     @Override
     protected void onResume() {
         try {
-            presenter.directUsernameDisplay();
+            presenter.directProfileDisplay();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
