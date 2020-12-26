@@ -25,7 +25,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
     public SalesTransactionPresenter(ISalesTransactions.ISalesTransactionsView view, SalesTransactionView context) {
         this.view = view;
         this.model = new SalesModel();
-        this.service = new SalesTransactionService(this.model);
+        this.service = SalesTransactionService.getInstance(this.model);
         this.context = new WeakReference<>(context);
     }
 

@@ -23,7 +23,7 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
     public UsersPresenter(IUsers.IUsersView view, UsersActivityView context) {
         this.view = view;
         this.model = new UserModel();
-        this.service = new UsersService(this.model);
+        this.service = UsersService.getInstance(this.model);
         this.context = new WeakReference<>(context);
     }
 

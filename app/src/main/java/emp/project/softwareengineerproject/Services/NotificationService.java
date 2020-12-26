@@ -21,9 +21,17 @@ public class NotificationService implements INotification.INotificationService {
     private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
     private NotificationModel model;
+    private static NotificationService SINGLE_INSTANCE = null;
 
-    public NotificationService(NotificationModel model) {
+    private NotificationService(NotificationModel model) {
         this.model = model;
+    }
+
+    public static NotificationService getInstance(NotificationModel model) {
+        if (SINGLE_INSTANCE == null) {
+            SINGLE_INSTANCE = new NotificationService(model);
+        }
+        return SINGLE_INSTANCE;
     }
 
     @Override

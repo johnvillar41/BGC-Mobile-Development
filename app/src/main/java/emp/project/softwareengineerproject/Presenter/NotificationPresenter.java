@@ -25,7 +25,7 @@ public class NotificationPresenter implements INotification.INotificationPresent
     public NotificationPresenter(INotification.INotificationView view, NotificationsActivityView context) {
         this.view = view;
         this.model = new NotificationModel();
-        this.service = new NotificationService(this.model);
+        this.service = NotificationService.getInstance(this.model);
         this.context = new WeakReference<>(context);
     }
 

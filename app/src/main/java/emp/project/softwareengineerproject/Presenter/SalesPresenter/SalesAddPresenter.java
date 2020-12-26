@@ -27,7 +27,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
     public SalesAddPresenter(ISalesAdd.ISalesAddView view, SalesAddActivityView context) {
         this.view = view;
         this.model = new SalesModel();
-        this.service = new SalesAddService();
+        this.service = SalesAddService.getInstance();
         this.context = new WeakReference<>(context);
     }
 

@@ -20,7 +20,7 @@ public class MainMenuPresenter extends Activity implements IMainMenu.IMainPresen
 
     public MainMenuPresenter(IMainMenu.IMainMenuView view) {
         this.view = view;
-        this.service = new MainMenuService();
+        this.service = MainMenuService.getInstance();
     }
 
     @Override

@@ -18,7 +18,7 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
     public InventoryPresenter(IInvetory.IinventoryView view) {
         this.view = view;
         this.model = new InventoryModel();
-        this.service = new InventoryService(this.model);
+        this.service = InventoryService.getInstance(this.model);
     }
 
     @Override

@@ -29,9 +29,17 @@ public class UsersService implements IUsers.IUsersService {
     private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
     private UserModel model;
+    private static UsersService SINGLE_INSTANCE = null;
 
-    public UsersService(UserModel model) {
+    private UsersService(UserModel model) {
         this.model = model;
+    }
+
+    public static UsersService getInstance(UserModel model) {
+        if (SINGLE_INSTANCE == null) {
+            SINGLE_INSTANCE = new UsersService(model);
+        }
+        return SINGLE_INSTANCE;
     }
 
     @Override

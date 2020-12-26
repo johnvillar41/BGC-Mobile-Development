@@ -31,6 +31,19 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
     private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
     private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
+    private static SalesAddService SINGLE_INSTANCE = null;
+
+    private SalesAddService() {
+
+    }
+
+    public static SalesAddService getInstance() {
+        if (SINGLE_INSTANCE == null) {
+            SINGLE_INSTANCE = new SalesAddService();
+        }
+        return SINGLE_INSTANCE;
+    }
+
     @Override
     public void strictMode() throws ClassNotFoundException {
         StrictMode.ThreadPolicy policy;
@@ -125,7 +138,7 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
                 } else {
                     isValid = true;
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 isValid = false;
             }
 

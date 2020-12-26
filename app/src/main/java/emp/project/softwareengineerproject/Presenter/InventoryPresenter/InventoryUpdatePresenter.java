@@ -23,7 +23,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
     public InventoryUpdatePresenter(IUpdateInventory.IUupdateInventoryView view, InventoryUpdateView context) {
         this.view = view;
         this.model = new InventoryModel();
-        this.service = new InventoryUpdateService();
+        this.service = InventoryUpdateService.getInstance();
         this.context = new WeakReference<>(context);
     }
 

@@ -22,7 +22,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
     public LoginPresenter(ILogin.ILoginView view, LoginActivityView context) {
         this.view = view;
         this.model = new UserModel();
-        this.service = new LoginService();
+        this.service = LoginService.getInstance();
         this.context = new WeakReference<>(context);
     }
 

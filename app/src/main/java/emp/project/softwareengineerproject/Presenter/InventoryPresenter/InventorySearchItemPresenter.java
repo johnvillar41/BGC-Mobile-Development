@@ -16,7 +16,7 @@ public class InventorySearchItemPresenter extends Activity implements ISearchInv
     public InventorySearchItemPresenter(ISearchInventory.ISearchInventoryView view) {
         this.view = view;
         this.model = new InventoryModel();
-        this.service = new InventorySearchItemService(this.model);
+        this.service = InventorySearchItemService.getInstance(this.model);
     }
 
     @Override

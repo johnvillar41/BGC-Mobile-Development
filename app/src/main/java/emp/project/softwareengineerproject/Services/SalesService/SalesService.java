@@ -19,9 +19,17 @@ public class SalesService implements ISales.ISalesService {
     private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
     private SalesModel model;
+    private static SalesService SINGLE_INSTANCE = null;
 
-    public SalesService(SalesModel model) {
+    private SalesService(SalesModel model) {
         this.model = model;
+    }
+
+    public static SalesService getInstance(SalesModel model) {
+        if (SINGLE_INSTANCE == null) {
+            SINGLE_INSTANCE = new SalesService(model);
+        }
+        return SINGLE_INSTANCE;
     }
 
     @Override

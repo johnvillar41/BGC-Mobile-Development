@@ -23,8 +23,20 @@ public class InventorySearchItemService implements ISearchInventory.ISearchInven
 
     private InventoryModel model;
 
-    public InventorySearchItemService(InventoryModel model) {
+    /*public InventorySearchItemService(InventoryModel model) {
         this.model = model;
+    }*/
+    private static InventorySearchItemService SINGLE_INSTANCE = null;
+
+    private InventorySearchItemService(InventoryModel model) {
+        this.model = model;
+    }
+
+    public static InventorySearchItemService getInstance(InventoryModel model) {
+        if (SINGLE_INSTANCE == null) {
+            SINGLE_INSTANCE = new InventorySearchItemService(model);
+        }
+        return SINGLE_INSTANCE;
     }
 
     @Override

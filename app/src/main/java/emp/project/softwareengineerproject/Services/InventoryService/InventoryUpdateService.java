@@ -25,6 +25,19 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
     private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
     private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
+    private static InventoryUpdateService SINGLE_INSTANCE = null;
+
+    private InventoryUpdateService(){
+
+    }
+
+    public static InventoryUpdateService getInstance() {
+        if (SINGLE_INSTANCE == null) {
+            SINGLE_INSTANCE = new InventoryUpdateService();
+        }
+        return SINGLE_INSTANCE;
+    }
+
     @Override
     public void strictMode() throws ClassNotFoundException {
         StrictMode.ThreadPolicy policy;
@@ -40,7 +53,7 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         PreparedStatement preparedStatement;
 
-        if(model.getProduct_picture()==null){
+        if (model.getProduct_picture() == null) {
             preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_name=?," +
                     "product_description=?,product_price=?,product_stocks=?,product_category=? WHERE product_id=?");
             preparedStatement.setString(1, model.getProduct_name());

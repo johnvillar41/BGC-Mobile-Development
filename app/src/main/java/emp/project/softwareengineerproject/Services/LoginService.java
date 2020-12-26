@@ -19,6 +19,19 @@ public class LoginService implements ILogin.ILoginService {
     private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
     private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
+    private static LoginService SINGLE_INSTANCE = null;
+
+    private LoginService(){
+
+    }
+
+    public static LoginService getInstance() {
+        if (SINGLE_INSTANCE == null) {
+            SINGLE_INSTANCE = new LoginService();
+        }
+        return SINGLE_INSTANCE;
+    }
+
     @Override
     public void strictMode() throws ClassNotFoundException {
         StrictMode.ThreadPolicy policy;

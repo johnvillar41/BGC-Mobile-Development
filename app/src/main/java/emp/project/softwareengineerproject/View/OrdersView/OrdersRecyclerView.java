@@ -119,7 +119,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                             new AutoTransition());
                     holder.expandableLayout.setVisibility(View.VISIBLE);
                     holder.expandable_fab.setImageResource(R.drawable.animation_up);
-                    OrdersService service = new OrdersService(model);
+                    OrdersService service = OrdersService.getInstance(model);
                     try {
                         LinearLayoutManager linearLayoutManager
                                 = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);

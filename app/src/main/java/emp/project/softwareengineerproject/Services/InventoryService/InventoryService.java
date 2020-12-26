@@ -25,14 +25,22 @@ import emp.project.softwareengineerproject.Model.NotificationModel;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class InventoryService implements IInvetory.IInventoryService {
-
-    private InventoryModel model;
     private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
     private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
     private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
-    public InventoryService(InventoryModel model) {
+    private static InventoryService SINGLE_INSTANCE = null;
+    private InventoryModel model;
+
+    private InventoryService(InventoryModel model) {
         this.model = model;
+    }
+
+    public static InventoryService getInstance(InventoryModel model) {
+        if (SINGLE_INSTANCE == null) {
+            SINGLE_INSTANCE = new InventoryService(model);
+        }
+        return SINGLE_INSTANCE;
     }
 
     @Override

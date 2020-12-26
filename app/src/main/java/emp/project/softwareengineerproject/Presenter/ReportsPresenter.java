@@ -20,7 +20,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
     public ReportsPresenter(IReports.IReportsView view, ReportsActivityView context) {
         this.view = view;
         this.model = new ReportsModel();
-        this.service = new ReportsService(this.model);
+        this.service = ReportsService.getInstance(this.model);
         this.context = new WeakReference<>(context);
     }
 

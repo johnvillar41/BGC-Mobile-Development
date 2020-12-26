@@ -29,8 +29,17 @@ public class OrdersService implements IOrders.IOrdersService {
     private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
     private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
-    public OrdersService(OrdersModel model) {
+    private static OrdersService SINGLE_INSTANCE = null;
+
+    private OrdersService(OrdersModel model) {
         this.model = model;
+    }
+
+    public static OrdersService getInstance(OrdersModel model) {
+        if (SINGLE_INSTANCE == null) {
+            SINGLE_INSTANCE = new OrdersService(model);
+        }
+        return SINGLE_INSTANCE;
     }
 
     @Override

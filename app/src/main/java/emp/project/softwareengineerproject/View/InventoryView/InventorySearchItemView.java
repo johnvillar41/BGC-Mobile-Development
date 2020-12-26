@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
-import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.List;
@@ -87,13 +86,6 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
 
     @Override
     protected void onDestroy() {
-        Glide.get(getApplicationContext()).clearMemory();
-        Thread thread=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Glide.get(getApplicationContext()).clearDiskCache();
-            }
-        });thread.start();
         try {
             File dir = getCacheDir();
             CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());

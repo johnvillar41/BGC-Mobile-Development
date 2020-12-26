@@ -24,6 +24,18 @@ public class UsersAddService implements IUsersAdd.IUsersAddService {
     private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
     private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
+    private static UsersAddService SINGLE_INSTANCE = null;
+
+    private UsersAddService() {
+
+    }
+
+    public static UsersAddService getInstance() {
+        if (SINGLE_INSTANCE == null) {
+            SINGLE_INSTANCE = new UsersAddService();
+        }
+        return SINGLE_INSTANCE;
+    }
 
     @Override
     public void strictMode() throws ClassNotFoundException {

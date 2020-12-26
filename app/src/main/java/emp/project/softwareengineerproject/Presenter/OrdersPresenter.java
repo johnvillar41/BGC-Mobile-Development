@@ -24,7 +24,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         this.view = view;
         this.model = new OrdersModel();
         this.context = new WeakReference<>(context);
-        this.service = new OrdersService(this.model);
+        this.service = OrdersService.getInstance(this.model);
     }
 
     @Override
