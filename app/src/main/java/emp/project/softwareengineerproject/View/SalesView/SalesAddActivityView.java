@@ -208,7 +208,6 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
             File dir = getCacheDir();
             CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
             cacheManager.deleteDir(dir);
-            cacheManager.clearGlideMemory();
         } catch (Exception e) {
             e.printStackTrace();
         }

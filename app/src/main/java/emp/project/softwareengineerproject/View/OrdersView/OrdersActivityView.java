@@ -103,7 +103,6 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
             File dir = getCacheDir();
             CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
             cacheManager.deleteDir(dir);
-            cacheManager.clearGlideMemory();
         } catch (Exception e) {
             e.printStackTrace();
         }

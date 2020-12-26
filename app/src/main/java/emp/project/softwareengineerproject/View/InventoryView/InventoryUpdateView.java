@@ -336,13 +336,6 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     protected void onDestroy() {
-        Glide.get(getApplicationContext()).clearMemory();
-        Thread thread=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Glide.get(getApplicationContext()).clearDiskCache();
-            }
-        });thread.start();
         try {
             File dir = getCacheDir();
             CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());

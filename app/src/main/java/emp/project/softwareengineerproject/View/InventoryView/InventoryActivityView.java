@@ -97,14 +97,6 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     protected void onResume() {
-        Glide.get(getApplicationContext()).clearMemory();
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Glide.get(getApplicationContext()).clearDiskCache();
-            }
-        });
-        thread.start();
         try {
             presenter.getGreenHouseFromDB();
         } catch (InterruptedException e) {
@@ -178,7 +170,6 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
             e.printStackTrace();
         }
         onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
-        thread.interrupt();
         super.onDestroy();
     }
 

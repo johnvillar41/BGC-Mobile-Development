@@ -201,7 +201,6 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
             File dir = getCacheDir();
             CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
             cacheManager.deleteDir(dir);
-            cacheManager.clearGlideMemory();
         } catch (Exception e) {
             e.printStackTrace();
         }

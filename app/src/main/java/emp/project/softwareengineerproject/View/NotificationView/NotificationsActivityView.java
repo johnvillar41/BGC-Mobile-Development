@@ -99,7 +99,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
             File dir = getCacheDir();
             CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
             cacheManager.deleteDir(dir);
-            cacheManager.clearGlideMemory();
+            //cacheManager.clearGlideMemory();
         } catch (Exception e) {
             e.printStackTrace();
         }

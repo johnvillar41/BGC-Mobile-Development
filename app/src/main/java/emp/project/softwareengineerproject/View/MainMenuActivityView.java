@@ -222,7 +222,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
             File dir = getCacheDir();
             CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
             cacheManager.deleteDir(dir);
-            cacheManager.clearGlideMemory();
+            //cacheManager.clearGlideMemory();
         } catch (Exception e) {
             e.printStackTrace();
         }
