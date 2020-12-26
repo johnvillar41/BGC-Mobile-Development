@@ -79,6 +79,8 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
                 = new LinearLayoutManager(NotificationsActivityView.this, LinearLayoutManager.VERTICAL, false);
         NotificationRecyclerView adapter = new NotificationRecyclerView(
                 NotificationsActivityView.this, list_notifs);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.scheduleLayoutAnimation();

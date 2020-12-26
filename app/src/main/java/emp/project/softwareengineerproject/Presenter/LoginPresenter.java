@@ -45,9 +45,9 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                     try {
                         success = service.checkLoginCredentialsDB(model);
                     } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                        view.onError(e.getMessage(),v);
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        view.onError(e.getMessage(),v);
                     }
                     if (success) {
                         context.get().runOnUiThread(new Runnable() {
@@ -61,7 +61,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                         context.get().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                view.onError("Error!", v);
+                                view.onError("User not found!", v);
                                 view.hideProgressBar();
                             }
                         });

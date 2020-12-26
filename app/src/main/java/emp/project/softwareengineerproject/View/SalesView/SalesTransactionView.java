@@ -111,6 +111,8 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
             public void run() {
                 final LinearLayoutManager layoutManager
                         = new LinearLayoutManager(SalesTransactionView.this, LinearLayoutManager.VERTICAL, false);
+                layoutManager.setReverseLayout(true);
+                layoutManager.setStackFromEnd(true);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -130,6 +132,7 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
             }
         });
         thread.start();
+        thread.interrupt();
     }
 
     @Override

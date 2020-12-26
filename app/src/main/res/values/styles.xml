@@ -8,7 +8,7 @@
     </style>
 
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="boxStrokeColor">#000000</item>
+        <item name="boxStrokeColor">#f9b207</item>
         <item name="boxStrokeWidth">2dp</item>
         
     </style>

@@ -43,7 +43,6 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     private ImageView image_empty_greenhouse, image_empty_hydroponics, image_empty_others;
     private Spinner spinner_category;
 
-    private Thread thread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
