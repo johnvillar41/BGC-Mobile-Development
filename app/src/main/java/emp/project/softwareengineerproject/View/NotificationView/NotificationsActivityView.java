@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,9 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.ProgressIndicator;
 
 import java.io.File;
@@ -41,7 +38,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
 
     private INotification.INotificationPresenter presenter;
     private RecyclerView recyclerView;
-    private ImageView circleImageView_empty;
+    private LottieAnimationView animationView_Noresult;
     private ProgressIndicator progressIndicator;
 
     @Override
@@ -61,7 +58,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
     public void initViews() throws SQLException, ClassNotFoundException {
         presenter = new NotificationPresenter(this, this);
         recyclerView = findViewById(R.id.recyclerView_notification);
-        circleImageView_empty = findViewById(R.id.empty_image);
+        animationView_Noresult = findViewById(R.id.animationView_noResult);
         progressIndicator = findViewById(R.id.progressBar_Notifications);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -85,13 +82,9 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
         recyclerView.setAdapter(adapter);
         recyclerView.scheduleLayoutAnimation();
         if (adapter.getItemCount() == 0) {
-            Glide.with(NotificationsActivityView.this)
-                    .load(R.drawable.no_result_imag2)
-                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
-                    .into(circleImageView_empty);
-            circleImageView_empty.setVisibility(View.VISIBLE);
+            animationView_Noresult.setVisibility(View.VISIBLE);
         } else {
-            circleImageView_empty.setVisibility(View.GONE);
+            animationView_Noresult.setVisibility(View.GONE);
         }
     }
 

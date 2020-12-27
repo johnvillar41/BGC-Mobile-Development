@@ -45,9 +45,13 @@
             android:layout_height="match_parent"
             />
     </LinearLayout>
-    <ImageView
-        android:id="@+id/empty_image"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView_noResult"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="300sp"
-        android:layout_centerVertical="true"/>
+        android:layout_marginTop="120sp"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/noresult"/>
 </RelativeLayout>

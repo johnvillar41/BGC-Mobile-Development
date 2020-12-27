@@ -2,9 +2,9 @@ package emp.project.softwareengineerproject.View.OrdersView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,9 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.progressindicator.ProgressIndicator;
 
@@ -32,7 +30,7 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
     private IOrders.IOrdersPresenter presenter;
     private ProgressIndicator progressIndicator;
     private BottomNavigationView bottomNavigationView;
-    private ImageView imageView;
+    private LottieAnimationView animationView_NoResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +56,7 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
         recyclerView = findViewById(R.id.recyclerView_Orders);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        imageView = findViewById(R.id.empty_image);
+        animationView_NoResult = findViewById(R.id.animationView_noResult);
         progressIndicator = findViewById(R.id.progress_bar_orders);
         progressIndicator.hide();
 
@@ -87,13 +85,9 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
         recyclerView.setAdapter(adapter);
         recyclerView.scheduleLayoutAnimation();
         if (adapter.getItemCount() == 0) {
-            Glide.with(this)
-                    .load(R.drawable.no_result_imag2)
-                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
-                    .skipMemoryCache(true)
-                    .into(imageView);
+            animationView_NoResult.setVisibility(View.VISIBLE);
         } else {
-            imageView.setImageDrawable(null);
+            animationView_NoResult.setVisibility(View.GONE);
         }
     }
 

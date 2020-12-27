@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.ProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
@@ -47,6 +48,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
     private ProgressIndicator progressIndicator;
     private ProgressIndicator progressIndicatorCart;
     private RecyclerView recyclerView;
+    private LottieAnimationView animationView_Noresult;
 
     private static int numberOfDialogsOpen = 0;
 
@@ -76,6 +78,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         FloatingActionButton floatingActionButton_Cart = findViewById(R.id.fab_cart);
         recyclerView = findViewById(R.id.recyclerView_Sale);
         progressIndicator = findViewById(R.id.progressBar_AddSales);
+        animationView_Noresult = findViewById(R.id.animationView_noResult);
 
         presenter = new SalesAddPresenter(this, this);
         presenter.directProductList();
@@ -163,6 +166,11 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.scheduleLayoutAnimation();
+        if (adapter.getItemCount() == 0){
+            animationView_Noresult.setVisibility(View.VISIBLE);
+        } else {
+            animationView_Noresult.setVisibility(View.GONE);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

@@ -55,11 +55,14 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <ImageView
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/animationView_noResult1"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
                             android:visibility="gone"
-                            android:id="@+id/empty_image_greenhouse"/>
+                            app:lottie_rawRes="@raw/noresult"/>
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView_greenHouse"
                             android:layout_width="match_parent"
@@ -96,11 +99,14 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <ImageView
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/animationView_noResult2"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
                             android:visibility="gone"
-                            android:id="@+id/empty_image_hydroponics"/>
+                            app:lottie_rawRes="@raw/noresult"/>
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView_hydroPonics"
                             android:layout_width="match_parent"
@@ -162,11 +168,14 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <ImageView
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/animationView_noResult3"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
                             android:visibility="gone"
-                            android:id="@+id/empty_image_others"/>
+                            app:lottie_rawRes="@raw/noresult"/>
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView_others"
                             android:layout_width="match_parent"
