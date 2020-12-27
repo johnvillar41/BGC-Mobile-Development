@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.arlib.floatingsearchview.FloatingSearchView;
 
 import java.io.File;
@@ -29,6 +30,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
     private ISearchInventory.ISearchInventoryPresenter presenter;
     private RecyclerView recyclerViewSearchedItem;
     private ProgressBar progressBar;
+    private LottieAnimationView animationView_Noresult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
 
+        animationView_Noresult = findViewById(R.id.animationView_noResult);
         txt_searchItem = findViewById(R.id.txt_searchItem);
         recyclerViewSearchedItem = findViewById(R.id.recyclerView_SearchProduct);
         txt_searchItem.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
@@ -77,6 +80,11 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
                                 product_list, InventorySearchItemView.this);
                         recyclerViewSearchedItem.setLayoutManager(layoutManager);
                         recyclerViewSearchedItem.setAdapter(adapter);
+                        if(adapter.getItemCount()==0){
+                            animationView_Noresult.setVisibility(View.VISIBLE);
+                        } else {
+                            animationView_Noresult.setVisibility(View.GONE);
+                        }
                     }
                 });
             }
