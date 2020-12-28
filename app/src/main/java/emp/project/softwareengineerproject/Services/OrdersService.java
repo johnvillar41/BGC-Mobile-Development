@@ -75,27 +75,40 @@ public class OrdersService implements IOrders.IOrdersService {
     }
 
     @Override
-    public List<OrdersModel> getCustomerSpecificOrders(String customer_email, String order_date) throws ClassNotFoundException, SQLException {
+    public List<OrdersModel> getCustomerSpecificOrders(String order_id) throws ClassNotFoundException, SQLException {
         strictMode();
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         List<OrdersModel> list = new ArrayList<>();
         /**
          * Select customer orders
+         * order_date must have minutes and seconds to make it specific
          */
-        String sqlGetSpecificOrders = "SELECT * FROM customer_orders_table WHERE customer_email=" + "'" + customer_email + "'" + " AND order_date=" + "'" + order_date + "'";
+        String sqlGetSpecificOrders = "SELECT * FROM customer_orders_table WHERE order_id=" + "'" + order_id + "'";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlGetSpecificOrders);
         while (resultSet.next()) {
             /**
              * Get the product id from customer_orders_table to gather the information from the products_table
+             * resultSet = customer_orders_table
+             * resultSet2 = specific_orders_table
+             * resultSet3 = products_table
              */
-            String sqlGetProducts = "SELECT product_picture,product_name FROM products_table WHERE product_id=" + "'" + resultSet.getString(7) + "'";
+            String sqlGetProducts = "SELECT * FROM specific_orders_table WHERE order_id=" + "'" + resultSet.getString(1) + "'";
             PreparedStatement preparedStatement2 = connection.prepareStatement(sqlGetProducts);
             ResultSet resultSet2 = preparedStatement2.executeQuery();
             while (resultSet2.next()) {
-                model = new OrdersModel(resultSet.getString(7), resultSet.getString(8), resultSet2.getBlob(1), resultSet2.getString(2));
-                list.add(model);
+                String sqlGetSpecificProducts = "SELECT * FROM products_table WHERE product_id=" + "'" + resultSet2.getString(2) + "'";
+                PreparedStatement preparedStatement3 = connection.prepareStatement(sqlGetSpecificProducts);
+                ResultSet resultSet3 = preparedStatement3.executeQuery();
+                while (resultSet3.next()) {
+                    model = new OrdersModel(order_id, resultSet2.getString(2), resultSet.getString(7),
+                            resultSet3.getBlob(5), resultSet3.getString(2));
+                    list.add(model);
+                }
+                preparedStatement3.close();
+                resultSet3.close();
             }
+            resultSet2.close();
             preparedStatement2.close();
         }
         connection.close();
@@ -138,6 +151,5 @@ public class OrdersService implements IOrders.IOrdersService {
         preparedStatementUpdateNotification.close();
 
     }
-
 
 }

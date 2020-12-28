@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.ILogin;
 import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.NetworkChecker;
 import emp.project.softwareengineerproject.Services.LoginService;
 import emp.project.softwareengineerproject.View.LoginActivityView;
 
@@ -28,6 +29,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
 
     @Override
     public void onLoginButtonClicked(final String username, final String password, final View v) {
+        final NetworkChecker networkChecker = NetworkChecker.getSingleInstance(context);
         InputMethodManager imm = (InputMethodManager) context.get().getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         Thread thread = new Thread(new Runnable() {
@@ -41,13 +43,15 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                 });
                 model = new UserModel(username, password);
                 if (model.validateCredentials(model) == null) {
-                    boolean success = false;
+                    boolean success;
                     try {
                         success = service.checkLoginCredentialsDB(model);
                     } catch (ClassNotFoundException e) {
-                        view.onError(e.getMessage(),v);
+                        view.onError(e.getMessage(), v);
+                        success = false;
                     } catch (SQLException e) {
-                        view.onError(e.getMessage(),v);
+                        view.onError(e.getMessage(), v);
+                        success = false;
                     }
                     if (success) {
                         context.get().runOnUiThread(new Runnable() {
@@ -55,6 +59,14 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                             public void run() {
                                 view.onSuccess("Logging in!", v);
                                 view.goToMainPage();
+                            }
+                        });
+                    } else if (!networkChecker.isNetworkAvailable()) {
+                        context.get().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                view.onError("No network Connected", v);
+                                view.hideProgressBar();
                             }
                         });
                     } else {

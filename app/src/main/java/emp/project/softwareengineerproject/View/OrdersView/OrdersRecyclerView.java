@@ -123,7 +123,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                     try {
                         LinearLayoutManager linearLayoutManager
                                 = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-                        OrdersSpecificRecyclerView adapter = new OrdersSpecificRecyclerView(context,service.getCustomerSpecificOrders(model.getCustomer_email(),model.getOrder_date()));
+                        OrdersSpecificRecyclerView adapter = new OrdersSpecificRecyclerView(context,service.getCustomerSpecificOrders(model.getOrder_id()));
                         holder.recyclerView.setLayoutManager(linearLayoutManager);
                         holder.recyclerView.setAdapter(adapter);
                     } catch (Exception e) {

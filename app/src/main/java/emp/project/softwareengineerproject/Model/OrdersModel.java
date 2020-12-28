@@ -31,13 +31,13 @@ public class OrdersModel {
 
     /**
      * This Constructor is for the specific orders of the customer
-     *
      */
-    public OrdersModel(String product_id, String total_number_of_orders,  Blob product_picture,String product_name) {
+    public OrdersModel(String order_id, String product_id, String total_number_of_orders, Blob product_picture, String product_name) {
+        this.order_id = order_id;
         this.product_id = product_id;
         this.total_number_of_orders = total_number_of_orders;
-        this.product_name = product_name;
         this.product_picture = product_picture;
+        this.product_name = product_name;
     }
 
     public String getProduct_id() {

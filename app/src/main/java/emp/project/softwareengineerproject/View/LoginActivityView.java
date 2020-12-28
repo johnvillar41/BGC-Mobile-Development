@@ -28,6 +28,7 @@ import java.util.Objects;
 
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.ILogin;
+import emp.project.softwareengineerproject.NetworkChecker;
 import emp.project.softwareengineerproject.Presenter.LoginPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -63,6 +64,8 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
 
     @Override
     public void initViews() {
+        displayNoNetworkPrompt();
+
         presenter = new LoginPresenter(this, this);
         btn_login = findViewById(R.id.btn_login);
         txt_username = findViewById(R.id.textField_username);
@@ -150,5 +153,10 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
         }
         onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
         super.onDestroy();
+    }
+
+    private void displayNoNetworkPrompt() {
+        NetworkChecker networkChecker = NetworkChecker.getSingleInstance(this);
+        networkChecker.displayNoNetworkConnection();
     }
 }
