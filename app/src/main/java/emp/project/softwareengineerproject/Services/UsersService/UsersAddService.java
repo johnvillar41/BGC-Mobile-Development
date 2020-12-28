@@ -74,6 +74,33 @@ public class UsersAddService implements IUsersAdd.IUsersAddService {
         preparedStatementUpdateNotification.execute();
         preparedStatementUpdateNotification.close();
         preparedStatementUpdateNotification.close();
+
+
+        //insert new row for reports_table
+        String sqlInsertToReportsTable = "INSERT INTO reports_table(user_username," +
+                "sales_month_1,sales_month_2,sales_month_3,sales_month_4,sales_month_5," +
+                "sales_month_6,sales_month_7,sales_month_8,sales_month_9,sales_month_10," +
+                "sales_month_11,sales_month_12,sales_year)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        dtf = DateTimeFormatter.ofPattern("yyyy");
+        now = LocalDateTime.now();
+        PreparedStatement preparedStatementReports = connection.prepareStatement(sqlInsertToReportsTable);
+        preparedStatementReports.setString(1, model.getUser_username());
+        preparedStatementReports.setString(2, "0");
+        preparedStatementReports.setString(3, "0");
+        preparedStatementReports.setString(4, "0");
+        preparedStatementReports.setString(5, "0");
+        preparedStatementReports.setString(6, "0");
+        preparedStatementReports.setString(7, "0");
+        preparedStatementReports.setString(8, "0");
+        preparedStatementReports.setString(9, "0");
+        preparedStatementReports.setString(10, "0");
+        preparedStatementReports.setString(11, "0");
+        preparedStatementReports.setString(12, "0");
+        preparedStatementReports.setString(13, "0");
+        preparedStatementReports.setString(14, dtf.format(now));
+        preparedStatementReports.execute();
+        preparedStatementReports.close();
+
         connection.close();
     }
 }

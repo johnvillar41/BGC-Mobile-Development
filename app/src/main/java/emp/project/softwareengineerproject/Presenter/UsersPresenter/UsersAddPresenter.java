@@ -39,7 +39,6 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                         view.displayProgressIndicator();
                         final UserModel newModel = model.validateAddUsers(username, password1, password2, realName, profileImage);
                         if (newModel != null) {
-
                             final Thread thread1 = new Thread(new Runnable() {
                                 @Override
                                 public void run() {

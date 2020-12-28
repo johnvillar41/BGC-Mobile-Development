@@ -35,9 +35,6 @@ public class ReportsRecyclerView extends RecyclerView.Adapter<ReportsRecyclerVie
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ReportsModel model = getItem(position);
-        holder.txt_month.setText(String.valueOf(model.getDate_month()));
-        holder.txt_date.setText(String.valueOf(model.getDate()));
-        holder.txt_sales.setText(String.valueOf(model.getTotal_transactions_monthly()));
     }
 
     private ReportsModel getItem(int position) {
