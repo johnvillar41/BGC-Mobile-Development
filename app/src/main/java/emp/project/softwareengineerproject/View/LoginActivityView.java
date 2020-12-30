@@ -45,14 +45,6 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
 
     public static String USERNAME_VALUE = null;
 
-    /**
-     * TODO
-     * 1)Add an alertDialog on the search inventory activity for CRUD
-     * 2)Change the icons for the orders in notificationActivity
-     * 3)Change the design in the reports activity
-     * 4)Add a delete button in the orders activity
-     */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +70,8 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
             @Override
             public void onClick(View v) {
                 try {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     presenter.onLoginButtonClicked(Objects.requireNonNull(txt_username.getEditText()).getText().toString(),
                             Objects.requireNonNull(txt_password.getEditText()).getText().toString(), v);
                 } catch (SQLException e) {

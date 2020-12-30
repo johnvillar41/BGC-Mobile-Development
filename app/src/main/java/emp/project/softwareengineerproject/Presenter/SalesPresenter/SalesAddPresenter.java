@@ -15,6 +15,7 @@ import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
 import emp.project.softwareengineerproject.Model.InventoryModel;
 import emp.project.softwareengineerproject.Model.SalesModel;
 import emp.project.softwareengineerproject.Services.SalesService.SalesAddService;
+import emp.project.softwareengineerproject.View.LoginActivityView;
 import emp.project.softwareengineerproject.View.SalesView.SalesAddActivityView;
 
 public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
@@ -91,7 +92,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
 
                         model = new SalesModel(SalesModel.cartList.get(i).getProduct_picture(), SalesModel.cartList.get(i).getProduct_name(),
                                 SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products(),
-                                String.valueOf(dtf.format(now)), String.valueOf(dtf_month.format(now_month)));
+                                String.valueOf(dtf.format(now)), String.valueOf(dtf_month.format(now_month)), LoginActivityView.USERNAME_VALUE);
 
                         isValid = service.checkIfProductIsEnough(SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products());
 

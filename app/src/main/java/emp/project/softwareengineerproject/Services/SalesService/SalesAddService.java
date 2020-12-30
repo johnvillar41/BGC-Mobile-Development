@@ -58,7 +58,7 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
     public boolean insertOrderToDB(SalesModel model) throws SQLException, ClassNotFoundException {
         strictMode();
         if (checkIfProductIsEnough(model.getProduct_id(), model.getTotal_number_of_products())) {
-            String sql = "INSERT INTO sales_table(sales_title,sales_image,sales_transaction_value,product_id,total_number_of_products,sales_date,date_month) VALUES(?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO sales_table(sales_title,sales_image,sales_transaction_value,product_id,total_number_of_products,sales_date,date_month,user_username) VALUES(?,?,?,?,?,?,?,?)";
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, model.getSales_title());
@@ -68,6 +68,7 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
             preparedStatement.setString(5, model.getTotal_number_of_products());
             preparedStatement.setString(6, model.getSales_date());
             preparedStatement.setString(7, model.getDate_month());
+            preparedStatement.setString(8,LoginActivityView.USERNAME_VALUE);
             preparedStatement.execute();
 
             //Update Products

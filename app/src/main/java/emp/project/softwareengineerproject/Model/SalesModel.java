@@ -9,12 +9,12 @@ public class SalesModel {
     private Blob sales_image;
     private long product_total;
     private String date_month;
-
+    private String user_username;
 
     public static List<InventoryModel> cartList = new ArrayList<>();
 
 
-    public SalesModel(String sales_id, String sales_title, Blob sales_image, long product_total, String product_id, String total_number_of_products, String sales_date) {
+    public SalesModel(String sales_id, String sales_title, Blob sales_image, long product_total, String product_id, String total_number_of_products, String sales_date, String user_username) {
         this.sales_id = sales_id;
         this.sales_title = sales_title;
         this.product_id = product_id;
@@ -22,18 +22,10 @@ public class SalesModel {
         this.sales_date = sales_date;
         this.sales_image = sales_image;
         this.product_total = product_total;
+        this.user_username = user_username;
     }
 
-    public SalesModel(Blob sales_image, String sales_title, long product_total, String product_id, String total_number_of_products, String sales_date) {
-        this.sales_image = sales_image;
-        this.sales_title = sales_title;
-        this.product_id = product_id;
-        this.product_total = product_total;
-        this.total_number_of_products = total_number_of_products;
-        this.sales_date = sales_date;
-    }
-
-    public SalesModel(Blob sales_image, String sales_title, long product_total, String product_id, String total_number_of_products, String sales_date, String date_month) {
+    public SalesModel(Blob sales_image, String sales_title, long product_total, String product_id, String total_number_of_products, String sales_date, String date_month, String user_username) {
         this.sales_image = sales_image;
         this.sales_title = sales_title;
         this.product_id = product_id;
@@ -41,6 +33,7 @@ public class SalesModel {
         this.total_number_of_products = total_number_of_products;
         this.sales_date = sales_date;
         this.date_month = date_month;
+        this.user_username = user_username;
     }
 
     public String getDate_month() {

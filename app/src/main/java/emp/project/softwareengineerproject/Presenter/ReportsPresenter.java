@@ -1,6 +1,7 @@
 package emp.project.softwareengineerproject.Presenter;
 
 import java.lang.ref.WeakReference;
+import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.IReports;
 import emp.project.softwareengineerproject.Model.ReportsModel;
@@ -22,6 +23,12 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
     }
 
 
-
-
+    @Override
+    public void loadTotals() throws SQLException, ClassNotFoundException {
+        //Add thread
+        int total = service.computeAverages()[0];
+        int average = service.computeAverages()[1];
+        int totalAveMonthly = service.computeAverages()[2];
+        view.displayTotals(String.valueOf(total), String.valueOf(average), String.valueOf(totalAveMonthly));
+    }
 }
