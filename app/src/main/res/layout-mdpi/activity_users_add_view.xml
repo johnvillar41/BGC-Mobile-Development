@@ -8,13 +8,13 @@
     tools:context=".View.UsersView.UsersAddActivityView">
 
     <androidx.appcompat.widget.Toolbar
-        app:titleTextColor="#000000"
         android:id="@+id/toolbar"
-        app:title="Add new Users"
-        android:elevation="10dp"
-        android:background="#f9b207"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"/>
+        android:layout_height="?actionBarSize"
+        android:background="#f9b207"
+        android:elevation="10dp"
+        app:title="Add new Users"
+        app:titleTextColor="#000000"/>
     <com.google.android.material.progressindicator.ProgressIndicator
         android:id="@+id/progressBar_AddNewUsers"
         style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Indeterminate"
@@ -26,21 +26,20 @@
         app:indicatorColor="#FD0303"
         tools:targetApi="lollipop" />
     <LinearLayout
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="58sp"
+        android:gravity="center"
         android:orientation="vertical">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="150sp"
-            android:layout_height="150sp"
-            android:id="@+id/image_profile"/>
+            android:id="@+id/image_profile"
+            android:layout_width="120sp"
+            android:layout_height="120sp"/>
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_margin="10dp"
-            android:layout_marginTop="100dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/txt_username"
             style="@style/LoginTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="@string/enter_username">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -48,10 +47,8 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_margin="10dp"
             android:id="@+id/txt_password1"
             style="@style/LoginTextInputLayoutStyle"
-            android:layout_marginTop="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/enter_password_here">
@@ -61,12 +58,10 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_margin="10dp"
+            android:id="@+id/txt_password2"
             style="@style/LoginTextInputLayoutStyle"
-            android:layout_marginTop="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txt_password2"
             android:hint="@string/re_enter_your_password">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -74,8 +69,6 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_margin="10dp"
-            android:layout_marginTop="100dp"
             android:id="@+id/txt_fullName"
             style="@style/LoginTextInputLayoutStyle"
             android:layout_width="match_parent"
@@ -87,10 +80,10 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.button.MaterialButton
-            android:layout_margin="10dp"
             android:id="@+id/btn_add_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:text="@string/add_user"/>
     </LinearLayout>
 

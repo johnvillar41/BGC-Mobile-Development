@@ -120,8 +120,8 @@
             android:gravity="center">
             <TextView
                 android:layout_width="0dp"
-                android:padding="20dp"
                 android:layout_height="wrap_content"
+                android:padding="20dp"
                 android:text="@string/agt_pos_and_inventory_system"
                 android:textColor="#a60f07"
                 android:textSize="30sp"
