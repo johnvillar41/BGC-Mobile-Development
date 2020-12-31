@@ -1,19 +1,21 @@
 package emp.project.softwareengineerproject.Model;
 
 public class ReportsModel {
-   private String reports_id,user_username,
-           sales_month_1,sales_month_2,sales_month_3,
-           sales_month_4,sales_month_5,sales_month_6,
-           sales_month_7,sales_month_8,sales_month_9,
-           sales_month_10,sales_month_11,sales_month_12,sales_year;
+    private String reports_id, user_username,
+            sales_month_1, sales_month_2, sales_month_3,
+            sales_month_4, sales_month_5, sales_month_6,
+            sales_month_7, sales_month_8, sales_month_9,
+            sales_month_10, sales_month_11, sales_month_12, sales_year;
 
-    public ReportsModel(String user_username, String sales_month_1,
+    public ReportsModel(String reports_id,
+                        String user_username, String sales_month_1,
                         String sales_month_2, String sales_month_3,
                         String sales_month_4, String sales_month_5,
                         String sales_month_6, String sales_month_7,
                         String sales_month_8, String sales_month_9,
                         String sales_month_10, String sales_month_11,
                         String sales_month_12, String sales_year) {
+        this.reports_id = reports_id;
         this.user_username = user_username;
         this.sales_month_1 = sales_month_1;
         this.sales_month_2 = sales_month_2;

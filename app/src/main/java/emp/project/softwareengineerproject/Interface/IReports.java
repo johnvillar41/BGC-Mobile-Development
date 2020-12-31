@@ -3,10 +3,10 @@ package emp.project.softwareengineerproject.Interface;
 import java.sql.SQLException;
 import java.util.List;
 
+import emp.project.softwareengineerproject.Model.ReportsModel;
+import emp.project.softwareengineerproject.Model.UserModel;
+
 public interface IReports {
-    /**
-     * This will be refractored soon still on working progress
-     */
     interface IReportsView{
         void initViews() throws SQLException, ClassNotFoundException;
 
@@ -16,13 +16,28 @@ public interface IReports {
 
         void displayTotals(String total,String average, String ave_Monthly);
 
-        void displayChart(List<String> monthValues);
+        void displayChart(ReportsModel monthValues,String username);
 
+        void displayRecyclerView(List<UserModel>sortedUserList);
     }
     interface IReportsPresenter{
-        void loadTotals() throws SQLException, ClassNotFoundException;
+        void loadTotals(String username) throws SQLException, ClassNotFoundException;
+
+        void loadChartValues();
+
+        List<String> loadAdministratorValues() throws SQLException, ClassNotFoundException;
+
+        void onMenuButtonClicked(String adminName);
+
+        void loadSortedAdministrators();
     }
     interface IReportsService extends IServiceStrictMode{
-        int[] computeAverages() throws ClassNotFoundException, SQLException;
+        int[] computeAverages(String username) throws ClassNotFoundException, SQLException;
+
+        ReportsModel getMonthlySales(String username) throws ClassNotFoundException, SQLException;
+
+        List<String>getListOfAdministrators() throws ClassNotFoundException, SQLException;
+
+        List<UserModel>getAdminsFromDB() throws ClassNotFoundException, SQLException;
     }
 }

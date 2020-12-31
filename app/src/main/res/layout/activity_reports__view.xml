@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#323232"
     tools:context=".View.ReportsView.ReportsActivityView">
-
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="#f9b207"
+        android:elevation="10dp"
+        app:title="Reports"
+        app:titleTextColor="#000000" />
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="#f9b207"
-            app:title="Reports"
-            app:titleTextColor="#000000" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -137,6 +138,7 @@
                 app:cardBackgroundColor="#f9b207"
                 app:cardCornerRadius="4sp">
                 <com.github.mikephil.charting.charts.LineChart
+                    android:layout_margin="10dp"
                     android:id="@+id/line_Chart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
@@ -158,7 +160,7 @@
                 android:layout_margin="10dp"/>
 
         </LinearLayout>
-    </RelativeLayout>
+    </ScrollView>
 
 
-</ScrollView>
+</RelativeLayout>
