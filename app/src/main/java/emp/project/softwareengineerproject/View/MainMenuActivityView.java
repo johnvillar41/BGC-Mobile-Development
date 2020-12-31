@@ -110,12 +110,12 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
          * crash on loading large amounts of images
          */
 
-        Glide.with(this).asBitmap().load(R.drawable.stocks_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_inventory);
-        Glide.with(this).asBitmap().load(R.drawable.sales_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_sales);
-        Glide.with(this).asBitmap().load(R.drawable.reports_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_reports);
-        Glide.with(this).asBitmap().load(R.drawable.users_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_users);
-        Glide.with(this).asBitmap().load(R.drawable.orders_online).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_settings);
-        Glide.with(this).asBitmap().load(R.drawable.ic_baseline_exit_to_app_24).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_signout);
+        Glide.with(this).asBitmap().load(R.drawable.stocks_logo).fitCenter().apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_inventory);
+        Glide.with(this).asBitmap().load(R.drawable.sales_logo).fitCenter().apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_sales);
+        Glide.with(this).asBitmap().load(R.drawable.reports_logo).fitCenter().apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_reports);
+        Glide.with(this).asBitmap().load(R.drawable.users_logo).fitCenter().apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_users);
+        Glide.with(this).asBitmap().load(R.drawable.orders_online).fitCenter().apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_settings);
+        Glide.with(this).asBitmap().load(R.drawable.ic_baseline_exit_to_app_24).fitCenter().apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_signout);
 
 
         if (sharedPreferences.getString(LoginActivityView.USERNAME_PREFS, null) == null) {
