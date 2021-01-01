@@ -2,9 +2,9 @@ package emp.project.softwareengineerproject.Interface;
 
 public enum DATABASE_CREDENTIALS {
 
-    DB_NAME("jdbc:mysql://192.168.1.152:3306/agt_db"),
-    USER("admin_agt"),
-    PASS("admin_agt");
+    DB_NAME("jdbc:mysql://sql12.freemysqlhosting.net:3306/sql12384495"),
+    USER("sql12384495"),
+    PASS("2i1bIA2Vs8");
 
     private String db_cred;
 

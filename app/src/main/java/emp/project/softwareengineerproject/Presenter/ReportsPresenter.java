@@ -25,26 +25,78 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
         this.context = new WeakReference<>(context);
     }
 
-
     @Override
-    public void loadTotals(String username) {
-        if (username == null) {
-            username = LoginActivityView.USERNAME_VALUE;
-        }
-        final String finalUsername = username;
+    public void loadChartValues() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.displayProgressIndicator();
-                    }
-                });
                 try {
-                    final int total = service.computeAverages(finalUsername)[0];
-                    final int average = service.computeAverages(finalUsername)[1];
-                    final int totalAveMonthly = service.computeAverages(finalUsername)[2];
+                    context.get().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayProgressCircle();
+                        }
+                    });
+                    final ReportsModel model = service.getMonthlySales(LoginActivityView.USERNAME_VALUE);
+                    context.get().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayChart(model, LoginActivityView.USERNAME_VALUE);
+                            view.hideProgressCircle();
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+    @Override
+    public void loadAdministratorValues() {
+        final List<String>[] adminList = new List[1];
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    context.get().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayProgressIndicator();
+                        }
+                    });
+                    adminList[0] = service.getListOfAdministrators();
+                    context.get().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayAdministratorList(adminList[0]);
+                            view.hideProgressIndicator();
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+
+
+    @Override
+    public void loadTotals(final String username) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final int total = service.computeAverages(username)[0];
+                    final int average = service.computeAverages(username)[1];
+                    final int totalAveMonthly = service.computeAverages(username)[2];
                     context.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -60,48 +112,10 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
             }
         });
         thread.start();
-
     }
 
     @Override
-    public void loadChartValues() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                context.get().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.displayProgressIndicator();
-                    }
-                });
-                try {
-                    final ReportsModel model = service.getMonthlySales(LoginActivityView.USERNAME_VALUE);
-                    context.get().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.displayChart(model, LoginActivityView.USERNAME_VALUE);
-                            view.hideProgressIndicator();
-                        }
-                    });
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-
-    }
-
-    @Override
-    public List<String> loadAdministratorValues() throws SQLException, ClassNotFoundException {
-        return service.getListOfAdministrators();
-    }
-
-    @Override
-    public void onMenuButtonClicked(final String username) {
-
+    public void onSpinnerItemClicked(final String username) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -144,14 +158,13 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
     @Override
     public void loadSortedAdministrators() {
         /**TODO: SORT THIS LIST OF ADMINISTRATORS */
-
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        view.displayProgressIndicator();
+                        view.displayProgressCircle_Users();
                     }
                 });
                 try {
@@ -160,7 +173,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
                         @Override
                         public void run() {
                             view.displayRecyclerView(adminList);
-                            view.hideProgressIndicator();
+                            view.hideProgressCircle_Users();
                         }
                     });
                 } catch (ClassNotFoundException e) {

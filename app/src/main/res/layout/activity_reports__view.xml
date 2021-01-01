@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="#323232"
     tools:context=".View.ReportsView.ReportsActivityView">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -14,6 +15,17 @@
         android:elevation="10dp"
         app:title="Reports"
         app:titleTextColor="#000000" />
+
+    <com.google.android.material.progressindicator.ProgressIndicator
+        android:id="@+id/progressBar_Reports"
+        style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Indeterminate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?actionBarSize"
+        android:elevation="20dp"
+        app:indicatorColor="#FD0303"
+        tools:targetApi="lollipop" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -24,14 +36,13 @@
             android:layout_marginTop="?actionBarSize"
             android:orientation="vertical">
 
-            <com.google.android.material.progressindicator.ProgressIndicator
-                android:id="@+id/progressBar_Reports"
-                style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Indeterminate"
+            <Spinner
+                android:id="@+id/spinnerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:elevation="20dp"
-                app:indicatorColor="#FD0303"
-                tools:targetApi="lollipop" />
+                android:layout_margin="10dp"
+                android:background="@drawable/blue_outline"
+                android:popupBackground="#ffffff" />
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -49,25 +60,28 @@
                         android:layout_margin="10dp"
                         app:cardBackgroundColor="#f9b207"
                         app:cardCornerRadius="4sp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="10dp"
                             android:orientation="vertical">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Total"
                                 android:textColor="#000000"
                                 android:textSize="25sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
+
                             <TextView
                                 android:id="@+id/txt_total"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="PHP 100"
                                 android:textColor="#000000"
-                                android:textSize="20dp"/>
+                                android:textSize="20dp" />
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -77,26 +91,29 @@
                         android:layout_height="150sp"
                         android:layout_margin="10dp"
                         app:cardBackgroundColor="#f9b207"
-                        app:cardCornerRadius="4sp" >
+                        app:cardCornerRadius="4sp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="10dp"
                             android:orientation="vertical">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Average"
                                 android:textColor="#000000"
                                 android:textSize="25sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
+
                             <TextView
                                 android:id="@+id/txt_Average"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="PHP 100"
                                 android:textColor="#000000"
-                                android:textSize="20dp"/>
+                                android:textSize="20dp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -105,30 +122,33 @@
                         android:layout_height="150sp"
                         android:layout_margin="10dp"
                         app:cardBackgroundColor="#f9b207"
-                        app:cardCornerRadius="4sp" >
+                        app:cardCornerRadius="4sp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="10dp"
                             android:orientation="vertical">
+
                             <TextView
                                 android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:height="50dp"
+                                android:text="Average Monthly"
+                                android:textColor="#000000"
+                                android:textStyle="bold"
                                 app:autoSizeMaxTextSize="100sp"
                                 app:autoSizeMinTextSize="12sp"
                                 app:autoSizeStepGranularity="2sp"
-                                app:autoSizeTextType="uniform"
-                                android:layout_height="wrap_content"
-                                android:text="Average Monthly"
-                                android:textColor="#000000"
-                                android:textStyle="bold"/>
+                                app:autoSizeTextType="uniform" />
+
                             <TextView
                                 android:id="@+id/txtMonthly"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="PHP 100"
                                 android:textColor="#000000"
-                                android:textSize="20dp"/>
+                                android:textSize="20dp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </TableRow>
@@ -141,11 +161,19 @@
                 android:layout_margin="10dp"
                 app:cardBackgroundColor="#f9b207"
                 app:cardCornerRadius="4sp">
+
                 <com.github.mikephil.charting.charts.LineChart
-                    android:layout_margin="10dp"
                     android:id="@+id/line_Chart"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp" />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_reports"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:indeterminateTint="#000000"
+                    android:visibility="invisible" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -155,13 +183,13 @@
                 android:text="Top Salesperson"
                 android:textColor="#f9b207"
                 android:textSize="30sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_Reports"
                 android:layout_width="match_parent"
                 android:layout_height="300sp"
-                android:layout_margin="10dp"/>
+                android:layout_margin="10dp" />
 
         </LinearLayout>
     </ScrollView>

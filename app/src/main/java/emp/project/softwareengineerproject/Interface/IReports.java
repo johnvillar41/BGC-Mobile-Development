@@ -14,20 +14,30 @@ public interface IReports {
 
         void hideProgressIndicator();
 
+        void displayProgressCircle();
+
+        void hideProgressCircle();
+
+        void displayProgressCircle_Users();
+
+        void hideProgressCircle_Users();
+
         void displayTotals(String total,String average, String ave_Monthly);
 
         void displayChart(ReportsModel monthValues,String username);
 
         void displayRecyclerView(List<UserModel>sortedUserList);
+
+        void displayAdministratorList(List<String>adminList);
     }
     interface IReportsPresenter{
         void loadTotals(String username) throws SQLException, ClassNotFoundException;
 
         void loadChartValues();
 
-        List<String> loadAdministratorValues() throws SQLException, ClassNotFoundException;
+        void loadAdministratorValues();
 
-        void onMenuButtonClicked(String adminName);
+        void onSpinnerItemClicked(String adminName);
 
         void loadSortedAdministrators();
     }

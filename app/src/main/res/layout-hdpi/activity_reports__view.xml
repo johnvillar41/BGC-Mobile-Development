@@ -32,7 +32,13 @@
                 android:elevation="20dp"
                 app:indicatorColor="#FD0303"
                 tools:targetApi="lollipop" />
-
+            <Spinner
+                android:id="@+id/spinnerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/blue_outline"
+                android:popupBackground="#ffffff"/>
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="200sp"
@@ -150,6 +156,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"/>
+                <ProgressBar
+                    android:id="@+id/progress_bar_reports"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:indeterminateTint="#000000"
+                    android:visibility="invisible"/>
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -166,6 +178,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="300sp"
                 android:layout_margin="10dp"/>
+            <ProgressBar
+                android:id="@+id/progress_bar_reports_sales"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:indeterminateTint="#000000"
+                android:visibility="invisible"/>
 
         </LinearLayout>
     </ScrollView>

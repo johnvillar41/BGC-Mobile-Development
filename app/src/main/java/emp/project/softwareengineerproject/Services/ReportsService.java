@@ -64,10 +64,17 @@ public class ReportsService implements IReports.IReportsService {
             total += resultSet.getInt(4);
             counter++;
         }
-        totalAverage = total / counter;
+        try {
+            totalAverage = total / counter;
+        } catch (ArithmeticException e) {
+            totalAverage = total;
+        }
         averageValues[0] = totalAverage;//average sales
         averageValues[1] = total;//total sales per user
         averageValues[2] = totalAverage;//total average monthly
+        connection.close();
+        preparedStatement.close();
+        resultSet.close();
         return averageValues;
     }
 
@@ -85,7 +92,9 @@ public class ReportsService implements IReports.IReportsService {
                     resultSet.getString(11), resultSet.getString(12), resultSet.getString(13), resultSet.getString(14),
                     resultSet.getString(15));
         }
-
+        connection.close();
+        preparedStatement.close();
+        resultSet.close();
         return model;
     }
 
@@ -100,6 +109,9 @@ public class ReportsService implements IReports.IReportsService {
         while (resultSet.next()) {
             adminList.add(resultSet.getString(1));
         }
+        connection.close();
+        preparedStatement.close();
+        resultSet.close();
         return adminList;
     }
 
@@ -116,6 +128,9 @@ public class ReportsService implements IReports.IReportsService {
                     resultSet.getBlob(5));
             adminList.add(userModel);
         }
+        connection.close();
+        preparedStatement.close();
+        resultSet.close();
         return adminList;
     }
 

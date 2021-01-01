@@ -2,12 +2,15 @@ package emp.project.softwareengineerproject.View.ReportsView;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +34,7 @@ import emp.project.softwareengineerproject.Model.ReportsModel;
 import emp.project.softwareengineerproject.Model.UserModel;
 import emp.project.softwareengineerproject.Presenter.ReportsPresenter;
 import emp.project.softwareengineerproject.R;
+import emp.project.softwareengineerproject.View.LoginActivityView;
 
 public class ReportsActivityView extends AppCompatActivity implements IReports.IReportsView {
     private IReports.IReportsPresenter presenter;
@@ -38,9 +42,8 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
     private RecyclerView recyclerView;
     private TextView textView_Total, textView_Average, textView_Average_Monthly;
     private LineChart lineChart;
-
-    private List<Integer> MENU_LIST_ID = new ArrayList<>();
-    private List<String> MENU_LIST_NAMES = new ArrayList<>();
+    private ProgressBar progressBar, progressBar_Users;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,9 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
         textView_Average = findViewById(R.id.txt_Average);
         textView_Average_Monthly = findViewById(R.id.txtMonthly);
         lineChart = findViewById(R.id.line_Chart);
+        progressBar = findViewById(R.id.progress_bar_reports);
+        progressBar_Users = findViewById(R.id.progress_bar_reports_sales);
+        spinner = findViewById(R.id.spinnerName);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -78,27 +84,27 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
 
-        presenter.loadTotals(null);
+        presenter.loadTotals(LoginActivityView.USERNAME_VALUE);
         presenter.loadChartValues();
         presenter.loadSortedAdministrators();
-
+        presenter.loadAdministratorValues();
     }
 
-
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.clear();
-        try {
-            for (int i = 0; i < presenter.loadAdministratorValues().size(); i++) {
-                menu.add(0, i, Menu.NONE, presenter.loadAdministratorValues().get(i)).setIcon(R.drawable.ic_user);
-                MENU_LIST_ID.add(i);
-                MENU_LIST_NAMES.add(presenter.loadAdministratorValues().get(i));
+    public void displayAdministratorList(List<String> adminList) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, adminList);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                presenter.onSpinnerItemClicked(spinner.getSelectedItem().toString());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        return super.onPrepareOptionsMenu(menu);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -110,6 +116,27 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
     public void hideProgressIndicator() {
         progressIndicator.hide();
     }
+
+    @Override
+    public void displayProgressCircle() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressCircle() {
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void displayProgressCircle_Users() {
+        progressBar_Users.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressCircle_Users() {
+        progressBar_Users.setVisibility(View.INVISIBLE);
+    }
+
 
     @Override
     public void displayTotals(String total, String average, String ave_Monthly) {
@@ -156,26 +183,17 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
         LinearLayoutManager linearLayoutManager
                 = new LinearLayoutManager(ReportsActivityView.this, LinearLayoutManager.VERTICAL, false);
         ReportsRecyclerView adapter = new ReportsRecyclerView(
-                sortedUserList,this);
+                sortedUserList, this);
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             this.finish();
         }
-        for (int i = 0; i < MENU_LIST_ID.size(); i++) {
-            if (item.getItemId() == MENU_LIST_ID.get(i)) {
-                Toast.makeText(this, String.valueOf(MENU_LIST_NAMES.get(i)), Toast.LENGTH_SHORT).show();
-                presenter.onMenuButtonClicked(MENU_LIST_NAMES.get(i));
-            }
-        }
-
-
         return super.onOptionsItemSelected(item);
     }
 }
