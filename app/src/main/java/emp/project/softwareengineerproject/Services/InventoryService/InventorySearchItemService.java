@@ -23,9 +23,6 @@ public class InventorySearchItemService implements ISearchInventory.ISearchInven
 
     private InventoryModel model;
 
-    /*public InventorySearchItemService(InventoryModel model) {
-        this.model = model;
-    }*/
     private static InventorySearchItemService SINGLE_INSTANCE = null;
 
     private InventorySearchItemService(InventoryModel model) {
@@ -37,6 +34,10 @@ public class InventorySearchItemService implements ISearchInventory.ISearchInven
             SINGLE_INSTANCE = new InventorySearchItemService(model);
         }
         return SINGLE_INSTANCE;
+    }
+
+    public void removeInstance() {
+        SINGLE_INSTANCE = null;
     }
 
     @Override

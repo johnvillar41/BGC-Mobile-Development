@@ -56,7 +56,10 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
 
     @Override
     public void initViews() {
-        try{displayNoNetworkPrompt();}catch(NullPointerException ignored){}
+        try {
+            displayNoNetworkPrompt();
+        } catch (NullPointerException ignored) {
+        }
 
         presenter = new LoginPresenter(this, this);
         btn_login = findViewById(R.id.btn_login);

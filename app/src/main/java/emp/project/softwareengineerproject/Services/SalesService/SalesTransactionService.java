@@ -34,6 +34,10 @@ public class SalesTransactionService implements ISalesTransactions.ISalesTransac
         return SINGLE_INSTANCE;
     }
 
+    public void removeInstance() {
+        SINGLE_INSTANCE = null;
+    }
+
     @Override
     public void strictMode() throws ClassNotFoundException {
         StrictMode.ThreadPolicy policy;
@@ -53,7 +57,7 @@ public class SalesTransactionService implements ISalesTransactions.ISalesTransac
         ResultSet resultSet = statement.executeQuery(sqlGetSalesList);
         while (resultSet.next()) {
             model = new SalesModel(resultSet.getString(1), resultSet.getString(2), resultSet.getBlob(3), resultSet.getLong(4),
-                    resultSet.getString(5), resultSet.getString(6), resultSet.getString(7),resultSet.getString(8));
+                    resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getString(8));
             list.add(model);
         }
 
@@ -73,7 +77,7 @@ public class SalesTransactionService implements ISalesTransactions.ISalesTransac
         ResultSet resultSet = statement.executeQuery(sqlGetSalesList);
         while (resultSet.next()) {
             model = new SalesModel(resultSet.getString(1), resultSet.getString(2), resultSet.getBlob(3), resultSet.getLong(4),
-                    resultSet.getString(5), resultSet.getString(6), resultSet.getString(7),resultSet.getString(8));
+                    resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getString(8));
             list.add(model);
         }
         connection.close();

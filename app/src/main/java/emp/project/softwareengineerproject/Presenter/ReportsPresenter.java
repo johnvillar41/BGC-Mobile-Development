@@ -6,6 +6,7 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IReports;
 import emp.project.softwareengineerproject.Model.ReportsModel;
+import emp.project.softwareengineerproject.Model.UserModel;
 import emp.project.softwareengineerproject.Services.ReportsService;
 import emp.project.softwareengineerproject.View.LoginActivityView;
 import emp.project.softwareengineerproject.View.ReportsView.ReportsActivityView;
@@ -88,7 +89,8 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
                     e.printStackTrace();
                 }
             }
-        }); thread.start();
+        });
+        thread.start();
 
     }
 
@@ -142,12 +144,34 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
     @Override
     public void loadSortedAdministrators() {
         /**TODO: SORT THIS LIST OF ADMINISTRATORS */
-        try {
-            view.displayRecyclerView(service.getAdminsFromDB());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                context.get().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.displayProgressIndicator();
+                    }
+                });
+                try {
+                    final List<UserModel> adminList = service.getAdminsFromDB();
+                    context.get().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.displayRecyclerView(adminList);
+                            view.hideProgressIndicator();
+                        }
+                    });
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+
     }
 }

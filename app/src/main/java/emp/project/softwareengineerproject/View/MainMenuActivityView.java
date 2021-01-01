@@ -31,6 +31,19 @@ import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.IMainMenu;
 import emp.project.softwareengineerproject.Presenter.MainMenuPresenter;
 import emp.project.softwareengineerproject.R;
+import emp.project.softwareengineerproject.Services.InventoryService.InventorySearchItemService;
+import emp.project.softwareengineerproject.Services.InventoryService.InventoryService;
+import emp.project.softwareengineerproject.Services.InventoryService.InventoryUpdateService;
+import emp.project.softwareengineerproject.Services.LoginService;
+import emp.project.softwareengineerproject.Services.MainMenuService;
+import emp.project.softwareengineerproject.Services.NotificationService;
+import emp.project.softwareengineerproject.Services.OrdersService;
+import emp.project.softwareengineerproject.Services.ReportsService;
+import emp.project.softwareengineerproject.Services.SalesService.SalesAddService;
+import emp.project.softwareengineerproject.Services.SalesService.SalesService;
+import emp.project.softwareengineerproject.Services.SalesService.SalesTransactionService;
+import emp.project.softwareengineerproject.Services.UsersService.UsersAddService;
+import emp.project.softwareengineerproject.Services.UsersService.UsersService;
 import emp.project.softwareengineerproject.View.InventoryView.InventoryActivityView;
 import emp.project.softwareengineerproject.View.NotificationView.NotificationsActivityView;
 import emp.project.softwareengineerproject.View.OrdersView.OrdersActivityView;
@@ -126,10 +139,31 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
 
     @Override
     public void goToLoginScreen(View v) {
+        /**
+         * Removes Shared Preference values
+         */
         sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
+
+        /**
+         * Removes SingleTon Instances
+         */
+        InventorySearchItemService.getInstance(null).removeInstance();
+        InventoryService.getInstance(null).removeInstance();
+        InventoryUpdateService.getInstance().removeInstance();
+        SalesAddService.getInstance().removeInstance();
+        SalesService.getInstance(null).removeInstance();
+        SalesTransactionService.getInstance(null).removeInstance();
+        UsersAddService.getInstance().removeInstance();
+        UsersService.getInstance(null).removeInstance();
+        LoginService.getInstance().removeInstance();
+        MainMenuService.getInstance().removeInstance();
+        NotificationService.getInstance(null).removeInstance();
+        OrdersService.getInstance(null).removeInstance();
+        ReportsService.getInstance(null).removeInstance();
+
         Intent intent = new Intent(this, LoginActivityView.class);
         startActivity(intent);
         this.finish();

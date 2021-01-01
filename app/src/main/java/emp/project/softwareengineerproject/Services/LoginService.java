@@ -21,7 +21,7 @@ public class LoginService implements ILogin.ILoginService {
 
     private static LoginService SINGLE_INSTANCE = null;
 
-    private LoginService(){
+    private LoginService() {
 
     }
 
@@ -30,6 +30,10 @@ public class LoginService implements ILogin.ILoginService {
             SINGLE_INSTANCE = new LoginService();
         }
         return SINGLE_INSTANCE;
+    }
+
+    public void removeInstance() {
+        SINGLE_INSTANCE = null;
     }
 
     @Override

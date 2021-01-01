@@ -35,6 +35,10 @@ public class ReportsService implements IReports.IReportsService {
         return SINGLE_INSTANCE;
     }
 
+    public void removeInstance() {
+        SINGLE_INSTANCE = null;
+    }
+
     @Override
     public void strictMode() throws ClassNotFoundException {
         StrictMode.ThreadPolicy policy;
@@ -107,8 +111,8 @@ public class ReportsService implements IReports.IReportsService {
         String sqlGetAdmins = "SELECT * FROM login_table";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlGetAdmins);
         ResultSet resultSet = preparedStatement.executeQuery();
-        while(resultSet.next()){
-            UserModel userModel=new UserModel(resultSet.getString(1),resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),
+        while (resultSet.next()) {
+            UserModel userModel = new UserModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
                     resultSet.getBlob(5));
             adminList.add(userModel);
         }

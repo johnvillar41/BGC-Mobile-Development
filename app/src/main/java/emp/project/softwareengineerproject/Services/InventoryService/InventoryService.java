@@ -43,6 +43,10 @@ public class InventoryService implements IInvetory.IInventoryService {
         return SINGLE_INSTANCE;
     }
 
+    public void removeInstance() {
+        SINGLE_INSTANCE = null;
+    }
+
     @Override
     public void strictMode() throws ClassNotFoundException {
         StrictMode.ThreadPolicy policy;

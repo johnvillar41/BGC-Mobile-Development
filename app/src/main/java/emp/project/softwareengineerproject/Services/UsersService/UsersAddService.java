@@ -37,6 +37,10 @@ public class UsersAddService implements IUsersAdd.IUsersAddService {
         return SINGLE_INSTANCE;
     }
 
+    public void removeInstance() {
+        SINGLE_INSTANCE = null;
+    }
+
     @Override
     public void strictMode() throws ClassNotFoundException {
         StrictMode.ThreadPolicy policy;

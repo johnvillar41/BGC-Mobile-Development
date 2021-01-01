@@ -45,6 +45,10 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
         return SINGLE_INSTANCE;
     }
 
+    public void removeInstance() {
+        SINGLE_INSTANCE = null;
+    }
+
     @Override
     public void strictMode() throws ClassNotFoundException {
         StrictMode.ThreadPolicy policy;
@@ -68,7 +72,7 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
             preparedStatement.setString(5, model.getTotal_number_of_products());
             preparedStatement.setString(6, model.getSales_date());
             preparedStatement.setString(7, model.getDate_month());
-            preparedStatement.setString(8,LoginActivityView.USERNAME_VALUE);
+            preparedStatement.setString(8, LoginActivityView.USERNAME_VALUE);
             preparedStatement.execute();
 
             //Update Products
@@ -127,20 +131,20 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
                         "sales_month_9,sales_month_10,sales_month_11,sales_month_12," +
                         "sales_year) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement preparedStatement_Insert = connection.prepareStatement(sqlInsertNewRow);
-                preparedStatement_Insert.setString(1,LoginActivityView.USERNAME_VALUE);
-                preparedStatement_Insert.setString(2,"0");
-                preparedStatement_Insert.setString(3,"0");
-                preparedStatement_Insert.setString(4,"0");
-                preparedStatement_Insert.setString(5,"0");
-                preparedStatement_Insert.setString(6,"0");
-                preparedStatement_Insert.setString(7,"0");
-                preparedStatement_Insert.setString(8,"0");
-                preparedStatement_Insert.setString(9,"0");
-                preparedStatement_Insert.setString(10,"0");
-                preparedStatement_Insert.setString(11,"0");
-                preparedStatement_Insert.setString(12,"0");
-                preparedStatement_Insert.setString(13,"0");
-                preparedStatement_Insert.setString(14,dtf_year.format(now_year));
+                preparedStatement_Insert.setString(1, LoginActivityView.USERNAME_VALUE);
+                preparedStatement_Insert.setString(2, "0");
+                preparedStatement_Insert.setString(3, "0");
+                preparedStatement_Insert.setString(4, "0");
+                preparedStatement_Insert.setString(5, "0");
+                preparedStatement_Insert.setString(6, "0");
+                preparedStatement_Insert.setString(7, "0");
+                preparedStatement_Insert.setString(8, "0");
+                preparedStatement_Insert.setString(9, "0");
+                preparedStatement_Insert.setString(10, "0");
+                preparedStatement_Insert.setString(11, "0");
+                preparedStatement_Insert.setString(12, "0");
+                preparedStatement_Insert.setString(13, "0");
+                preparedStatement_Insert.setString(14, dtf_year.format(now_year));
                 preparedStatement_Insert.execute();
                 preparedStatement_Insert.close();
 
