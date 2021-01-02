@@ -207,8 +207,10 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
             int blobLength;
             blobLength = (int) b.length();
             byte[] blobAsBytes = b.getBytes(1, blobLength);
-            Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-            Glide.with(this).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(PROFILE_PICTURE);
+            Glide.with(this)
+                    .load(blobAsBytes)
+                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                    .into(PROFILE_PICTURE);
         } catch (SQLException e) {
             e.printStackTrace();
         }

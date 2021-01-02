@@ -2,8 +2,6 @@ package emp.project.softwareengineerproject.View.SalesView;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,11 +58,13 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
                 try {
                     blobLength[0] = (int) b.length();
                     byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
-                    final Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Glide.with(context).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+                            Glide.with(context)
+                                    .load(blobAsBytes)
+                                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                                    .into(holder.circleImageView);
                         }
                     });
                 } catch (SQLException e) {

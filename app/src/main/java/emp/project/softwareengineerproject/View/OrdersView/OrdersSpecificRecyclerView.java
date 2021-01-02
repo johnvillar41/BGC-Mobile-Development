@@ -1,8 +1,6 @@
 package emp.project.softwareengineerproject.View.OrdersView;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,9 +50,8 @@ public class OrdersSpecificRecyclerView extends RecyclerView.Adapter<OrdersSpeci
         try {
             blobLength[0] = (int) b.length();
             byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
-            Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
             Glide.with(context)
-                    .load(btm)
+                    .load(blobAsBytes)
                     .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
                     .skipMemoryCache(true)
                     .into(holder.circleImageView);

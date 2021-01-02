@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,9 +63,9 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
         try {
             blobLength[0] = (int) b.length();
             byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
-            Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
+            //Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
             Glide.with(context)
-                    .load(btm)
+                    .load(blobAsBytes)
                     .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
                     .skipMemoryCache(true)
                     .into(holder.image_product);
@@ -105,12 +103,11 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                             try {
                                 blobLength[0] = (int) b.length();
                                 byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
-                                final Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
                                 ((Activity) context).runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         Glide.with(context)
-                                                .load(btm)
+                                                .load(blobAsBytes)
                                                 .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
                                                 .skipMemoryCache(true)
                                                 .into(imageView_product);
@@ -123,7 +120,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                         }
                     });
                     thread.start();
-                    
+
                     txt_product_description.setText(model.getProduct_description());
                     txt_product_Price.setText(String.valueOf(model.getProduct_price()));
                     txt_product_Stocks.setText(String.valueOf(model.getProduct_stocks()));

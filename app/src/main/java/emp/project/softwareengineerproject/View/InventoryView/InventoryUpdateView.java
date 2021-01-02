@@ -132,9 +132,8 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
                 blobLength = (int) b.length();
                 final byte[] blobAsBytes = b.getBytes(1, blobLength);
-                Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
                 Glide.with(this)
-                        .load(btm)
+                        .load(blobAsBytes)
                         .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
                         .skipMemoryCache(true)
                         .into(IMAGE_VIEW);

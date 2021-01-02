@@ -3,8 +3,6 @@ package emp.project.softwareengineerproject.View.UsersView;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,8 +57,10 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyVi
         try {
             blobLength[0] = (int) b.length();
             byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
-            Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
-            Glide.with(context).load(btm).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+            Glide.with(context)
+                    .load(blobAsBytes)
+                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                    .into(holder.circleImageView);
         } catch (SQLException e) {
             e.printStackTrace();
         }
