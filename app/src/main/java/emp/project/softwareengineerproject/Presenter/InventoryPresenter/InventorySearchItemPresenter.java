@@ -2,6 +2,7 @@ package emp.project.softwareengineerproject.Presenter.InventoryPresenter;
 
 import android.app.Activity;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.Inventory.ISearchInventory;
@@ -48,6 +49,18 @@ public class InventorySearchItemPresenter extends Activity implements ISearchInv
         });
         thread.start();
         thread.interrupt();
+    }
+
+    @Override
+    public void onCardViewLongClicked(String product_id, String product_name) {
+        model.setProduct_name(product_name);
+        try {
+            service.deleteItem(product_id, model);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

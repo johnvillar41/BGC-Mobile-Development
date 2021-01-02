@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.Interface.Inventory;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
@@ -25,6 +26,8 @@ public interface ISearchInventory {
          *                     then display the corresponding products
          */
         void onSearchItemProduct(String product_name) throws ClassNotFoundException;
+
+        void onCardViewLongClicked(String product_id, String product_name) throws SQLException;
     }
     interface ISearchInventoryService extends IServiceStrictMode {
         /**
@@ -34,5 +37,7 @@ public interface ISearchInventory {
          * @return returns all the products in a list form
          */
         List<InventoryModel>getSearchedProductFromDB(String searchedItem) throws ClassNotFoundException;
+
+        void deleteItem(String product_id, InventoryModel model) throws ClassNotFoundException, SQLException;
     }
 }
