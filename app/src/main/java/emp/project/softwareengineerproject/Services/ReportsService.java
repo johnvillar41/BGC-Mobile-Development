@@ -126,6 +126,7 @@ public class ReportsService implements IReports.IReportsService {
         while (resultSet.next()) {
             UserModel userModel = new UserModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
                     resultSet.getBlob(5));
+            //Add new parameter of total sales
             adminList.add(userModel);
         }
         connection.close();

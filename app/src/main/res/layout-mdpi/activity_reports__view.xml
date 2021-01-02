@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:elevation="20dp"
                 app:indicatorColor="#FD0303"
-                tools:targetApi="lollipop" />
+                android:popupBackground="@drawable/blue_outline_white_background" />
             <Spinner
                 android:id="@+id/spinnerName"
                 android:layout_width="match_parent"

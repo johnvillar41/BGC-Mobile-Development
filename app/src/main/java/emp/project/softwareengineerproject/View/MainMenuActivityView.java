@@ -122,7 +122,6 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
          * Programmatically loading images through glide library due to
          * crash on loading large amounts of images
          */
-
         Glide.with(this).asBitmap().load(R.drawable.stocks_logo).fitCenter().apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_inventory);
         Glide.with(this).asBitmap().load(R.drawable.sales_logo).fitCenter().apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_sales);
         Glide.with(this).asBitmap().load(R.drawable.reports_logo).fitCenter().apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_reports);
@@ -146,23 +145,6 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-
-        /**
-         * Removes SingleTon Instances
-         */
-        InventorySearchItemService.getInstance(null).removeInstance();
-        InventoryService.getInstance(null).removeInstance();
-        InventoryUpdateService.getInstance().removeInstance();
-        SalesAddService.getInstance().removeInstance();
-        SalesService.getInstance(null).removeInstance();
-        SalesTransactionService.getInstance(null).removeInstance();
-        UsersAddService.getInstance().removeInstance();
-        UsersService.getInstance(null).removeInstance();
-        LoginService.getInstance().removeInstance();
-        MainMenuService.getInstance().removeInstance();
-        NotificationService.getInstance(null).removeInstance();
-        OrdersService.getInstance(null).removeInstance();
-        ReportsService.getInstance(null).removeInstance();
 
         Intent intent = new Intent(this, LoginActivityView.class);
         startActivity(intent);
@@ -256,11 +238,26 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
             File dir = getCacheDir();
             CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
             cacheManager.deleteDir(dir);
-            //cacheManager.clearGlideMemory();
         } catch (Exception e) {
             e.printStackTrace();
         }
         onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
+        /**
+         * Removes SingleTon Instances
+         */
+        InventorySearchItemService.getInstance(null).removeInstance();
+        InventoryService.getInstance(null).removeInstance();
+        InventoryUpdateService.getInstance().removeInstance();
+        SalesAddService.getInstance().removeInstance();
+        SalesService.getInstance(null).removeInstance();
+        SalesTransactionService.getInstance(null).removeInstance();
+        UsersAddService.getInstance().removeInstance();
+        UsersService.getInstance(null).removeInstance();
+        LoginService.getInstance().removeInstance();
+        MainMenuService.getInstance().removeInstance();
+        NotificationService.getInstance(null).removeInstance();
+        OrdersService.getInstance(null).removeInstance();
+        ReportsService.getInstance(null).removeInstance();
         super.onDestroy();
     }
 
