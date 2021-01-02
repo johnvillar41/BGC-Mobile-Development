@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 import java.util.List;
@@ -97,25 +98,47 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
     }
 
     @Override
-    public void onEditAccountButtonClicked(String id, String username, String password, String fullname) {
+    public void onEditAccountButtonClicked(String id, String username, String password, String fullname, InputStream image_upload) {
         if (!view.makeTextViewsEdittable()) {
-            try {
-                model = new UserModel(id, username, password, fullname);
-                if (service.updateNewUserCredentials(model)) {
-                    view.displayStatusMessage("Saving... Please Wait");
-                    SharedPreferences sharedPreferences = context.get().getSharedPreferences(LoginActivityView.MyPREFERENCES, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.clear();
-                    editor.apply();
-                    context.get().finish();
-                    Intent intent = new Intent(context.get(), LoginActivityView.class);
-                    context.get().startActivity(intent);
-                } else {
-                    view.displayStatusMessage("Error!");
+            model = new UserModel(id, username, password, fullname, image_upload);
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (service.updateNewUserCredentials(model)) {
+                            context.get().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.displayStatusMessage("Saving... Please Wait");
+                                }
+                            });
+                            SharedPreferences sharedPreferences = context.get().getSharedPreferences(LoginActivityView.MyPREFERENCES, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.clear();
+                            editor.apply();
+                            context.get().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    context.get().finish();
+                                    Intent intent = new Intent(context.get(), LoginActivityView.class);
+                                    context.get().startActivity(intent);
+                                }
+                            });
+                        } else {
+                            context.get().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.displayStatusMessage("Error!");
+                                }
+                            });
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            });
+            thread.start();
+
         }
     }
 
@@ -153,6 +176,11 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
         });
         thread.start();
 
+    }
+
+    @Override
+    public void onImageClicked() {
+        view.loadImageFromGallery();
     }
 
 

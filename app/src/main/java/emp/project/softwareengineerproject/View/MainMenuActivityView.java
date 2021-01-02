@@ -133,9 +133,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         if (sharedPreferences.getString(LoginActivityView.USERNAME_PREFS, null) == null) {
             this.finish();
         }
-        presenter.directPictureDisplay();
     }
-
     @Override
     public void goToLoginScreen(View v) {
         /**
@@ -222,6 +220,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
     protected void onResume() {
         try {
             presenter.directProfileDisplay();
+            presenter.directPictureDisplay();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }

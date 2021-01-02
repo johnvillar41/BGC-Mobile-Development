@@ -41,6 +41,7 @@
         android:layout_height="120sp"
         android:background="@drawable/profile_curve"/>
     <de.hdodenhof.circleimageview.CircleImageView
+        android:foreground="?android:attr/selectableItemBackground"
         android:id="@+id/profile_image"
         android:layout_width="100dp"
         android:layout_height="100dp"

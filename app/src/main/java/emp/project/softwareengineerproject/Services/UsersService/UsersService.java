@@ -95,20 +95,39 @@ public class UsersService implements IUsers.IUsersService {
         return list;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public boolean updateNewUserCredentials(UserModel model) {
         boolean isSuccesfull;
         try {
             strictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-            String sqlUpdate = "UPDATE login_table " +
-                    "SET user_username='" + model.getUser_username() + "',user_password='" + model.getUser_password() + "',user_name='" + model.getUser_full_name() + "'" +
-                    "WHERE user_id='" + model.getUser_id() + "'";
-            Statement statement = connection.createStatement();
-            statement.execute(sqlUpdate);
+            String sqlUpdate = "UPDATE login_table SET user_username=? ,user_password=? ,user_name=? ,user_image=? WHERE user_id=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdate);
+            preparedStatement.setString(1,model.getUser_username());
+            preparedStatement.setString(2,model.getUser_password());
+            preparedStatement.setString(3,model.getUser_full_name());
+            preparedStatement.setBlob(4,model.getUploadUserImage());
+            preparedStatement.setString(5,model.getUser_id());
+            preparedStatement.execute();
             isSuccesfull = true;
+
+            /**
+             * Create Notification here
+             */
+            String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            NotificationModel notificationModel = new NotificationModel("Updated User", "Updated User: " + model.getUser_full_name(), String.valueOf(dtf.format(now)),
+                    MainMenuActivityView.GET_PREFERENCES_REALNAME);
+            PreparedStatement preparedStatementUpdateNotification = connection.prepareStatement(sqlNotification);
+            preparedStatementUpdateNotification.setString(1, notificationModel.getNotif_title());
+            preparedStatementUpdateNotification.setString(2, notificationModel.getNotif_content());
+            preparedStatementUpdateNotification.setString(3, notificationModel.getNotif_date());
+            preparedStatementUpdateNotification.setString(4, notificationModel.getUser_name());
+            preparedStatementUpdateNotification.execute();
             connection.close();
-            statement.close();
+            preparedStatement.close();
         } catch (Exception e) {
             e.printStackTrace();
             isSuccesfull = false;

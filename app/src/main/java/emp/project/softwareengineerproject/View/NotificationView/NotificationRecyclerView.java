@@ -63,6 +63,8 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
             Glide.with(context).load(R.drawable.update_icon_order).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
         } else if(model.getNotif_title().equals(PRODUCT_STATUS.DELETED_USER.getProduct_status())){
             Glide.with(context).load(R.drawable.baseline_person_remove_black_18dp).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
+        } else if(model.getNotif_title().equals(PRODUCT_STATUS.UPDATED_USER.getProduct_status())) {
+            Glide.with(context).load(R.drawable.ic_baseline_update_24).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
         }
 
     }
@@ -77,7 +79,8 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
         ORDER_PENDING("Order moved to pending"),
         ORDER_FINISHED("Order is finished"),
         ORDER_CANCEL("Order cancelled"),
-        DELETED_USER("Deleted User");
+        DELETED_USER("Deleted User"),
+        UPDATED_USER("Updated User");
 
         private String product_status;
 

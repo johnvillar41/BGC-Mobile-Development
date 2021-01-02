@@ -28,11 +28,12 @@ public class UserModel {
         this.user_image = user_image;
     }
 
-    public UserModel(String user_id, String user_username, String user_password, String user_full_name) {
+    public UserModel(String user_id, String user_username, String user_password, String user_full_name, InputStream updateUserImage) {
         this.user_id = user_id;
         this.user_username = user_username;
         this.user_password = user_password;
         this.user_full_name = user_full_name;
+        this.uploadUserImage = updateUserImage;
     }
 
     public UserModel(String user_username, String user_password) {
