@@ -4,8 +4,8 @@ import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.ISales.ISales;
-import emp.project.softwareengineerproject.Model.SalesModel;
-import emp.project.softwareengineerproject.Services.SalesService.SalesService;
+import emp.project.softwareengineerproject.Model.Bean.SalesModel;
+import emp.project.softwareengineerproject.Model.Database.Services.SalesService.SalesService;
 import emp.project.softwareengineerproject.View.SalesView.SalesActivityView;
 
 public class SalesPresenter implements ISales.ISalesPresenter {

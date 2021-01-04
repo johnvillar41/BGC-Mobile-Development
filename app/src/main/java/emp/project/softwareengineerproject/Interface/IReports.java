@@ -3,8 +3,8 @@ package emp.project.softwareengineerproject.Interface;
 import java.sql.SQLException;
 import java.util.List;
 
-import emp.project.softwareengineerproject.Model.ReportsModel;
-import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.Model.Bean.ReportsModel;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
 
 public interface IReports {
     interface IReportsView{

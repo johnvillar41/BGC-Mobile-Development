@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
-import emp.project.softwareengineerproject.Model.InventoryModel;
-import emp.project.softwareengineerproject.Services.InventoryService.InventoryService;
+import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventoryService;
 
 public class InventoryPresenter extends Activity implements IInvetory.IinventoryPresenter {
     private IInvetory.IinventoryView view;

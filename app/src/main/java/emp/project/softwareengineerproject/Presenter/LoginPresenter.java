@@ -6,9 +6,9 @@ import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.ILogin;
-import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
+import emp.project.softwareengineerproject.Model.Database.Services.LoginService;
 import emp.project.softwareengineerproject.NetworkChecker;
-import emp.project.softwareengineerproject.Services.LoginService;
 import emp.project.softwareengineerproject.View.LoginActivityView;
 
 public class LoginPresenter implements ILogin.ILoginPresenter {

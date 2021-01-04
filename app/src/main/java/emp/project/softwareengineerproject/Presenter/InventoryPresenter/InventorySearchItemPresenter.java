@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.Inventory.ISearchInventory;
-import emp.project.softwareengineerproject.Model.InventoryModel;
-import emp.project.softwareengineerproject.Services.InventoryService.InventorySearchItemService;
+import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventorySearchItemService;
 
 public class InventorySearchItemPresenter extends Activity implements ISearchInventory.ISearchInventoryPresenter {
     private ISearchInventory.ISearchInventoryView view;

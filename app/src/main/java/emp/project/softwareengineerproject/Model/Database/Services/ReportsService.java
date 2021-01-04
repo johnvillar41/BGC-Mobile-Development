@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.Services;
+package emp.project.softwareengineerproject.Model.Database.Services;
 
 import android.os.StrictMode;
 
@@ -12,8 +12,8 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.IReports;
-import emp.project.softwareengineerproject.Model.ReportsModel;
-import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.Model.Bean.ReportsModel;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
 
 public class ReportsService implements IReports.IReportsService {
 

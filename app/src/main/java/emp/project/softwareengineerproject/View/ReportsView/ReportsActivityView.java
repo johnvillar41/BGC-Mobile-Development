@@ -30,8 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IReports;
-import emp.project.softwareengineerproject.Model.ReportsModel;
-import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.Model.Bean.ReportsModel;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Presenter.ReportsPresenter;
 import emp.project.softwareengineerproject.R;
 import emp.project.softwareengineerproject.View.LoginActivityView;

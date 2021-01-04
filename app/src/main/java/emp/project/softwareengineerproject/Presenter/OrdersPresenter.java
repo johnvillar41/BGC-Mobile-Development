@@ -9,8 +9,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IOrders;
-import emp.project.softwareengineerproject.Model.OrdersModel;
-import emp.project.softwareengineerproject.Services.OrdersService;
+import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
+import emp.project.softwareengineerproject.Model.Database.Services.OrdersService;
 import emp.project.softwareengineerproject.View.OrdersView.OrdersActivityView;
 
 public class OrdersPresenter implements IOrders.IOrdersPresenter {

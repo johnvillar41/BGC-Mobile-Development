@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
-import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
 
 public interface IUsers {
     interface IUsersView {

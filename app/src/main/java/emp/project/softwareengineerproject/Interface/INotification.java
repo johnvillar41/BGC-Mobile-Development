@@ -3,7 +3,7 @@ package emp.project.softwareengineerproject.Interface;
 import java.sql.SQLException;
 import java.util.List;
 
-import emp.project.softwareengineerproject.Model.NotificationModel;
+import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 
 public interface INotification {
     interface INotificationView {

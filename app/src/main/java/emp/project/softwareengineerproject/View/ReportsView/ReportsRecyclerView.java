@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.R;
 
 public class ReportsRecyclerView extends RecyclerView.Adapter<ReportsRecyclerView.MyViewHolder> {

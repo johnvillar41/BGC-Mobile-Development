@@ -38,8 +38,8 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
-import emp.project.softwareengineerproject.Model.InventoryModel;
-import emp.project.softwareengineerproject.Model.SalesModel;
+import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesAddPresenter;
 import emp.project.softwareengineerproject.R;
 

@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
-import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
 
 public interface IUsersAdd {
     interface IUsersAddView {

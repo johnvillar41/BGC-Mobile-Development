@@ -11,8 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.INotification;
-import emp.project.softwareengineerproject.Model.NotificationModel;
-import emp.project.softwareengineerproject.Services.NotificationService;
+import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
+import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 import emp.project.softwareengineerproject.View.NotificationView.NotificationsActivityView;
 
 public class NotificationPresenter implements INotification.INotificationPresenter {

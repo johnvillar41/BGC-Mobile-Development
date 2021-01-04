@@ -22,8 +22,8 @@ import com.mysql.jdbc.Blob;
 import java.sql.SQLException;
 import java.util.List;
 
-import emp.project.softwareengineerproject.Model.InventoryModel;
-import emp.project.softwareengineerproject.Model.SalesModel;
+import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.R;
 
 public class SalesAddRecyclerView2 extends RecyclerView.Adapter<SalesAddRecyclerView2.MyViewHolder> {

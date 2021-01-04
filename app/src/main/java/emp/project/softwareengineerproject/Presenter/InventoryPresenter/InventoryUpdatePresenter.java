@@ -10,8 +10,8 @@ import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
-import emp.project.softwareengineerproject.Model.InventoryModel;
-import emp.project.softwareengineerproject.Services.InventoryService.InventoryUpdateService;
+import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventoryUpdateService;
 import emp.project.softwareengineerproject.View.InventoryView.InventoryUpdateView;
 
 public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresenter {

@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.Model;
+package emp.project.softwareengineerproject.Model.Bean;
 
 public class ReportsModel {
     private String reports_id, user_username,

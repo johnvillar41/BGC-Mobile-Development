@@ -30,7 +30,7 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.INotification;
-import emp.project.softwareengineerproject.Model.NotificationModel;
+import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Presenter.NotificationPresenter;
 import emp.project.softwareengineerproject.R;
 

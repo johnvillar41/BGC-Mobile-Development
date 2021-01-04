@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.Model;
+package emp.project.softwareengineerproject.Model.Bean;
 
 public class NotificationModel {
     String notif_id, notif_title, notif_content, notif_date, user_name;

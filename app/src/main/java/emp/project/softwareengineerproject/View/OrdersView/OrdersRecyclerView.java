@@ -22,10 +22,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IOrders;
-import emp.project.softwareengineerproject.Model.OrdersModel;
+import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
+import emp.project.softwareengineerproject.Model.Database.Services.OrdersService;
 import emp.project.softwareengineerproject.Presenter.OrdersPresenter;
 import emp.project.softwareengineerproject.R;
-import emp.project.softwareengineerproject.Services.OrdersService;
 
 public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.MyViewHolder> {
 

@@ -23,7 +23,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
-import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersPresenter;
 import emp.project.softwareengineerproject.R;
 import emp.project.softwareengineerproject.View.LoginActivityView;

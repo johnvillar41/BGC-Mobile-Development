@@ -8,8 +8,8 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 
 import emp.project.softwareengineerproject.Interface.IUsers.IUsersAdd;
-import emp.project.softwareengineerproject.Model.UserModel;
-import emp.project.softwareengineerproject.Services.UsersService.UsersAddService;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
+import emp.project.softwareengineerproject.Model.Database.Services.UsersService.UsersAddService;
 import emp.project.softwareengineerproject.View.UsersView.UsersAddActivityView;
 
 public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {

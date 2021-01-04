@@ -11,8 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.ISales.ISalesTransactions;
-import emp.project.softwareengineerproject.Model.SalesModel;
-import emp.project.softwareengineerproject.Services.SalesService.SalesTransactionService;
+import emp.project.softwareengineerproject.Model.Bean.SalesModel;
+import emp.project.softwareengineerproject.Model.Database.Services.SalesService.SalesTransactionService;
 import emp.project.softwareengineerproject.View.SalesView.SalesTransactionView;
 
 public class SalesTransactionPresenter implements ISalesTransactions.ISalesTransactionPresenter {

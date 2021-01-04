@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IReports;
-import emp.project.softwareengineerproject.Model.ReportsModel;
-import emp.project.softwareengineerproject.Model.UserModel;
-import emp.project.softwareengineerproject.Services.ReportsService;
+import emp.project.softwareengineerproject.Model.Bean.ReportsModel;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
+import emp.project.softwareengineerproject.Model.Database.Services.ReportsService;
 import emp.project.softwareengineerproject.View.LoginActivityView;
 import emp.project.softwareengineerproject.View.ReportsView.ReportsActivityView;
 

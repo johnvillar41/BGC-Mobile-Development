@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.Services.InventoryService;
+package emp.project.softwareengineerproject.Model.Database.Services.InventoryService;
 
 import android.os.Build;
 import android.os.StrictMode;
@@ -15,8 +15,8 @@ import java.time.format.DateTimeFormatter;
 
 import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
-import emp.project.softwareengineerproject.Model.InventoryModel;
-import emp.project.softwareengineerproject.Model.NotificationModel;
+import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class InventoryUpdateService implements IUpdateInventory.IUpdateInventoryService {

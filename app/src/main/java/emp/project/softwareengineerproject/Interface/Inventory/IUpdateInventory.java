@@ -9,8 +9,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
-import emp.project.softwareengineerproject.Model.InventoryModel;
-import emp.project.softwareengineerproject.Model.NotificationModel;
+import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 
 public interface IUpdateInventory {
     interface IUupdateInventoryView {

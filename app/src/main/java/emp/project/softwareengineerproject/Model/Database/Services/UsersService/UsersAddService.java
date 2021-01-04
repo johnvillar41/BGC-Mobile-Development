@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.Services.UsersService;
+package emp.project.softwareengineerproject.Model.Database.Services.UsersService;
 
 import android.os.Build;
 import android.os.StrictMode;
@@ -14,8 +14,8 @@ import java.time.format.DateTimeFormatter;
 
 import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsersAdd;
-import emp.project.softwareengineerproject.Model.NotificationModel;
-import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class UsersAddService implements IUsersAdd.IUsersAddService {

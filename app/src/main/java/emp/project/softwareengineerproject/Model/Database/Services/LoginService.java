@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.Services;
+package emp.project.softwareengineerproject.Model.Database.Services;
 
 import android.os.StrictMode;
 
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.ILogin;
-import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Presenter.LoginPresenter;
 
 public class LoginService implements ILogin.ILoginService {

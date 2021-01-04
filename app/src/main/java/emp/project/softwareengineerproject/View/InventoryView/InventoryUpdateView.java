@@ -49,7 +49,7 @@ import java.sql.SQLException;
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
-import emp.project.softwareengineerproject.Model.InventoryModel;
+import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryUpdatePresenter;
 import emp.project.softwareengineerproject.R;
 

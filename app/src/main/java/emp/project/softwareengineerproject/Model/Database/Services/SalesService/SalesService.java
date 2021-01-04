@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.Services.SalesService;
+package emp.project.softwareengineerproject.Model.Database.Services.SalesService;
 
 import android.os.StrictMode;
 
@@ -10,7 +10,7 @@ import java.sql.Statement;
 
 import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.ISales.ISales;
-import emp.project.softwareengineerproject.Model.SalesModel;
+import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 
 public class SalesService implements ISales.ISalesService {
 

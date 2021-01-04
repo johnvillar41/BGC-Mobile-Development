@@ -21,7 +21,7 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.Inventory.ISearchInventory;
-import emp.project.softwareengineerproject.Model.InventoryModel;
+import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventorySearchItemPresenter;
 import emp.project.softwareengineerproject.R;
 

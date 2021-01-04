@@ -3,7 +3,7 @@ package emp.project.softwareengineerproject.Interface;
 import java.sql.SQLException;
 import java.util.List;
 
-import emp.project.softwareengineerproject.Model.OrdersModel;
+import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
 
 public interface IOrders {
     interface IOrdersView {

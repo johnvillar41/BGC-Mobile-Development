@@ -12,9 +12,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
-import emp.project.softwareengineerproject.Model.InventoryModel;
-import emp.project.softwareengineerproject.Model.SalesModel;
-import emp.project.softwareengineerproject.Services.SalesService.SalesAddService;
+import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Bean.SalesModel;
+import emp.project.softwareengineerproject.Model.Database.Services.SalesService.SalesAddService;
 import emp.project.softwareengineerproject.View.LoginActivityView;
 import emp.project.softwareengineerproject.View.SalesView.SalesAddActivityView;
 

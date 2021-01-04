@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.Model;
+package emp.project.softwareengineerproject.Model.Bean;
 
 import java.sql.Blob;
 

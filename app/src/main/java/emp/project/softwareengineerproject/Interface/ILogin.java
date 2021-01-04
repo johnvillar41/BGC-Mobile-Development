@@ -4,7 +4,7 @@ import android.view.View;
 
 import java.sql.SQLException;
 
-import emp.project.softwareengineerproject.Model.UserModel;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
 
 public interface ILogin {
     interface ILoginView {

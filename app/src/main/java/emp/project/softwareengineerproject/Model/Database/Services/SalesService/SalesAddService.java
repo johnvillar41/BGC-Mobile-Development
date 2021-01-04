@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.Services.SalesService;
+package emp.project.softwareengineerproject.Model.Database.Services.SalesService;
 
 import android.os.Build;
 import android.os.StrictMode;
@@ -20,9 +20,9 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
-import emp.project.softwareengineerproject.Model.InventoryModel;
-import emp.project.softwareengineerproject.Model.NotificationModel;
-import emp.project.softwareengineerproject.Model.SalesModel;
+import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
+import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.View.LoginActivityView;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
 

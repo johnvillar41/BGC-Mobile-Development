@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.Services;
+package emp.project.softwareengineerproject.Model.Database.Services;
 
 import android.os.StrictMode;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.INotification;
-import emp.project.softwareengineerproject.Model.NotificationModel;
+import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 
 public class NotificationService implements INotification.INotificationService {
 

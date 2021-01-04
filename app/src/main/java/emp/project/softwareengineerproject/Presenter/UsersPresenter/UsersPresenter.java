@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
-import emp.project.softwareengineerproject.Model.UserModel;
-import emp.project.softwareengineerproject.Services.UsersService.UsersService;
+import emp.project.softwareengineerproject.Model.Bean.UserModel;
+import emp.project.softwareengineerproject.Model.Database.Services.UsersService.UsersService;
 import emp.project.softwareengineerproject.View.LoginActivityView;
 import emp.project.softwareengineerproject.View.UsersView.UsersActivityView;
 

@@ -29,7 +29,7 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesTransactions;
-import emp.project.softwareengineerproject.Model.SalesModel;
+import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesTransactionPresenter;
 import emp.project.softwareengineerproject.R;
 

@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import emp.project.softwareengineerproject.Model.OrdersModel;
+import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
 import emp.project.softwareengineerproject.R;
 
 public class OrdersSpecificRecyclerView extends RecyclerView.Adapter<OrdersSpecificRecyclerView.MyViewHolder> {

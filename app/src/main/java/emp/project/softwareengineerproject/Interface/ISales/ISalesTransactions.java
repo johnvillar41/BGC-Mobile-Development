@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
-import emp.project.softwareengineerproject.Model.SalesModel;
+import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 
 public interface ISalesTransactions {
     interface ISalesTransactionsView{
