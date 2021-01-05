@@ -68,56 +68,38 @@ public class UserModel {
         return uploadUserImage;
     }
 
-    public UserModel validateAddUsers(TextInputLayout username, TextInputLayout password1, TextInputLayout password2, TextInputLayout realName, InputStream profileImage) {
-        boolean isValid = false;
+    public UserModel validateAddUsers(TextInputLayout[] arrTexts, InputStream profileImage) {
+        boolean isValid = true;
         String finalPassword = null;
-        if (username.getEditText().getText().toString().isEmpty()) {
-            username.setError("Do not leave this empty!");
+        for (TextInputLayout textInputLayout : arrTexts) {
+            if (textInputLayout.getEditText().getText().toString().isEmpty()) {
+                textInputLayout.setError("Do not leave this empty!");
+                isValid = false;
+            } else {
+                isValid = true;
+                textInputLayout.setError(null);
+            }
+        }
+
+        if (!arrTexts[1].getEditText().getText().toString().equals(arrTexts[2].getEditText().getText().toString()) || arrTexts[1].getEditText().getText().toString().isEmpty()) {
+            arrTexts[1].setError("Passwords do not match!");
+            arrTexts[2].setError("Passwords do not match!");
             isValid = false;
         } else {
-            username.setError(null);
+            isValid = true;
+            finalPassword = arrTexts[1].getEditText().getText().toString();
+            arrTexts[1].setError(null);
+            arrTexts[2].setError(null);
         }
-        if (password1.getEditText().getText().toString().isEmpty()) {
-            password1.setError("Do not leave this empty!");
-            isValid = false;
-        } else {
-            password1.setError(null);
-        }
-        if (password2.getEditText().getText().toString().isEmpty()) {
-            password2.setError("Do not leave this empty!");
-            isValid = false;
-        } else {
-            password2.setError(null);
-        }
-        if (!password1.getEditText().getText().toString().equals(password2.getEditText().getText().toString()) || password1.getEditText().getText().toString().isEmpty()) {
-            password1.setError("Passwords do not match!");
-            password2.setError("Passwords do not match!");
-            isValid = false;
-        } else {
-            password1.setError(null);
-            password2.setError(null);
-        }
-        if (password1.getEditText().getText().toString().equals(password2.getEditText().getText().toString())) {
-            finalPassword = password1.getEditText().getText().toString();
-        }
-        if (realName.getEditText().getText().toString().isEmpty()) {
-            realName.setError("Do not leave this empty!");
-            isValid = false;
-        } else {
-            realName.setError(null);
-        }
+
         if (profileImage == null) {
             isValid = false;
-        } else if (username.getError() == null &&
-                password1.getError() == null &&
-                password2.getError() == null &&
-                profileImage != null &&
-                realName.getError() == null) {
+        } else {
             isValid = true;
         }
 
         if (isValid) {
-            return new UserModel(username.getEditText().getText().toString(), finalPassword, realName.getEditText().getText().toString(), profileImage);
+            return new UserModel(arrTexts[0].getEditText().getText().toString(), finalPassword, arrTexts[3].getEditText().getText().toString(), profileImage);
         } else {
             return null;
         }

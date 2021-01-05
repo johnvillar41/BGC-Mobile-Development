@@ -250,6 +250,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
             }
             case R.id.action_addfav: {
                 presenter.onAddButtonClicked();
+                break;
             }
             case R.id.action_editfav: {
                 presenter.onEditAccountButtonClicked(
@@ -258,6 +259,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
                         txt_password.getEditText().getText().toString(),
                         txt_real_name.getEditText().getText().toString(),
                         FILE_INPUT_STREAM);
+                break;
             }
         }
         return super.onOptionsItemSelected(item);

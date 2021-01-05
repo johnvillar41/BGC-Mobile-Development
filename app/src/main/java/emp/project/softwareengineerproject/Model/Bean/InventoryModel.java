@@ -6,7 +6,6 @@ import com.mysql.jdbc.Blob;
 import java.io.InputStream;
 import java.io.Serializable;
 
-@SuppressWarnings("ALL")
 public class InventoryModel implements Serializable {
     private String product_id, product_name, product_description;
     private long product_price;
@@ -132,7 +131,7 @@ public class InventoryModel implements Serializable {
                 textInputLayouts[1].getError() == null &&
                 textInputLayouts[2].getError() == null &&
                 textInputLayouts[3].getError() == null &&
-                isValid == true) {
+                isValid) {
             return new InventoryModel(
                     textInputLayouts[0].getEditText().getText().toString(),
                     textInputLayouts[1].getEditText().getText().toString(),

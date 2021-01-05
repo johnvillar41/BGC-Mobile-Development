@@ -31,13 +31,19 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
 
         Thread thread = new Thread(new Runnable() {
             Boolean ifSuccess = true;
+
             @Override
             public void run() {
                 context.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
-                        final UserModel newModel = model.validateAddUsers(username, password1, password2, realName, profileImage);
+                        TextInputLayout[] arrTexts = new TextInputLayout[4];
+                        arrTexts[0] = username;
+                        arrTexts[1] = password1;
+                        arrTexts[2] = password2;
+                        arrTexts[3] = realName;
+                        final UserModel newModel = model.validateAddUsers(arrTexts, profileImage);
                         if (newModel != null) {
                             final Thread thread1 = new Thread(new Runnable() {
                                 @Override
