@@ -79,6 +79,9 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyVi
                         SharedPreferences mPrefs =context.getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE); //add key
                         String username = mPrefs.getString(LoginActivityView.USERNAME_PREFS, null);
                         presenter.onCardViewLongClicked(model.getUser_username(), username);
+                        list.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, list.size());
                     }
                 });
                 dialogBuilder.setNegativeButton("No", null);
