@@ -84,86 +84,82 @@ public class InventorySearchedRecyclerView extends RecyclerView.Adapter<Inventor
         holder.cardView_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.cardView_item.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        numberOfDialogsOpenned++;
-                        if (numberOfDialogsOpenned == 1) {
-                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-                            View dialogView = inflater.inflate(R.layout.custom_popup_show_product, null);
-                            dialogBuilder.setView(dialogView);
+                numberOfDialogsOpenned = 1;
+                if (numberOfDialogsOpenned == 1) {
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.custom_popup_show_product, null);
+                    dialogBuilder.setView(dialogView);
 
-                            TextView txt_product_name = dialogView.findViewById(R.id.txt_product_name);
-                            final ImageView imageView_product = dialogView.findViewById(R.id.image_product);
-                            TextView txt_product_description = dialogView.findViewById(R.id.txt_product_description);
-                            TextView txt_product_Price = dialogView.findViewById(R.id.txt_product_Price);
-                            TextView txt_product_Stocks = dialogView.findViewById(R.id.txt_product_Stocks);
-                            Button btn_update = dialogView.findViewById(R.id.btn_update);
-                            Button btn_back = dialogView.findViewById(R.id.btn_back);
+                    TextView txt_product_name = dialogView.findViewById(R.id.txt_product_name);
+                    final ImageView imageView_product = dialogView.findViewById(R.id.image_product);
+                    TextView txt_product_description = dialogView.findViewById(R.id.txt_product_description);
+                    TextView txt_product_Price = dialogView.findViewById(R.id.txt_product_Price);
+                    TextView txt_product_Stocks = dialogView.findViewById(R.id.txt_product_Stocks);
+                    Button btn_update = dialogView.findViewById(R.id.btn_update);
+                    Button btn_back = dialogView.findViewById(R.id.btn_back);
 
-                            final AlertDialog dialog = dialogBuilder.create();
-                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                            dialog.show();
+                    final AlertDialog dialog = dialogBuilder.create();
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    dialog.show();
 
-                            txt_product_name.setText(model.getProduct_name());
-                            Thread thread = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        blobLength[0] = (int) b.length();
-                                        byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
-                                        ((Activity) context).runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                Glide.with(context)
-                                                        .load(blobAsBytes)
-                                                        .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
-                                                        .skipMemoryCache(true)
-                                                        .into(imageView_product);
-                                            }
-                                        });
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
+                    txt_product_name.setText(model.getProduct_name());
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                blobLength[0] = (int) b.length();
+                                byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
+                                ((Activity) context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Glide.with(context)
+                                                .load(blobAsBytes)
+                                                .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
+                                                .skipMemoryCache(true)
+                                                .into(imageView_product);
                                     }
+                                });
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
 
-                                }
-                            });
-                            thread.start();
-
-                            txt_product_description.setText(model.getProduct_description());
-                            txt_product_Price.setText(String.valueOf(model.getProduct_price()));
-                            txt_product_Stocks.setText(String.valueOf(model.getProduct_stocks()));
-
-                            btn_back.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog.dismiss();
-                                }
-                            });
-
-                            btn_update.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(context, InventoryUpdateView.class);
-                                    context.startActivity(intent);
-                                    InventoryRecyclerView.PRODUCT_MODEL = new InventoryModel(model.getProduct_id(),
-                                            model.getProduct_name(), model.getProduct_description(),
-                                            model.getProduct_price(), model.getProduct_picture(),
-                                            model.getProduct_stocks(), model.getProduct_category());
-                                }
-                            });
-                            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    numberOfDialogsOpenned = 0;
-                                }
-                            });
                         }
-                    }
-                });
+                    });
+                    thread.start();
+
+                    txt_product_description.setText(model.getProduct_description());
+                    txt_product_Price.setText(String.valueOf(model.getProduct_price()));
+                    txt_product_Stocks.setText(String.valueOf(model.getProduct_stocks()));
+
+                    btn_back.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    btn_update.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, InventoryUpdateView.class);
+                            context.startActivity(intent);
+                            InventoryRecyclerView.PRODUCT_MODEL = new InventoryModel(model.getProduct_id(),
+                                    model.getProduct_name(), model.getProduct_description(),
+                                    model.getProduct_price(), model.getProduct_picture(),
+                                    model.getProduct_stocks(), model.getProduct_category());
+                        }
+                    });
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            numberOfDialogsOpenned = 0;
+                        }
+                    });
+                }
             }
         });
+
         holder.cardView_item.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

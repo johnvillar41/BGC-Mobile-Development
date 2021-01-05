@@ -77,7 +77,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
         holder.cardView_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numberOfDialogsOpenned++;
+                numberOfDialogsOpenned = 1;
                 if (numberOfDialogsOpenned == 1) {
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                     LayoutInflater inflater = ((Activity) context).getLayoutInflater();
