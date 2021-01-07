@@ -16,7 +16,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
@@ -25,10 +24,6 @@ import emp.project.softwareengineerproject.View.MainMenuActivityView;
 public class OrdersService implements IOrders.IOrdersService {
 
     private OrdersModel model;
-    private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
-    private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
-    private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
-
     private static OrdersService SINGLE_INSTANCE = null;
 
     private OrdersService(OrdersModel model) {

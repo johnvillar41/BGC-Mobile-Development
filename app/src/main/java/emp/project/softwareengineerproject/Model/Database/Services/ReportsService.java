@@ -10,16 +10,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.IReports;
 import emp.project.softwareengineerproject.Model.Bean.ReportsModel;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
 
 public class ReportsService implements IReports.IReportsService {
-
-    private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
-    private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
-    private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
     private ReportsModel model;
     private static ReportsService SINGLE_INSTANCE = null;

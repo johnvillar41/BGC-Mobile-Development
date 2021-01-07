@@ -8,26 +8,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.ISales.ISales;
-import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 
 public class SalesService implements ISales.ISalesService {
 
-    private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
-    private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
-    private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
-
-    private SalesModel model;
     private static SalesService SINGLE_INSTANCE = null;
 
-    private SalesService(SalesModel model) {
-        this.model = model;
+    private SalesService() {
     }
 
-    public static SalesService getInstance(SalesModel model) {
+    public static SalesService getInstance() {
         if (SINGLE_INSTANCE == null) {
-            SINGLE_INSTANCE = new SalesService(model);
+            SINGLE_INSTANCE = new SalesService();
         }
         return SINGLE_INSTANCE;
     }

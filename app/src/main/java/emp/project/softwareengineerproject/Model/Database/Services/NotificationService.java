@@ -10,16 +10,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.INotification;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 
 public class NotificationService implements INotification.INotificationService {
-
-    private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
-    private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
-    private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
-
     private NotificationModel model;
     private static NotificationService SINGLE_INSTANCE = null;
 

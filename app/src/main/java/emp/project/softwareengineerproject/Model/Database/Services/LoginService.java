@@ -8,16 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.ILogin;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Presenter.LoginPresenter;
 
 public class LoginService implements ILogin.ILoginService {
-
-    private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
-    private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
-    private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
     private static LoginService SINGLE_INSTANCE = null;
 

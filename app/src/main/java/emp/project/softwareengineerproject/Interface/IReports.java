@@ -42,6 +42,7 @@ public interface IReports {
         void loadSortedAdministrators();
     }
     interface IReportsService extends IServiceStrictMode{
+
         int[] computeAverages(String username) throws ClassNotFoundException, SQLException;
 
         ReportsModel getMonthlySales(String username) throws ClassNotFoundException, SQLException;

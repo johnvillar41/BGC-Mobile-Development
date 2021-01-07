@@ -10,15 +10,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import emp.project.softwareengineerproject.Interface.DATABASE_CREDENTIALS;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesTransactions;
 import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 
 public class SalesTransactionService implements ISalesTransactions.ISalesTransactionService {
-
-    private String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
-    private String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
-    private String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
 
     private SalesModel model;
     private static SalesTransactionService SINGLE_INSTANCE = null;

@@ -249,7 +249,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         InventoryService.getInstance(null).removeInstance();
         InventoryUpdateService.getInstance().removeInstance();
         SalesAddService.getInstance().removeInstance();
-        SalesService.getInstance(null).removeInstance();
+        SalesService.getInstance().removeInstance();
         SalesTransactionService.getInstance(null).removeInstance();
         UsersAddService.getInstance().removeInstance();
         UsersService.getInstance(null).removeInstance();
