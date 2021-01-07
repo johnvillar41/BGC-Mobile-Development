@@ -1,5 +1,7 @@
 package emp.project.softwareengineerproject.Presenter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
@@ -9,16 +11,15 @@ import emp.project.softwareengineerproject.Interface.ILogin;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Model.Database.Services.LoginService;
 import emp.project.softwareengineerproject.NetworkChecker;
-import emp.project.softwareengineerproject.View.LoginActivityView;
 
 public class LoginPresenter implements ILogin.ILoginPresenter {
     public static String USER_REAL_NAME = "NAME";
     private ILogin.ILoginView view;
     private UserModel model;
     private ILogin.ILoginService service;
-    private WeakReference<LoginActivityView> context;
+    private WeakReference<Context> context;
 
-    public LoginPresenter(ILogin.ILoginView view, LoginActivityView context) {
+    public LoginPresenter(ILogin.ILoginView view, Context context) {
         this.view = view;
         this.model = new UserModel();
         this.service = LoginService.getInstance();
@@ -27,11 +28,11 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
 
     @Override
     public void onLoginButtonClicked(final String username, final String password, final View v) {
-        final NetworkChecker networkChecker = NetworkChecker.getSingleInstance(context);
+        final NetworkChecker networkChecker = NetworkChecker.getSingleInstance((Context) view);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressBar();
@@ -50,7 +51,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                         success = false;
                     }
                     if (success) {
-                        context.get().runOnUiThread(new Runnable() {
+                        ((Activity)context.get()).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 view.onSuccess("Logging in!", v);
@@ -58,7 +59,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                             }
                         });
                     } else if (!networkChecker.isNetworkAvailable()) {
-                        context.get().runOnUiThread(new Runnable() {
+                        ((Activity)context.get()).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 view.onError("No network Connected", v);
@@ -66,7 +67,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                             }
                         });
                     } else {
-                        context.get().runOnUiThread(new Runnable() {
+                        ((Activity)context.get()).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 view.onError("User not found!", v);
@@ -75,7 +76,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
                         });
                     }
                 } else {
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.onError(model.validateCredentials(model), v);

@@ -1,5 +1,7 @@
 package emp.project.softwareengineerproject.Presenter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -11,16 +13,15 @@ import java.util.List;
 import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
 import emp.project.softwareengineerproject.Model.Database.Services.OrdersService;
-import emp.project.softwareengineerproject.View.OrdersView.OrdersActivityView;
 
 public class OrdersPresenter implements IOrders.IOrdersPresenter {
 
     private IOrders.IOrdersView view;
     private OrdersModel model;
-    private WeakReference<OrdersActivityView> context;
+    private WeakReference<Context> context;
     private OrdersService service;
 
-    public OrdersPresenter(IOrders.IOrdersView view, OrdersActivityView context) {
+    public OrdersPresenter(IOrders.IOrdersView view, Context context) {
         this.view = view;
         this.model = new OrdersModel();
         this.context = new WeakReference<>(context);
@@ -32,7 +33,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -41,7 +42,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
 
                 try {
                     final List<OrdersModel> ordersList = service.getOrdersFromDB(STATUS.PENDING.getStatus());
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayRecyclerView(ordersList);
@@ -64,7 +65,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -73,7 +74,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
 
                 try {
                     final List<OrdersModel> ordersList = service.getOrdersFromDB(STATUS.FINISHED.getStatus());
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayRecyclerView(ordersList);
@@ -96,7 +97,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -105,7 +106,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
 
                 try {
                     final List<OrdersModel> ordersList = service.getOrdersFromDB(STATUS.CANCELLED.getStatus());
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayRecyclerView(ordersList);
@@ -128,7 +129,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -141,7 +142,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.hideProgressIndicator();
@@ -158,7 +159,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -171,7 +172,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.hideProgressIndicator();
@@ -186,7 +187,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -199,7 +200,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.hideProgressIndicator();
@@ -221,9 +222,6 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
             e.printStackTrace();
         }
     }
-
-
-
 
     private enum STATUS {
         PENDING("Processing"),

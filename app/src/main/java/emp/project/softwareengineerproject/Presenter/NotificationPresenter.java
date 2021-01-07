@@ -1,5 +1,7 @@
 package emp.project.softwareengineerproject.Presenter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -13,16 +15,15 @@ import java.util.List;
 import emp.project.softwareengineerproject.Interface.INotification;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
-import emp.project.softwareengineerproject.View.NotificationView.NotificationsActivityView;
 
 public class NotificationPresenter implements INotification.INotificationPresenter {
 
     private INotification.INotificationView view;
     private INotification.INotificationService service;
     private NotificationModel model;
-    private WeakReference<NotificationsActivityView> context;
+    private WeakReference<Context> context;
 
-    public NotificationPresenter(INotification.INotificationView view, NotificationsActivityView context) {
+    public NotificationPresenter(INotification.INotificationView view, Context context) {
         this.view = view;
         this.model = new NotificationModel();
         this.service = NotificationService.getInstance(this.model);
@@ -53,7 +54,7 @@ public class NotificationPresenter implements INotification.INotificationPresent
                     e.printStackTrace();
                 }
                 final List<NotificationModel> finalNotifsList = notifsList;
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -72,7 +73,7 @@ public class NotificationPresenter implements INotification.INotificationPresent
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();

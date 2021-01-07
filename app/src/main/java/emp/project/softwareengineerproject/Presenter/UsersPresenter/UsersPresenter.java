@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.Presenter.UsersPresenter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,15 +14,14 @@ import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Model.Database.Services.UsersService.UsersService;
 import emp.project.softwareengineerproject.View.LoginActivityView;
-import emp.project.softwareengineerproject.View.UsersView.UsersActivityView;
 
 public class UsersPresenter implements IUsers.IUsersPresenter {
     private UserModel model;
     private IUsers.IUsersService service;
     private IUsers.IUsersView view;
-    private WeakReference<UsersActivityView> context;
+    private WeakReference<Context> context;
 
-    public UsersPresenter(IUsers.IUsersView view, UsersActivityView context) {
+    public UsersPresenter(IUsers.IUsersView view, Context context) {
         this.view = view;
         this.model = new UserModel();
         this.service = UsersService.getInstance(this.model);
@@ -33,7 +33,7 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressBar();
@@ -41,7 +41,7 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                 });
                 try {
                     final UserModel model = service.getUserProfileFromDB(user_id);
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayProfile(model);
@@ -52,7 +52,7 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.hideProgressBar();
@@ -71,7 +71,7 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
             public void run() {
                 try {
                     final List<UserModel> userList = service.getUsersListFromDB();
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -106,7 +106,7 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                 public void run() {
                     try {
                         if (service.updateNewUserCredentials(model)) {
-                            context.get().runOnUiThread(new Runnable() {
+                            ((Activity)context.get()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     view.displayStatusMessage("Saving... Please Wait");
@@ -116,16 +116,16 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.clear();
                             editor.apply();
-                            context.get().runOnUiThread(new Runnable() {
+                            ((Activity)context.get()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    context.get().finish();
+                                    ((Activity)context.get()).finish();
                                     Intent intent = new Intent(context.get(), LoginActivityView.class);
                                     context.get().startActivity(intent);
                                 }
                             });
                         } else {
-                            context.get().runOnUiThread(new Runnable() {
+                            ((Activity)context.get()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     view.displayStatusMessage("Error!");
@@ -147,14 +147,14 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressBar();
                     }
                 });
                 if (username.equals(usernameToBeDeleted)) {
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayStatusMessage("You cannot delete your own account!");
@@ -163,7 +163,7 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                     });
                 } else {
                     service.deleteSpecificUserFromDB(usernameToBeDeleted);
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayStatusMessage("User Deleted!");

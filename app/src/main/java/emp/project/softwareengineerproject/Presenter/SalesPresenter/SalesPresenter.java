@@ -1,23 +1,22 @@
 package emp.project.softwareengineerproject.Presenter.SalesPresenter;
 
+import android.app.Activity;
+import android.content.Context;
+
 import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.ISales.ISales;
-import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.Model.Database.Services.SalesService.SalesService;
-import emp.project.softwareengineerproject.View.SalesView.SalesActivityView;
 
 public class SalesPresenter implements ISales.ISalesPresenter {
 
     private ISales.ISalesView view;
     private ISales.ISalesService service;
-    private SalesModel model;
-    private WeakReference<SalesActivityView> context;
+    private WeakReference<Context> context;
 
-    public SalesPresenter(ISales.ISalesView view, SalesActivityView context) {
+    public SalesPresenter(ISales.ISalesView view, Context context) {
         this.view = view;
-        this.model = new SalesModel();
         this.service = SalesService.getInstance();
         this.context = new WeakReference<>(context);
     }
@@ -39,8 +38,7 @@ public class SalesPresenter implements ISales.ISalesPresenter {
             public void run() {
                 try {
                     final String totalTransactions = String.valueOf(service.getTotalTransactionsFromDB());
-                    context.get().runOnUiThread(new Runnable() {
-                        @Override
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         public void run() {
                             view.displayProgressIndicator();
                             view.displayTotalBalance(totalTransactions);

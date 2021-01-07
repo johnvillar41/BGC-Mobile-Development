@@ -1,5 +1,7 @@
 package emp.project.softwareengineerproject.Presenter.InventoryPresenter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -12,15 +14,14 @@ import java.sql.SQLException;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventoryUpdateService;
-import emp.project.softwareengineerproject.View.InventoryView.InventoryUpdateView;
 
 public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresenter {
     private IUpdateInventory.IUupdateInventoryView view;
     private IUpdateInventory.IUpdateInventoryService service;
     private InventoryModel model;
-    private WeakReference<InventoryUpdateView> context;
+    private WeakReference<Context> context;
 
-    public InventoryUpdatePresenter(IUpdateInventory.IUupdateInventoryView view, InventoryUpdateView context) {
+    public InventoryUpdatePresenter(IUpdateInventory.IUupdateInventoryView view, Context context) {
         this.view = view;
         this.model = new InventoryModel();
         this.service = InventoryUpdateService.getInstance();
@@ -45,7 +46,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             @Override
             public void run() {
                 try {
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.showProgressIndicator();
@@ -60,7 +61,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
 
                     if (model.validateProductOnUpdate(arrTexts, upload_picture, product_id) != null) {
                         service.updateProductToDB(model.validateProductOnUpdate(arrTexts, upload_picture, product_id));
-                        context.get().runOnUiThread(new Runnable() {
+                        ((Activity)context.get()).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 view.showCheckAnimation();
@@ -71,21 +72,21 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                     }
 
                 } catch (final ClassNotFoundException e) {
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayStatusMessage(e.getMessage(), v);
                         }
                     });
                 } catch (final PacketTooBigException e) {
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayStatusMessage(e.getMessage(), v);
                         }
                     });
                 } catch (final SQLException e) {
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayStatusMessage(e.getMessage(), v);
@@ -117,7 +118,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                 arrTextInputLayouts[3] = product_stocks;
                 arrTextInputLayouts[4] = product_category;
 
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.showProgressIndicator();
@@ -128,7 +129,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                 public void run() {
                                     try {
                                         service.addNewProduct(modelFinal);
-                                        context.get().runOnUiThread(new Runnable() {
+                                        ((Activity)context.get()).runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 view.showCheckAnimation();
@@ -137,7 +138,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                             }
                                         });
                                     } catch (final PacketTooBigException e) {
-                                        context.get().runOnUiThread(new Runnable() {
+                                        ((Activity)context.get()).runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 view.displayStatusMessage(e.getMessage(), v);
@@ -145,7 +146,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                             }
                                         });
                                     } catch (ClassNotFoundException | SQLException e) {
-                                        context.get().runOnUiThread(new Runnable() {
+                                        ((Activity)context.get()).runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 view.displayStatusMessage(e.getMessage(), v);
@@ -157,7 +158,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                             });
                             thread1.start();
                         } else {
-                            context.get().runOnUiThread(new Runnable() {
+                            ((Activity)context.get()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     view.displayStatusMessage("Error creating product!", v);

@@ -1,5 +1,7 @@
 package emp.project.softwareengineerproject.Presenter.UsersPresenter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -10,15 +12,14 @@ import java.lang.ref.WeakReference;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsersAdd;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Model.Database.Services.UsersService.UsersAddService;
-import emp.project.softwareengineerproject.View.UsersView.UsersAddActivityView;
 
 public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
     private IUsersAdd.IUsersAddView view;
     private IUsersAdd.IUsersAddService service;
     private UserModel model;
-    private WeakReference<UsersAddActivityView> context;
+    private WeakReference<Context> context;
 
-    public UsersAddPresenter(IUsersAdd.IUsersAddView view, UsersAddActivityView context) {
+    public UsersAddPresenter(IUsersAdd.IUsersAddView view, Context context) {
         this.view = view;
         this.model = new UserModel();
         this.service = UsersAddService.getInstance();
@@ -34,7 +35,7 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
 
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -52,7 +53,7 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                                         service.insertNewUserToDB(newModel);
                                     } catch (final Exception e) {
                                         ifSuccess = false;
-                                        context.get().runOnUiThread(new Runnable() {
+                                        ((Activity)context.get()).runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 view.displayStatusMessage(e.getMessage(), v);
@@ -71,7 +72,7 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                             }
                         } else {
                             ifSuccess = false;
-                            context.get().runOnUiThread(new Runnable() {
+                            ((Activity)context.get()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     view.displayStatusMessage("Error Adding User!", v);
@@ -80,7 +81,7 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                             });
                         }
                         if (ifSuccess) {
-                            context.get().runOnUiThread(new Runnable() {
+                            ((Activity)context.get()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     view.displayStatusMessage("Successfully Added new User!", v);

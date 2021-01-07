@@ -1,5 +1,7 @@
 package emp.project.softwareengineerproject.Presenter.SalesPresenter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -13,16 +15,15 @@ import java.util.List;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesTransactions;
 import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.Model.Database.Services.SalesService.SalesTransactionService;
-import emp.project.softwareengineerproject.View.SalesView.SalesTransactionView;
 
 public class SalesTransactionPresenter implements ISalesTransactions.ISalesTransactionPresenter {
 
     private ISalesTransactions.ISalesTransactionsView view;
     private SalesModel model;
     private ISalesTransactions.ISalesTransactionService service;
-    private WeakReference<SalesTransactionView> context;
+    private WeakReference<Context> context;
 
-    public SalesTransactionPresenter(ISalesTransactions.ISalesTransactionsView view, SalesTransactionView context) {
+    public SalesTransactionPresenter(ISalesTransactions.ISalesTransactionsView view, Context context) {
         this.view = view;
         this.model = new SalesModel();
         this.service = SalesTransactionService.getInstance(this.model);
@@ -36,7 +37,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
             @Override
             public void run() {
 
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -46,7 +47,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
                     LocalDateTime now = LocalDateTime.now();
                     final List<SalesModel> transactionList = service.getSearchedTransactionListFromDB(dtf.format(now));
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayRecyclerView(transactionList);
@@ -54,7 +55,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                         }
                     });
                 } catch (ClassNotFoundException e) {
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.hideProgressIndicator();
@@ -62,7 +63,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                     });
                     e.printStackTrace();
                 } catch (SQLException e) {
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.hideProgressIndicator();
@@ -80,7 +81,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -88,7 +89,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                 });
                 try {
                     final List<SalesModel> transactionList = service.getSearchedTransactionListFromDB(date);
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayRecyclerView(transactionList);
@@ -111,7 +112,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -119,7 +120,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                 });
                 try {
                     final List<SalesModel> transactionList = service.getTransactionsFromDB();
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayRecyclerView(transactionList);
@@ -143,7 +144,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicator();
@@ -156,7 +157,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.hideProgressIndicator();

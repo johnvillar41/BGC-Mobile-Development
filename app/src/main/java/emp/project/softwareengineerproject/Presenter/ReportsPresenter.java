@@ -1,5 +1,8 @@
 package emp.project.softwareengineerproject.Presenter;
 
+import android.app.Activity;
+import android.content.Context;
+
 import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 import java.util.List;
@@ -9,16 +12,15 @@ import emp.project.softwareengineerproject.Model.Bean.ReportsModel;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Model.Database.Services.ReportsService;
 import emp.project.softwareengineerproject.View.LoginActivityView;
-import emp.project.softwareengineerproject.View.ReportsView.ReportsActivityView;
 
 public class ReportsPresenter implements IReports.IReportsPresenter {
 
     private IReports.IReportsView view;
     private ReportsModel model;
     private IReports.IReportsService service;
-    private WeakReference<ReportsActivityView> context;
+    private WeakReference<Context> context;
 
-    public ReportsPresenter(IReports.IReportsView view, ReportsActivityView context) {
+    public ReportsPresenter(IReports.IReportsView view, Context context) {
         this.view = view;
         this.model = new ReportsModel();
         this.service = ReportsService.getInstance(this.model);
@@ -31,14 +33,14 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
             @Override
             public void run() {
                 try {
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayProgressCircle();
                         }
                     });
                     final ReportsModel model = service.getMonthlySales(LoginActivityView.USERNAME_VALUE);
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayChart(model, LoginActivityView.USERNAME_VALUE);
@@ -62,14 +64,14 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
             @Override
             public void run() {
                 try {
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayProgressIndicator();
                         }
                     });
                     adminList[0] = service.getListOfAdministrators();
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayAdministratorList(adminList[0]);
@@ -97,7 +99,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
                     final int total = service.computeAverages(username)[0];
                     final int average = service.computeAverages(username)[1];
                     final int totalAveMonthly = service.computeAverages(username)[2];
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayTotals(String.valueOf(total), String.valueOf(average), String.valueOf(totalAveMonthly));
@@ -120,7 +122,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
             @Override
             public void run() {
                 try {
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayProgressIndicator();
@@ -129,7 +131,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
                     final int total = service.computeAverages(username)[0];
                     final int average = service.computeAverages(username)[1];
                     final int totalAveMonthly = service.computeAverages(username)[2];
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -161,7 +163,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                context.get().runOnUiThread(new Runnable() {
+                ((Activity)context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressCircle_Users();
@@ -169,7 +171,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
                 });
                 try {
                     final List<UserModel> adminList = service.getAdminsFromDB();
-                    context.get().runOnUiThread(new Runnable() {
+                    ((Activity)context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayRecyclerView(adminList);
