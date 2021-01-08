@@ -26,60 +26,87 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
         this.context = new WeakReference<>(context);
     }
 
+    private static final String EMPTY_USERNAME = "Empty Username!";
+    private static final String EMPTY_PASSWORD = "Empty Password!";
+    private static final String EMPTY_BOTH = "Empty Both fields!";
+    private static final String SUCCESS_MESSAGE = "Login Successfull!";
+    private static final String USER_NOT_FOUND = "User not found!";
+    private static final String NO_INTERNET = "No Internet Connection!";
+
     @Override
     public void onLoginButtonClicked(final String username, final String password, final View v) {
         final NetworkChecker networkChecker = NetworkChecker.getSingleInstance((Context) view);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ((Activity)context.get()).runOnUiThread(new Runnable() {
+                ((Activity) context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressBar();
                     }
                 });
-                model = new UserModel(username, password);
-                if (model.validateCredentials(model) == null) {
-                    boolean success;
-                    try {
-                        success = service.checkLoginCredentialsDB(model);
-                    } catch (ClassNotFoundException e) {
-                        view.onError(e.getMessage(), v);
-                        success = false;
-                    } catch (SQLException e) {
-                        view.onError(e.getMessage(), v);
-                        success = false;
-                    }
-                    if (success) {
-                        ((Activity)context.get()).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.onSuccess("Logging in!", v);
-                                view.goToMainPage();
+                if (networkChecker.isNetworkAvailable()) {
+                    model = new UserModel(username, password);
+                    switch (model.validateCredentials(model)) {
+                        case EMPTY_USERNAME:
+                            ((Activity) context.get()).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.onError(EMPTY_USERNAME, v);
+                                    view.hideProgressBar();
+                                }
+                            });
+                            break;
+                        case EMPTY_PASSWORD:
+                            ((Activity) context.get()).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.onError(EMPTY_PASSWORD, v);
+                                    view.hideProgressBar();
+                                }
+                            });
+                            break;
+                        case EMPTY_BOTH:
+                            ((Activity) context.get()).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.onError(EMPTY_BOTH, v);
+                                    view.hideProgressBar();
+                                }
+                            });
+                            break;
+                        case VALID_LOGIN:
+                            try {
+                                if (service.checkLoginCredentialsDB(model)) {
+                                    ((Activity) context.get()).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            view.onSuccess(SUCCESS_MESSAGE, v);
+                                            view.goToMainPage();
+                                            view.hideProgressBar();
+                                        }
+                                    });
+                                } else {
+                                    ((Activity) context.get()).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            view.onError(USER_NOT_FOUND, v);
+                                            view.hideProgressBar();
+                                        }
+                                    });
+                                }
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
                             }
-                        });
-                    } else if (!networkChecker.isNetworkAvailable()) {
-                        ((Activity)context.get()).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.onError("No network Connected", v);
-                                view.hideProgressBar();
-                            }
-                        });
-                    } else {
-                        ((Activity)context.get()).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.onError("User not found!", v);
-                                view.hideProgressBar();
-                            }
-                        });
+                            break;
                     }
                 } else {
-                    ((Activity)context.get()).runOnUiThread(new Runnable() {
+                    ((Activity) context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            view.onError(model.validateCredentials(model), v);
+                            view.onError(NO_INTERNET, v);
                             view.hideProgressBar();
                         }
                     });

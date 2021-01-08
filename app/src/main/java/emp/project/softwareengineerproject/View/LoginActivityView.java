@@ -144,7 +144,6 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
             File dir = getCacheDir();
             CacheManager cacheManager = CacheManager.getInstance(getApplicationContext());
             cacheManager.deleteDir(dir);
-            //cacheManager.clearGlideMemory();
         } catch (Exception e) {
             e.printStackTrace();
         }

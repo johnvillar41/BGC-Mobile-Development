@@ -105,17 +105,24 @@ public class UserModel {
         }
     }
 
-    public String validateCredentials(UserModel model) {
-        String message = null;
+    public VALIDITY validateCredentials(UserModel model) {
+        VALIDITY validity = null;
         if (model.getUser_username().isEmpty()) {
-            message = "Fill up username field!";
+            validity = VALIDITY.EMPTY_USERNAME;
+        } else if (model.getUser_password().isEmpty()) {
+            validity = VALIDITY.EMPTY_PASSWORD;
+        } else if (model.getUser_username().isEmpty() && model.getUser_password().isEmpty()) {
+            validity = VALIDITY.EMPTY_BOTH;
+        } else {
+            validity = VALIDITY.VALID_LOGIN;
         }
-        if (model.getUser_password().isEmpty()) {
-            message = "Fill up password field!";
-        }
-        if (model.getUser_username().isEmpty() && model.getUser_password().isEmpty()) {
-            message = "Fill up both fields!";
-        }
-        return message;
+        return validity;
+    }
+
+    public enum VALIDITY {
+        EMPTY_USERNAME,
+        EMPTY_PASSWORD,
+        EMPTY_BOTH,
+        VALID_LOGIN;
     }
 }
