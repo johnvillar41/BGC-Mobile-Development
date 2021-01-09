@@ -311,6 +311,10 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                     public void run() {
                                         Bitmap image = ((BitmapDrawable) IMAGE_VIEW.getDrawable()).getBitmap();
                                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                        /**
+                                         * Use png instead of jpeg so that images wont be corrupt but the file size of the images
+                                         * will be the original size which will inflate the size of the database.
+                                         */
                                         image.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
                                         FILE_INPUT_STREAM = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
                                         runOnUiThread(new Runnable() {
@@ -324,6 +328,10 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                 thread1.start();
                             }
                         });
+                    } else {
+                        //Setting the static variables as null because somehow they change the images to be null
+                        IMAGE_VIEW = null;
+                        FILE_INPUT_STREAM = null;
                     }
                 }
             }

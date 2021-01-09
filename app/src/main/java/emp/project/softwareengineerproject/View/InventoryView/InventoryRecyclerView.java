@@ -68,6 +68,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                     .load(blobAsBytes)
                     .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
                     .skipMemoryCache(true)
+                    .error(R.drawable.ic_error)
                     .into(holder.image_product);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -109,6 +110,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                                         Glide.with(context)
                                                 .load(blobAsBytes)
                                                 .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
+                                                .error(R.drawable.ic_error)
                                                 .skipMemoryCache(true)
                                                 .into(imageView_product);
                                     }
