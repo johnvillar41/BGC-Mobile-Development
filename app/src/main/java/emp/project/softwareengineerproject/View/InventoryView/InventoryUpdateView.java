@@ -151,7 +151,6 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                     }
                 });
             } else {
