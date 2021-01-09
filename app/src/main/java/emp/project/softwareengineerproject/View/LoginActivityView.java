@@ -152,7 +152,7 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
     }
 
     private void displayNoNetworkPrompt() {
-        NetworkChecker networkChecker = NetworkChecker.getSingleInstance(this);
+        NetworkChecker networkChecker = new NetworkChecker(this);
         networkChecker.displayNoNetworkConnection();
     }
 }

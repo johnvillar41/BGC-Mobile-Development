@@ -67,7 +67,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     private Button btn_cancel;
     private Toolbar toolbar;
     private ProgressIndicator progressIndicator;
-    static InputStream FILE_INPUT_STREAM;
+    private static InputStream FILE_INPUT_STREAM;
 
     private IUpdateInventory.IUpdatePresenter presenter;
 
@@ -268,7 +268,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Thread thread=new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
@@ -293,8 +293,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
                 InputStream imageStream;
 
-                if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK
-                        && null != data) {
+                if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK) {
 
                     try {
                         imageStream = getContentResolver().openInputStream(selectedImage);
@@ -308,7 +307,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                             @Override
                             public void run() {
                                 IMAGE_VIEW.setImageBitmap(finalOriginBitmap);
-                                Thread thread1=new Thread(new Runnable() {
+                                Thread thread1 = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
                                         Bitmap image = ((BitmapDrawable) IMAGE_VIEW.getDrawable()).getBitmap();
@@ -322,14 +321,15 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                             }
                                         });
                                     }
-                                });thread1.start();
+                                });
+                                thread1.start();
                             }
                         });
-
                     }
                 }
             }
-        });thread.start();
+        });
+        thread.start();
 
     }
 

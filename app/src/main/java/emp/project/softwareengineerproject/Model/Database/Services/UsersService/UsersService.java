@@ -96,13 +96,25 @@ public class UsersService implements IUsers.IUsersService {
         try {
             strictMode();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-            String sqlUpdate = "UPDATE login_table SET user_username=? ,user_password=? ,user_name=? ,user_image=? WHERE user_id=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdate);
-            preparedStatement.setString(1,model.getUser_username());
-            preparedStatement.setString(2,model.getUser_password());
-            preparedStatement.setString(3,model.getUser_full_name());
-            preparedStatement.setBlob(4,model.getUploadUserImage());
-            preparedStatement.setString(5,model.getUser_id());
+            PreparedStatement preparedStatement;
+            String sqlUpdate;
+            if(model.getUploadUserImage() != null) {
+                sqlUpdate = "UPDATE login_table SET user_username=? ,user_password=? ,user_name=? ,user_image=? WHERE user_id=?";
+                preparedStatement = connection.prepareStatement(sqlUpdate);
+                preparedStatement.setString(1, model.getUser_username());
+                preparedStatement.setString(2, model.getUser_password());
+                preparedStatement.setString(3, model.getUser_full_name());
+                preparedStatement.setBlob(4, model.getUploadUserImage());
+                preparedStatement.setString(5,model.getUser_id());
+            } else {
+                sqlUpdate = "UPDATE login_table SET user_username=? ,user_password=? ,user_name=? WHERE user_id=?";
+                preparedStatement = connection.prepareStatement(sqlUpdate);
+                preparedStatement.setString(1, model.getUser_username());
+                preparedStatement.setString(2, model.getUser_password());
+                preparedStatement.setString(3, model.getUser_full_name());
+                preparedStatement.setString(4, model.getUser_id());
+            }
+
             preparedStatement.execute();
             isSuccesfull = true;
 

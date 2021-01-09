@@ -35,7 +35,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
 
     @Override
     public void onLoginButtonClicked(final String username, final String password, final View v) {
-        final NetworkChecker networkChecker = NetworkChecker.getSingleInstance((Context) view);
+        final NetworkChecker networkChecker = new NetworkChecker((Context) view);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

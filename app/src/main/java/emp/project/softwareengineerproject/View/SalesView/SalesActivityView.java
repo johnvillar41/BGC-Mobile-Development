@@ -43,6 +43,7 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sales_view);
 
+
         try {
             initViews();
         } catch (SQLException e) {
@@ -69,7 +70,7 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
 
-        presenter = new SalesPresenter(this,SalesActivityView.this);
+        presenter = new SalesPresenter(this, SalesActivityView.this);
 
         presenter.onLoadPage();
 

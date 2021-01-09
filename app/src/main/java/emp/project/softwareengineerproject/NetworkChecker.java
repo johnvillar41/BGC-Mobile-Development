@@ -12,41 +12,25 @@ import androidx.appcompat.app.AlertDialog;
 
 import java.lang.ref.WeakReference;
 
-import emp.project.softwareengineerproject.View.LoginActivityView;
-
 public class NetworkChecker {
-    private static NetworkChecker SINGLE_INSTANCE = null;
     private WeakReference<Context> weakReferenceContext;
-    private WeakReference<LoginActivityView> weakReferenceActivity;
 
-    private NetworkChecker(Context context) {
+    public NetworkChecker(Context context) {
         this.weakReferenceContext = new WeakReference<>(context);
     }
 
 
-    private NetworkChecker(WeakReference<LoginActivityView> weakReferenceActivity) {
-        this.weakReferenceActivity = weakReferenceActivity;
-    }
-
-    public static NetworkChecker getSingleInstance(Context context) {
-        if (SINGLE_INSTANCE == null) {
-            SINGLE_INSTANCE = new NetworkChecker(context);
-        }
-        return SINGLE_INSTANCE;
-    }
-
-    public static NetworkChecker getSingleInstance(WeakReference<LoginActivityView> weakReferenceActivity) {
-        if (SINGLE_INSTANCE == null) {
-            SINGLE_INSTANCE = new NetworkChecker(weakReferenceActivity);
-        }
-        return SINGLE_INSTANCE;
-    }
-
-
     public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) weakReferenceContext.get().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        ConnectivityManager connectivityManager = null;
+        NetworkInfo activeNetworkInfo = null;
+        try {
+            connectivityManager = (ConnectivityManager) weakReferenceContext.get().getSystemService(Context.CONNECTIVITY_SERVICE);
+            activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        } catch(Exception ignored){
+
+        }
+
+
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 

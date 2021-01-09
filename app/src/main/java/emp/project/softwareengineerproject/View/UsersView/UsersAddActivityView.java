@@ -51,13 +51,13 @@ import emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersAddPres
 import emp.project.softwareengineerproject.R;
 
 public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd.IUsersAddView {
-    IUsersAdd.IUsersAddPresenter presenter;
-    TextInputLayout txt_username, txt_password1, txt_password2, txt_realName;
+    private IUsersAdd.IUsersAddPresenter presenter;
+    private TextInputLayout txt_username, txt_password1, txt_password2, txt_realName;
     private static CircleImageView PROFILE_PICTURE;
-    MaterialButton btn_add_user;
+    private MaterialButton btn_add_user;
     private static InputStream FILE_INPUT_STREAM;
     private static int IMAGE_PICK_CODE = 777;
-    ProgressIndicator progressIndicator;
+    private ProgressIndicator progressIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,7 +167,7 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Thread thread = new Thread(new Runnable() {
+        Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
@@ -207,7 +207,7 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
                             @Override
                             public void run() {
                                 PROFILE_PICTURE.setImageBitmap(finalOriginBitmap);
-                                Thread thread1 = new Thread(new Runnable() {
+                                Thread thread1=new Thread(new Runnable() {
                                     @Override
                                     public void run() {
                                         Bitmap image = ((BitmapDrawable) PROFILE_PICTURE.getDrawable()).getBitmap();
@@ -221,15 +221,14 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
                                             }
                                         });
                                     }
-                                });
-                                thread1.start();
+                                });thread1.start();
                             }
                         });
+
                     }
                 }
             }
-        });
-        thread.start();
+        });thread.start();
 
     }
 
