@@ -125,6 +125,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
     public void hideProgressBar() {
         progressIndicator.hide();
     }
+
     private static CircleImageView PROFILE_PICTURE;
 
     @Override
@@ -326,6 +327,9 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
                                 thread1.start();
                             }
                         });
+                    } else {
+                        FILE_INPUT_STREAM = null;
+                        PROFILE_PICTURE = null;
                     }
                 }
             }

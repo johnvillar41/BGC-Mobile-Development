@@ -329,7 +329,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                             }
                         });
                     } else {
-                        //Setting the static variables as null because somehow they change the images to be null
+                        //Setting the static variables as null because somehow they corrupt the images
                         IMAGE_VIEW = null;
                         FILE_INPUT_STREAM = null;
                     }

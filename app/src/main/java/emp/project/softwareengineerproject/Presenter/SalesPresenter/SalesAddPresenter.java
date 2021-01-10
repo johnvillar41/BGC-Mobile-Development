@@ -45,7 +45,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
             public void run() {
                 try {
                     final List<InventoryModel> productList = service.getProductListFromDB();
-                    ((Activity)context.get()).runOnUiThread(new Runnable() {
+                    ((Activity) context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displayProductRecyclerView(productList);
@@ -57,7 +57,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                ((Activity)context.get()).runOnUiThread(new Runnable() {
+                ((Activity) context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.hideProgressIndicator();
@@ -76,7 +76,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ((Activity)context.get()).runOnUiThread(new Runnable() {
+                ((Activity) context.get()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         view.displayProgressIndicatorCart();
@@ -85,64 +85,46 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                 boolean isValid = false;
                 for (int i = 0; i < SalesModel.cartList.size(); i++) {
                     try {
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                        LocalDateTime now = LocalDateTime.now();
+                        if (!service.checkIfProductIsEnough(SalesModel.cartList.get(i).getProduct_id(),
+                                SalesModel.cartList.get(i).getTotal_number_of_products())) {
+                            isValid = false;
+                            ((Activity) context.get()).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.displayOnErrorMessage("Products not enough!", v);
+                                    view.hideProgressIndicatorCart();
+                                }
+                            });
+                            break;
+                        } else {
+                            isValid = true;
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                            LocalDateTime now = LocalDateTime.now();
+                            DateTimeFormatter dtf_month = DateTimeFormatter.ofPattern("MM");
+                            LocalDateTime now_month = LocalDateTime.now();
 
-                        DateTimeFormatter dtf_month = DateTimeFormatter.ofPattern("MM");
-                        LocalDateTime now_month = LocalDateTime.now();
+                            model = new SalesModel(SalesModel.cartList.get(i).getProduct_picture(), SalesModel.cartList.get(i).getProduct_name(),
+                                    SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products(),
+                                    String.valueOf(dtf.format(now)), String.valueOf(dtf_month.format(now_month)), LoginActivityView.USERNAME_VALUE);
 
-                        model = new SalesModel(SalesModel.cartList.get(i).getProduct_picture(), SalesModel.cartList.get(i).getProduct_name(),
-                                SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products(),
-                                String.valueOf(dtf.format(now)), String.valueOf(dtf_month.format(now_month)), LoginActivityView.USERNAME_VALUE);
-
-                        isValid = service.checkIfProductIsEnough(SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products());
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        isValid = false;
-                    }
-
-                    if (SalesModel.cartList.get(i).getTotal_number_of_products().equals(String.valueOf(0)) || SalesModel.cartList.get(i).getTotal_number_of_products().equals(null)) {
-                        view.displayOnErrorMessage("One or more products have zero value!", v);
-                        isValid = false;
-                        ((Activity)context.get()).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.hideProgressIndicatorCart();
-                            }
-                        });
-                        break;
-                    }
-
-                    if (isValid) {
-                        try {
                             service.insertOrderToDB(model);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
+
                         }
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
                 }
                 if (isValid) {
-                    ((Activity)context.get()).runOnUiThread(new Runnable() {
+                    ((Activity) context.get()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.displaySuccessfullPrompt();
                             view.hideProgressIndicatorCart();
                         }
                     });
-                } else {
-                    ((Activity)context.get()).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.displayOnErrorMessage("Products not enough!", v);
-                            view.hideProgressIndicatorCart();
-                        }
-                    });
                 }
-
             }
         });
         thread.start();
