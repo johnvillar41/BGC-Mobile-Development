@@ -86,7 +86,8 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                 for (int i = 0; i < SalesModel.cartList.size(); i++) {
                     try {
                         if (!service.checkIfProductIsEnough(SalesModel.cartList.get(i).getProduct_id(),
-                                SalesModel.cartList.get(i).getTotal_number_of_products())) {
+                                SalesModel.cartList.get(i).getTotal_number_of_products()) ||
+                                SalesModel.cartList.get(i).getTotal_number_of_products().equals(String.valueOf(0))) {
                             isValid = false;
                             ((Activity) context.get()).runOnUiThread(new Runnable() {
                                 @Override
