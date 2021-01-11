@@ -1,13 +1,15 @@
 package emp.project.softwareengineerproject.Interface;
 
-public interface IServiceStrictMode {
+import android.os.StrictMode;
 
-    String DB_NAME = DATABASE_CREDENTIALS.DB_NAME.getDatabaseCredentials();
-    String USER = DATABASE_CREDENTIALS.USER.getDatabaseCredentials();
-    String PASS = DATABASE_CREDENTIALS.PASS.getDatabaseCredentials();
-
+public interface IServiceStrictMode extends IDatabaseCredentials{
     /**
      * This permits the database transaction to be made
-     * */
-    void strictMode() throws ClassNotFoundException;
+     */
+    default void strictMode() throws ClassNotFoundException {
+        StrictMode.ThreadPolicy policy;
+        policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        Class.forName("com.mysql.jdbc.Driver");
+    }
 }

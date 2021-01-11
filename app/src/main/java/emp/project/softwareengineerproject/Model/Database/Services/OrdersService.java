@@ -1,7 +1,6 @@
 package emp.project.softwareengineerproject.Model.Database.Services;
 
 import android.os.Build;
-import android.os.StrictMode;
 
 import androidx.annotation.RequiresApi;
 
@@ -39,14 +38,6 @@ public class OrdersService implements IOrders.IOrdersService {
 
     public void removeInstance() {
         SINGLE_INSTANCE = null;
-    }
-
-    @Override
-    public void strictMode() throws ClassNotFoundException {
-        StrictMode.ThreadPolicy policy;
-        policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        Class.forName("com.mysql.jdbc.Driver");
     }
 
     @Override

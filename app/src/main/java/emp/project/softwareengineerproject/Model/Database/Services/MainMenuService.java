@@ -1,7 +1,6 @@
 package emp.project.softwareengineerproject.Model.Database.Services;
 
 import android.app.Activity;
-import android.os.StrictMode;
 
 import java.sql.Blob;
 import java.sql.Connection;
@@ -30,14 +29,6 @@ public class MainMenuService extends Activity implements IMainMenu.IMainService 
 
     public void removeInstance() {
         SINGLE_INSTANCE = null;
-    }
-
-    @Override
-    public void strictMode() throws ClassNotFoundException {
-        StrictMode.ThreadPolicy policy;
-        policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        Class.forName("com.mysql.jdbc.Driver");
     }
 
     @Override
