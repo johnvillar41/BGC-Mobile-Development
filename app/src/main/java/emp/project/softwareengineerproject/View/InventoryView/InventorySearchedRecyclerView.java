@@ -27,6 +27,7 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.Inventory.ISearchInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventorySearchItemService;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventorySearchItemPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -39,7 +40,7 @@ public class InventorySearchedRecyclerView extends RecyclerView.Adapter<Inventor
     public InventorySearchedRecyclerView(List<InventoryModel> list, Context context) {
         this.list = list;
         this.context = context;
-        this.presenter = new InventorySearchItemPresenter((ISearchInventory.ISearchInventoryView) context);
+        this.presenter = new InventorySearchItemPresenter((ISearchInventory.ISearchInventoryView) context, InventorySearchItemService.getInstance(new InventoryModel()));
     }
 
     @NonNull

@@ -28,6 +28,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventoryService;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -43,7 +44,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
     public InventoryRecyclerView(Context context, List<InventoryModel> list) {
         this.context = context;
         this.list = list;
-        this.presenter = new InventoryPresenter((IInvetory.IinventoryView) context);
+        this.presenter = new InventoryPresenter((IInvetory.IinventoryView) context, InventoryService.getInstance(new InventoryModel()));
         PRODUCT_MODEL = new InventoryModel();
     }
 

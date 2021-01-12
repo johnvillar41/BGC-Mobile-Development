@@ -22,6 +22,7 @@ import java.util.List;
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.Inventory.ISearchInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventorySearchItemService;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventorySearchItemPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -43,7 +44,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
     }
 
     private void initViews() {
-        presenter = new InventorySearchItemPresenter(this);
+        presenter = new InventorySearchItemPresenter(this, InventorySearchItemService.getInstance(new InventoryModel()));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,28 +69,22 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
 
     @Override
     public void displayRecyclerView(final List<InventoryModel> product_list) {
-        Thread thread = new Thread(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 final LinearLayoutManager layoutManager
                         = new LinearLayoutManager(InventorySearchItemView.this, LinearLayoutManager.VERTICAL, false);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        InventorySearchedRecyclerView adapter = new InventorySearchedRecyclerView(
-                                product_list, InventorySearchItemView.this);
-                        recyclerViewSearchedItem.setLayoutManager(layoutManager);
-                        recyclerViewSearchedItem.setAdapter(adapter);
-                        if(adapter.getItemCount()==0){
-                            animationView_Noresult.setVisibility(View.VISIBLE);
-                        } else {
-                            animationView_Noresult.setVisibility(View.GONE);
-                        }
-                    }
-                });
+                InventorySearchedRecyclerView adapter = new InventorySearchedRecyclerView(
+                        product_list, InventorySearchItemView.this);
+                recyclerViewSearchedItem.setLayoutManager(layoutManager);
+                recyclerViewSearchedItem.setAdapter(adapter);
+                if (adapter.getItemCount() == 0) {
+                    animationView_Noresult.setVisibility(View.VISIBLE);
+                } else {
+                    animationView_Noresult.setVisibility(View.GONE);
+                }
             }
         });
-        thread.start();
     }
 
     @Override
@@ -107,12 +102,22 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
 
     @Override
     public void displayProgressLoader() {
-        progressBar.setVisibility(View.VISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void hideProgressLoader() {
-        progressBar.setVisibility(View.GONE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override

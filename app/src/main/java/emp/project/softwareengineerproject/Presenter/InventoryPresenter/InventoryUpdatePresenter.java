@@ -1,31 +1,25 @@
 package emp.project.softwareengineerproject.Presenter.InventoryPresenter;
 
-import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.mysql.jdbc.PacketTooBigException;
 
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
-import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventoryUpdateService;
 
 public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresenter {
     private IUpdateInventory.IUupdateInventoryView view;
     private IUpdateInventory.IUpdateInventoryService service;
     private InventoryModel model;
-    private WeakReference<Context> context;
 
-    public InventoryUpdatePresenter(IUpdateInventory.IUupdateInventoryView view, Context context) {
+    public InventoryUpdatePresenter(IUpdateInventory.IUupdateInventoryView view, IUpdateInventory.IUpdateInventoryService service) {
         this.view = view;
         this.model = new InventoryModel();
-        this.service = InventoryUpdateService.getInstance();
-        this.context = new WeakReference<>(context);
+        this.service = service;
     }
 
     @Override
@@ -46,52 +40,26 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             @Override
             public void run() {
                 try {
-                    ((Activity)context.get()).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.showProgressIndicator();
-                        }
-                    });
+                    view.showProgressIndicator();
                     TextInputLayout[] arrTexts = new TextInputLayout[5];
                     arrTexts[0] = editText_productTitle;
                     arrTexts[1] = txt_product_description;
                     arrTexts[2] = txt_product_Price;
                     arrTexts[3] = txt_product_Stocks;
                     arrTexts[4] = txt_product_category;
-
                     if (model.validateProductOnUpdate(arrTexts, upload_picture, product_id) != null) {
                         service.updateProductToDB(model.validateProductOnUpdate(arrTexts, upload_picture, product_id));
-                        ((Activity)context.get()).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.showCheckAnimation();
-                                view.displayStatusMessage("Successfully Updated Product!", v);
-                                view.hideProgressIndicator();
-                            }
-                        });
+                        view.showCheckAnimation();
+                        view.displayStatusMessage("Successfully Updated Product!", v);
+                        view.hideProgressIndicator();
                     }
 
                 } catch (final ClassNotFoundException e) {
-                    ((Activity)context.get()).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.displayStatusMessage(e.getMessage(), v);
-                        }
-                    });
+                    view.displayStatusMessage(e.getMessage(), v);
                 } catch (final PacketTooBigException e) {
-                    ((Activity)context.get()).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.displayStatusMessage(e.getMessage(), v);
-                        }
-                    });
+                    view.displayStatusMessage(e.getMessage(), v);
                 } catch (final SQLException e) {
-                    ((Activity)context.get()).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.displayStatusMessage(e.getMessage(), v);
-                        }
-                    });
+                    view.displayStatusMessage(e.getMessage(), v);
                 }
             }
         });
@@ -110,65 +78,37 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 final TextInputLayout[] arrTextInputLayouts = new TextInputLayout[5];
                 arrTextInputLayouts[0] = product_name;
                 arrTextInputLayouts[1] = product_description;
                 arrTextInputLayouts[2] = product_price;
                 arrTextInputLayouts[3] = product_stocks;
                 arrTextInputLayouts[4] = product_category;
-
-                ((Activity)context.get()).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.showProgressIndicator();
-                        final InventoryModel modelFinal = model.validateProductOnAdd(arrTextInputLayouts, inputStream);
-                        if (modelFinal != null) {
-                            Thread thread1 = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        service.addNewProduct(modelFinal);
-                                        ((Activity)context.get()).runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                view.showCheckAnimation();
-                                                view.displayStatusMessage("Successfully creating product!", v);
-                                                view.hideProgressIndicator();
-                                            }
-                                        });
-                                    } catch (final PacketTooBigException e) {
-                                        ((Activity)context.get()).runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                view.displayStatusMessage(e.getMessage(), v);
-                                                view.hideProgressIndicator();
-                                            }
-                                        });
-                                    } catch (ClassNotFoundException | SQLException e) {
-                                        ((Activity)context.get()).runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                view.displayStatusMessage(e.getMessage(), v);
-                                                view.hideProgressIndicator();
-                                            }
-                                        });
-                                    }
-                                }
-                            });
-                            thread1.start();
-                        } else {
-                            ((Activity)context.get()).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    view.displayStatusMessage("Error creating product!", v);
-                                    view.hideProgressIndicator();
-                                }
-                            });
+                view.showProgressIndicator();
+                final InventoryModel modelFinal = model.validateProductOnAdd(arrTextInputLayouts, inputStream);
+                if (modelFinal != null) {
+                    Thread thread1 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                service.addNewProduct(modelFinal);
+                                view.showCheckAnimation();
+                                view.displayStatusMessage("Successfully creating product!", v);
+                                view.hideProgressIndicator();
+                            } catch (final PacketTooBigException e) {
+                                view.displayStatusMessage(e.getMessage(), v);
+                                view.hideProgressIndicator();
+                            } catch (ClassNotFoundException | SQLException e) {
+                                view.displayStatusMessage(e.getMessage(), v);
+                                view.hideProgressIndicator();
+                            }
                         }
-                    }
-                });
-
+                    });
+                    thread1.start();
+                } else {
+                    view.displayStatusMessage("Error creating product!", v);
+                    view.hideProgressIndicator();
+                }
             }
         });
         thread.start();

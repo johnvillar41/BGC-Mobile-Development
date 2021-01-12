@@ -1,24 +1,21 @@
 package emp.project.softwareengineerproject.Presenter.InventoryPresenter;
 
-import android.app.Activity;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
-import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventoryService;
 
-public class InventoryPresenter extends Activity implements IInvetory.IinventoryPresenter {
+public class InventoryPresenter implements IInvetory.IinventoryPresenter {
     private IInvetory.IinventoryView view;
     private InventoryModel model;
     private IInvetory.IInventoryService service;
 
-    public InventoryPresenter(IInvetory.IinventoryView view) {
+    public InventoryPresenter(IInvetory.IinventoryView view, IInvetory.IInventoryService service) {
         this.view = view;
         this.model = new InventoryModel();
-        this.service = InventoryService.getInstance(this.model);
+        this.service = service;
     }
 
     @Override
@@ -26,13 +23,8 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.showProgressBarRecyclers();
-                    }
-                });
-                final List<InventoryModel> productlistDb[] = new ArrayList[3];
+                view.showProgressBarRecyclers();
+                final List<InventoryModel>[] productlistDb = new ArrayList[3];
                 List<String> productList = new ArrayList<>();
                 try {
                     productlistDb[0] = service.getProductFromDB()[0];
@@ -47,17 +39,10 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
                     e.printStackTrace();
                 }
                 final List<String> finalProductList = productList;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.displayRecyclerView(productlistDb);
-                        view.displayCategory(finalProductList);
-                        view.hideProgressBarReyclers();
-                    }
-                });
-
+                view.displayRecyclerView(productlistDb);
+                view.displayCategory(finalProductList);
+                view.hideProgressBarReyclers();
             }
-
         });
         thread.start();
         thread.interrupt();
@@ -89,31 +74,18 @@ public class InventoryPresenter extends Activity implements IInvetory.Iinventory
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.displayProgressBarRecycler_Others();
-                    }
-                });
+                view.displayProgressBarRecycler_Others();
                 try {
                     final List<InventoryModel> categrized_items = service.getCategorizedItemsFromDB(selectedItem);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.displayRecyclerViewFromCategory(categrized_items);
-                        }
-                    });
+                    view.displayRecyclerViewFromCategory(categrized_items);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.hideProgressBarRecycler_Others();
-                    }
-                });
+
+                view.hideProgressBarRecycler_Others();
+
             }
         });
         thread.start();

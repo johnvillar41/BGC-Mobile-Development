@@ -50,6 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventoryUpdateService;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryUpdatePresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -83,7 +84,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void initViews() {
-        presenter = new InventoryUpdatePresenter(this, this);
+        presenter = new InventoryUpdatePresenter(this, InventoryUpdateService.getInstance());
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -212,14 +213,19 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void displayStatusMessage(String message, View v) {
-        Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
-        snack.getView().setBackgroundColor(Color.parseColor("#f9b207"));
-        View view = snack.getView();
-        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-        tv.setTextColor(ContextCompat.getColor(InventoryUpdateView.this, R.color.black));
-        tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
-        tv.setGravity(Gravity.CENTER);
-        snack.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
+                snack.getView().setBackgroundColor(Color.parseColor("#f9b207"));
+                View view = snack.getView();
+                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+                tv.setTextColor(ContextCompat.getColor(InventoryUpdateView.this, R.color.black));
+                tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
+                tv.setGravity(Gravity.CENTER);
+                snack.show();
+            }
+        });
     }
 
     @Override
@@ -231,7 +237,12 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void showProgressIndicator() {
-        progressIndicator.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.show();
+            }
+        });
     }
 
     @Override
@@ -242,26 +253,31 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void showCheckAnimation() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.custom_popup_check, null);
-        dialogBuilder.setView(dialogView);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(InventoryUpdateView.this);
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.custom_popup_check, null);
+                dialogBuilder.setView(dialogView);
 
-        AnimatedVectorDrawableCompat avd;
-        AnimatedVectorDrawable avd2;
-        ImageView imageView_done = dialogView.findViewById(R.id.done_check);
-        Drawable drawable = imageView_done.getDrawable();
-        if (drawable instanceof AnimatedVectorDrawableCompat) {
-            avd = (AnimatedVectorDrawableCompat) drawable;
-            avd.start();
-        } else if (drawable instanceof AnimatedVectorDrawable) {
-            avd2 = (AnimatedVectorDrawable) drawable;
-            avd2.start();
-        }
+                AnimatedVectorDrawableCompat avd;
+                AnimatedVectorDrawable avd2;
+                ImageView imageView_done = dialogView.findViewById(R.id.done_check);
+                Drawable drawable = imageView_done.getDrawable();
+                if (drawable instanceof AnimatedVectorDrawableCompat) {
+                    avd = (AnimatedVectorDrawableCompat) drawable;
+                    avd.start();
+                } else if (drawable instanceof AnimatedVectorDrawable) {
+                    avd2 = (AnimatedVectorDrawable) drawable;
+                    avd2.start();
+                }
 
-        final AlertDialog dialog = dialogBuilder.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.show();
+                final AlertDialog dialog = dialogBuilder.create();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
     }
 
     @Override

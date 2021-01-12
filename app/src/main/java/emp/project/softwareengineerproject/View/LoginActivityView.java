@@ -28,6 +28,7 @@ import java.util.Objects;
 
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.ILogin;
+import emp.project.softwareengineerproject.Model.Database.Services.LoginService;
 import emp.project.softwareengineerproject.NetworkChecker;
 import emp.project.softwareengineerproject.Presenter.LoginPresenter;
 import emp.project.softwareengineerproject.R;
@@ -52,6 +53,7 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
         initViews();
+
     }
 
     @Override
@@ -61,7 +63,7 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
         } catch (NullPointerException ignored) {
         }
 
-        presenter = new LoginPresenter(this, this);
+        presenter = new LoginPresenter(this, LoginService.getInstance());
         btn_login = findViewById(R.id.btn_login);
         txt_username = findViewById(R.id.textField_username);
         txt_password = findViewById(R.id.textField_password);
@@ -89,53 +91,80 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
     @Override
     public void onSuccess(String message, View v) {
         //hides keyboard
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
-        View view = snack.getView();
-        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-        tv.setTextColor(ContextCompat.getColor(LoginActivityView.this, android.R.color.holo_orange_dark));
-        tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check, 0, 0, 0);
-        tv.setGravity(Gravity.CENTER);
-        snack.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) LoginActivityView.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
+                View view = snack.getView();
+                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+                tv.setTextColor(ContextCompat.getColor(LoginActivityView.this, android.R.color.holo_orange_dark));
+                tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check, 0, 0, 0);
+                tv.setGravity(Gravity.CENTER);
+                snack.show();
+                USERNAME_VALUE = txt_username.getEditText().getText().toString();
+            }
+        });
 
-        USERNAME_VALUE = txt_username.getEditText().getText().toString();
     }
 
     @Override
     public void onError(String message, View v) {
         //hides keyboard
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
-        View view = snack.getView();
-        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-        tv.setTextColor(ContextCompat.getColor(LoginActivityView.this, android.R.color.holo_orange_dark));
-        tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
-        tv.setGravity(Gravity.CENTER);
-        snack.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) LoginActivityView.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
+                View view = snack.getView();
+                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+                tv.setTextColor(ContextCompat.getColor(LoginActivityView.this, android.R.color.holo_orange_dark));
+                tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
+                tv.setGravity(Gravity.CENTER);
+                snack.show();
+            }
+        });
+
     }
 
     @Override
     public void goToMainPage() {
-        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString(USERNAME_PREFS, txt_username.getEditText().getText().toString());
-        editor.putString(MyPREFERENCES_NAME, LoginPresenter.USER_REAL_NAME);
-        editor.apply();
-        Intent intent = new Intent(this, MainMenuActivityView.class);
-        startActivity(intent);
-        finish();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(USERNAME_PREFS, txt_username.getEditText().getText().toString());
+                editor.putString(MyPREFERENCES_NAME, LoginPresenter.USER_REAL_NAME);
+                editor.apply();
+                Intent intent = new Intent(LoginActivityView.this, MainMenuActivityView.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     @Override
     public void displayProgressBar() {
-        progressIndicator.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.show();
+            }
+        });
     }
 
     @Override
     public void hideProgressBar() {
-        progressIndicator.hide();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.hide();
+            }
+        });
     }
 
     @Override
@@ -152,7 +181,12 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
     }
 
     private void displayNoNetworkPrompt() {
-        NetworkChecker networkChecker = new NetworkChecker(this);
-        networkChecker.displayNoNetworkConnection();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                NetworkChecker networkChecker = new NetworkChecker(LoginActivityView.this);
+                networkChecker.displayNoNetworkConnection();
+            }
+        });
     }
 }

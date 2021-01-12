@@ -109,11 +109,14 @@ public class UserModel {
         VALIDITY validity = null;
         if (model.getUser_username().isEmpty()) {
             validity = VALIDITY.EMPTY_USERNAME;
-        } else if (model.getUser_password().isEmpty()) {
+        }
+        if (model.getUser_password().isEmpty()) {
             validity = VALIDITY.EMPTY_PASSWORD;
-        } else if (model.getUser_username().isEmpty() && model.getUser_password().isEmpty()) {
+        }
+        if (model.getUser_username().isEmpty() && model.getUser_password().isEmpty()) {
             validity = VALIDITY.EMPTY_BOTH;
-        } else {
+        }
+        if(!model.getUser_username().isEmpty() && !model.getUser_password().isEmpty()){
             validity = VALIDITY.VALID_LOGIN;
         }
         return validity;

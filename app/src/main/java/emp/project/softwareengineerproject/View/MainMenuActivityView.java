@@ -78,7 +78,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
          */
         sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE);
 
-        presenter = new MainMenuPresenter(this);
+        presenter = new MainMenuPresenter(this, MainMenuService.getInstance());
         Animation atg = AnimationUtils.loadAnimation(this, R.anim.atg);
 
         txt_name = findViewById(R.id.txt_name);
@@ -132,19 +132,17 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
             this.finish();
         }
     }
+
     @Override
     public void goToLoginScreen(View v) {
-        /**
-         * Removes Shared Preference values
-         */
         sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
 
-        Intent intent = new Intent(this, LoginActivityView.class);
+        Intent intent = new Intent(MainMenuActivityView.this, LoginActivityView.class);
         startActivity(intent);
-        this.finish();
+        MainMenuActivityView.this.finish();
         Snackbar.make(v, "Logging out of session!", Snackbar.LENGTH_SHORT).show();
     }
 
@@ -180,8 +178,13 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
 
     @Override
     public void displayUsername() {
-        txt_name.setText(sharedPreferences.getString(LoginActivityView.MyPREFERENCES_NAME, null));
-        GET_PREFERENCES_REALNAME = txt_name.getText().toString();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_name.setText(sharedPreferences.getString(LoginActivityView.MyPREFERENCES_NAME, null));
+                GET_PREFERENCES_REALNAME = txt_name.getText().toString();
+            }
+        });
     }
 
     @Override
@@ -192,24 +195,34 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
 
     @Override
     public void displayNumberOfNotifs(String numberOfNotifs) {
-        txt_number_notifs.setText(numberOfNotifs);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_number_notifs.setText(numberOfNotifs);
+            }
+        });
     }
 
     @Override
     public void displayProfileImage(Blob profile) {
-        Blob b = profile;
-        final int[] blobLength = new int[1];
-        try {
-            blobLength[0] = (int) b.length();
-            byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
-            Glide.with(this)
-                    .asBitmap()
-                    .load(blobAsBytes)
-                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
-                    .into(image_profile);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Blob b = profile;
+                final int[] blobLength = new int[1];
+                try {
+                    blobLength[0] = (int) b.length();
+                    byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
+                    Glide.with(MainMenuActivityView.this)
+                            .asBitmap()
+                            .load(blobAsBytes)
+                            .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                            .into(image_profile);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 

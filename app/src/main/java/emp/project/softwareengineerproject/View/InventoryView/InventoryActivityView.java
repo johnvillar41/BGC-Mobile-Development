@@ -28,6 +28,7 @@ import java.util.List;
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
+import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventoryService;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -66,7 +67,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
 
-        presenter = new InventoryPresenter(this);
+        presenter = new InventoryPresenter(this, InventoryService.getInstance(new InventoryModel()));
 
         progressBar_greenHouse = findViewById(R.id.progress_bar_greenhouse);
         progressBar_hydroponics = findViewById(R.id.progress_bar_hydroponics);
@@ -109,50 +110,56 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     public void displayRecyclerView(final List<InventoryModel>[] productList) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final LinearLayoutManager layoutManagerGreenhouse
+                        = new LinearLayoutManager(InventoryActivityView.this, LinearLayoutManager.HORIZONTAL, false);
+                final LinearLayoutManager layoutManagerHydroponics
+                        = new LinearLayoutManager(InventoryActivityView.this, LinearLayoutManager.HORIZONTAL, false);
+                final LinearLayoutManager layoutManagerOthers
+                        = new LinearLayoutManager(InventoryActivityView.this, LinearLayoutManager.HORIZONTAL, false);
 
-        final LinearLayoutManager layoutManagerGreenhouse
-                = new LinearLayoutManager(InventoryActivityView.this, LinearLayoutManager.HORIZONTAL, false);
-        final LinearLayoutManager layoutManagerHydroponics
-                = new LinearLayoutManager(InventoryActivityView.this, LinearLayoutManager.HORIZONTAL, false);
-        final LinearLayoutManager layoutManagerOthers
-                = new LinearLayoutManager(InventoryActivityView.this, LinearLayoutManager.HORIZONTAL, false);
-
-        final InventoryRecyclerView adapterGreenhouse = new InventoryRecyclerView(
-                InventoryActivityView.this, productList[0]);
-        final InventoryRecyclerView adapterHydroponics = new InventoryRecyclerView(
-                InventoryActivityView.this, productList[1]);
-        final InventoryRecyclerView adapterOthers = new InventoryRecyclerView(
-                InventoryActivityView.this, productList[2]);
+                final InventoryRecyclerView adapterGreenhouse = new InventoryRecyclerView(
+                        InventoryActivityView.this, productList[0]);
+                final InventoryRecyclerView adapterHydroponics = new InventoryRecyclerView(
+                        InventoryActivityView.this, productList[1]);
+                final InventoryRecyclerView adapterOthers = new InventoryRecyclerView(
+                        InventoryActivityView.this, productList[2]);
 
 
-        recyclerView_GreenHouse.setLayoutManager(layoutManagerGreenhouse);
-        recyclerView_GreenHouse.setAdapter(adapterGreenhouse);
-        recyclerView_GreenHouse.scheduleLayoutAnimation();
-        progressBar_greenHouse.setVisibility(View.INVISIBLE);
-        if (adapterGreenhouse.getItemCount() == 0) {
-            animationView_Greenhouse.setVisibility(LottieAnimationView.VISIBLE);
-        } else {
-            animationView_Greenhouse.setVisibility(LottieAnimationView.GONE);
-        }
+                recyclerView_GreenHouse.setLayoutManager(layoutManagerGreenhouse);
+                recyclerView_GreenHouse.setAdapter(adapterGreenhouse);
+                recyclerView_GreenHouse.scheduleLayoutAnimation();
+                progressBar_greenHouse.setVisibility(View.INVISIBLE);
+                if (adapterGreenhouse.getItemCount() == 0) {
+                    animationView_Greenhouse.setVisibility(LottieAnimationView.VISIBLE);
+                } else {
+                    animationView_Greenhouse.setVisibility(LottieAnimationView.GONE);
+                }
 
-        recyclerView_Hydroponics.setLayoutManager(layoutManagerHydroponics);
-        recyclerView_Hydroponics.setAdapter(adapterHydroponics);
-        recyclerView_Hydroponics.scheduleLayoutAnimation();
-        progressBar_hydroponics.setVisibility(View.INVISIBLE);
-        if (adapterHydroponics.getItemCount() == 0) {
-            animationView_Hydroponics.setVisibility(LottieAnimationView.VISIBLE);
-        } else {
-            animationView_Hydroponics.setVisibility(LottieAnimationView.GONE);
-        }
-        recyclerView_others.setLayoutManager(layoutManagerOthers);
-        recyclerView_others.setAdapter(adapterOthers);
-        recyclerView_others.scheduleLayoutAnimation();
-        progressBar_others.setVisibility(View.INVISIBLE);
-        if (adapterOthers.getItemCount() == 0) {
-            animationView_Others.setVisibility(LottieAnimationView.VISIBLE);
-        } else {
-            animationView_Others.setVisibility(LottieAnimationView.GONE);
-        }
+                recyclerView_Hydroponics.setLayoutManager(layoutManagerHydroponics);
+                recyclerView_Hydroponics.setAdapter(adapterHydroponics);
+                recyclerView_Hydroponics.scheduleLayoutAnimation();
+                progressBar_hydroponics.setVisibility(View.INVISIBLE);
+                if (adapterHydroponics.getItemCount() == 0) {
+                    animationView_Hydroponics.setVisibility(LottieAnimationView.VISIBLE);
+                } else {
+                    animationView_Hydroponics.setVisibility(LottieAnimationView.GONE);
+                }
+                recyclerView_others.setLayoutManager(layoutManagerOthers);
+                recyclerView_others.setAdapter(adapterOthers);
+                recyclerView_others.scheduleLayoutAnimation();
+                progressBar_others.setVisibility(View.INVISIBLE);
+                if (adapterOthers.getItemCount() == 0) {
+                    animationView_Others.setVisibility(LottieAnimationView.VISIBLE);
+                } else {
+                    animationView_Others.setVisibility(LottieAnimationView.GONE);
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -185,16 +192,26 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     public void showProgressBarRecyclers() {
-        progressBar_greenHouse.setVisibility(View.VISIBLE);
-        progressBar_hydroponics.setVisibility(View.VISIBLE);
-        progressBar_others.setVisibility(View.VISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar_greenHouse.setVisibility(View.VISIBLE);
+                progressBar_hydroponics.setVisibility(View.VISIBLE);
+                progressBar_others.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void hideProgressBarReyclers() {
-        progressBar_greenHouse.setVisibility(View.INVISIBLE);
-        progressBar_hydroponics.setVisibility(View.INVISIBLE);
-        progressBar_others.setVisibility(View.INVISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar_greenHouse.setVisibility(View.INVISIBLE);
+                progressBar_hydroponics.setVisibility(View.INVISIBLE);
+                progressBar_others.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
@@ -218,55 +235,77 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     public void displayCategory(final List<String> categories) {
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
-        spinner_category.setAdapter(adapter);
-        spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                final String selectedItem = spinner_category.getSelectedItem().toString();
-                try {
-                    presenter.onItemSpinnerSelected(selectedItem);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
+            public void run() {
+                final ArrayAdapter<String> adapter = new ArrayAdapter<>(InventoryActivityView.this, android.R.layout.simple_spinner_dropdown_item, categories);
+                spinner_category.setAdapter(adapter);
+                spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        final String selectedItem = spinner_category.getSelectedItem().toString();
+                        try {
+                            presenter.onItemSpinnerSelected(selectedItem);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
 
+                    }
+                });
             }
         });
+
     }
 
 
     @Override
     public void displayRecyclerViewFromCategory(final List<InventoryModel> list) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final LinearLayoutManager linearLayoutManager
+                        = new LinearLayoutManager(InventoryActivityView.this, LinearLayoutManager.HORIZONTAL, false);
+                final InventoryRecyclerView adapter = new InventoryRecyclerView(
+                        InventoryActivityView.this, list);
 
-        final LinearLayoutManager linearLayoutManager
-                = new LinearLayoutManager(InventoryActivityView.this, LinearLayoutManager.HORIZONTAL, false);
-        final InventoryRecyclerView adapter = new InventoryRecyclerView(
-                InventoryActivityView.this, list);
+                recyclerView_others.setLayoutManager(linearLayoutManager);
+                recyclerView_others.setAdapter(adapter);
+                progressBar_others.setVisibility(View.INVISIBLE);
+                if (adapter.getItemCount() == 0) {
+                    animationView_Others.setVisibility(View.VISIBLE);
+                } else {
+                    animationView_Others.setVisibility(View.GONE);
+                }
+            }
+        });
 
-        recyclerView_others.setLayoutManager(linearLayoutManager);
-        recyclerView_others.setAdapter(adapter);
-        progressBar_others.setVisibility(View.INVISIBLE);
-        if (adapter.getItemCount() == 0) {
-            animationView_Others.setVisibility(View.VISIBLE);
-        } else {
-            animationView_Others.setVisibility(View.GONE);
-        }
+
     }
 
     @Override
     public void displayProgressBarRecycler_Others() {
-        progressBar_others.setVisibility(View.VISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar_others.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void hideProgressBarRecycler_Others() {
-        progressBar_others.setVisibility(View.INVISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar_others.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
 

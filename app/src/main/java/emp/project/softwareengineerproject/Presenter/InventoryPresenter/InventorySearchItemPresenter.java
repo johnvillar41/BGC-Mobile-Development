@@ -1,23 +1,20 @@
 package emp.project.softwareengineerproject.Presenter.InventoryPresenter;
 
-import android.app.Activity;
-
 import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.Inventory.ISearchInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
-import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventorySearchItemService;
 
-public class InventorySearchItemPresenter extends Activity implements ISearchInventory.ISearchInventoryPresenter {
+public class InventorySearchItemPresenter implements ISearchInventory.ISearchInventoryPresenter {
     private ISearchInventory.ISearchInventoryView view;
     private InventoryModel model;
     private ISearchInventory.ISearchInventoryService service;
 
-    public InventorySearchItemPresenter(ISearchInventory.ISearchInventoryView view) {
+    public InventorySearchItemPresenter(ISearchInventory.ISearchInventoryView view, ISearchInventory.ISearchInventoryService service) {
         this.view = view;
         this.model = new InventoryModel();
-        this.service = InventorySearchItemService.getInstance(this.model);
+        this.service = service;
     }
 
     @Override
@@ -25,12 +22,8 @@ public class InventorySearchItemPresenter extends Activity implements ISearchInv
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.displayProgressLoader();
-                    }
-                });
+                view.displayProgressLoader();
+
                 List<InventoryModel> searchedlist = null;
                 try {
                     searchedlist = service.getSearchedProductFromDB(product_name);
@@ -38,13 +31,10 @@ public class InventorySearchItemPresenter extends Activity implements ISearchInv
                     e.printStackTrace();
                 }
                 final List<InventoryModel> finalSearchedlist = searchedlist;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.displayRecyclerView(finalSearchedlist);
-                        view.hideProgressLoader();
-                    }
-                });
+
+                view.displayRecyclerView(finalSearchedlist);
+                view.hideProgressLoader();
+
             }
         });
         thread.start();
