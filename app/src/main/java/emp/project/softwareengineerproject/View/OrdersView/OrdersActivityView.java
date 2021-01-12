@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.View.OrdersView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import java.util.List;
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
+import emp.project.softwareengineerproject.Model.Database.Services.OrdersService;
 import emp.project.softwareengineerproject.Presenter.OrdersPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -45,7 +47,7 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
 
     @Override
     public void initViews() {
-        presenter = new OrdersPresenter(this, this);
+        presenter = new OrdersPresenter(this, OrdersService.getInstance(new OrdersModel()));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,28 +69,43 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
 
     @Override
     public void displayProgressIndicator() {
-        progressIndicator.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.show();
+            }
+        });
     }
 
     @Override
     public void hideProgressIndicator() {
-        progressIndicator.hide();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.hide();
+            }
+        });
     }
 
     @Override
     public void displayRecyclerView(List<OrdersModel> orderList) {
-        LinearLayoutManager linearLayoutManager
-                = new LinearLayoutManager(OrdersActivityView.this, LinearLayoutManager.VERTICAL, false);
-        OrdersRecyclerView adapter = new OrdersRecyclerView(
-                orderList, OrdersActivityView.this,OrdersActivityView.this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.scheduleLayoutAnimation();
-        if (adapter.getItemCount() == 0) {
-            animationView_NoResult.setVisibility(View.VISIBLE);
-        } else {
-            animationView_NoResult.setVisibility(View.GONE);
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                LinearLayoutManager linearLayoutManager
+                        = new LinearLayoutManager(OrdersActivityView.this, LinearLayoutManager.VERTICAL, false);
+                OrdersRecyclerView adapter = new OrdersRecyclerView(
+                        orderList, OrdersActivityView.this,OrdersActivityView.this);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(adapter);
+                recyclerView.scheduleLayoutAnimation();
+                if (adapter.getItemCount() == 0) {
+                    animationView_NoResult.setVisibility(View.VISIBLE);
+                } else {
+                    animationView_NoResult.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override
@@ -112,6 +129,7 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         boolean clicked = false;

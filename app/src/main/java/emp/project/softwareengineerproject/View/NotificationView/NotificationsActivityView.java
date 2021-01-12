@@ -31,6 +31,7 @@ import java.util.List;
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.INotification;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
+import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 import emp.project.softwareengineerproject.Presenter.NotificationPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -56,7 +57,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
 
     @Override
     public void initViews() throws SQLException, ClassNotFoundException {
-        presenter = new NotificationPresenter(this, this);
+        presenter = new NotificationPresenter(this, NotificationService.getInstance(new NotificationModel()));
         recyclerView = findViewById(R.id.recyclerView_notification);
         animationView_Noresult = findViewById(R.id.animationView_noResult);
         progressIndicator = findViewById(R.id.progressBar_Notifications);
@@ -67,25 +68,30 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
 
-        presenter.getNotificationList();
+        presenter.loadNotificationList();
     }
 
     @Override
     public void displayNotificationRecyclerView(final List<NotificationModel> list_notifs) {
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(NotificationsActivityView.this, LinearLayoutManager.VERTICAL, false);
-        NotificationRecyclerView adapter = new NotificationRecyclerView(
-                NotificationsActivityView.this, list_notifs);
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.scheduleLayoutAnimation();
-        if (adapter.getItemCount() == 0) {
-            animationView_Noresult.setVisibility(View.VISIBLE);
-        } else {
-            animationView_Noresult.setVisibility(View.GONE);
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                LinearLayoutManager layoutManager
+                        = new LinearLayoutManager(NotificationsActivityView.this, LinearLayoutManager.VERTICAL, false);
+                NotificationRecyclerView adapter = new NotificationRecyclerView(
+                        NotificationsActivityView.this, list_notifs);
+                layoutManager.setReverseLayout(true);
+                layoutManager.setStackFromEnd(true);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+                recyclerView.scheduleLayoutAnimation();
+                if (adapter.getItemCount() == 0) {
+                    animationView_Noresult.setVisibility(View.VISIBLE);
+                } else {
+                    animationView_Noresult.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override
@@ -104,40 +110,54 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
 
     @Override
     public void showDatePicker() {
-        //set actions
-        DatePickerDialog datePicker;
-        final Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-        datePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+        runOnUiThread(new Runnable() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-                calendar.set(year, month, dayOfMonth);
-                String dateString = sdf.format(calendar.getTime());
-                Toast.makeText(NotificationsActivityView.this, dateString, Toast.LENGTH_LONG).show();
+            public void run() {
+                DatePickerDialog datePicker;
+                final Calendar calendar = Calendar.getInstance();
+                final int year = calendar.get(Calendar.YEAR);
+                final int month = calendar.get(Calendar.MONTH);
+                final int day = calendar.get(Calendar.DAY_OF_MONTH);
+                datePicker = new DatePickerDialog(NotificationsActivityView.this, new DatePickerDialog.OnDateSetListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                        calendar.set(year, month, dayOfMonth);
+                        String dateString = sdf.format(calendar.getTime());
+                        Toast.makeText(NotificationsActivityView.this, dateString, Toast.LENGTH_LONG).show();
 
-                // Set search on notifications
-                try {
-                    presenter.onSearchNotificationYesClicked(dateString);
-                } catch (SQLException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
+                        // Set search on notifications
+                        try {
+                            presenter.onSearchNotificationYesClicked(dateString);
+                        } catch (SQLException | ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, year, month, day);
+                datePicker.show();
             }
-        }, year, month, day);
-        datePicker.show();
+        });
     }
 
     @Override
     public void displayProgressIndicator() {
-        progressIndicator.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.show();
+            }
+        });
     }
 
     @Override
     public void hideProgressIndicator() {
-        progressIndicator.hide();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.hide();
+            }
+        });
     }
 
     @Override

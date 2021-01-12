@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.View.OrdersView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -38,7 +39,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
         this.list = list;
         this.context = context;
         this.activity = activity;
-        this.presenter = new OrdersPresenter(activity, activity);
+        this.presenter = new OrdersPresenter(activity, OrdersService.getInstance(new OrdersModel()));
     }
 
     @Override
@@ -66,7 +67,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                 PopupMenu popup = new PopupMenu(context, holder.imageView_menu);
                 popup.inflate(R.menu.menu_orders);
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
+                    @SuppressLint("NonConstantResourceId")
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {

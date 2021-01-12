@@ -64,7 +64,6 @@ public class OrdersService implements IOrders.IOrdersService {
         return list;
     }
 
-    @Override
     public List<OrdersModel> getCustomerSpecificOrders(String order_id) throws ClassNotFoundException, SQLException {
         strictMode();
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);

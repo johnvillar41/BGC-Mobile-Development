@@ -1,12 +1,9 @@
 package emp.project.softwareengineerproject.Presenter;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import java.lang.ref.WeakReference;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,20 +11,17 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.INotification;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
-import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 
 public class NotificationPresenter implements INotification.INotificationPresenter {
 
     private INotification.INotificationView view;
     private INotification.INotificationService service;
     private NotificationModel model;
-    private WeakReference<Context> context;
 
-    public NotificationPresenter(INotification.INotificationView view, Context context) {
+    public NotificationPresenter(INotification.INotificationView view, INotification.INotificationService service) {
         this.view = view;
         this.model = new NotificationModel();
-        this.service = NotificationService.getInstance(this.model);
-        this.context = new WeakReference<>(context);
+        this.service = service;
     }
 
 
@@ -39,7 +33,7 @@ public class NotificationPresenter implements INotification.INotificationPresent
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void getNotificationList() {
+    public void loadNotificationList() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -54,15 +48,11 @@ public class NotificationPresenter implements INotification.INotificationPresent
                     e.printStackTrace();
                 }
                 final List<NotificationModel> finalNotifsList = notifsList;
-                ((Activity)context.get()).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.displayProgressIndicator();
-                        view.displayNotificationRecyclerView(finalNotifsList);
-                        view.hideProgressIndicator();
-                    }
-                });
+                view.displayProgressIndicator();
+                view.displayNotificationRecyclerView(finalNotifsList);
+                view.hideProgressIndicator();
             }
+
         });
         thread.start();
 
@@ -73,26 +63,20 @@ public class NotificationPresenter implements INotification.INotificationPresent
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ((Activity)context.get()).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.displayProgressIndicator();
-                        try {
-                            view.displayNotificationRecyclerView(service.fetchNotifsFromDB(date));
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                        view.hideProgressIndicator();
-                    }
-                });
+                view.displayProgressIndicator();
+                try {
+                    view.displayNotificationRecyclerView(service.fetchNotifsFromDB(date));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                view.hideProgressIndicator();
             }
         });
         thread.start();
 
     }
-
 
 
 }

@@ -62,8 +62,6 @@ public interface IOrders {
          */
         List<OrdersModel> getOrdersFromDB(String status) throws ClassNotFoundException, SQLException;
 
-        List<OrdersModel>getCustomerSpecificOrders(String order_id) throws ClassNotFoundException, SQLException;
-
         /**
          * Updates the order in the database
          */

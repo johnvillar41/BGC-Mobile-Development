@@ -44,7 +44,7 @@ public interface INotification {
         /**
          * Gets the list of the notifcations on the date today
          * */
-        void getNotificationList() throws SQLException, ClassNotFoundException;
+        void loadNotificationList() throws SQLException, ClassNotFoundException;
 
         /**
          * Handles the calenday event click then redirects the proper lists to be searched in the service class
