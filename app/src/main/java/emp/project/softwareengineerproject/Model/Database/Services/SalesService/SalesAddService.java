@@ -81,10 +81,6 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
             preparedStatement2.setString(4, notificationModel.getUser_name());
 
             //Update Reports Table
-            /**
-             * TODO:
-             * If month today is 2021 insert new column in table for next year
-             */
             DateTimeFormatter dtf_year = DateTimeFormatter.ofPattern("yyyy");
             LocalDateTime now_year = LocalDateTime.now();
             /**

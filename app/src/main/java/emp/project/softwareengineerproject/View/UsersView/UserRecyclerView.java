@@ -24,6 +24,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
+import emp.project.softwareengineerproject.Model.Database.Services.UsersService.UsersService;
 import emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersPresenter;
 import emp.project.softwareengineerproject.R;
 import emp.project.softwareengineerproject.View.LoginActivityView;
@@ -38,7 +39,7 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyVi
     public UserRecyclerView(List<UserModel> list, Context context, IUsers.IUsersView activity) {
         this.list = list;
         this.context = context;
-        this.presenter = new UsersPresenter(activity, (UsersActivityView) context);
+        this.presenter = new UsersPresenter(activity, UsersService.getInstance(new UserModel()));
     }
 
     @NonNull
@@ -76,7 +77,7 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyVi
                 dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        SharedPreferences mPrefs =context.getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE); //add key
+                        SharedPreferences mPrefs = context.getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE); //add key
                         String username = mPrefs.getString(LoginActivityView.USERNAME_PREFS, null);
                         presenter.onCardViewLongClicked(model.getUser_username(), username);
                         list.remove(position);

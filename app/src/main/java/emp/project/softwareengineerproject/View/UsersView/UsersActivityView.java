@@ -1,5 +1,7 @@
 package emp.project.softwareengineerproject.View.UsersView;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,6 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
+import emp.project.softwareengineerproject.Model.Database.Services.UsersService.UsersService;
 import emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersPresenter;
 import emp.project.softwareengineerproject.R;
 import emp.project.softwareengineerproject.View.LoginActivityView;
@@ -82,32 +85,38 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
 
     @Override
     public void displayPopupUsers(final List<UserModel> userList) {
-        numberOfDialogs++;
-        if (numberOfDialogs == 1) {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(UsersActivityView.this);
-            LayoutInflater inflater = (UsersActivityView.this).getLayoutInflater();
-            View dialogView = inflater.inflate(R.layout.custom_popup_show_users, null);
-            dialogBuilder.setView(dialogView);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                numberOfDialogs++;
+                if (numberOfDialogs == 1) {
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(UsersActivityView.this);
+                    LayoutInflater inflater = (UsersActivityView.this).getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.custom_popup_show_users, null);
+                    dialogBuilder.setView(dialogView);
 
-            RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerView_Users);
-            LinearLayoutManager layoutManager
-                    = new LinearLayoutManager(UsersActivityView.this, LinearLayoutManager.VERTICAL, false);
-            UserRecyclerView adapter = new UserRecyclerView(
-                    userList, UsersActivityView.this, UsersActivityView.this);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter);
+                    RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerView_Users);
+                    LinearLayoutManager layoutManager
+                            = new LinearLayoutManager(UsersActivityView.this, LinearLayoutManager.VERTICAL, false);
+                    UserRecyclerView adapter = new UserRecyclerView(
+                            userList, UsersActivityView.this, UsersActivityView.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
 
-            AlertDialog dialog = dialogBuilder.create();
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            dialog.show();
+                    AlertDialog dialog = dialogBuilder.create();
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    dialog.show();
 
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    numberOfDialogs = 0;
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            numberOfDialogs = 0;
+                        }
+                    });
                 }
-            });
-        }
+            }
+        });
+
     }
 
     @Override
@@ -118,12 +127,22 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
 
     @Override
     public void displayProgressBar() {
-        progressIndicator.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.show();
+            }
+        });
     }
 
     @Override
     public void hideProgressBar() {
-        progressIndicator.hide();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.hide();
+            }
+        });
     }
 
     private static CircleImageView PROFILE_PICTURE;
@@ -143,7 +162,12 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
 
     @Override
     public void displayStatusMessage(String message) {
-        Toast.makeText(UsersActivityView.this, message, Toast.LENGTH_SHORT).show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(UsersActivityView.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -154,7 +178,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
 
     @Override
     public void initViews() throws SQLException, ClassNotFoundException {
-        presenter = new UsersPresenter(this, this);
+        presenter = new UsersPresenter(this, UsersService.getInstance(new UserModel()));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -203,22 +227,27 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
 
     @Override
     public void displayProfile(UserModel model) {
-        try {
-            Blob b = model.getUser_image();
-            int blobLength;
-            blobLength = (int) b.length();
-            byte[] blobAsBytes = b.getBytes(1, blobLength);
-            Glide.with(this)
-                    .load(blobAsBytes)
-                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
-                    .into(PROFILE_PICTURE);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        txt_user_id.getEditText().setText(String.valueOf(model.getUser_id()));
-        txt_username.getEditText().setText(model.getUser_username());
-        txt_password.getEditText().setText(model.getUser_password());
-        txt_real_name.getEditText().setText(model.getUser_full_name());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Blob b = model.getUser_image();
+                    int blobLength;
+                    blobLength = (int) b.length();
+                    byte[] blobAsBytes = b.getBytes(1, blobLength);
+                    Glide.with(UsersActivityView.this)
+                            .load(blobAsBytes)
+                            .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                            .into(PROFILE_PICTURE);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                txt_user_id.getEditText().setText(String.valueOf(model.getUser_id()));
+                txt_username.getEditText().setText(model.getUser_username());
+                txt_password.getEditText().setText(model.getUser_password());
+                txt_real_name.getEditText().setText(model.getUser_full_name());
+            }
+        });
     }
 
     @Override
@@ -242,6 +271,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         return isEnabled;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -254,12 +284,19 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
                 break;
             }
             case R.id.action_editfav: {
+                SharedPreferences sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
                 presenter.onEditAccountButtonClicked(
                         txt_user_id.getEditText().getText().toString(),
                         txt_username.getEditText().getText().toString(),
                         txt_password.getEditText().getText().toString(),
                         txt_real_name.getEditText().getText().toString(),
                         FILE_INPUT_STREAM);
+                finish();
+                Intent intent = new Intent(this, LoginActivityView.class);
+                startActivity(intent);
                 break;
             }
         }

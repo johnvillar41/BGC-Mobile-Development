@@ -32,6 +32,7 @@ import java.util.List;
 import emp.project.softwareengineerproject.Interface.IReports;
 import emp.project.softwareengineerproject.Model.Bean.ReportsModel;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
+import emp.project.softwareengineerproject.Model.Database.Services.ReportsService;
 import emp.project.softwareengineerproject.Presenter.ReportsPresenter;
 import emp.project.softwareengineerproject.R;
 import emp.project.softwareengineerproject.View.LoginActivityView;
@@ -65,7 +66,7 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
 
     @Override
     public void initViews() throws SQLException, ClassNotFoundException {
-        presenter = new ReportsPresenter(this, this);
+        presenter = new ReportsPresenter(this, ReportsService.getInstance(new ReportsModel()));
 
         progressIndicator = findViewById(R.id.progressBar_Reports);
         progressIndicator.hide();
@@ -92,101 +93,152 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
 
     @Override
     public void displayAdministratorList(List<String> adminList) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, adminList);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                presenter.onSpinnerItemClicked(spinner.getSelectedItem().toString());
-            }
+            public void run() {
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(ReportsActivityView.this, android.R.layout.simple_spinner_dropdown_item, adminList);
+                spinner.setAdapter(adapter);
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        presenter.onSpinnerItemClicked(spinner.getSelectedItem().toString());
+                    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
 
+                    }
+                });
             }
         });
     }
 
     @Override
     public void displayProgressIndicator() {
-        progressIndicator.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.show();
+            }
+        });
     }
 
     @Override
     public void hideProgressIndicator() {
-        progressIndicator.hide();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.hide();
+            }
+        });
     }
 
     @Override
     public void displayProgressCircle() {
-        progressBar.setVisibility(View.VISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void hideProgressCircle() {
-        progressBar.setVisibility(View.INVISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
     public void displayProgressCircle_Users() {
-        progressBar_Users.setVisibility(View.VISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar_Users.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void hideProgressCircle_Users() {
-        progressBar_Users.setVisibility(View.INVISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar_Users.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
 
     @Override
     public void displayTotals(String total, String average, String ave_Monthly) {
-        textView_Total.setText(total);
-        textView_Average.setText(average);
-        textView_Average_Monthly.setText(ave_Monthly);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView_Total.setText(total);
+                textView_Average.setText(average);
+                textView_Average_Monthly.setText(ave_Monthly);
+            }
+        });
     }
 
     @Override
     public void displayChart(ReportsModel monthValue, String username) {
-        ArrayList<Entry> yValues = new ArrayList<>();
-        yValues.add(new Entry(1, Float.parseFloat(monthValue.getSales_month_1())));
-        yValues.add(new Entry(2, Float.parseFloat(monthValue.getSales_month_2())));
-        yValues.add(new Entry(3, Float.parseFloat(monthValue.getSales_month_3())));
-        yValues.add(new Entry(4, Float.parseFloat(monthValue.getSales_month_4())));
-        yValues.add(new Entry(5, Float.parseFloat(monthValue.getSales_month_5())));
-        yValues.add(new Entry(6, Float.parseFloat(monthValue.getSales_month_6())));
-        yValues.add(new Entry(7, Float.parseFloat(monthValue.getSales_month_7())));
-        yValues.add(new Entry(8, Float.parseFloat(monthValue.getSales_month_8())));
-        yValues.add(new Entry(9, Float.parseFloat(monthValue.getSales_month_9())));
-        yValues.add(new Entry(10, Float.parseFloat(monthValue.getSales_month_10())));
-        yValues.add(new Entry(11, Float.parseFloat(monthValue.getSales_month_11())));
-        yValues.add(new Entry(12, Float.parseFloat(monthValue.getSales_month_12())));
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Entry> yValues = new ArrayList<>();
+                yValues.add(new Entry(1, Float.parseFloat(monthValue.getSales_month_1())));
+                yValues.add(new Entry(2, Float.parseFloat(monthValue.getSales_month_2())));
+                yValues.add(new Entry(3, Float.parseFloat(monthValue.getSales_month_3())));
+                yValues.add(new Entry(4, Float.parseFloat(monthValue.getSales_month_4())));
+                yValues.add(new Entry(5, Float.parseFloat(monthValue.getSales_month_5())));
+                yValues.add(new Entry(6, Float.parseFloat(monthValue.getSales_month_6())));
+                yValues.add(new Entry(7, Float.parseFloat(monthValue.getSales_month_7())));
+                yValues.add(new Entry(8, Float.parseFloat(monthValue.getSales_month_8())));
+                yValues.add(new Entry(9, Float.parseFloat(monthValue.getSales_month_9())));
+                yValues.add(new Entry(10, Float.parseFloat(monthValue.getSales_month_10())));
+                yValues.add(new Entry(11, Float.parseFloat(monthValue.getSales_month_11())));
+                yValues.add(new Entry(12, Float.parseFloat(monthValue.getSales_month_12())));
 
 
-        LineDataSet set1 = new LineDataSet(yValues, "Data set for: " + username);
-        set1.setFillAlpha(110);
-        set1.setColor(Color.RED);
-        set1.setLineWidth(3f);
-        set1.setValueTextSize(10f);
+                LineDataSet set1 = new LineDataSet(yValues, "Data set for: " + username);
+                set1.setFillAlpha(110);
+                set1.setColor(Color.RED);
+                set1.setLineWidth(3f);
+                set1.setValueTextSize(10f);
 
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
+                ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+                dataSets.add(set1);
 
-        LineData data = new LineData(dataSets);
-        lineChart.setData(data);
+                LineData data = new LineData(dataSets);
+                lineChart.setData(data);
 
-        lineChart.notifyDataSetChanged();
-        lineChart.invalidate();
+                lineChart.notifyDataSetChanged();
+                lineChart.invalidate();
+            }
+        });
+
     }
 
     @Override
     public void displayRecyclerView(List<UserModel> sortedUserList) {
-        LinearLayoutManager linearLayoutManager
-                = new LinearLayoutManager(ReportsActivityView.this, LinearLayoutManager.VERTICAL, false);
-        ReportsRecyclerView adapter = new ReportsRecyclerView(
-                sortedUserList, this);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                LinearLayoutManager linearLayoutManager
+                        = new LinearLayoutManager(ReportsActivityView.this, LinearLayoutManager.VERTICAL, false);
+                ReportsRecyclerView adapter = new ReportsRecyclerView(
+                        sortedUserList, ReportsActivityView.this);
 
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(adapter);
+            }
+        });
     }
 
     @Override
