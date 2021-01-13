@@ -19,6 +19,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
     public static final String SUCCESS_MESSAGE = "Login Successfull!";
     private static final String NO_INTERNET = "No Internet Connection!";//TODO: Add internet
     private static final String USER_NOT_FOUND = "User not found!";
+
     public LoginPresenter(ILogin.ILoginView view, ILogin.ILoginService service) {
         this.view = view;
         this.model = new UserModel();

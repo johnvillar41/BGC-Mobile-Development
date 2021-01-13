@@ -25,6 +25,7 @@ import java.text.DecimalFormat;
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.ISales.ISales;
+import emp.project.softwareengineerproject.Model.Database.Services.SalesService.SalesService;
 import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -70,7 +71,7 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
 
-        presenter = new SalesPresenter(this, SalesActivityView.this);
+        presenter = new SalesPresenter(this, SalesService.getInstance());
 
         presenter.onLoadPage();
 
@@ -116,10 +117,15 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
 
     @Override
     public void displayTotalBalance(String totalBalance) {
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        decimalFormat.setGroupingUsed(true);
-        decimalFormat.setGroupingSize(3);
-        txtBalance.setText(decimalFormat.format(Integer.parseInt(totalBalance)));
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                decimalFormat.setGroupingUsed(true);
+                decimalFormat.setGroupingSize(3);
+                txtBalance.setText(decimalFormat.format(Integer.parseInt(totalBalance)));
+            }
+        });
     }
 
     @Override
@@ -136,12 +142,22 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
 
     @Override
     public void displayProgressIndicator() {
-        progressIndicator.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.show();
+            }
+        });
     }
 
     @Override
     public void hideProgressIndicator() {
-        progressIndicator.hide();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.hide();
+            }
+        });
     }
 
     @Override

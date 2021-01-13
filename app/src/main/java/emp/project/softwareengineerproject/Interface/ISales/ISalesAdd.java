@@ -26,7 +26,7 @@ public interface ISalesAdd {
          * Displays the product in a recyclerView in the activity
          * @param list a list of all the products in the database
          */
-        void displayProductRecyclerView(List<InventoryModel> list);
+        void displayProducts(List<InventoryModel> list);
 
         /**
          * Displays a check animation whether a transaction is successfull
@@ -73,7 +73,7 @@ public interface ISalesAdd {
          * Updates the number of products in the SalesActivity each time a transaction is triggered
          * so that it can update the number of products present on the activity
          */
-        void directProductList() throws SQLException, ClassNotFoundException;
+        void loadProductList() throws SQLException, ClassNotFoundException;
 
         /**
          * Handles the confirm button click event in the cartView and redirects all of the products

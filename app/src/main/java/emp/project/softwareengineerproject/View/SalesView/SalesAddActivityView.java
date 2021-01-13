@@ -40,6 +40,7 @@ import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.SalesModel;
+import emp.project.softwareengineerproject.Model.Database.Services.SalesService.SalesAddService;
 import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesAddPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -80,8 +81,8 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         progressIndicator = findViewById(R.id.progressBar_AddSales);
         animationView_Noresult = findViewById(R.id.animationView_noResult);
 
-        presenter = new SalesAddPresenter(this, this);
-        presenter.directProductList();
+        presenter = new SalesAddPresenter(this, SalesAddService.getInstance());
+        presenter.loadProductList();
         floatingActionButton_Cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,7 +136,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
                 @Override
                 public void onDismiss(DialogInterface dialog) {
                     try {
-                        presenter.directProductList();
+                        presenter.loadProductList();
                         SalesModel.cartList.clear();
                         numberOfDialogsOpen = 0;
                     } catch (SQLException e) {
@@ -158,56 +159,71 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
     }
 
     @Override
-    public void displayProductRecyclerView(List<InventoryModel> list) {
-        LinearLayoutManager linearLayoutManager
-                = new LinearLayoutManager(SalesAddActivityView.this, LinearLayoutManager.VERTICAL, false);
-        SalesAddRecyclerView adapter = new SalesAddRecyclerView(
-                list, SalesAddActivityView.this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.scheduleLayoutAnimation();
-        if (adapter.getItemCount() == 0){
-            animationView_Noresult.setVisibility(View.VISIBLE);
-        } else {
-            animationView_Noresult.setVisibility(View.GONE);
-        }
+    public void displayProducts(List<InventoryModel> list) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                LinearLayoutManager linearLayoutManager
+                        = new LinearLayoutManager(SalesAddActivityView.this, LinearLayoutManager.VERTICAL, false);
+                SalesAddRecyclerView adapter = new SalesAddRecyclerView(
+                        list, SalesAddActivityView.this);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(adapter);
+                recyclerView.scheduleLayoutAnimation();
+                if (adapter.getItemCount() == 0){
+                    animationView_Noresult.setVisibility(View.VISIBLE);
+                } else {
+                    animationView_Noresult.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void displaySuccessfullPrompt() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.custom_popup_check, null);
-        dialogBuilder.setView(dialogView);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SalesAddActivityView.this);
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.custom_popup_check, null);
+                dialogBuilder.setView(dialogView);
 
-        AnimatedVectorDrawableCompat avd;
-        AnimatedVectorDrawable avd2;
-        ImageView imageView_done = dialogView.findViewById(R.id.done_check);
-        Drawable drawable = imageView_done.getDrawable();
-        if (drawable instanceof AnimatedVectorDrawableCompat) {
-            avd = (AnimatedVectorDrawableCompat) drawable;
-            avd.start();
-        } else if (drawable instanceof AnimatedVectorDrawable) {
-            avd2 = (AnimatedVectorDrawable) drawable;
-            avd2.start();
-        }
+                AnimatedVectorDrawableCompat avd;
+                AnimatedVectorDrawable avd2;
+                ImageView imageView_done = dialogView.findViewById(R.id.done_check);
+                Drawable drawable = imageView_done.getDrawable();
+                if (drawable instanceof AnimatedVectorDrawableCompat) {
+                    avd = (AnimatedVectorDrawableCompat) drawable;
+                    avd.start();
+                } else if (drawable instanceof AnimatedVectorDrawable) {
+                    avd2 = (AnimatedVectorDrawable) drawable;
+                    avd2.start();
+                }
 
-        final AlertDialog dialog = dialogBuilder.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.show();
+                final AlertDialog dialog = dialogBuilder.create();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
     }
 
     @Override
     public void displayOnErrorMessage(String message, View v) {
-        Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
-        snack.getView().setBackgroundColor(Color.parseColor("#f9b207"));
-        View view = snack.getView();
-        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-        tv.setTextColor(ContextCompat.getColor(SalesAddActivityView.this, R.color.black));
-        tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
-        tv.setGravity(Gravity.CENTER);
-        snack.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
+                snack.getView().setBackgroundColor(Color.parseColor("#f9b207"));
+                View view = snack.getView();
+                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+                tv.setTextColor(ContextCompat.getColor(SalesAddActivityView.this, R.color.black));
+                tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
+                tv.setGravity(Gravity.CENTER);
+                snack.show();
+            }
+        });
     }
 
     @Override
@@ -225,22 +241,42 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
 
     @Override
     public void displayProgressIndicator() {
-        progressIndicator.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.show();
+            }
+        });
     }
 
     @Override
     public void hideProgressIndicator() {
-        progressIndicator.hide();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.hide();
+            }
+        });
     }
 
     @Override
     public void displayProgressIndicatorCart() {
-        progressIndicatorCart.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicatorCart.show();
+            }
+        });
     }
 
     @Override
     public void hideProgressIndicatorCart() {
-        progressIndicatorCart.hide();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicatorCart.hide();
+            }
+        });
     }
 
     @Override
