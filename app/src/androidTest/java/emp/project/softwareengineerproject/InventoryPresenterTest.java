@@ -16,6 +16,7 @@ public class InventoryPresenterTest {
     private static final String MOCK_ID = "666";
     private static final String MOCK_NAME = "sample";
     private static final String MOCK_CATEGORY = "Mock Category";
+
     IInvetory.IinventoryView view;
     IInvetory.IInventoryService service;
     IInvetory.IinventoryPresenter presenter;
@@ -88,6 +89,7 @@ public class InventoryPresenterTest {
     }
 
     static class MockInventoryView implements IInvetory.IinventoryView {
+
         boolean goToProductPage;
         boolean isProductDisplaying;
         boolean isProgressBarRecyclersShowing;
@@ -97,6 +99,7 @@ public class InventoryPresenterTest {
         boolean areCategorizedItemsDisplayed;
         boolean isProgressBarOthersShowing;
         boolean isProgressBarOthersHidden;
+
         @Override
         public void initViews() {
 

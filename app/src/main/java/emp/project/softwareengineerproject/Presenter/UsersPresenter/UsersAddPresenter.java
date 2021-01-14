@@ -19,6 +19,8 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
     public static final String EMPTY_PASSWORD_2_FIELD = "Empty Password 2 Field!";
     public static final String EMPTY_REAL_NAME_FIELD = "Empty Name Field!";
     public static final String EMPTY_PROFILE_PIC_FIELD = "Empty Picture!";
+    private static final String PASSWORD_NOT_EQUAL = "Password field not equal!";
+
     public UsersAddPresenter(IUsersAdd.IUsersAddView view, IUsersAdd.IUsersAddService service) {
         this.view = view;
         this.model = new UserModel();
@@ -39,9 +41,9 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                 arrTexts[1] = password1;
                 arrTexts[2] = password2;
                 arrTexts[3] = realName;
-                List<UserModel.VALIDITY> newModel = model.validateAddUsers(arrTexts, profileImage);
-                for (int i = 0; i < newModel.size(); i++) {
-                    switch (newModel.get(i)) {
+                List<UserModel.VALIDITY> validity = model.validateAddUsers(arrTexts, profileImage);
+                for (int i = 0; i < validity.size(); i++) {
+                    switch (validity.get(i)) {
                         /**
                          * This is for the Invalid Cases
                          */
@@ -69,10 +71,16 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                             view.displayStatusMessage(EMPTY_PROFILE_PIC_FIELD, v);
                             view.hideProgressIndicator();
                             break;
+                        case PASSWORD_NOT_EQUAL:
+                            view.displayStatusMessage(PASSWORD_NOT_EQUAL,v);
+                            view.setErrorPassword(PASSWORD_NOT_EQUAL);
+                            view.setErrorPassword_2(PASSWORD_NOT_EQUAL);
+                            view.hideProgressIndicator();
+                            break;
 
-                        /**
-                         * This is for the Valid Cases
-                         */
+                            /**
+                             * This is for the Valid Cases
+                             */
                         case VALID_USERNAME:
                             view.removeErrorUsername();
                             view.hideProgressIndicator();
@@ -96,9 +104,9 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
 
                         case VALID_REGISTER:
                             view.displayCheckAnimation();
-                            UserModel model = new UserModel(username, password1, realName, profileImage);
+                            UserModel newModel = new UserModel(username, password1, realName, profileImage);
                             try {
-                                service.insertNewUserToDB(model);
+                                service.insertNewUserToDB(newModel);
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             } catch (SQLException throwables) {

@@ -53,7 +53,9 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
         initViews();
-
+        if (!checkNetwork()) {
+            displayNoNetworkPrompt();
+        }
     }
 
     @Override
@@ -75,10 +77,14 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
             @Override
             public void onClick(View v) {
                 try {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    presenter.onLoginButtonClicked(Objects.requireNonNull(txt_username.getEditText()).getText().toString(),
-                            Objects.requireNonNull(txt_password.getEditText()).getText().toString(), v);
+                    if(checkNetwork()) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                        presenter.onLoginButtonClicked(Objects.requireNonNull(txt_username.getEditText()).getText().toString(),
+                                Objects.requireNonNull(txt_password.getEditText()).getText().toString(), v);
+                    } else {
+                        displayNoNetworkPrompt();
+                    }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -180,7 +186,12 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
         super.onDestroy();
     }
 
-    private void displayNoNetworkPrompt() {
+    public boolean checkNetwork() {
+        NetworkChecker networkChecker = new NetworkChecker(this);
+        return networkChecker.isNetworkAvailable();
+    }
+
+    public void displayNoNetworkPrompt() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

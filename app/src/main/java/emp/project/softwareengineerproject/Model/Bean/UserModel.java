@@ -70,62 +70,68 @@ public class UserModel {
 
     public List<VALIDITY> validateAddUsers(String[] arrTexts, InputStream profileImage) {
         boolean isValid = false;
+        boolean isImageValid = false;
+        boolean isFieldsValid = false;
         List<VALIDITY> validity = new ArrayList<>();
         for (int i = 0; i < arrTexts.length; i++) {
             if (arrTexts[i].isEmpty()) {
                 switch (i) {
                     case 0:
                         validity.add(VALIDITY.EMPTY_USERNAME);
+                        isFieldsValid = false;
                         break;
                     case 1:
                         validity.add(VALIDITY.EMPTY_PASSWORD);
+                        isFieldsValid = false;
                         break;
                     case 2:
                         validity.add(VALIDITY.EMPTY_PASSWORD_2);
+                        isFieldsValid = false;
                         break;
                     case 3:
                         validity.add(VALIDITY.EMPTY_REAL_NAME);
+                        isFieldsValid = false;
                         break;
                 }
             } else {
                 switch (i) {
                     case 0:
                         validity.add(VALIDITY.VALID_USERNAME);
+                        isFieldsValid = true;
                         break;
                     case 1:
                         validity.add(VALIDITY.VALID_PASSWORD);
+                        isFieldsValid = true;
                         break;
                     case 2:
                         validity.add(VALIDITY.VALID_PASSWORD_2);
+                        isFieldsValid = true;
                         break;
                     case 3:
                         validity.add(VALIDITY.VALID_REAL_NAME);
+                        isFieldsValid = true;
                         break;
                 }
             }
         }
 
-        if (arrTexts[1].isEmpty() && arrTexts[2].isEmpty()) {
-           validity.add(VALIDITY.EMPTY_BOTH);
-        } else {
-            isValid = true;
-        }
-
         if (arrTexts[1].equals(arrTexts[2]) && !arrTexts[1].isEmpty() && !arrTexts[2].isEmpty()) {
             validity.add(VALIDITY.EQUAL_PASSWORD);
             isValid = true;
+        } else {
+            validity.add(VALIDITY.PASSWORD_NOT_EQUAL);
+            isValid = false;
         }
 
         if (profileImage == null) {
             validity.add(VALIDITY.EMPTY_PROFILE_PICTURE);
         } else {
-            isValid = true;
+            isImageValid = true;
         }
 
-        if (isValid) {
+        if (isValid && isImageValid && isFieldsValid) {
             validity.add(VALIDITY.VALID_REGISTER);
         }
-
 
         return validity;
     }
@@ -156,6 +162,7 @@ public class UserModel {
         EMPTY_PROFILE_PICTURE,
 
         EQUAL_PASSWORD,
+        PASSWORD_NOT_EQUAL,
 
         VALID_USERNAME,
         VALID_PASSWORD,
