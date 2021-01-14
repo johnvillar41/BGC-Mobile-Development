@@ -260,6 +260,9 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
             txt_real_name.setEnabled(false);
             PROFILE_PICTURE.setEnabled(false);
             isEnabled = false;
+            finish();
+            Intent intent = new Intent(this, LoginActivityView.class);
+            startActivity(intent);
         } else {
             displayStatusMessage("You can now Edit your credentials! To save your credentials click on edit icon again!");
             txt_username.setEnabled(true);
@@ -294,9 +297,6 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
                         txt_password.getEditText().getText().toString(),
                         txt_real_name.getEditText().getText().toString(),
                         FILE_INPUT_STREAM);
-                finish();
-                Intent intent = new Intent(this, LoginActivityView.class);
-                startActivity(intent);
                 break;
             }
         }

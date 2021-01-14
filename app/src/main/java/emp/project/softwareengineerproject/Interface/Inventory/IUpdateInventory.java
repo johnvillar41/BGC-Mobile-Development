@@ -21,13 +21,14 @@ public interface IUpdateInventory {
 
         /**
          * This function has 2 separate works
-         *      1)This will be changed from an add activity to an update activity depending on its
-         *      product id, if the product id is null or a -1 meaning it has no selected product,
-         *      thus this will prompt the display as an add activity.
+         * 1)This will be changed from an add activity to an update activity depending on its
+         * product id, if the product id is null or a -1 meaning it has no selected product,
+         * thus this will prompt the display as an add activity.
+         * <p>
+         * 2)This will be changed from an update activity to an add activity depending on its
+         * product id, if the product id is not null meaning it has a selected product,
+         * thus this will prompt the display as an update activity.
          *
-         *      2)This will be changed from an update activity to an add activity depending on its
-         *      product id, if the product id is not null meaning it has a selected product,
-         *      thus this will prompt the display as an update activity.
          * @param model this will be used to set the hints on each EditText if update has been
          *              triggered
          */
@@ -40,8 +41,9 @@ public interface IUpdateInventory {
 
         /**
          * Displays the error messages in a snackbar that the user has encountered
+         *
          * @param message the message of the status message that will be displayed
-         * @param v this will pass a view so that the snackbar can be displayed
+         * @param v       this will pass a view so that the snackbar can be displayed
          */
         void displayStatusMessage(String message, View v);
 
@@ -64,6 +66,26 @@ public interface IUpdateInventory {
          * Displays a check animation when the user has successfully did a transaction
          */
         void showCheckAnimation();
+
+        void setErrorProductName(String errorMessage);
+
+        void setErrorProductDescription(String errorMessage);
+
+        void setErrorProductPrice(String errorMessage);
+        
+        void setErrorProductStocks(String errorMessage);
+        
+        void setErrorProductCategory(String errorMessage);
+
+        void removeErrorProductName();
+
+        void removeErrorProductDescription();
+
+        void removeErrorProductPrice();
+
+        void removeErrorProductStocks();
+
+        void removeErrorProductCategory();
     }
 
     interface IUpdatePresenter {
@@ -101,12 +123,12 @@ public interface IUpdateInventory {
          * @param v
          * Adds a new product to the database using all these params.
          */
-        void onAddProductButtonClicked(TextInputLayout product_name,
-                                       TextInputLayout product_description,
-                                       TextInputLayout product_price,
-                                       TextInputLayout product_stocks,
+        void onAddProductButtonClicked(String product_name,
+                                       String product_description,
+                                       String product_price,
+                                       String product_stocks,
                                        InputStream inputStream,
-                                       TextInputLayout product_category,
+                                       String product_category,
                                        View v);
 
         /**

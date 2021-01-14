@@ -5,6 +5,8 @@ import com.mysql.jdbc.Blob;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InventoryModel implements Serializable {
     private String product_id, product_name, product_description;
@@ -112,35 +114,89 @@ public class InventoryModel implements Serializable {
                 String.valueOf(textData[4]));
     }
 
-    public InventoryModel validateProductOnAdd(TextInputLayout[] textInputLayouts, InputStream product_picture) {
-        boolean isValid = false;
-
-        for (TextInputLayout txt : textInputLayouts) {
-            if (txt.getEditText().getText().toString().isEmpty()) {
-                txt.setError("Dont leave this empty!");
+    public List<VALIDITY_PRODUCTS> validateProductOnAdd(String[] arrTexts, InputStream product_picture) {
+        List<VALIDITY_PRODUCTS> validity = new ArrayList<>();
+        boolean isProductNameValid = false;
+        boolean isProductDescriptionValid = false;
+        boolean isProductPriceValid = false;
+        boolean isProductStocksValid = false;
+        boolean isProductCategoryValid = false;
+        boolean isProductPictureNull = false;
+        //add more booleans
+        for (int i = 0; i < arrTexts.length; i++) {
+            if (arrTexts[i].isEmpty()) {
+                switch (i) {
+                    case 0:
+                        validity.add(VALIDITY_PRODUCTS.EMPTY_PRODUCT_NAME);
+                        break;
+                    case 1:
+                        validity.add(VALIDITY_PRODUCTS.EMPTY_PRODUCT_DESCRIPTION);
+                        break;
+                    case 2:
+                        validity.add(VALIDITY_PRODUCTS.EMPTY_PRODUCT_PRICE);
+                        break;
+                    case 3:
+                        validity.add(VALIDITY_PRODUCTS.EMPTY_PRODUCT_STOCKS);
+                        break;
+                    case 4:
+                        validity.add(VALIDITY_PRODUCTS.EMPTY_PRODUCT_CATEGORY);
+                        break;
+                }
             } else {
-                txt.setErrorEnabled(false);
+                switch (i) {
+                    case 0:
+                        validity.add(VALIDITY_PRODUCTS.VALID_PRODUCT_NAME);
+                        isProductNameValid = true;
+                        break;
+                    case 1:
+                        validity.add(VALIDITY_PRODUCTS.VALID_PRODUCT_DESCRIPTION);
+                        isProductDescriptionValid = true;
+                        break;
+                    case 2:
+                        validity.add(VALIDITY_PRODUCTS.VALID_PRODUCT_PRICE);
+                        isProductPriceValid = true;
+                        break;
+                    case 3:
+                        validity.add(VALIDITY_PRODUCTS.VALID_PRODUCT_STOCKS);
+                        isProductStocksValid = true;
+                        break;
+                    case 4:
+                        validity.add(VALIDITY_PRODUCTS.VALID_PRODUCT_CATEGORY);
+                        isProductCategoryValid = true;
+                        break;
+                }
             }
         }
 
         if (product_picture != null) {
-            isValid = true;
+            isProductPictureNull = true;
+        } else {
+            validity.add(VALIDITY_PRODUCTS.EMPTY_PRODUCT_IMAGE);
         }
 
-        if (textInputLayouts[0].getError() == null &&
-                textInputLayouts[1].getError() == null &&
-                textInputLayouts[2].getError() == null &&
-                textInputLayouts[3].getError() == null &&
-                isValid) {
-            return new InventoryModel(
-                    textInputLayouts[0].getEditText().getText().toString(),
-                    textInputLayouts[1].getEditText().getText().toString(),
-                    Long.parseLong(textInputLayouts[2].getEditText().getText().toString()),
-                    Integer.parseInt(textInputLayouts[3].getEditText().getText().toString()),
-                    product_picture, textInputLayouts[4].getEditText().getText().toString());
-        } else {
-            return null;
+        if (isProductNameValid && isProductDescriptionValid && isProductPriceValid && isProductStocksValid && isProductCategoryValid && isProductPictureNull) {
+            validity.add(VALIDITY_PRODUCTS.VALID_ALL);
         }
+
+        return validity;
+    }
+
+    public enum VALIDITY_PRODUCTS {
+        EMPTY_PRODUCT_NAME,
+        EMPTY_PRODUCT_IMAGE,
+        EMPTY_PRODUCT_DESCRIPTION,
+        EMPTY_PRODUCT_PRICE,
+        EMPTY_PRODUCT_STOCKS,
+        EMPTY_PRODUCT_CATEGORY,
+
+        VALID_PRODUCT_NAME,
+        VALID_PRODUCT_IMAGE,
+        VALID_PRODUCT_DESCRIPTION,
+        VALID_PRODUCT_PRICE,
+        VALID_PRODUCT_STOCKS,
+        VALID_PRODUCT_CATEGORY,
+
+        VALID_ALL;
     }
 
     long newPrice;

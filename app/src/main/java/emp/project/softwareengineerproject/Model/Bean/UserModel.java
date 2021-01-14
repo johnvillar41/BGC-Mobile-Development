@@ -71,45 +71,46 @@ public class UserModel {
     public List<VALIDITY> validateAddUsers(String[] arrTexts, InputStream profileImage) {
         boolean isValid = false;
         boolean isImageValid = false;
-        boolean isFieldsValid = false;
+
+        boolean isFieldsValid_username = false;
+        boolean isFieldsValid_password = false;
+        boolean isFieldsValid_password_2 = false;
+        boolean isFieldsValid_realName = false;
+
         List<VALIDITY> validity = new ArrayList<>();
         for (int i = 0; i < arrTexts.length; i++) {
             if (arrTexts[i].isEmpty()) {
                 switch (i) {
                     case 0:
                         validity.add(VALIDITY.EMPTY_USERNAME);
-                        isFieldsValid = false;
                         break;
                     case 1:
                         validity.add(VALIDITY.EMPTY_PASSWORD);
-                        isFieldsValid = false;
                         break;
                     case 2:
                         validity.add(VALIDITY.EMPTY_PASSWORD_2);
-                        isFieldsValid = false;
                         break;
                     case 3:
                         validity.add(VALIDITY.EMPTY_REAL_NAME);
-                        isFieldsValid = false;
                         break;
                 }
             } else {
                 switch (i) {
                     case 0:
                         validity.add(VALIDITY.VALID_USERNAME);
-                        isFieldsValid = true;
+                        isFieldsValid_username = true;
                         break;
                     case 1:
                         validity.add(VALIDITY.VALID_PASSWORD);
-                        isFieldsValid = true;
+                        isFieldsValid_password = true;
                         break;
                     case 2:
                         validity.add(VALIDITY.VALID_PASSWORD_2);
-                        isFieldsValid = true;
+                        isFieldsValid_password_2 = true;
                         break;
                     case 3:
                         validity.add(VALIDITY.VALID_REAL_NAME);
-                        isFieldsValid = true;
+                        isFieldsValid_realName = true;
                         break;
                 }
             }
@@ -129,7 +130,7 @@ public class UserModel {
             isImageValid = true;
         }
 
-        if (isValid && isImageValid && isFieldsValid) {
+        if (isValid && isImageValid && isFieldsValid_username && isFieldsValid_password && isFieldsValid_password_2 && isFieldsValid_realName) {
             validity.add(VALIDITY.VALID_REGISTER);
         }
 

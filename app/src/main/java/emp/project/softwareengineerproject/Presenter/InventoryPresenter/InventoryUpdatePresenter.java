@@ -7,6 +7,7 @@ import com.mysql.jdbc.PacketTooBigException;
 
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
@@ -67,47 +68,97 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         thread.interrupt();
     }
 
+    private static final String EMPTY_PRODUCT_NAME = "Empty product name!";
+    private static final String EMPTY_PRODUCT_DESCRIPTION = "Empty product description!";
+    private static final String EMPTY_PRODUCT_PRICE = "Empty product price";
+    private static final String EMPTY_PRODUCT_STOCKS = "Empty product stocks";
+    private static final String EMPTY_PRODUCT_CATEGORY = "Empty product category";
+    private static final String EMPTY_PICTURE = "Empty product picture";
+    private static final String SUCCESSFULL_MESSAGE = "Product Added Successfully!";
+
     @Override
-    public void onAddProductButtonClicked(final TextInputLayout product_name,
-                                          final TextInputLayout product_description,
-                                          final TextInputLayout product_price,
-                                          final TextInputLayout product_stocks,
-                                          final InputStream inputStream,
-                                          final TextInputLayout product_category,
-                                          final View v) {
-        final Thread thread = new Thread(new Runnable() {
+    public void onAddProductButtonClicked(String product_name,
+                                          String product_description,
+                                          String product_price,
+                                          String product_stocks,
+                                          InputStream inputStream,
+                                          String product_category,
+                                          View v) {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                final TextInputLayout[] arrTextInputLayouts = new TextInputLayout[5];
-                arrTextInputLayouts[0] = product_name;
-                arrTextInputLayouts[1] = product_description;
-                arrTextInputLayouts[2] = product_price;
-                arrTextInputLayouts[3] = product_stocks;
-                arrTextInputLayouts[4] = product_category;
+                String[] arrTextValues = new String[5];
+                arrTextValues[0] = product_name;
+                arrTextValues[1] = product_description;
+                arrTextValues[2] = product_price;
+                arrTextValues[3] = product_stocks;
+                arrTextValues[4] = product_category;
                 view.showProgressIndicator();
-                final InventoryModel modelFinal = model.validateProductOnAdd(arrTextInputLayouts, inputStream);
-                if (modelFinal != null) {
-                    Thread thread1 = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
+
+                List<InventoryModel.VALIDITY_PRODUCTS> validity_products = model.validateProductOnAdd(arrTextValues, inputStream);
+                for (int i = 0; i < validity_products.size(); i++) {
+                    switch (validity_products.get(i)) {
+                        //Invalid
+                        case EMPTY_PRODUCT_NAME:
+                            view.setErrorProductName(EMPTY_PRODUCT_NAME);
+                            view.hideProgressIndicator();
+                            break;
+                        case EMPTY_PRODUCT_DESCRIPTION:
+                            view.setErrorProductDescription(EMPTY_PRODUCT_DESCRIPTION);
+                            view.hideProgressIndicator();
+                            break;
+                        case EMPTY_PRODUCT_PRICE:
+                            view.setErrorProductPrice(EMPTY_PRODUCT_PRICE);
+                            view.hideProgressIndicator();
+                            break;
+                        case EMPTY_PRODUCT_STOCKS:
+                            view.setErrorProductStocks(EMPTY_PRODUCT_STOCKS);
+                            view.hideProgressIndicator();
+                            break;
+                        case EMPTY_PRODUCT_CATEGORY:
+                            view.setErrorProductCategory(EMPTY_PRODUCT_CATEGORY);
+                            view.hideProgressIndicator();
+                            break;
+                        case EMPTY_PRODUCT_IMAGE:
+                            view.displayStatusMessage(EMPTY_PICTURE, v);
+                            view.hideProgressIndicator();
+                            break;
+
+                        //Valid cases
+                        case VALID_PRODUCT_NAME:
+                            view.removeErrorProductName();
+                            view.hideProgressIndicator();
+                            break;
+                        case VALID_PRODUCT_DESCRIPTION:
+                            view.removeErrorProductDescription();
+                            view.hideProgressIndicator();
+                            break;
+                        case VALID_PRODUCT_PRICE:
+                            view.removeErrorProductPrice();
+                            view.hideProgressIndicator();
+                            break;
+                        case VALID_PRODUCT_STOCKS:
+                            view.removeErrorProductStocks();
+                            view.hideProgressIndicator();
+                            break;
+                        case VALID_PRODUCT_CATEGORY:
+                            view.removeErrorProductCategory();
+                            view.hideProgressIndicator();
+                            break;
+                        case VALID_ALL:
+                            view.displayStatusMessage(SUCCESSFULL_MESSAGE, v);
+                            view.showCheckAnimation();
+                            InventoryModel model = new InventoryModel(product_name, product_description, Long.parseLong(product_price), Integer.parseInt(product_stocks), inputStream, product_category);
                             try {
-                                service.addNewProduct(modelFinal);
-                                view.showCheckAnimation();
-                                view.displayStatusMessage("Successfully creating product!", v);
-                                view.hideProgressIndicator();
-                            } catch (final PacketTooBigException e) {
-                                view.displayStatusMessage(e.getMessage(), v);
-                                view.hideProgressIndicator();
-                            } catch (ClassNotFoundException | SQLException e) {
-                                view.displayStatusMessage(e.getMessage(), v);
-                                view.hideProgressIndicator();
+                                service.addNewProduct(model);
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
                             }
-                        }
-                    });
-                    thread1.start();
-                } else {
-                    view.displayStatusMessage("Error creating product!", v);
-                    view.hideProgressIndicator();
+                            view.hideProgressIndicator();
+                            break;
+                    }
                 }
             }
         });

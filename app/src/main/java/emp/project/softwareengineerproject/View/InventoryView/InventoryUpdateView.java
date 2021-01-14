@@ -164,11 +164,11 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                     @Override
                     public void onClick(View v) {
                         presenter.onAddProductButtonClicked(
-                                editText_productTitle,
-                                txt_product_description,
-                                txt_product_Price,
-                                txt_product_Stocks, FILE_INPUT_STREAM,
-                                txt_product_category, v);
+                                editText_productTitle.getEditText().getText().toString(),
+                                txt_product_description.getEditText().getText().toString(),
+                                txt_product_Price.getEditText().getText().toString(),
+                                txt_product_Stocks.getEditText().getText().toString(), FILE_INPUT_STREAM,
+                                txt_product_category.getEditText().getText().toString(), v);
                     }
                 });
             }
@@ -182,11 +182,11 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 @Override
                 public void onClick(View v) {
                     presenter.onAddProductButtonClicked(
-                            editText_productTitle,
-                            txt_product_description,
-                            txt_product_Price,
-                            txt_product_Stocks, FILE_INPUT_STREAM,
-                            txt_product_category, v);
+                            editText_productTitle.getEditText().getText().toString(),
+                            txt_product_description.getEditText().getText().toString(),
+                            txt_product_Price.getEditText().getText().toString(),
+                            txt_product_Stocks.getEditText().getText().toString(), FILE_INPUT_STREAM,
+                            txt_product_category.getEditText().getText().toString(), v);
                 }
             });
         }
@@ -281,6 +281,106 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 final AlertDialog dialog = dialogBuilder.create();
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 dialog.show();
+            }
+        });
+    }
+
+    @Override
+    public void setErrorProductName(String errorMessage) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                editText_productTitle.setError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void setErrorProductDescription(String errorMessage) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_product_description.setError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void setErrorProductPrice(String errorMessage) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_product_Price.setError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void setErrorProductStocks(String errorMessage) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_product_Stocks.setError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void setErrorProductCategory(String errorMessage) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_product_category.setError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void removeErrorProductName() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                editText_productTitle.setError(null);
+            }
+        });
+    }
+
+    @Override
+    public void removeErrorProductDescription() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_product_description.setError(null);
+            }
+        });
+    }
+
+    @Override
+    public void removeErrorProductPrice() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_product_Price.setError(null);
+            }
+        });
+    }
+
+    @Override
+    public void removeErrorProductStocks() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_product_Stocks.setError(null);
+            }
+        });
+    }
+
+    @Override
+    public void removeErrorProductCategory() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_product_category.setError(null);
             }
         });
     }
