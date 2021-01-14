@@ -247,7 +247,12 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void hideProgressIndicator() {
-        progressIndicator.hide();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.hide();
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

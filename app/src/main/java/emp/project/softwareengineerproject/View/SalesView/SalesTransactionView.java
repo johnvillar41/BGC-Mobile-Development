@@ -24,12 +24,15 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.ProgressIndicator;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesTransactions;
 import emp.project.softwareengineerproject.Model.Bean.SalesModel;
+import emp.project.softwareengineerproject.Model.Database.Services.SalesService.SalesTransactionService;
 import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesTransactionPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -51,7 +54,7 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
 
     @Override
     public void initViews() {
-        presenter = new SalesTransactionPresenter(this, this);
+        presenter = new SalesTransactionPresenter(this, SalesTransactionService.getInstance(new SalesModel()));
         recyclerView = findViewById(R.id.recyclerView_transactions);
         empty_image = findViewById(R.id.animationView_noResult);
         progressIndicator = findViewById(R.id.progressBar_TransactionList);
@@ -62,7 +65,10 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
 
-        presenter.onLoadPageDisplay();
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDateTime now = LocalDateTime.now();
+        presenter.onLoadPageDisplay(dtf.format(now));
     }
 
     @Override
@@ -102,34 +108,29 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
     }
 
     @Override
-    public void displayRecyclerView(final List<SalesModel> transactionList) {
-        Thread thread = new Thread(new Runnable() {
+    public void displayTransactions(final List<SalesModel> transactionList) {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                final LinearLayoutManager layoutManager
+                LinearLayoutManager layoutManager
                         = new LinearLayoutManager(SalesTransactionView.this, LinearLayoutManager.VERTICAL, false);
                 layoutManager.setReverseLayout(true);
                 layoutManager.setStackFromEnd(true);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        SalesTransactionRecyclerView adapter = new SalesTransactionRecyclerView(
-                                transactionList, SalesTransactionView.this,SalesTransactionView.this);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.scheduleLayoutAnimation();
-                        if (adapter.getItemCount() == 0) {
-                            empty_image.setVisibility(View.VISIBLE);
-                        } else {
-                            empty_image.setVisibility(View.GONE);
-                        }
-                    }
-                });
+
+                SalesTransactionRecyclerView adapter = new SalesTransactionRecyclerView(
+                        transactionList, SalesTransactionView.this, SalesTransactionView.this);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+                recyclerView.scheduleLayoutAnimation();
+                if (adapter.getItemCount() == 0) {
+                    empty_image.setVisibility(View.VISIBLE);
+                } else {
+                    empty_image.setVisibility(View.GONE);
+                }
             }
         });
-        thread.start();
-        thread.interrupt();
     }
+
 
     @Override
     protected void onDestroy() {
@@ -146,12 +147,22 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
 
     @Override
     public void displayProgressIndicator() {
-        progressIndicator.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.show();
+            }
+        });
     }
 
     @Override
     public void hideProgressIndicator() {
-        progressIndicator.hide();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.hide();
+            }
+        });
     }
 
 

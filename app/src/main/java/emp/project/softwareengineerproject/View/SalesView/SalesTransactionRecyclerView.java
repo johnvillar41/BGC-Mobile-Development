@@ -21,6 +21,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesTransactions;
 import emp.project.softwareengineerproject.Model.Bean.SalesModel;
+import emp.project.softwareengineerproject.Model.Database.Services.SalesService.SalesTransactionService;
 import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesTransactionPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -35,7 +36,7 @@ public class SalesTransactionRecyclerView extends RecyclerView.Adapter<SalesTran
         this.list = list;
         this.context = context;
         this.activityView = activityView;
-        this.presenter = new SalesTransactionPresenter(this.activityView, (SalesTransactionView) this.context);
+        this.presenter = new SalesTransactionPresenter(this.activityView, SalesTransactionService.getInstance(new SalesModel()));
     }
 
     @NonNull

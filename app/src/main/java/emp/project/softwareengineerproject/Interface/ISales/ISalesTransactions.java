@@ -17,7 +17,7 @@ public interface ISalesTransactions {
          * Displays all the transaction lists in the activity
          * @param transactionList list of the transactions
          */
-        void displayRecyclerView(List<SalesModel>transactionList);
+        void displayTransactions(List<SalesModel>transactionList);
 
         /**
          * Displays Linear Progress Loader everytime the activity is displayed
@@ -33,8 +33,9 @@ public interface ISalesTransactions {
         /**
          * Redirects all the list of notifications for the day and redirects it to be displayed on the
          * recycler view or list
+         * @param date_today
          */
-        void onLoadPageDisplay();
+        void onLoadPageDisplay(String date_today);
 
         /**
          * Handles the calendar icon button click then redirects all the list of of transactions on the date specified

@@ -1,9 +1,9 @@
 package emp.project.softwareengineerproject.Model.Bean;
 
-import com.google.android.material.textfield.TextInputLayout;
-
 import java.io.InputStream;
 import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserModel {
     String user_id;
@@ -68,41 +68,66 @@ public class UserModel {
         return uploadUserImage;
     }
 
-    public UserModel validateAddUsers(TextInputLayout[] arrTexts, InputStream profileImage) {
-        boolean isValid = true;
-        String finalPassword = null;
-        for (TextInputLayout textInputLayout : arrTexts) {
-            if (textInputLayout.getEditText().getText().toString().isEmpty()) {
-                textInputLayout.setError("Do not leave this empty!");
-                isValid = false;
+    public List<VALIDITY> validateAddUsers(String[] arrTexts, InputStream profileImage) {
+        boolean isValid = false;
+        List<VALIDITY> validity = new ArrayList<>();
+        for (int i = 0; i < arrTexts.length; i++) {
+            if (arrTexts[i].isEmpty()) {
+                switch (i) {
+                    case 0:
+                        validity.add(VALIDITY.EMPTY_USERNAME);
+                        break;
+                    case 1:
+                        validity.add(VALIDITY.EMPTY_PASSWORD);
+                        break;
+                    case 2:
+                        validity.add(VALIDITY.EMPTY_PASSWORD_2);
+                        break;
+                    case 3:
+                        validity.add(VALIDITY.EMPTY_REAL_NAME);
+                        break;
+                }
             } else {
-                isValid = true;
-                textInputLayout.setError(null);
+                switch (i) {
+                    case 0:
+                        validity.add(VALIDITY.VALID_USERNAME);
+                        break;
+                    case 1:
+                        validity.add(VALIDITY.VALID_PASSWORD);
+                        break;
+                    case 2:
+                        validity.add(VALIDITY.VALID_PASSWORD_2);
+                        break;
+                    case 3:
+                        validity.add(VALIDITY.VALID_REAL_NAME);
+                        break;
+                }
             }
         }
 
-        if (!arrTexts[1].getEditText().getText().toString().equals(arrTexts[2].getEditText().getText().toString()) || arrTexts[1].getEditText().getText().toString().isEmpty()) {
-            arrTexts[1].setError("Passwords do not match!");
-            arrTexts[2].setError("Passwords do not match!");
-            isValid = false;
+        if (arrTexts[1].isEmpty() && arrTexts[2].isEmpty()) {
+           validity.add(VALIDITY.EMPTY_BOTH);
         } else {
             isValid = true;
-            finalPassword = arrTexts[1].getEditText().getText().toString();
-            arrTexts[1].setError(null);
-            arrTexts[2].setError(null);
+        }
+
+        if (arrTexts[1].equals(arrTexts[2]) && !arrTexts[1].isEmpty() && !arrTexts[2].isEmpty()) {
+            validity.add(VALIDITY.EQUAL_PASSWORD);
+            isValid = true;
         }
 
         if (profileImage == null) {
-            isValid = false;
+            validity.add(VALIDITY.EMPTY_PROFILE_PICTURE);
         } else {
             isValid = true;
         }
 
         if (isValid) {
-            return new UserModel(arrTexts[0].getEditText().getText().toString(), finalPassword, arrTexts[3].getEditText().getText().toString(), profileImage);
-        } else {
-            return null;
+            validity.add(VALIDITY.VALID_REGISTER);
         }
+
+
+        return validity;
     }
 
     public VALIDITY validateCredentials(UserModel model) {
@@ -116,7 +141,7 @@ public class UserModel {
         if (model.getUser_username().isEmpty() && model.getUser_password().isEmpty()) {
             validity = VALIDITY.EMPTY_BOTH;
         }
-        if(!model.getUser_username().isEmpty() && !model.getUser_password().isEmpty()){
+        if (!model.getUser_username().isEmpty() && !model.getUser_password().isEmpty()) {
             validity = VALIDITY.VALID_LOGIN;
         }
         return validity;
@@ -125,7 +150,18 @@ public class UserModel {
     public enum VALIDITY {
         EMPTY_USERNAME,
         EMPTY_PASSWORD,
+        EMPTY_PASSWORD_2,
         EMPTY_BOTH,
-        VALID_LOGIN;
+        EMPTY_REAL_NAME,
+        EMPTY_PROFILE_PICTURE,
+
+        EQUAL_PASSWORD,
+
+        VALID_USERNAME,
+        VALID_PASSWORD,
+        VALID_PASSWORD_2,
+        VALID_REAL_NAME,
+        VALID_LOGIN,
+        VALID_REGISTER;
     }
 }

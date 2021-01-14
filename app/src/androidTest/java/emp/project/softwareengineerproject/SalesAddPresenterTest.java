@@ -160,7 +160,7 @@ public class SalesAddPresenterTest {
     }
 
     static class MockAddSalesService implements ISalesAdd.ISalesAddService {
-        private static List<InventoryModel> MOCK_DATABASE = new ArrayList<>();
+        private List<InventoryModel> MOCK_DATABASE = new ArrayList<>();
         boolean isProductEnough = false;
 
         @Override

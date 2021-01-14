@@ -47,6 +47,7 @@ import java.sql.SQLException;
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsersAdd;
+import emp.project.softwareengineerproject.Model.Database.Services.UsersService.UsersAddService;
 import emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersAddPresenter;
 import emp.project.softwareengineerproject.R;
 
@@ -70,7 +71,7 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
 
     @Override
     public void initViews() {
-        presenter = new UsersAddPresenter(this, this);
+        presenter = new UsersAddPresenter(this, UsersAddService.getInstance());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -92,7 +93,12 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
             @Override
             public void onClick(View v) {
                 try {
-                    presenter.onAddButtonClicked(txt_username, txt_password1, txt_password2, txt_realName, FILE_INPUT_STREAM, v);
+                    presenter.onAddButtonClicked(
+                            txt_username.getEditText().getText().toString(),
+                            txt_password1.getEditText().getText().toString(),
+                            txt_password2.getEditText().getText().toString(),
+                            txt_realName.getEditText().getText().toString(),
+                            FILE_INPUT_STREAM, v);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -109,6 +115,86 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
     }
 
     @Override
+    public void setErrorUserName(String errorMessage) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_username.setError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void setErrorPassword(String errorMessage) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_password1.setError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void setErrorPassword_2(String errorMessage) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_password2.setError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void setErrorRealName(String empty_name) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_realName.setError(empty_name);
+            }
+        });
+    }
+
+    @Override
+    public void removeErrorUsername() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_username.setError(null);
+            }
+        });
+    }
+
+    @Override
+    public void removeErrorPassword() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_password1.setError(null);
+            }
+        });
+    }
+
+    @Override
+    public void removeErrorPassword_2() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_password2.setError(null);
+            }
+        });
+    }
+
+    @Override
+    public void removeErrorRealName() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_realName.setError(null);
+            }
+        });
+    }
+
+    @Override
     public void loadImageFromGallery() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -117,50 +203,70 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
 
     @Override
     public void displayStatusMessage(String message, View v) {
-        Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
-        snack.getView().setBackgroundColor(Color.parseColor("#f9b207"));
-        View view = snack.getView();
-        TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-        tv.setTextColor(ContextCompat.getColor(UsersAddActivityView.this, R.color.black));
-        tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
-        tv.setGravity(Gravity.CENTER);
-        snack.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
+                snack.getView().setBackgroundColor(Color.parseColor("#f9b207"));
+                View view = snack.getView();
+                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+                tv.setTextColor(ContextCompat.getColor(UsersAddActivityView.this, R.color.black));
+                tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
+                tv.setGravity(Gravity.CENTER);
+                snack.show();
+            }
+        });
     }
 
     @Override
     public void displayProgressIndicator() {
-        progressIndicator.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.show();
+            }
+        });
     }
 
     @Override
     public void hideProgressIndicator() {
-        progressIndicator.hide();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressIndicator.hide();
+            }
+        });
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void displayCheckAnimation() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.custom_popup_check, null);
-        dialogBuilder.setView(dialogView);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(UsersAddActivityView.this);
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.custom_popup_check, null);
+                dialogBuilder.setView(dialogView);
 
-        AnimatedVectorDrawableCompat avd;
-        AnimatedVectorDrawable avd2;
-        ImageView imageView_done = dialogView.findViewById(R.id.done_check);
-        Drawable drawable = imageView_done.getDrawable();
-        if (drawable instanceof AnimatedVectorDrawableCompat) {
-            avd = (AnimatedVectorDrawableCompat) drawable;
-            avd.start();
-        } else if (drawable instanceof AnimatedVectorDrawable) {
-            avd2 = (AnimatedVectorDrawable) drawable;
-            avd2.start();
-        }
+                AnimatedVectorDrawableCompat avd;
+                AnimatedVectorDrawable avd2;
+                ImageView imageView_done = dialogView.findViewById(R.id.done_check);
+                Drawable drawable = imageView_done.getDrawable();
+                if (drawable instanceof AnimatedVectorDrawableCompat) {
+                    avd = (AnimatedVectorDrawableCompat) drawable;
+                    avd.start();
+                } else if (drawable instanceof AnimatedVectorDrawable) {
+                    avd2 = (AnimatedVectorDrawable) drawable;
+                    avd2.start();
+                }
 
-        final AlertDialog dialog = dialogBuilder.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.show();
+                final AlertDialog dialog = dialogBuilder.create();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
     }
 
 

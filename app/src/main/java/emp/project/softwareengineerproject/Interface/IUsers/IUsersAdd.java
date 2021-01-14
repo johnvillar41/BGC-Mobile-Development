@@ -2,8 +2,6 @@ package emp.project.softwareengineerproject.Interface.IUsers;
 
 import android.view.View;
 
-import com.google.android.material.textfield.TextInputLayout;
-
 import java.io.InputStream;
 import java.sql.SQLException;
 
@@ -42,6 +40,22 @@ public interface IUsersAdd {
          * Displays the animation of a successfull transaction
          */
         void displayCheckAnimation();
+        
+        void setErrorUserName(String errorMessage);
+
+        void setErrorPassword(String errorMessage);
+
+        void setErrorPassword_2(String s);
+
+        void setErrorRealName(String empty_name);
+
+        void removeErrorUsername();
+
+        void removeErrorPassword();
+
+        void removeErrorPassword_2();
+
+        void removeErrorRealName();
     }
 
     interface IUsersAddPresenter {
@@ -53,9 +67,8 @@ public interface IUsersAdd {
          * @param realName
          * @param profileImage
          * @param v
-         * These params will be redirected to the service class after they are validated
-         * */
-        void onAddButtonClicked(TextInputLayout username, TextInputLayout password1, TextInputLayout password2, TextInputLayout realName, InputStream profileImage,View v) throws SQLException, ClassNotFoundException;
+* These params will be redirected to the service class after they are validated     */
+        void onAddButtonClicked(String username, String password1, String password2, String realName, InputStream profileImage,View v) throws SQLException, ClassNotFoundException;
 
         /**
          * By Clicking on the image this will prompt the display of function loadImageFromGallery();
