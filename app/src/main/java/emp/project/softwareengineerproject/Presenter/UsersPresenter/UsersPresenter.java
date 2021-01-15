@@ -86,8 +86,9 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                 if (!view.makeTextViewsEdittable()) {
                     model = new UserModel(id, username, password, fullname, image_upload);
                     List<UserModel.VALIDITY> validity = model.validateEditCredentials(model);
-                    for(int i=0;i<validity.size();i++) {
+                    for (int i = 0; i < validity.size(); i++) {
                         switch (validity.get(i)) {
+                            //Invalid Cases
                             case EMPTY_USERNAME:
                                 view.displayStatusMessage(EMPTY_USERNAME_FIELD);
                                 view.setErrorOnUsername(EMPTY_USERNAME_FIELD);
@@ -100,6 +101,17 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                                 view.displayStatusMessage(EMPTY_NAME_FIELD);
                                 view.setErrorOnRealName(EMPTY_NAME_FIELD);
                                 break;
+                            //Valid Cases
+                            case VALID_USERNAME:
+                                view.removeErrorOnUsername();
+                                break;
+                            case VALID_PASSWORD:
+                                view.removeErrorOnPassword();
+                                break;
+                            case VALID_REAL_NAME:
+                                view.removeErrorOnRealName();
+                                break;
+
                             case VALID_EDIT:
                                 try {
                                     if (service.updateNewUserCredentials(model)) {

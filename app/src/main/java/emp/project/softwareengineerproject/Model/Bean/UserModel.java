@@ -158,12 +158,18 @@ public class UserModel {
         List<VALIDITY> validity = new ArrayList<>();
         if (model.getUser_username().isEmpty()) {
             validity.add(VALIDITY.EMPTY_USERNAME);
+        } else {
+            validity.add(VALIDITY.VALID_USERNAME);
         }
         if (model.getUser_password().isEmpty()) {
             validity.add(VALIDITY.EMPTY_PASSWORD);
+        } else {
+            validity.add(VALIDITY.VALID_PASSWORD);
         }
         if (model.getUser_full_name().isEmpty()) {
             validity.add(VALIDITY.EMPTY_REAL_NAME);
+        } else {
+            validity.add(VALIDITY.VALID_REAL_NAME);
         }
         if (!model.getUser_username().isEmpty() && !model.getUser_password().isEmpty() && !model.getUser_full_name().isEmpty()) {
             validity.add(VALIDITY.VALID_EDIT);
