@@ -3,6 +3,7 @@ package emp.project.softwareengineerproject.Presenter.UsersPresenter;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
@@ -74,9 +75,9 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
 
     }
 
-    private static final String EMPTY_USERNAME_FIELD = "Empty Username Field!";
-    private static final String EMPTY_PASSWORD_FIELD = "Empty Password Field!";
-    private static final String EMPTY_NAME_FIELD = "Empty Name Field!";
+    public static final String EMPTY_USERNAME_FIELD = "Empty Username Field!";
+    public static final String EMPTY_PASSWORD_FIELD = "Empty Password Field!";
+    public static final String EMPTY_NAME_FIELD = "Empty Name Field!";
 
     @Override
     public void onEditAccountButtonClicked(String id, String username, String password, String fullname, InputStream image_upload) {
@@ -85,9 +86,9 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
             public void run() {
                 if (!view.makeTextViewsEdittable()) {
                     model = new UserModel(id, username, password, fullname, image_upload);
-                    List<UserModel.VALIDITY> validity = model.validateEditCredentials(model);
-                    for (int i = 0; i < validity.size(); i++) {
-                        switch (validity.get(i)) {
+                    Set<UserModel.VALIDITY> validity = model.validateEditCredentials(model);
+                    for (UserModel.VALIDITY set : validity) {
+                        switch (set) {
                             //Invalid Cases
                             case EMPTY_USERNAME:
                                 view.displayStatusMessage(EMPTY_USERNAME_FIELD);
@@ -111,7 +112,6 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                             case VALID_REAL_NAME:
                                 view.removeErrorOnRealName();
                                 break;
-
                             case VALID_EDIT:
                                 try {
                                     if (service.updateNewUserCredentials(model)) {

@@ -2,16 +2,15 @@ package emp.project.softwareengineerproject.Model.Bean;
 
 import java.io.InputStream;
 import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 public class UserModel {
-    String user_id;
-    String user_username;
-    String user_password;
-    String user_full_name;
-    Blob user_image;
-    InputStream uploadUserImage;
+    private String user_id;
+    private String user_username;
+    private String user_password;
+    private String user_full_name;
+    private Blob user_image;
+    private InputStream uploadUserImage;
 
     public UserModel(String user_username, String user_password, String user_full_name, InputStream uploadUserImage) {
         this.user_username = user_username;
@@ -68,7 +67,7 @@ public class UserModel {
         return uploadUserImage;
     }
 
-    public List<VALIDITY> validateAddUsers(String[] arrTexts, InputStream profileImage) {
+    public HashSet<VALIDITY> validateAddUsers(String[] arrTexts, InputStream profileImage) {
         boolean isValid = false;
         boolean isImageValid = false;
 
@@ -77,7 +76,8 @@ public class UserModel {
         boolean isFieldsValid_password_2 = false;
         boolean isFieldsValid_realName = false;
 
-        List<VALIDITY> validity = new ArrayList<>();
+        //First Wave of Validation for empty Strings
+        HashSet<VALIDITY> validity = new HashSet<>();
         for (int i = 0; i < arrTexts.length; i++) {
             if (arrTexts[i].isEmpty()) {
                 switch (i) {
@@ -116,11 +116,15 @@ public class UserModel {
             }
         }
 
+        //Second Wave of Validations
+
         if (arrTexts[1].equals(arrTexts[2]) && !arrTexts[1].isEmpty() && !arrTexts[2].isEmpty()) {
             validity.add(VALIDITY.EQUAL_PASSWORD);
             isValid = true;
         } else {
             validity.add(VALIDITY.PASSWORD_NOT_EQUAL);
+            validity.remove(VALIDITY.VALID_PASSWORD_2);
+            validity.remove(VALIDITY.VALID_PASSWORD);
             isValid = false;
         }
 
@@ -129,6 +133,8 @@ public class UserModel {
         } else {
             isImageValid = true;
         }
+
+        //Final Wave of Validations
 
         if (isValid && isImageValid && isFieldsValid_username && isFieldsValid_password && isFieldsValid_password_2 && isFieldsValid_realName) {
             validity.add(VALIDITY.VALID_REGISTER);
@@ -154,8 +160,8 @@ public class UserModel {
         return validity;
     }
 
-    public List<VALIDITY> validateEditCredentials(UserModel model) {
-        List<VALIDITY> validity = new ArrayList<>();
+    public HashSet<VALIDITY> validateEditCredentials(UserModel model) {
+        HashSet<VALIDITY> validity = new HashSet<>();
         if (model.getUser_username().isEmpty()) {
             validity.add(VALIDITY.EMPTY_USERNAME);
         } else {

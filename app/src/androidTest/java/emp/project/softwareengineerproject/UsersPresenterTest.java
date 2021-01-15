@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,8 +14,11 @@ import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersPresenter;
 
+import static emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersPresenter.EMPTY_NAME_FIELD;
+import static emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersPresenter.EMPTY_PASSWORD_FIELD;
+import static emp.project.softwareengineerproject.Presenter.UsersPresenter.UsersPresenter.EMPTY_USERNAME_FIELD;
+
 public class UsersPresenterTest {
-    private static final String MOCK_ID = "123";
     IUsers.IUsersView view;
     IUsers.IUsersService service;
     IUsers.IUsersPresenter presenter;
@@ -26,12 +30,12 @@ public class UsersPresenterTest {
         presenter = new UsersPresenter(view, service);
     }
 
-    @Test
-    public void testDisplayUserProfile() throws SQLException, ClassNotFoundException, InterruptedException {
-        presenter.onPageDisplayProfile(MOCK_ID);
-        Thread.sleep(1000);
-        Assert.assertTrue(((MockUsersView) view).isProfileDisplayed);
-    }
+    private static final InputStream MOCK_IMAGE = new InputStream() {
+        @Override
+        public int read() throws IOException {
+            return 0;
+        }
+    };
 
     @Test
     public void testDisplayUserPopup() throws InterruptedException {
@@ -41,15 +45,10 @@ public class UsersPresenterTest {
     }
 
     @Test
-    public void testUserUpdate() throws InterruptedException {
-        presenter.onEditAccountButtonClicked(
-                MockUser.MOCK_ID.getVal(),
-                MockUser.MOCK_USERNAME.getVal(),
-                MockUser.MOCK_PASSWORD.getVal(),
-                MockUser.MOCK_FULLNAME.getVal(),
-                null );
+    public void testDisplayUserProfile() throws SQLException, ClassNotFoundException, InterruptedException {
+        presenter.onPageDisplayProfile(MockUser.MOCK_ID.getVal());
         Thread.sleep(1000);
-        Assert.assertTrue(MockUsersService.isUpdated);
+        Assert.assertTrue(((MockUsersView) view).isProfileDisplayed);
     }
 
     @Test
@@ -80,9 +79,87 @@ public class UsersPresenterTest {
     }
 
     @Test
+    public void testUserUpdate() throws InterruptedException {
+        presenter.onEditAccountButtonClicked(
+                MockUser.MOCK_ID.getVal(),
+                MockUser.MOCK_USERNAME.getVal(),
+                MockUser.MOCK_PASSWORD.getVal(),
+                MockUser.MOCK_FULLNAME.getVal(),
+                null);
+        Thread.sleep(1000);
+        Assert.assertTrue(MockUsersService.isUpdated);
+    }
+
+    @Test
     public void testGoToAddPage() {
         presenter.onAddButtonClicked();
-        Assert.assertTrue(((MockUsersView)view).isAddPageDisplayed);
+        Assert.assertTrue(((MockUsersView) view).isAddPageDisplayed);
+    }
+
+    @Test
+    public void testEmptyUsernameErrorMessageDisplay() throws InterruptedException {
+        presenter.onEditAccountButtonClicked(
+                MockUser.MOCK_ID.getVal(),
+                "",
+                MockUser.MOCK_PASSWORD.getVal(),
+                MockUser.MOCK_FULLNAME.getVal(),
+                MOCK_IMAGE
+        );
+        Thread.sleep(1000);
+        Assert.assertTrue(((MockUsersView) view).isErrorMessageDisplayed);
+    }
+
+    @Test
+    public void testEmptyPasswordErrorMessageDisplay() throws InterruptedException {
+        presenter.onEditAccountButtonClicked(
+                MockUser.MOCK_ID.getVal(),
+                MockUser.MOCK_USERNAME.getVal(),
+                "",
+                MockUser.MOCK_FULLNAME.getVal(),
+                MOCK_IMAGE
+        );
+        Thread.sleep(1000);
+        Assert.assertTrue(((MockUsersView) view).isErrorMessageDisplayed);
+    }
+
+    @Test
+    public void testEmptyNameErrorMessageDisplay() throws InterruptedException {
+        presenter.onEditAccountButtonClicked(
+                MockUser.MOCK_ID.getVal(),
+                MockUser.MOCK_USERNAME.getVal(),
+                MockUser.MOCK_PASSWORD.getVal(),
+                "",
+                MOCK_IMAGE
+        );
+        Thread.sleep(1000);
+        Assert.assertTrue(((MockUsersView) view).isErrorMessageDisplayed);
+    }
+
+    @Test
+    public void testRemoveErrorMessageDisplay() throws InterruptedException {
+        presenter.onEditAccountButtonClicked(
+                MockUser.MOCK_ID.getVal(),
+                MockUser.MOCK_USERNAME.getVal(),
+                MockUser.MOCK_PASSWORD.getVal(),
+                MockUser.MOCK_FULLNAME.getVal(),
+                MOCK_IMAGE
+        );
+        Thread.sleep(1000);
+        Assert.assertTrue(((MockUsersView) view).isErrorMessageRemoved);
+    }
+
+    @Test
+    public void shouldPassIfEditIsSuccessfull() throws InterruptedException {
+        presenter.onEditAccountButtonClicked(
+                MockUser.MOCK_ID.getVal(),
+                MockUser.MOCK_USERNAME.getVal(),
+                MockUser.MOCK_PASSWORD.getVal(),
+                MockUser.MOCK_FULLNAME.getVal(),
+                MOCK_IMAGE
+        );
+        Thread.sleep(1000);
+        Assert.assertTrue(((MockUsersView) view).isCredentialsRemoved);
+        Assert.assertTrue(((MockUsersView) view).isActivityDestroyed);
     }
 
     enum MockUser {
@@ -112,6 +189,11 @@ public class UsersPresenterTest {
         boolean isGalleryDisplayed;
         boolean isAddPageDisplayed;
 
+        boolean isErrorMessageDisplayed;
+        boolean isErrorMessageRemoved;
+        boolean isCredentialsRemoved;
+        boolean isActivityDestroyed;
+
         @Override
         public void initViews() {
 
@@ -119,7 +201,7 @@ public class UsersPresenterTest {
 
         @Override
         public void displayProfile(UserModel model) {
-            if (model.getUser_id().equals(MOCK_ID)) {
+            if (model.getUser_id().equals(MockUser.MOCK_ID.getVal())) {
                 isProfileDisplayed = true;
             }
         }
@@ -168,7 +250,48 @@ public class UsersPresenterTest {
 
         @Override
         public void removeUserCredentialsOnSharedPreferences() {
+            isCredentialsRemoved = true;
+        }
 
+        @Override
+        public void finishActivity() {
+            isActivityDestroyed = true;
+        }
+
+        @Override
+        public void setErrorOnUsername(String errorMessage) {
+            if (errorMessage.equals(EMPTY_USERNAME_FIELD)) {
+                isErrorMessageDisplayed = true;
+            }
+        }
+
+        @Override
+        public void setErrorOnPassword(String errorMessage) {
+            if (errorMessage.equals(EMPTY_PASSWORD_FIELD)) {
+                isErrorMessageDisplayed = true;
+            }
+        }
+
+        @Override
+        public void setErrorOnRealName(String errorMessage) {
+            if (errorMessage.equals(EMPTY_NAME_FIELD)) {
+                isErrorMessageDisplayed = true;
+            }
+        }
+
+        @Override
+        public void removeErrorOnUsername() {
+            isErrorMessageRemoved = true;
+        }
+
+        @Override
+        public void removeErrorOnPassword() {
+            isErrorMessageRemoved = true;
+        }
+
+        @Override
+        public void removeErrorOnRealName() {
+            isErrorMessageRemoved = true;
         }
     }
 
@@ -179,7 +302,7 @@ public class UsersPresenterTest {
         @Override
         public UserModel getUserProfileFromDB(String user_id) {
             List<UserModel> mockDatabase = new ArrayList<>();
-            mockDatabase.add(new UserModel(MOCK_ID, null, null, null, (InputStream) null));
+            mockDatabase.add(new UserModel(MockUser.MOCK_ID.getVal(), null, null, null, (InputStream) null));
             mockDatabase.add(new UserModel(null, null, null, null, (InputStream) null));
             mockDatabase.add(new UserModel(null, null, null, null, (InputStream) null));
             for (UserModel model : mockDatabase) {
@@ -193,7 +316,7 @@ public class UsersPresenterTest {
         @Override
         public List<UserModel> getUsersListFromDB() {
             List<UserModel> mockDatabase = new ArrayList<>();
-            mockDatabase.add(new UserModel(MOCK_ID, null, null, null, (InputStream) null));
+            mockDatabase.add(new UserModel(MockUser.MOCK_ID.getVal(), null, null, null, (InputStream) null));
             mockDatabase.add(new UserModel(null, null, null, null, (InputStream) null));
             mockDatabase.add(new UserModel(null, null, null, null, (InputStream) null));
             return mockDatabase;

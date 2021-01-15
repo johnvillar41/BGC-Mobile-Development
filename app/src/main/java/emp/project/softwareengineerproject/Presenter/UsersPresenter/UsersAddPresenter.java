@@ -4,7 +4,7 @@ import android.view.View;
 
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Set;
 
 import emp.project.softwareengineerproject.Interface.IUsers.IUsersAdd;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
@@ -41,9 +41,9 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                 arrTexts[1] = password1;
                 arrTexts[2] = password2;
                 arrTexts[3] = realName;
-                List<UserModel.VALIDITY> validity = model.validateAddUsers(arrTexts, profileImage);
-                for (int i = 0; i < validity.size(); i++) {
-                    switch (validity.get(i)) {
+                Set<UserModel.VALIDITY> validity = model.validateAddUsers(arrTexts, profileImage);
+                for (UserModel.VALIDITY set : validity) {
+                    switch (set) {
                         /**
                          * This is for the Invalid Cases
                          */
@@ -72,15 +72,14 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                             view.hideProgressIndicator();
                             break;
                         case PASSWORD_NOT_EQUAL:
-                            view.displayStatusMessage(PASSWORD_NOT_EQUAL,v);
+                            view.displayStatusMessage(PASSWORD_NOT_EQUAL, v);
                             view.setErrorPassword(PASSWORD_NOT_EQUAL);
                             view.setErrorPassword_2(PASSWORD_NOT_EQUAL);
                             view.hideProgressIndicator();
                             break;
-
-                            /**
-                             * This is for the Valid Cases
-                             */
+                        /**
+                         * This is for the Valid Cases
+                         */
                         case VALID_USERNAME:
                             view.removeErrorUsername();
                             view.hideProgressIndicator();
@@ -101,7 +100,9 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                             view.removeErrorPassword();
                             view.removeErrorPassword_2();
                             break;
-
+                        /**
+                         * Valid Registration case
+                         */
                         case VALID_REGISTER:
                             view.displayCheckAnimation();
                             UserModel newModel = new UserModel(username, password1, realName, profileImage);
