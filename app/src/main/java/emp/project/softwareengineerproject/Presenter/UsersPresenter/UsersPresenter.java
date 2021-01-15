@@ -45,11 +45,9 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
                     e.printStackTrace();
                 }
                 view.hideProgressBar();
-
             }
         });
         thread.start();
-
     }
 
     @Override
@@ -84,6 +82,7 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                String temp_id = id;
                 if (!view.makeTextViewsEdittable()) {
                     model = new UserModel(id, username, password, fullname, image_upload);
                     Set<UserModel.VALIDITY> validity = model.validateEditCredentials(model);

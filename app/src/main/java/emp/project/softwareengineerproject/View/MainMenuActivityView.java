@@ -1,5 +1,6 @@
 package emp.project.softwareengineerproject.View;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -274,6 +275,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         super.onDestroy();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
