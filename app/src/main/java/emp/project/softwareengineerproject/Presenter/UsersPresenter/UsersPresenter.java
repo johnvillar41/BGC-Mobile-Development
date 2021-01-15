@@ -20,7 +20,9 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
     public void onAddButtonClicked() {
         view.goToAddPage();
     }
+
     private static final String ERROR = "Error!";
+
     public UsersPresenter(IUsers.IUsersView view, IUsers.IUsersService service) {
         this.view = view;
         this.model = new UserModel();
@@ -72,27 +74,53 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
 
     }
 
+    private static final String EMPTY_USERNAME_FIELD = "Empty Username Field!";
+    private static final String EMPTY_PASSWORD_FIELD = "Empty Password Field!";
+    private static final String EMPTY_NAME_FIELD = "Empty Name Field!";
+
     @Override
     public void onEditAccountButtonClicked(String id, String username, String password, String fullname, InputStream image_upload) {
-        if (!view.makeTextViewsEdittable()) {
-            model = new UserModel(id, username, password, fullname, image_upload);
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        if (service.updateNewUserCredentials(model)) {
-                            view.displayStatusMessage(SAVING);
-                        } else {
-                            view.displayStatusMessage(ERROR);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (!view.makeTextViewsEdittable()) {
+                    model = new UserModel(id, username, password, fullname, image_upload);
+                    List<UserModel.VALIDITY> validity = model.validateEditCredentials(model);
+                    for(int i=0;i<validity.size();i++) {
+                        switch (validity.get(i)) {
+                            case EMPTY_USERNAME:
+                                view.displayStatusMessage(EMPTY_USERNAME_FIELD);
+                                view.setErrorOnUsername(EMPTY_USERNAME_FIELD);
+                                break;
+                            case EMPTY_PASSWORD:
+                                view.displayStatusMessage(EMPTY_PASSWORD_FIELD);
+                                view.setErrorOnPassword(EMPTY_PASSWORD_FIELD);
+                                break;
+                            case EMPTY_REAL_NAME:
+                                view.displayStatusMessage(EMPTY_NAME_FIELD);
+                                view.setErrorOnRealName(EMPTY_NAME_FIELD);
+                                break;
+                            case VALID_EDIT:
+                                try {
+                                    if (service.updateNewUserCredentials(model)) {
+                                        view.removeErrorOnPassword();
+                                        view.removeErrorOnRealName();
+                                        view.removeErrorOnUsername();
+                                        view.displayStatusMessage(SAVING);
+                                        view.removeUserCredentialsOnSharedPreferences();
+                                        view.finishActivity();
+                                    }
+                                } catch (SQLException e) {
+                                    view.displayStatusMessage(e.getMessage());
+                                }
+                                break;
                         }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
                     }
                 }
-            });
-            thread.start();
+            }
+        });
+        thread.start();
 
-        }
     }
 
     @Override

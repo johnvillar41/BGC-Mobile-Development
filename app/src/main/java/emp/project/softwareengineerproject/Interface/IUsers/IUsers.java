@@ -61,6 +61,21 @@ public interface IUsers {
 
         void loadImageFromGallery();
 
+        void removeUserCredentialsOnSharedPreferences();
+
+        void finishActivity();
+
+        void setErrorOnUsername(String errorMessage);
+
+        void setErrorOnPassword(String errorMessage);
+
+        void setErrorOnRealName(String errorMessage);
+
+        void removeErrorOnUsername();
+
+        void removeErrorOnPassword();
+
+        void removeErrorOnRealName();
     }
 
     interface IUsersPresenter {
@@ -84,7 +99,6 @@ public interface IUsers {
 
         /**
          * This handles the edit item menu click on the toolbar to edit the users credentials
-         *
          * @param id
          * @param username
          * @param password

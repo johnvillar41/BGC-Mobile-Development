@@ -140,7 +140,7 @@ public interface IUpdateInventory {
         /**
          * Handles the image click event to direct to the image Gallery of the users mobile phone
          */
-        void ImageButtonClicked();
+        void onImageButtonClicked();
     }
 
     interface IUpdateInventoryService extends IServiceStrictMode {

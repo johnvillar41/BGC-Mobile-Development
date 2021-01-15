@@ -33,7 +33,7 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
             public void run() {
                 view.displayProgressBar();
                 model = new UserModel(username, password);
-                switch (model.validateCredentials(model)) {
+                switch (model.validateLoginCredentials(model)) {
                     case EMPTY_USERNAME:
                         view.onError(EMPTY_USERNAME, v);
                         view.hideProgressBar();

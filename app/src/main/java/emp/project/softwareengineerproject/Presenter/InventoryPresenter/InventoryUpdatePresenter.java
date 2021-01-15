@@ -28,15 +28,24 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         view.goBack();
     }
 
+    public static final String EMPTY_PRODUCT_NAME = "Empty product name!";
+    public static final String EMPTY_PRODUCT_DESCRIPTION = "Empty product description!";
+    public static final String EMPTY_PRODUCT_PRICE = "Empty product price";
+    public static final String EMPTY_PRODUCT_STOCKS = "Empty product stocks";
+    public static final String EMPTY_PRODUCT_CATEGORY = "Empty product category";
+    public static final String EMPTY_PICTURE = "Empty product picture";
+    public static final String SUCCESSFULL_MESSAGE = "Product Added Successfully!";
+    public static final String ZERO_VALUE_PRICE = "Price value must not be zero!";
+    private static final String SUCCESSFULL_UPDATE_PRODUCT = "Successfully Updated Product!";
 
     @Override
-    public void onSaveProductButtonClicked(final String product_id,
-                                           final TextInputLayout editText_productTitle,
-                                           final TextInputLayout txt_product_description,
-                                           final TextInputLayout txt_product_Price,
-                                           final TextInputLayout txt_product_Stocks,
-                                           final InputStream upload_picture,
-                                           final TextInputLayout txt_product_category, final View v) {
+    public void onSaveProductButtonClicked(String product_id,
+                                           TextInputLayout editText_productTitle,
+                                           TextInputLayout txt_product_description,
+                                           TextInputLayout txt_product_Price,
+                                           TextInputLayout txt_product_Stocks,
+                                           InputStream upload_picture,
+                                           TextInputLayout txt_product_category, final View v) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -51,7 +60,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                     if (model.validateProductOnUpdate(arrTexts, upload_picture, product_id) != null) {
                         service.updateProductToDB(model.validateProductOnUpdate(arrTexts, upload_picture, product_id));
                         view.showCheckAnimation();
-                        view.displayStatusMessage("Successfully Updated Product!", v);
+                        view.displayStatusMessage(SUCCESSFULL_UPDATE_PRODUCT, v);
                         view.hideProgressIndicator();
                     }
 
@@ -67,14 +76,6 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         thread.start();
         thread.interrupt();
     }
-
-    private static final String EMPTY_PRODUCT_NAME = "Empty product name!";
-    private static final String EMPTY_PRODUCT_DESCRIPTION = "Empty product description!";
-    private static final String EMPTY_PRODUCT_PRICE = "Empty product price";
-    private static final String EMPTY_PRODUCT_STOCKS = "Empty product stocks";
-    private static final String EMPTY_PRODUCT_CATEGORY = "Empty product category";
-    private static final String EMPTY_PICTURE = "Empty product picture";
-    private static final String SUCCESSFULL_MESSAGE = "Product Added Successfully!";
 
     @Override
     public void onAddProductButtonClicked(String product_name,
@@ -124,6 +125,12 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                             view.hideProgressIndicator();
                             break;
 
+                        //Zero value cases
+                        case INVALID_PRODUCT_PRICE:
+                            view.displayStatusMessage(ZERO_VALUE_PRICE, v);
+                            view.hideProgressIndicator();
+                            break;
+
                         //Valid cases
                         case VALID_PRODUCT_NAME:
                             view.removeErrorProductName();
@@ -148,7 +155,12 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                         case VALID_ALL:
                             view.displayStatusMessage(SUCCESSFULL_MESSAGE, v);
                             view.showCheckAnimation();
-                            InventoryModel model = new InventoryModel(product_name, product_description, Long.parseLong(product_price), Integer.parseInt(product_stocks), inputStream, product_category);
+                            InventoryModel model = new InventoryModel(
+                                    product_name,
+                                    product_description,
+                                    Long.parseLong(product_price),
+                                    Integer.parseInt(product_stocks),
+                                    inputStream, product_category);
                             try {
                                 service.addNewProduct(model);
                             } catch (ClassNotFoundException e) {
@@ -172,7 +184,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
     }
 
     @Override
-    public void ImageButtonClicked() {
+    public void onImageButtonClicked() {
         view.loadImageFromGallery();
     }
 

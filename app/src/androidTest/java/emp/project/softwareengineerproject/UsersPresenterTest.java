@@ -47,7 +47,7 @@ public class UsersPresenterTest {
                 MockUser.MOCK_USERNAME.getVal(),
                 MockUser.MOCK_PASSWORD.getVal(),
                 MockUser.MOCK_FULLNAME.getVal(),
-                null);
+                null );
         Thread.sleep(1000);
         Assert.assertTrue(MockUsersService.isUpdated);
     }
@@ -164,6 +164,11 @@ public class UsersPresenterTest {
         @Override
         public void loadImageFromGallery() {
             isGalleryDisplayed = true;
+        }
+
+        @Override
+        public void removeUserCredentialsOnSharedPreferences() {
+
         }
     }
 

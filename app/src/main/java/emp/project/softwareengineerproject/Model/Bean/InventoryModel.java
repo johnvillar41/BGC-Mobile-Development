@@ -122,6 +122,7 @@ public class InventoryModel implements Serializable {
         boolean isProductStocksValid = false;
         boolean isProductCategoryValid = false;
         boolean isProductPictureNull = false;
+        boolean isPriceZero = false;
         //add more booleans
         for (int i = 0; i < arrTexts.length; i++) {
             if (arrTexts[i].isEmpty()) {
@@ -168,13 +169,18 @@ public class InventoryModel implements Serializable {
             }
         }
 
+        if (arrTexts[2].equals("0")) {
+            validity.add(VALIDITY_PRODUCTS.INVALID_PRODUCT_PRICE);
+            isPriceZero = true;
+        }
+
         if (product_picture != null) {
             isProductPictureNull = true;
         } else {
             validity.add(VALIDITY_PRODUCTS.EMPTY_PRODUCT_IMAGE);
         }
 
-        if (isProductNameValid && isProductDescriptionValid && isProductPriceValid && isProductStocksValid && isProductCategoryValid && isProductPictureNull) {
+        if (isProductNameValid && isProductDescriptionValid && isProductPriceValid && isProductStocksValid && isProductCategoryValid && isProductPictureNull && !isPriceZero) {
             validity.add(VALIDITY_PRODUCTS.VALID_ALL);
         }
 
@@ -189,8 +195,9 @@ public class InventoryModel implements Serializable {
         EMPTY_PRODUCT_STOCKS,
         EMPTY_PRODUCT_CATEGORY,
 
+        INVALID_PRODUCT_PRICE,
+
         VALID_PRODUCT_NAME,
-        VALID_PRODUCT_IMAGE,
         VALID_PRODUCT_DESCRIPTION,
         VALID_PRODUCT_PRICE,
         VALID_PRODUCT_STOCKS,

@@ -193,7 +193,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         IMAGE_VIEW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.ImageButtonClicked();
+                presenter.onImageButtonClicked();
             }
         });
         btn_cancel.setOnClickListener(new View.OnClickListener() {

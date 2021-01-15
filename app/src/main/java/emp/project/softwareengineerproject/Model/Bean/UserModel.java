@@ -137,7 +137,7 @@ public class UserModel {
         return validity;
     }
 
-    public VALIDITY validateCredentials(UserModel model) {
+    public VALIDITY validateLoginCredentials(UserModel model) {
         VALIDITY validity = null;
         if (model.getUser_username().isEmpty()) {
             validity = VALIDITY.EMPTY_USERNAME;
@@ -153,6 +153,24 @@ public class UserModel {
         }
         return validity;
     }
+
+    public List<VALIDITY> validateEditCredentials(UserModel model) {
+        List<VALIDITY> validity = new ArrayList<>();
+        if (model.getUser_username().isEmpty()) {
+            validity.add(VALIDITY.EMPTY_USERNAME);
+        }
+        if (model.getUser_password().isEmpty()) {
+            validity.add(VALIDITY.EMPTY_PASSWORD);
+        }
+        if (model.getUser_full_name().isEmpty()) {
+            validity.add(VALIDITY.EMPTY_REAL_NAME);
+        }
+        if (!model.getUser_username().isEmpty() && !model.getUser_password().isEmpty() && !model.getUser_full_name().isEmpty()) {
+            validity.add(VALIDITY.VALID_EDIT);
+        }
+        return validity;
+    }
+
 
     public enum VALIDITY {
         EMPTY_USERNAME,
@@ -170,6 +188,7 @@ public class UserModel {
         VALID_PASSWORD_2,
         VALID_REAL_NAME,
         VALID_LOGIN,
+        VALID_EDIT,
         VALID_REGISTER;
     }
 }

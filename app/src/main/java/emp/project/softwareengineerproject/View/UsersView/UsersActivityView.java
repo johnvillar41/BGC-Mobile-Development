@@ -254,21 +254,27 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
     public boolean makeTextViewsEdittable() {
         boolean isEnabled;
         if (txt_password.isEnabled() || txt_password.isEnabled() || txt_real_name.isEnabled() || PROFILE_PICTURE.isEnabled()) {
-            displayStatusMessage("Saved");
-            txt_username.setEnabled(false);
-            txt_password.setEnabled(false);
-            txt_real_name.setEnabled(false);
-            PROFILE_PICTURE.setEnabled(false);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    txt_username.setEnabled(false);
+                    txt_password.setEnabled(false);
+                    txt_real_name.setEnabled(false);
+                    PROFILE_PICTURE.setEnabled(false);
+                }
+            });
             isEnabled = false;
-            finish();
-            Intent intent = new Intent(this, LoginActivityView.class);
-            startActivity(intent);
         } else {
-            displayStatusMessage("You can now Edit your credentials! To save your credentials click on edit icon again!");
-            txt_username.setEnabled(true);
-            txt_password.setEnabled(true);
-            txt_real_name.setEnabled(true);
-            PROFILE_PICTURE.setEnabled(true);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    displayStatusMessage("You can now Edit your credentials! To save your credentials click on edit icon again!");
+                    txt_username.setEnabled(true);
+                    txt_password.setEnabled(true);
+                    txt_real_name.setEnabled(true);
+                    PROFILE_PICTURE.setEnabled(true);
+                }
+            });
             isEnabled = true;
         }
         return isEnabled;
@@ -287,10 +293,6 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
                 break;
             }
             case R.id.action_editfav: {
-                SharedPreferences sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear();
-                editor.apply();
                 presenter.onEditAccountButtonClicked(
                         txt_user_id.getEditText().getText().toString(),
                         txt_username.getEditText().getText().toString(),
@@ -379,5 +381,80 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, IMAGE_PICK_CODE);
+    }
+
+    @Override
+    public void removeUserCredentialsOnSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
+        Intent intent = new Intent(this, LoginActivityView.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void setErrorOnUsername(String errorMessage) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_username.setError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void setErrorOnPassword(String errorMessage) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_password.setError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void setErrorOnRealName(String errorMessage) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_real_name.setError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void removeErrorOnUsername() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_username.setError(null);
+            }
+        });
+    }
+
+    @Override
+    public void removeErrorOnPassword() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_password.setError(null);
+            }
+        });
+    }
+
+    @Override
+    public void removeErrorOnRealName() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_real_name.setError(null);
+            }
+        });
     }
 }
