@@ -8,9 +8,11 @@ import com.mysql.jdbc.PreparedStatement;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
@@ -20,7 +22,7 @@ import emp.project.softwareengineerproject.View.MainMenuActivityView;
 public class InventoryUpdateService implements IUpdateInventory.IUpdateInventoryService {
     private static InventoryUpdateService SINGLE_INSTANCE = null;
 
-    private InventoryUpdateService(){
+    private InventoryUpdateService() {
 
     }
 
@@ -30,6 +32,7 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         }
         return SINGLE_INSTANCE;
     }
+
     public void removeInstance() {
         SINGLE_INSTANCE = null;
     }
@@ -120,5 +123,19 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         preparedStatement.execute();
         preparedStatement.close();
 
+    }
+
+    @Override
+    public HashSet<String> getCategories() throws ClassNotFoundException, SQLException {
+        strictMode();
+        HashSet<String> categories = new HashSet<>();
+        Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+        String sqlGetCategory = "SELECT product_category from products_table";
+        PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(sqlGetCategory);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            categories.add(resultSet.getString("product_category"));
+        }
+        return categories;
     }
 }

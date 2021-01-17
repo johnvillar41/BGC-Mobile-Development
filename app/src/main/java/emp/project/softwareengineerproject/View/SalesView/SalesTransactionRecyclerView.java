@@ -56,6 +56,7 @@ public class SalesTransactionRecyclerView extends RecyclerView.Adapter<SalesTran
         Glide.with(context).load(R.drawable.ic_money_large).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
         holder.txt_total_products.setText(model.getTotal_number_of_products());
         holder.txt_totalValue.setText(String.valueOf(model.getProduct_total()));
+        holder.txt_transaction_id.setText(model.getSales_id());
         holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -93,6 +94,7 @@ public class SalesTransactionRecyclerView extends RecyclerView.Adapter<SalesTran
         CircleImageView circleImageView;
         TextView txt_product_name, txt_product_id, txt_date, txt_total_products;
         TextView txt_totalValue;
+        TextView txt_transaction_id;
         CardView cardView;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -104,6 +106,7 @@ public class SalesTransactionRecyclerView extends RecyclerView.Adapter<SalesTran
             txt_total_products = itemView.findViewById(R.id.txt_total_products);
             txt_totalValue = itemView.findViewById(R.id.txt_total_value);
             cardView = itemView.findViewById(R.id.cardView_Transactions);
+            txt_transaction_id = itemView.findViewById(R.id.txt_transaction_id);
         }
     }
 }

@@ -11,9 +11,7 @@ import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
  *
  * Employee App
  *
- * Bug: Picture not changing (Update product)
  * - Add: Customer Info (when making Transactions -> Sales, for receipt, transaction records)
- * - Add: Transaction IDs when viewing transaction list
  * - Check employee roles (to see if there are changes to be made for database)
  * - Bug: Profile not updated
  * - Prompt user: "Are you sure you want to finish this order?" (in Customer Orders)

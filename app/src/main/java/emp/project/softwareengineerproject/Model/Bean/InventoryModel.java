@@ -94,14 +94,18 @@ public class InventoryModel implements Serializable {
         this.product_id = product_id;
     }
 
-    public InventoryModel validateProductOnUpdate(TextInputLayout[] text, InputStream upload_picture, String product_id) {
-        String[] textData = new String[5];
+    public InventoryModel validateProductOnUpdate(TextInputLayout[] text, InputStream upload_picture, String txt_category, String product_id) throws Exception {
+        String[] textData = new String[4];
         for (int i = 0; i < text.length; i++) {
             if (text[i].getEditText().getText().toString().isEmpty()) {
                 textData[i] = text[i].getHint().toString();
             } else {
                 textData[i] = text[i].getEditText().getText().toString();
             }
+        }
+
+        if (txt_category.isEmpty()) {
+            throw new Exception("Empty Category!");
         }
 
         return new InventoryModel(
@@ -123,7 +127,6 @@ public class InventoryModel implements Serializable {
         boolean isProductCategoryValid = false;
         boolean isProductPictureNull = false;
         boolean isPriceZero = false;
-        //add more booleans
         for (int i = 0; i < arrTexts.length; i++) {
             if (arrTexts[i].isEmpty()) {
                 switch (i) {

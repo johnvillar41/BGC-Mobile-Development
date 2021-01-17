@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +47,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.CacheManager;
@@ -63,7 +66,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     private TextInputLayout txt_product_description;
     private TextInputLayout txt_product_Price;
     private TextInputLayout txt_product_Stocks;
-    private TextInputLayout txt_product_category;
+    private AutoCompleteTextView txt_product_category;
     private Button btn_save;
     private Button btn_cancel;
     private Toolbar toolbar;
@@ -102,6 +105,8 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         btn_cancel = findViewById(R.id.btn_back);
         progressIndicator = findViewById(R.id.progressBar_Inventory);
         progressIndicator.hide();
+
+
         Glide.with(this)
                 .load(R.drawable.add_image)
                 .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
@@ -109,7 +114,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 .into(IMAGE_VIEW);
         try {
             presenter.onPageLoadHints(InventoryRecyclerView.PRODUCT_MODEL);
-
+            presenter.loadCategories();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -148,7 +153,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                     txt_product_description,
                                     txt_product_Price,
                                     txt_product_Stocks, FILE_INPUT_STREAM,
-                                    txt_product_category, v);
+                                    txt_product_category.getText().toString(), v);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -168,7 +173,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                 txt_product_description.getEditText().getText().toString(),
                                 txt_product_Price.getEditText().getText().toString(),
                                 txt_product_Stocks.getEditText().getText().toString(), FILE_INPUT_STREAM,
-                                txt_product_category.getEditText().getText().toString(), v);
+                                txt_product_category.getText().toString(), v);
                     }
                 });
             }
@@ -186,7 +191,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                             txt_product_description.getEditText().getText().toString(),
                             txt_product_Price.getEditText().getText().toString(),
                             txt_product_Stocks.getEditText().getText().toString(), FILE_INPUT_STREAM,
-                            txt_product_category.getEditText().getText().toString(), v);
+                            txt_product_category.getText().toString(), v);
                 }
             });
         }
@@ -381,6 +386,18 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
             @Override
             public void run() {
                 txt_product_category.setError(null);
+            }
+        });
+    }
+
+    @Override
+    public void displayCategoryList(List<String> categories) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(InventoryUpdateView.this, android.R.layout.select_dialog_singlechoice, (List<String>) categories);
+                txt_product_category.setThreshold(1);
+                txt_product_category.setAdapter(adapter);
             }
         });
     }

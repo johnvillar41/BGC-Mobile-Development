@@ -7,6 +7,8 @@ import com.mysql.jdbc.PacketTooBigException;
 
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
@@ -45,7 +47,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                            TextInputLayout txt_product_Price,
                                            TextInputLayout txt_product_Stocks,
                                            InputStream upload_picture,
-                                           TextInputLayout txt_product_category, final View v) {
+                                           String txt_product_category, final View v) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -56,9 +58,8 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                     arrTexts[1] = txt_product_description;
                     arrTexts[2] = txt_product_Price;
                     arrTexts[3] = txt_product_Stocks;
-                    arrTexts[4] = txt_product_category;
-                    if (model.validateProductOnUpdate(arrTexts, upload_picture, product_id) != null) {
-                        service.updateProductToDB(model.validateProductOnUpdate(arrTexts, upload_picture, product_id));
+                    if (model.validateProductOnUpdate(arrTexts, upload_picture, txt_product_category, product_id) != null) {
+                        service.updateProductToDB(model.validateProductOnUpdate(arrTexts, upload_picture, txt_product_category, product_id));
                         view.showCheckAnimation();
                         view.displayStatusMessage(SUCCESSFULL_UPDATE_PRODUCT, v);
                         view.hideProgressIndicator();
@@ -69,6 +70,8 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                 } catch (final PacketTooBigException e) {
                     view.displayStatusMessage(e.getMessage(), v);
                 } catch (final SQLException e) {
+                    view.displayStatusMessage(e.getMessage(), v);
+                } catch (Exception e) {
                     view.displayStatusMessage(e.getMessage(), v);
                 }
             }
@@ -186,6 +189,28 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
     @Override
     public void onImageButtonClicked() {
         view.loadImageFromGallery();
+    }
+
+    @Override
+    public void loadCategories() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                view.showProgressIndicator();
+                HashSet<String> categories = null;
+                try {
+                    categories = service.getCategories();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                List<String> categoryList = new ArrayList<>(categories);
+                view.displayCategoryList(categoryList);
+                view.hideProgressIndicator();
+            }
+        });
+        thread.start();
     }
 
 

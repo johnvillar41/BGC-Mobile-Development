@@ -7,6 +7,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
@@ -72,9 +74,9 @@ public interface IUpdateInventory {
         void setErrorProductDescription(String errorMessage);
 
         void setErrorProductPrice(String errorMessage);
-        
+
         void setErrorProductStocks(String errorMessage);
-        
+
         void setErrorProductCategory(String errorMessage);
 
         void removeErrorProductName();
@@ -86,6 +88,8 @@ public interface IUpdateInventory {
         void removeErrorProductStocks();
 
         void removeErrorProductCategory();
+
+        void displayCategoryList(List<String>categories);
     }
 
     interface IUpdatePresenter {
@@ -96,6 +100,7 @@ public interface IUpdateInventory {
 
         /**
          * Handles the save button event to update the product
+         *
          * @param product_id
          * @param editText_productTitle
          * @param txt_product_description
@@ -104,24 +109,23 @@ public interface IUpdateInventory {
          * @param upload_picture
          * @param txt_product_category
          * @param v
-         * Updates the product based on all the parameters passed.
          */
         void onSaveProductButtonClicked(String product_id, TextInputLayout editText_productTitle,
                                         TextInputLayout txt_product_description,
                                         TextInputLayout txt_product_Price,
                                         TextInputLayout txt_product_Stocks, InputStream upload_picture,
-                                        TextInputLayout txt_product_category, View v) throws SQLException;
+                                        String txt_product_category, View v) throws SQLException;
 
         /**
          * Handles the addButton clicked from the toolbar
+         *
          * @param product_name
          * @param product_description
          * @param product_price
          * @param product_stocks
          * @param inputStream
          * @param product_category
-         * @param v
-         * Adds a new product to the database using all these params.
+         * @param v                   Adds a new product to the database using all these params.
          */
         void onAddProductButtonClicked(String product_name,
                                        String product_description,
@@ -133,6 +137,7 @@ public interface IUpdateInventory {
 
         /**
          * When the activity loads this sets the hints to be displayed
+         *
          * @param model parameter to be displayed in the editText
          */
         void onPageLoadHints(InventoryModel model) throws SQLException;
@@ -141,25 +146,32 @@ public interface IUpdateInventory {
          * Handles the image click event to direct to the image Gallery of the users mobile phone
          */
         void onImageButtonClicked();
+
+        void loadCategories();
     }
 
     interface IUpdateInventoryService extends IServiceStrictMode {
         /**
          * Updates the product in the database
+         *
          * @param model this will be the new model for the Product
          */
         void updateProductToDB(InventoryModel model) throws SQLException, ClassNotFoundException;
 
         /**
          * Adds new product in the database
+         *
          * @param model will add a new product model taking this parameter
          */
         void addNewProduct(InventoryModel model) throws ClassNotFoundException, SQLException;
 
         /**
          * This adds notifications on the database on each CRUD on the product a notification is created
+         *
          * @param notificationModel parameter for the notfication object
          */
         void addNotifications(Connection connection, String sqlNotification, NotificationModel notificationModel) throws ClassNotFoundException, SQLException;
+
+        HashSet<String> getCategories() throws ClassNotFoundException, SQLException;
     }
 }
