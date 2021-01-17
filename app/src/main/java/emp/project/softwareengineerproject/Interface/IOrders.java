@@ -14,7 +14,6 @@ public interface IOrders {
         void hideProgressIndicator();
 
         void displayRecyclerView(List<OrdersModel> orderList);
-
     }
 
     interface IOrdersPresenter {

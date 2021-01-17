@@ -13,15 +13,10 @@ import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
  *
  * - Add: Customer Info (when making Transactions -> Sales, for receipt, transaction records)
  * - Check employee roles (to see if there are changes to be made for database)
- * - Bug: Profile not updated
- * - Prompt user: "Are you sure you want to finish this order?" (in Customer Orders)
- * - If in "Finished Orders", no need to delete (create filtering?)
- *     (my suggestion: default setting is current day?)
  * - Inventory: no deleting records/products (maybe change status to archive records and remove from view, not actually delete)
  * - (from me) Question: are usernames unique?
  * - (current plan) Top Salesperson: sort, add ranking (for company's monitoring purposes)
  *     (question by ma'am rhea) is there a quota for every employee? (ask company)
- * - Add list of product types
  * - Add updates made (in notifications)
  * - Add reports for inventory (changes in number of stocks? popular and unpopular items)
  * - Account management: encrypt password

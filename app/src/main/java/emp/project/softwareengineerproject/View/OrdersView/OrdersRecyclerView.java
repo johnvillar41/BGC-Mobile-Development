@@ -2,6 +2,7 @@ package emp.project.softwareengineerproject.View.OrdersView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,22 +47,12 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         final OrdersModel model = getItem(position);
-
         holder.customer_name.setText(model.getCustomer_name());
         holder.customer_email.setText(model.getCustomer_email());
         holder.txt_total.setText(model.getOrder_total_price());
         holder.txt_order_id.setText(model.getOrder_id());
         holder.txt_order_date.setText(model.getOrder_date());
-        /**if (model.getOrder_status().equals(STATUS.PENDING.getStatus())) {
-         holder.layout_background_color.setBackgroundColor(Color.parseColor(COLORS.GREEN.getColor()));
-         } else if (model.getOrder_status().equals(STATUS.CANCELLED.getStatus())) {
-         holder.layout_background_color.setBackgroundColor(Color.parseColor(COLORS.RED.getColor()));
-         } else if (model.getOrder_status().equals(STATUS.FINISHED.getStatus())) {
-         holder.layout_background_color.setBackgroundColor(Color.parseColor(COLORS.BLUE.getColor()));
-         }*/
-
         holder.order_status.setText(model.getOrder_status());
-
         holder.imageView_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,13 +73,24 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                                 }
                                 return true;
                             case R.id.page_finished_orders:
-                                presenter.onMenuFinishClicked(model.getOrder_id());
-                                if (!model.getOrder_status().equals(STATUS.FINISHED.getStatus())) {
-                                    list.remove(position);
-                                    notifyItemRemoved(position);
-                                    notifyItemRangeChanged(position, list.size());
-                                    presenter.addNotification(STATUS.FINISHED_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
-                                }
+                                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                                dialogBuilder.setTitle("Delete Item");
+                                dialogBuilder.setIcon(R.drawable.ic_move);
+                                dialogBuilder.setMessage("Are you sure you want to finish this order?");
+                                dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        presenter.onMenuFinishClicked(model.getOrder_id());
+                                        if (!model.getOrder_status().equals(STATUS.FINISHED.getStatus())) {
+                                            list.remove(position);
+                                            notifyItemRemoved(position);
+                                            notifyItemRangeChanged(position, list.size());
+                                            presenter.addNotification(STATUS.FINISHED_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
+                                        }
+                                    }
+                                });
+                                dialogBuilder.setNegativeButton("No", null);
+                                dialogBuilder.show();
                                 return true;
                             case R.id.page_cancelled_orders:
                                 presenter.onMenuCancelClicked(model.getOrder_id());
@@ -124,7 +127,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                     try {
                         LinearLayoutManager linearLayoutManager
                                 = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-                        OrdersSpecificRecyclerView adapter = new OrdersSpecificRecyclerView(context,service.getCustomerSpecificOrders(model.getOrder_id()));
+                        OrdersSpecificRecyclerView adapter = new OrdersSpecificRecyclerView(context, service.getCustomerSpecificOrders(model.getOrder_id()));
                         holder.recyclerView.setLayoutManager(linearLayoutManager);
                         holder.recyclerView.setAdapter(adapter);
                     } catch (Exception e) {
@@ -135,9 +138,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
         });
 
 
-
     }
-
 
 
     @NonNull

@@ -95,7 +95,7 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
                 LinearLayoutManager linearLayoutManager
                         = new LinearLayoutManager(OrdersActivityView.this, LinearLayoutManager.VERTICAL, false);
                 OrdersRecyclerView adapter = new OrdersRecyclerView(
-                        orderList, OrdersActivityView.this,OrdersActivityView.this);
+                        orderList, OrdersActivityView.this, OrdersActivityView.this);
                 recyclerView.setLayoutManager(linearLayoutManager);
                 recyclerView.setAdapter(adapter);
                 recyclerView.scheduleLayoutAnimation();
