@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,9 @@ import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventorySearchItemService;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventorySearchItemPresenter;
 import emp.project.softwareengineerproject.R;
+
+import static emp.project.softwareengineerproject.View.InventoryView.InventoryRecyclerView.STOCK_LEVEL.HIGH;
+import static emp.project.softwareengineerproject.View.InventoryView.InventoryRecyclerView.STOCK_LEVEL.LOW;
 
 public class InventorySearchedRecyclerView extends RecyclerView.Adapter<InventorySearchedRecyclerView.MyViewHolder> {
     List<InventoryModel> list;
@@ -82,6 +86,19 @@ public class InventorySearchedRecyclerView extends RecyclerView.Adapter<Inventor
 
         holder.txt_product_name.setText(model.getProduct_name());
         holder.txt_stocks_number.setText(String.valueOf(model.getProduct_stocks()));
+        /**
+         * Color coding for the product number of
+         * stocks
+         */
+        if (model.getProduct_stocks() >= HIGH.getVal()) { //Greater than or equal to 50 = Green
+            holder.txt_stocks_number.setTextColor(Color.GREEN);
+        } else if (model.getProduct_stocks() <= HIGH.getVal() && //
+                model.getProduct_stocks() >= LOW.getVal()) {
+            holder.txt_stocks_number.setTextColor(Color.BLUE);
+        } else if (model.getProduct_stocks() < LOW.getVal()) {
+            holder.txt_stocks_number.setTextColor(Color.RED);
+            holder.txt_stocks_number.setError("Low number of stocks!!");
+        }
         holder.cardView_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
