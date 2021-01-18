@@ -153,7 +153,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                     txt_product_description,
                                     txt_product_Price,
                                     txt_product_Stocks, FILE_INPUT_STREAM,
-                                    txt_product_category.getText().toString(), v);
+                                    txt_product_category, v);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

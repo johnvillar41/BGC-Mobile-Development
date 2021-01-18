@@ -1,5 +1,7 @@
 package emp.project.softwareengineerproject.Model.Bean;
 
+import android.widget.AutoCompleteTextView;
+
 import com.google.android.material.textfield.TextInputLayout;
 import com.mysql.jdbc.Blob;
 
@@ -94,8 +96,8 @@ public class InventoryModel implements Serializable {
         this.product_id = product_id;
     }
 
-    public InventoryModel validateProductOnUpdate(TextInputLayout[] text, InputStream upload_picture, String txt_category, String product_id) throws Exception {
-        String[] textData = new String[4];
+    public InventoryModel validateProductOnUpdate(TextInputLayout[] text, InputStream upload_picture, AutoCompleteTextView txt_category, String product_id) {
+        String[] textData = new String[5];
         for (int i = 0; i < text.length; i++) {
             if (text[i].getEditText().getText().toString().isEmpty()) {
                 textData[i] = text[i].getHint().toString();
@@ -104,8 +106,10 @@ public class InventoryModel implements Serializable {
             }
         }
 
-        if (txt_category.isEmpty()) {
-            throw new Exception("Empty Category!");
+        if (txt_category.getText().toString().isEmpty()) {
+            textData[4] = txt_category.getHint().toString();
+        } else {
+            textData[4] = txt_category.getText().toString();
         }
 
         return new InventoryModel(
@@ -115,7 +119,7 @@ public class InventoryModel implements Serializable {
                 Long.parseLong(textData[2]),
                 Integer.parseInt(textData[3]),
                 upload_picture,
-                String.valueOf(textData[4]));
+                textData[4]);
     }
 
     public List<VALIDITY_PRODUCTS> validateProductOnAdd(String[] arrTexts, InputStream product_picture) {

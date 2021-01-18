@@ -1,6 +1,7 @@
 package emp.project.softwareengineerproject.Interface.Inventory;
 
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -100,8 +101,7 @@ public interface IUpdateInventory {
 
         /**
          * Handles the save button event to update the product
-         *
-         * @param product_id
+         *  @param product_id
          * @param editText_productTitle
          * @param txt_product_description
          * @param txt_product_Price
@@ -114,7 +114,7 @@ public interface IUpdateInventory {
                                         TextInputLayout txt_product_description,
                                         TextInputLayout txt_product_Price,
                                         TextInputLayout txt_product_Stocks, InputStream upload_picture,
-                                        String txt_product_category, View v) throws SQLException;
+                                        AutoCompleteTextView txt_product_category, View v) throws SQLException;
 
         /**
          * Handles the addButton clicked from the toolbar

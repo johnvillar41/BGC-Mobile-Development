@@ -1,6 +1,7 @@
 package emp.project.softwareengineerproject.Presenter.InventoryPresenter;
 
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.mysql.jdbc.PacketTooBigException;
@@ -47,13 +48,13 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                            TextInputLayout txt_product_Price,
                                            TextInputLayout txt_product_Stocks,
                                            InputStream upload_picture,
-                                           String txt_product_category, final View v) {
+                                           AutoCompleteTextView txt_product_category, final View v) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     view.showProgressIndicator();
-                    TextInputLayout[] arrTexts = new TextInputLayout[5];
+                    TextInputLayout[] arrTexts = new TextInputLayout[4];
                     arrTexts[0] = editText_productTitle;
                     arrTexts[1] = txt_product_description;
                     arrTexts[2] = txt_product_Price;
@@ -66,13 +67,11 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                     }
 
                 } catch (final ClassNotFoundException e) {
-                    view.displayStatusMessage(e.getMessage(), v);
+                    e.printStackTrace();
                 } catch (final PacketTooBigException e) {
-                    view.displayStatusMessage(e.getMessage(), v);
+                    e.printStackTrace();
                 } catch (final SQLException e) {
-                    view.displayStatusMessage(e.getMessage(), v);
-                } catch (Exception e) {
-                    view.displayStatusMessage(e.getMessage(), v);
+                    e.printStackTrace();
                 }
             }
         });

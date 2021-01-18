@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +65,6 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
         try {
             blobLength[0] = (int) b.length();
             byte[] blobAsBytes = b.getBytes(1, blobLength[0]);
-            //Bitmap btm = BitmapFactory.decodeByteArray(blobAsBytes, 0, blobAsBytes.length);
             Glide.with(context)
                     .load(blobAsBytes)
                     .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
@@ -76,6 +76,21 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
         }
         holder.txt_product_name.setText(model.getProduct_name());
         holder.txt_stock_number.setText(String.valueOf(model.getProduct_stocks()));
+
+        /**
+         * Color coding for the product number of
+         * stocks
+         */
+        if (model.getProduct_stocks() >= STOCK_LEVEL.HIGH.getVal()) { //Greater than or equal to 50 = Green
+            holder.txt_stock_number.setTextColor(Color.GREEN);
+        } else if (model.getProduct_stocks() <= STOCK_LEVEL.HIGH.getVal() && //
+                model.getProduct_stocks() >= STOCK_LEVEL.LOW.getVal()) {
+            holder.txt_stock_number.setTextColor(Color.BLUE);
+        } else if (model.getProduct_stocks() < STOCK_LEVEL.LOW.getVal()) {
+            holder.txt_stock_number.setTextColor(Color.RED);
+            holder.txt_stock_number.setError("Low number of stocks!!");
+        }
+
         holder.cardView_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,6 +197,22 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                 return true;
             }
         });
+    }
+
+    enum STOCK_LEVEL {
+        HIGH(50),
+        MEDIUM(25),
+        LOW(10);
+
+        private int val;
+
+        STOCK_LEVEL(int val) {
+            this.val = val;
+        }
+
+        public int getVal() {
+            return val;
+        }
     }
 
     public InventoryModel getItem(int position) {

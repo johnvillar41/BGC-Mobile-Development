@@ -14,28 +14,11 @@ import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
  * - Add: Customer Info (when making Transactions -> Sales, for receipt, transaction records)
  * - Check employee roles (to see if there are changes to be made for database)
  * - Inventory: no deleting records/products (maybe change status to archive records and remove from view, not actually delete)
- * - (from me) Question: are usernames unique?
- * - (current plan) Top Salesperson: sort, add ranking (for company's monitoring purposes)
- *     (question by ma'am rhea) is there a quota for every employee? (ask company)
  * - Add updates made (in notifications)
  * - Add reports for inventory (changes in number of stocks? popular and unpopular items)
  * - Account management: encrypt password
  *
  * * ALSO: Research Paper title needs to be more specific. Also, app names
- *
- *
- * From Ma'am Rhea:
- * {
- * History of Operations very good
- *
- * Inventory
- *
- * List
- *     Product type
- *
- * Update:
- * - More details
- *
  * Product status
  * - Low stock
  * - Fast Moving
@@ -60,14 +43,7 @@ import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
  * Reports
  * -Sales Report
  * -Inventory Report
- *
- * Fix update issues
- * }
- *
- *
- * (BONUS: Software Engineering 2: preferred improved quality of project due to more requirements. Both new and old (SoftEng1) projects allowed)
- */
-
+ * */
 public interface ISales {
     interface ISalesView{
         /**
