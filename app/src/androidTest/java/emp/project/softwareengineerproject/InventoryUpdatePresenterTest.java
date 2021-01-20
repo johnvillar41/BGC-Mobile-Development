@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
@@ -361,6 +363,11 @@ public class InventoryUpdatePresenterTest {
         public void removeErrorProductCategory() {
             isErrorRemoved = true;
         }
+
+        @Override
+        public void displayCategoryList(List<String> categories) {
+
+        }
     }
 
     static class MockInventoryUpdateService implements IUpdateInventory.IUpdateInventoryService {
@@ -392,6 +399,12 @@ public class InventoryUpdatePresenterTest {
         @Override
         public void addNotifications(Connection connection, String sqlNotification, NotificationModel notificationModel) {
 
+        }
+
+        @Override
+        public HashSet<String> getCategories() throws ClassNotFoundException, SQLException {
+            //TODO: CREATE TEST FOR THIS FUNCTION
+            return null;
         }
     }
 

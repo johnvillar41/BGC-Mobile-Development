@@ -19,10 +19,6 @@ import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
  * - Account management: encrypt password
  *
  * * ALSO: Research Paper title needs to be more specific. Also, app names
- * Product status
- * - Low stock
- * - Fast Moving
- * - Slow Moving
  *
  * Sales
  *
@@ -34,11 +30,7 @@ import emp.project.softwareengineerproject.Interface.IServiceStrictMode;
  *
  * Account Management
  * - Password mask (encryption)
- * - Level/Role*
  *
- * Orders
- * -No delete*
- * -Filtering
  *
  * Reports
  * -Sales Report
