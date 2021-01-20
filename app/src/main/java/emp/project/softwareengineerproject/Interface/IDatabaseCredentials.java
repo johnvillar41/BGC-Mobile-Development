@@ -8,7 +8,7 @@ public interface IDatabaseCredentials {
 
     enum DATABASE_CREDENTIALS {
 
-        DB_NAME("jdbc:mysql://sql12.freemysqlhosting.net:3306/sql12384495"),
+        DB_NAME("jdbc:mysql://sql12.freemysqlhosting.net:3306/sql12388207"),
         USER("sql12388207"),
         PASS("qWRrDAzAJk");
 
