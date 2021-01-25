@@ -98,6 +98,8 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
                         orderList, OrdersActivityView.this, OrdersActivityView.this);
                 recyclerView.setLayoutManager(linearLayoutManager);
                 recyclerView.setAdapter(adapter);
+                linearLayoutManager.setReverseLayout(true);
+                linearLayoutManager.setStackFromEnd(true);
                 recyclerView.scheduleLayoutAnimation();
                 if (adapter.getItemCount() == 0) {
                     animationView_NoResult.setVisibility(View.VISIBLE);

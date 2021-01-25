@@ -90,8 +90,12 @@ public class OrdersService implements IOrders.IOrdersService {
                 PreparedStatement preparedStatement3 = connection.prepareStatement(sqlGetSpecificProducts);
                 ResultSet resultSet3 = preparedStatement3.executeQuery();
                 while (resultSet3.next()) {
-                    model = new OrdersModel(order_id, resultSet2.getString(2), resultSet.getString(7),
-                            resultSet3.getBlob(5), resultSet3.getString(2));
+                    model = new OrdersModel(
+                            order_id,
+                            resultSet2.getString("product_id"),
+                            resultSet2.getString("total_orders"),
+                            resultSet3.getBlob("product_picture"),
+                            resultSet3.getString("product_name"));
                     list.add(model);
                 }
                 preparedStatement3.close();

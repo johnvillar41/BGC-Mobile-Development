@@ -1,6 +1,7 @@
 package emp.project.softwareengineerproject.View.OrdersView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,7 @@ import androidx.transition.TransitionManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IOrders;
@@ -124,15 +127,36 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                     holder.expandableLayout.setVisibility(View.VISIBLE);
                     holder.expandable_fab.setImageResource(R.drawable.animation_up);
                     OrdersService service = OrdersService.getInstance(model);
-                    try {
-                        LinearLayoutManager linearLayoutManager
-                                = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-                        OrdersSpecificRecyclerView adapter = new OrdersSpecificRecyclerView(context, service.getCustomerSpecificOrders(model.getOrder_id()));
-                        holder.recyclerView.setLayoutManager(linearLayoutManager);
-                        holder.recyclerView.setAdapter(adapter);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((Activity)context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    holder.progress_bar_specific_orders.setVisibility(View.VISIBLE);
+                                }
+                            });
+                            LinearLayoutManager linearLayoutManager
+                                    = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+                            try {
+                                List<OrdersModel> ordersModels = service.getCustomerSpecificOrders(model.getOrder_id());
+                                ((Activity) context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        OrdersSpecificRecyclerView adapter = new OrdersSpecificRecyclerView(context, ordersModels);
+                                        holder.recyclerView.setLayoutManager(linearLayoutManager);
+                                        holder.recyclerView.setAdapter(adapter);
+                                        holder.progress_bar_specific_orders.setVisibility(View.INVISIBLE);
+                                    }
+                                });
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+                        }
+                    });
+                    thread.start();
                 }
             }
         });
@@ -147,21 +171,6 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.custom_adapter_orders, parent, false);
         return new OrdersRecyclerView.MyViewHolder(view);
-    }
-
-    private enum COLORS {
-        GREEN("#024C05"),
-        BLUE("#0000ff"),
-        RED("#FF0000");
-        private String color;
-
-        COLORS(String color) {
-            this.color = color;
-        }
-
-        private String getColor() {
-            return color;
-        }
     }
 
     private enum STATUS {
@@ -203,6 +212,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
         LinearLayout expandableLayout;
         CardView cardView;
         RecyclerView recyclerView;
+        ProgressBar progress_bar_specific_orders;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -217,6 +227,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
             expandableLayout = itemView.findViewById(R.id.expandable_Layout);
             cardView = itemView.findViewById(R.id.cardView_Orders);
             recyclerView = itemView.findViewById(R.id.recyclerView_specific_orders);
+            progress_bar_specific_orders = itemView.findViewById(R.id.progress_bar_specific_orders);
         }
     }
 }
