@@ -99,14 +99,14 @@ public class InventoryModel implements Serializable {
     public InventoryModel validateProductOnUpdate(TextInputLayout[] text, InputStream upload_picture, AutoCompleteTextView txt_category, String product_id) {
         String[] textData = new String[5];
         for (int i = 0; i < text.length; i++) {
-            if (text[i].getEditText().getText().toString().isEmpty()) {
+            if (text[i].getEditText().getText().toString().trim().isEmpty()) {
                 textData[i] = text[i].getHint().toString();
             } else {
                 textData[i] = text[i].getEditText().getText().toString();
             }
         }
 
-        if (txt_category.getText().toString().isEmpty()) {
+        if (txt_category.getText().toString().trim().isEmpty()) {
             textData[4] = txt_category.getHint().toString();
         } else {
             textData[4] = txt_category.getText().toString();
@@ -132,7 +132,7 @@ public class InventoryModel implements Serializable {
         boolean isProductPictureNull = false;
         boolean isPriceZero = false;
         for (int i = 0; i < arrTexts.length; i++) {
-            if (arrTexts[i].isEmpty()) {
+            if (arrTexts[i].trim().isEmpty()) {
                 switch (i) {
                     case 0:
                         validity.add(VALIDITY_PRODUCTS.EMPTY_PRODUCT_NAME);
