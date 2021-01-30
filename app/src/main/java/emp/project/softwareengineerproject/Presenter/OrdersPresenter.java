@@ -158,7 +158,9 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
 
     private enum STATUS {
         PENDING("Processing"),
+        //TODO: STATUS: READY FOR PICKUP
         CANCELLED("Cancelled"),
+
         FINISHED("Finished");
 
         private String status;
