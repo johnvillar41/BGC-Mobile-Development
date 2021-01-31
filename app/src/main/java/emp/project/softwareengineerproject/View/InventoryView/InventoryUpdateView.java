@@ -72,8 +72,8 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     private Toolbar toolbar;
     private ProgressIndicator progressIndicator;
     private static InputStream FILE_INPUT_STREAM;
-
     private IUpdateInventory.IUpdatePresenter presenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -489,6 +489,12 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         }
         onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        InventoryUpdatePresenter.isAddProductClicked = false;
+        super.onResume();
     }
 
     @Override

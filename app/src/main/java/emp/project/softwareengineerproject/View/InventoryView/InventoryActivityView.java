@@ -30,6 +30,7 @@ import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventoryService;
 import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryPresenter;
+import emp.project.softwareengineerproject.Presenter.InventoryPresenter.InventoryUpdatePresenter;
 import emp.project.softwareengineerproject.R;
 
 public class InventoryActivityView extends AppCompatActivity implements IInvetory.IinventoryView {
@@ -96,14 +97,16 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     protected void onResume() {
-        try {
-            presenter.getGreenHouseFromDB();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        if (InventoryUpdatePresenter.isAddProductClicked) {
+            try {
+                presenter.getGreenHouseFromDB();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         super.onResume();
     }

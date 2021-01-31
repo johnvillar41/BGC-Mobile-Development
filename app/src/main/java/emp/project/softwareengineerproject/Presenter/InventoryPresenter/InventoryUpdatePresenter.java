@@ -19,6 +19,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
     private IUpdateInventory.IUupdateInventoryView view;
     private IUpdateInventory.IUpdateInventoryService service;
     private InventoryModel model;
+    public static boolean isAddProductClicked = false;
 
     public InventoryUpdatePresenter(IUpdateInventory.IUupdateInventoryView view, IUpdateInventory.IUpdateInventoryService service) {
         this.view = view;
@@ -155,6 +156,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                             view.hideProgressIndicator();
                             break;
                         case VALID_ALL:
+                            isAddProductClicked = true;
                             view.displayStatusMessage(SUCCESSFULL_MESSAGE, v);
                             view.showCheckAnimation();
                             InventoryModel model = new InventoryModel(
