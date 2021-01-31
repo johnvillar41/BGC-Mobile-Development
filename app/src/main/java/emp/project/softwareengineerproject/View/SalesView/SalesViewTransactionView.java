@@ -36,7 +36,7 @@ import emp.project.softwareengineerproject.Model.Database.Services.SalesService.
 import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesTransactionPresenter;
 import emp.project.softwareengineerproject.R;
 
-public class SalesTransactionView extends AppCompatActivity implements ISalesTransactions.ISalesTransactionsView {
+public class SalesViewTransactionView extends AppCompatActivity implements ISalesTransactions.ISalesTransactionsView {
     private ISalesTransactions.ISalesTransactionPresenter presenter;
     private RecyclerView recyclerView;
     private ProgressIndicator progressIndicator;
@@ -95,7 +95,7 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
                     @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
                     calendar.set(year, month, dayOfMonth);
                     String dateString = sdf.format(calendar.getTime());
-                    Toast.makeText(SalesTransactionView.this, dateString, Toast.LENGTH_LONG).show();
+                    Toast.makeText(SalesViewTransactionView.this, dateString, Toast.LENGTH_LONG).show();
                     presenter.onSearchNotificationYesClicked(dateString);
                 }
             }, year, month, day);
@@ -113,12 +113,12 @@ public class SalesTransactionView extends AppCompatActivity implements ISalesTra
             @Override
             public void run() {
                 LinearLayoutManager layoutManager
-                        = new LinearLayoutManager(SalesTransactionView.this, LinearLayoutManager.VERTICAL, false);
+                        = new LinearLayoutManager(SalesViewTransactionView.this, LinearLayoutManager.VERTICAL, false);
                 layoutManager.setReverseLayout(true);
                 layoutManager.setStackFromEnd(true);
 
-                SalesTransactionRecyclerView adapter = new SalesTransactionRecyclerView(
-                        transactionList, SalesTransactionView.this, SalesTransactionView.this);
+                SalesViewTransactionRecyclerView adapter = new SalesViewTransactionRecyclerView(
+                        transactionList, SalesViewTransactionView.this, SalesViewTransactionView.this);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
                 recyclerView.scheduleLayoutAnimation();

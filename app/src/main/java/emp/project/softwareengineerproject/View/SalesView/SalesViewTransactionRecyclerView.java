@@ -25,14 +25,14 @@ import emp.project.softwareengineerproject.Model.Database.Services.SalesService.
 import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesTransactionPresenter;
 import emp.project.softwareengineerproject.R;
 
-public class SalesTransactionRecyclerView extends RecyclerView.Adapter<SalesTransactionRecyclerView.MyViewHolder> {
+public class SalesViewTransactionRecyclerView extends RecyclerView.Adapter<SalesViewTransactionRecyclerView.MyViewHolder> {
 
     List<SalesModel> list;
     Context context;
     ISalesTransactions.ISalesTransactionsView activityView;
     ISalesTransactions.ISalesTransactionPresenter presenter;
 
-    public SalesTransactionRecyclerView(List<SalesModel> list, Context context, ISalesTransactions.ISalesTransactionsView activityView) {
+    public SalesViewTransactionRecyclerView(List<SalesModel> list, Context context, ISalesTransactions.ISalesTransactionsView activityView) {
         this.list = list;
         this.context = context;
         this.activityView = activityView;

@@ -136,7 +136,7 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
 
     @Override
     public void goToTransActionActivity() {
-        Intent intent = new Intent(this, SalesTransactionView.class);
+        Intent intent = new Intent(this, SalesViewTransactionView.class);
         startActivity(intent);
     }
 

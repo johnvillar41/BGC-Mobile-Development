@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="#323232"
-    tools:context=".View.SalesView.SalesTransactionView">
+    tools:context=".View.SalesView.SalesViewTransactionView">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

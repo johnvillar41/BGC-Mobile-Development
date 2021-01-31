@@ -30,7 +30,7 @@
 
 
         <activity
-            android:name=".View.SalesView.SalesTransactionView"
+            android:name=".View.SalesView.SalesViewTransactionView"
             android:launchMode="singleTask" />
         <activity
             android:name=".View.SalesView.SalesAddActivityView"

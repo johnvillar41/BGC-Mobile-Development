@@ -52,6 +52,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
     private LottieAnimationView animationView_Noresult;
 
     private static int numberOfDialogsOpen = 0;
+    public boolean isUpdateButtonClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +87,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         floatingActionButton_Cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isUpdateButtonClicked = false;
                 presenter.onCartButtonClicked(SalesModel.cartList);
             }
         });
@@ -128,6 +130,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
             btn_confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    isUpdateButtonClicked = true;
                     presenter.onConfirmButtonClicked(v);
                 }
             });
@@ -136,7 +139,9 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
                 @Override
                 public void onDismiss(DialogInterface dialog) {
                     try {
-                        presenter.loadProductList();
+                        if (isUpdateButtonClicked) {
+                            presenter.loadProductList();
+                        }
                         SalesModel.cartList.clear();
                         numberOfDialogsOpen = 0;
                     } catch (SQLException e) {
@@ -170,7 +175,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
                 recyclerView.setLayoutManager(linearLayoutManager);
                 recyclerView.setAdapter(adapter);
                 recyclerView.scheduleLayoutAnimation();
-                if (adapter.getItemCount() == 0){
+                if (adapter.getItemCount() == 0) {
                     animationView_Noresult.setVisibility(View.VISIBLE);
                 } else {
                     animationView_Noresult.setVisibility(View.GONE);
