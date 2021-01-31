@@ -88,6 +88,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                           InputStream inputStream,
                                           String product_category,
                                           View v) {
+        //Very lame validation of adding products will soon change TODO
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
