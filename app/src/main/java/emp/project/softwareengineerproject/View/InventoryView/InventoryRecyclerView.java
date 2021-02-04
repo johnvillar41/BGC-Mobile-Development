@@ -180,16 +180,10 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                 dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            presenter.onCardViewLongClicked(model.getProduct_id(), model.getProduct_name());
-                            list.remove(position);
-                            notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, list.size());
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
+                        presenter.onCardViewLongClicked(model.getProduct_id(), model.getProduct_name());
+                        list.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, list.size());
                     }
                 });
                 dialogBuilder.setNegativeButton("No", null);

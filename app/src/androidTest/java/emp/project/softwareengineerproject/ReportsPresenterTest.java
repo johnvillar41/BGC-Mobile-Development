@@ -188,10 +188,11 @@ public class ReportsPresenterTest {
 
         @Override
         public ReportsModel getMonthlySales(String username) {
-            List<ReportsModel> mockDatabase = new ArrayList<>();
-            mockDatabase.add(new ReportsModel("null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null"));
-            mockDatabase.add(new ReportsModel("null", MOCK_USERNAME, "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null"));
-            mockDatabase.add(new ReportsModel("null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null"));
+            List<ReportsModel> mockDatabase = Arrays.asList(
+                    new ReportsModel("null", MOCK_USERNAME, "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null"),
+                    new ReportsModel("null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null"),
+                    new ReportsModel("null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null")
+            );
             ReportsModel model = new ReportsModel();
             for (int i = 0; i < mockDatabase.size(); i++) {
                 if (mockDatabase.get(i).getUser_username().equals(MOCK_USERNAME)) {

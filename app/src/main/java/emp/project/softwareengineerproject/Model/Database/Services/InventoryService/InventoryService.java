@@ -100,6 +100,11 @@ public class InventoryService implements IInvetory.IInventoryService {
         Statement statement = connection.createStatement();
         statement.execute(deleteItem);
 
+        String deleteInformationItem = "DELETE FROM information_table WHERE product_id = ?";
+        PreparedStatement preparedStatementDelete = (PreparedStatement) connection.prepareStatement(deleteInformationItem);
+        preparedStatementDelete.setString(1,product_id);
+        preparedStatementDelete.execute();
+
         String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();

@@ -157,17 +157,17 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                             view.hideProgressIndicator();
                             break;
                         case VALID_ALL:
-                            isAddProductClicked = true;
-                            view.displayStatusMessage(SUCCESSFULL_MESSAGE, v);
-                            view.showCheckAnimation();
-                            InventoryModel model = new InventoryModel(
-                                    product_name,
-                                    product_description,
-                                    Long.parseLong(product_price),
-                                    Integer.parseInt(product_stocks),
-                                    inputStream, product_category);
                             try {
+                                InventoryModel model = new InventoryModel(
+                                        product_name,
+                                        product_description,
+                                        Long.parseLong(product_price),
+                                        Integer.parseInt(product_stocks),
+                                        inputStream, product_category);
                                 service.addNewProduct(model);
+                                isAddProductClicked = true;
+                                view.displayStatusMessage(SUCCESSFULL_MESSAGE, v);
+                                view.showCheckAnimation();
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             } catch (SQLException throwables) {
