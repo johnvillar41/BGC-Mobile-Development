@@ -19,7 +19,6 @@
         android:theme="@style/AppTheme"
         tools:targetApi="q">
 
-
         <activity android:name=".View.LoadingScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,8 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
+        <activity
+            android:name=".View.InformationActivityView"
+            android:launchMode="singleTask" />
         <activity
             android:name=".View.SalesView.SalesViewTransactionView"
             android:launchMode="singleTask" />

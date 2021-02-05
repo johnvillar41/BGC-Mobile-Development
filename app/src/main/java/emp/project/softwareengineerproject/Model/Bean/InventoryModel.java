@@ -17,7 +17,7 @@ public class InventoryModel implements Serializable {
     private int product_stocks;
     private InputStream upload_picture;
     private String product_category;
-
+    //For fetching product from database
     public InventoryModel(String product_id, String product_name, String product_description,
                           long product_price, Blob product_picture, int product_stocks, String product_category) {
         this.product_id = product_id;
@@ -29,7 +29,7 @@ public class InventoryModel implements Serializable {
         this.product_category = product_category;
     }
 
-
+    //For updating new product
     public InventoryModel(String product_id, String product_name, String product_description, long product_price, int product_stocks, InputStream upload_picture, String product_category) {
         this.product_id = product_id;
         this.product_name = product_name;
@@ -39,7 +39,7 @@ public class InventoryModel implements Serializable {
         this.upload_picture = upload_picture;
         this.product_category = product_category;
     }
-
+    //Adding new product
     public InventoryModel(String product_name, String product_description, long product_price, int product_stocks, InputStream upload_picture, String product_category) {
         this.product_name = product_name;
         this.product_description = product_description;

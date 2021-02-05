@@ -25,6 +25,8 @@ public interface IMainMenu {
 
         void gotoNotifications();
 
+        void goToInformation();
+
         void displayNumberOfNotifs(String numberOfNotifs);
 
         void displayProfileImage(Blob profile);
@@ -47,6 +49,8 @@ public interface IMainMenu {
         void onSettingsButtonClicked();
 
         void onNotificationButtonClicked();
+
+        void onInformationButtonClicked();
 
         /**
          * Directs the username and profile picture to be displayed on the main screen

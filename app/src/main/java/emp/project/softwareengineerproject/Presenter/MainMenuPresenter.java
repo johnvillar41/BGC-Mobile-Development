@@ -99,5 +99,10 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
         view.gotoNotifications();
     }
 
+    @Override
+    public void onInformationButtonClicked() {
+        view.goToInformation();
+    }
+
 
 }

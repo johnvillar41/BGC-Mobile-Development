@@ -92,6 +92,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         CircleImageView image_settings = findViewById(R.id.image_settings);
         CircleImageView image_signout = findViewById(R.id.image_signOut);
         FloatingActionButton floatingActionButton = findViewById(R.id.fab_notifications);
+        FloatingActionButton floatingActionButton_information = findViewById(R.id.fab_information);
 
         CardView cardView_inventory = findViewById(R.id.cardView_inventory);
         CardView cardView_sales = findViewById(R.id.cardView_sales);
@@ -116,6 +117,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         cardView_settings.setOnClickListener(this);
         cardView_logout.setOnClickListener(this);
         floatingActionButton.setOnClickListener(this);
+        floatingActionButton_information.setOnClickListener(this);
 
         /**
          * Programmatically loading images through glide library due to
@@ -191,6 +193,12 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
     @Override
     public void gotoNotifications() {
         Intent intent = new Intent(this, NotificationsActivityView.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void goToInformation() {
+        Intent intent = new Intent(this, InformationActivityView.class);
         startActivity(intent);
     }
 
@@ -305,6 +313,10 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
             }
             case R.id.fab_notifications: {
                 presenter.onNotificationButtonClicked();
+                break;
+            }
+            case R.id.fab_information: {
+                presenter.onInformationButtonClicked();
                 break;
             }
         }

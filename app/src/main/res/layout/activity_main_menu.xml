@@ -20,6 +20,19 @@
         app:srcCompat="@drawable/ic_baseline_notification_important_24"
         tools:ignore="RelativeOverlap" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fab_notifications"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        app:backgroundTint="#f9b207"
+        app:srcCompat="@drawable/ic_baseline_info_24"
+        tools:ignore="RelativeOverlap" />
+
     <TextView
         android:id="@+id/txt_number_notification"
         android:layout_width="24dp"
@@ -29,6 +42,22 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/circle_textview"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:text="@string/_0"
+        android:textColor="#000000"
+        tools:targetApi="lollipop" />
+
+    <TextView
+        android:id="@+id/txt_number_information"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="60sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/circle_textview_green"
         android:elevation="10dp"
         android:gravity="center"
         android:text="@string/_0"

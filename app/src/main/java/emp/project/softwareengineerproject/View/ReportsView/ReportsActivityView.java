@@ -234,7 +234,6 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
                         = new LinearLayoutManager(ReportsActivityView.this, LinearLayoutManager.VERTICAL, false);
                 ReportsRecyclerView adapter = new ReportsRecyclerView(
                         sortedUserList, ReportsActivityView.this);
-
                 recyclerView.setLayoutManager(linearLayoutManager);
                 recyclerView.setAdapter(adapter);
             }
