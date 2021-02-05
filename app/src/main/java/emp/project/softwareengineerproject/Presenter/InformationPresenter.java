@@ -34,4 +34,22 @@ public class InformationPresenter implements IInformation.IInformationPresenter 
             }
         });thread.start();
     }
+
+    @Override
+    public void onFloatingActionButtonClickedPopup(String updatedInformation, String product_id) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                view.displayMessage("Saving...");
+                try {
+                    service.saveNewInformation(updatedInformation,product_id );
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                view.displayMessage("Saved!");
+            }
+        });thread.start();
+    }
 }

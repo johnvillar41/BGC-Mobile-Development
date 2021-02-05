@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".View.InformationActivityView"
+            android:name=".View.InformationView.InformationActivityView"
             android:launchMode="singleTask" />
         <activity
             android:name=".View.SalesView.SalesViewTransactionView"

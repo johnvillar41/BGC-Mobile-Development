@@ -61,4 +61,15 @@ public class InformationService implements IInformation.IInformationService {
         }
         return informationModelList;
     }
+
+    @Override
+    public void saveNewInformation(String updatedInformation, String product_id) throws ClassNotFoundException, SQLException {
+        strictMode();
+        Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+        String sqlUpdateInformation="UPDATE information_table SET product_information = ? WHERE product_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateInformation);
+        preparedStatement.setString(1,updatedInformation);
+        preparedStatement.setString(2,product_id);
+        preparedStatement.execute();
+    }
 }

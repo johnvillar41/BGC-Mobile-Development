@@ -1,4 +1,4 @@
-package emp.project.softwareengineerproject.View;
+package emp.project.softwareengineerproject.View.InformationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 
 import com.google.android.material.progressindicator.ProgressIndicator;
@@ -22,7 +23,6 @@ import emp.project.softwareengineerproject.Model.Bean.InformationModel;
 import emp.project.softwareengineerproject.Model.Database.Services.InformationService;
 import emp.project.softwareengineerproject.Presenter.InformationPresenter;
 import emp.project.softwareengineerproject.R;
-import emp.project.softwareengineerproject.View.InformationView.InformationRecyclerView;
 
 public class InformationActivityView extends AppCompatActivity implements IInformation.IInformationView {
     private ProgressIndicator progressIndicator;
@@ -82,10 +82,20 @@ public class InformationActivityView extends AppCompatActivity implements IInfor
             @Override
             public void run() {
                 InformationRecyclerView adapter = new InformationRecyclerView(
-                        InformationActivityView.this, informationModelList);
+                        InformationActivityView.this, informationModelList,presenter);
                 recyclerView_Information.setLayoutManager(new GridLayoutManager(InformationActivityView.this,3));
                 recyclerView_Information.setAdapter(adapter);
                 recyclerView_Information.scheduleLayoutAnimation();
+            }
+        });
+    }
+
+    @Override
+    public void displayMessage(String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(InformationActivityView.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -61,8 +61,10 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
                 LocalDateTime now = LocalDateTime.now();
                 try {
-                    final String numberOfNotifs = String.valueOf(service.getNumberOfNotifications(dtf.format(now)));
+                    String numberOfNotifs = String.valueOf(service.getNumberOfNotifications(dtf.format(now)));
+                    String numberOfInfo = String.valueOf(service.getNumberOfInformation());
                     view.displayNumberOfNotifs(numberOfNotifs);
+                    view.displayNumberOfInformations(numberOfInfo);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -81,9 +83,7 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
             public void run() {
                 try {
                     final Blob profile = service.getProfilePicture();
-
                     view.displayProfileImage(profile);
-
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {

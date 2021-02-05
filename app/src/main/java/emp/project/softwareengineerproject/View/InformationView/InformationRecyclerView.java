@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -17,11 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 
+import emp.project.softwareengineerproject.Interface.IInformation;
 import emp.project.softwareengineerproject.Model.Bean.InformationModel;
 import emp.project.softwareengineerproject.R;
 
@@ -29,10 +33,12 @@ public class InformationRecyclerView extends RecyclerView.Adapter<InformationRec
 
     Context context;
     List<InformationModel> list;
+    IInformation.IInformationPresenter presenter;
 
-    public InformationRecyclerView(Context context, List<InformationModel> list) {
+    public InformationRecyclerView(Context context, List<InformationModel> list, IInformation.IInformationPresenter presenter) {
         this.context = context;
         this.list = list;
+        this.presenter = presenter;
     }
 
     @NonNull
@@ -40,7 +46,7 @@ public class InformationRecyclerView extends RecyclerView.Adapter<InformationRec
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.custom_adapter_information, parent, false);
-        return new InformationRecyclerView.MyViewHolder(view);
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -71,7 +77,9 @@ public class InformationRecyclerView extends RecyclerView.Adapter<InformationRec
                 ImageView imageView_product = dialogView.findViewById(R.id.image_product);
                 TextView txt_product_name = dialogView.findViewById(R.id.txt_product_name);
                 TextView txt_description = dialogView.findViewById(R.id.txt_description);
-                TextView txt_information = dialogView.findViewById(R.id.txt_information);
+                TextInputLayout txt_information = dialogView.findViewById(R.id.txt_information);
+                FloatingActionButton floatingActionButton = dialogView.findViewById(R.id.fab_save);
+
                 Blob b = (Blob) informationModel.getProductModel().getProduct_picture();
                 int[] blobLength = new int[1];
                 try {
@@ -87,12 +95,29 @@ public class InformationRecyclerView extends RecyclerView.Adapter<InformationRec
                 }
                 txt_product_name.setText(informationModel.getProductModel().getProduct_name());
                 txt_description.setText(informationModel.getProductModel().getProduct_description());
-                txt_information.setText(informationModel.getProduct_information_tutorial());
-
+                String[] updateedInformation = new String[1];
+                if (txt_information.getEditText() != null) {
+                    txt_information.getEditText().setText(informationModel.getProduct_information_tutorial());
+                    updateedInformation[0] = txt_information.getEditText().getText().toString();
+                }
 
                 AlertDialog dialog = dialogBuilder.create();
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 dialog.show();
+
+                floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!updateedInformation[0].trim().isEmpty()) {
+                            updateedInformation[0] = txt_information.getEditText().getText().toString();
+                            presenter.onFloatingActionButtonClickedPopup(updateedInformation[0],informationModel.getProductModel().getProduct_id());
+                            presenter.loadData();
+                            dialog.cancel();
+                        } else {
+                            Toast.makeText(context, "Empty Information!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }
@@ -106,7 +131,7 @@ public class InformationRecyclerView extends RecyclerView.Adapter<InformationRec
         return list.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView_Product;
         TextView textView_ProductName;
         CardView cardView_Item;

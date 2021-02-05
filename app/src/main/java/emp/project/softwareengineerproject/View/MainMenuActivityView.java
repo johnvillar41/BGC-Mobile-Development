@@ -43,6 +43,7 @@ import emp.project.softwareengineerproject.Model.Database.Services.UsersService.
 import emp.project.softwareengineerproject.Model.Database.Services.UsersService.UsersService;
 import emp.project.softwareengineerproject.Presenter.MainMenuPresenter;
 import emp.project.softwareengineerproject.R;
+import emp.project.softwareengineerproject.View.InformationView.InformationActivityView;
 import emp.project.softwareengineerproject.View.InventoryView.InventoryActivityView;
 import emp.project.softwareengineerproject.View.NotificationView.NotificationsActivityView;
 import emp.project.softwareengineerproject.View.OrdersView.OrdersActivityView;
@@ -52,7 +53,7 @@ import emp.project.softwareengineerproject.View.UsersView.UsersActivityView;
 
 public class MainMenuActivityView extends AppCompatActivity implements IMainMenu.IMainMenuView, View.OnClickListener {
     private IMainMenu.IMainPresenter presenter;
-    private TextView txt_name, txt_number_notifs;
+    private TextView txt_name, txt_number_notifs, txt_number_info;
     private SharedPreferences sharedPreferences;
     public static String GET_PREFERENCES_REALNAME = null;
     private CircleImageView image_profile;
@@ -84,6 +85,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
 
         txt_name = findViewById(R.id.txt_name);
         txt_number_notifs = findViewById(R.id.txt_number_notification);
+        txt_number_info = findViewById(R.id.txt_number_information);
         image_profile = findViewById(R.id.image_profile);
         CircleImageView image_inventory = findViewById(R.id.image_stocks);
         CircleImageView image_sales = findViewById(R.id.image_sales);
@@ -208,6 +210,16 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
             @Override
             public void run() {
                 txt_number_notifs.setText(numberOfNotifs);
+            }
+        });
+    }
+
+    @Override
+    public void displayNumberOfInformations(String numberOfInfo) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_number_info.setText(numberOfInfo);
             }
         });
     }

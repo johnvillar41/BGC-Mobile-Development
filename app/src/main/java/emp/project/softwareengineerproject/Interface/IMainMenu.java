@@ -29,6 +29,8 @@ public interface IMainMenu {
 
         void displayNumberOfNotifs(String numberOfNotifs);
 
+        void displayNumberOfInformations(String numberOfInfo);
+
         void displayProfileImage(Blob profile);
     }
 
@@ -70,5 +72,7 @@ public interface IMainMenu {
         int getNumberOfNotifications(String date) throws SQLException, ClassNotFoundException;
 
         Blob getProfilePicture() throws ClassNotFoundException, SQLException;
+
+        Integer getNumberOfInformation() throws ClassNotFoundException, SQLException;
     }
 }

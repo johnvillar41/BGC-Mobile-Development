@@ -4,7 +4,9 @@ import android.app.Activity;
 
 import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -67,5 +69,20 @@ public class MainMenuService extends Activity implements IMainMenu.IMainService 
         statement.close();
         resultSet.close();
         return profileImage;
+    }
+
+    @Override
+    public Integer getNumberOfInformation() throws ClassNotFoundException, SQLException {
+        strictMode();
+        int totalVal = 0;
+        Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+        String sqlGetTotalNumberInfo = "SELECT COUNT(*) FROM information_table WHERE product_information = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlGetTotalNumberInfo);
+        preparedStatement.setString(1, "No Information yet");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            totalVal = resultSet.getInt(1);
+        }
+        return totalVal;
     }
 }

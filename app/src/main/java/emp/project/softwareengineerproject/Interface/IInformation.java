@@ -12,13 +12,19 @@ public interface IInformation {
         void hideProgressBar();
 
         void displayRecyclerViewData(List<InformationModel> informationModelList);
+
+        void displayMessage(String message);
     }
 
     interface IInformationPresenter {
         void loadData();
+
+        void onFloatingActionButtonClickedPopup(String updatedInformation,String product_id);
     }
 
     interface IInformationService extends IServiceStrictMode{
         List<InformationModel> fetchInformationDataFromDB() throws ClassNotFoundException, SQLException;
+
+        void saveNewInformation(String updatedInformation,String product_id) throws ClassNotFoundException, SQLException;
     }
 }
