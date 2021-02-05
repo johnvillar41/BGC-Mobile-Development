@@ -83,7 +83,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         animationView_Others = findViewById(R.id.animationView_noResult3);
 
         spinner_category = findViewById(R.id.spinner_category);
-        presenter.getGreenHouseFromDB();
+        presenter.loadData();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -99,7 +99,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     protected void onResume() {
         if (InventoryUpdatePresenter.isAddProductClicked) {
             try {
-                presenter.getGreenHouseFromDB();
+                presenter.loadData();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (SQLException e) {
@@ -226,7 +226,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     @Override
     public void refreshPage() {
         try {
-            presenter.getGreenHouseFromDB();
+            presenter.loadData();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (SQLException e) {

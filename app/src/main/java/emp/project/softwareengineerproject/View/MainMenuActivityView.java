@@ -239,8 +239,8 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
                             .load(blobAsBytes)
                             .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
                             .into(image_profile);
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException ignored) {
+
                 }
             }
         });

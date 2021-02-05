@@ -71,7 +71,7 @@ public interface IInvetory {
          * Redirects and commands the getProductsFromDB function from service to be displayed on
          * their own recycler views
          */
-        void getGreenHouseFromDB() throws InterruptedException, SQLException, ClassNotFoundException;
+        void loadData() throws InterruptedException, SQLException, ClassNotFoundException;
 
         /**
          * Handles the click event of add button and redirects into InventoryUpdateActivity

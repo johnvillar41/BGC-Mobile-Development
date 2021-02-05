@@ -19,7 +19,7 @@ public class InventoryPresenter implements IInvetory.IinventoryPresenter {
     }
 
     @Override
-    public void getGreenHouseFromDB() {
+    public void loadData() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

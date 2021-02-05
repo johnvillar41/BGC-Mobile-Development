@@ -65,6 +65,9 @@ public class InformationRecyclerView extends RecyclerView.Adapter<InformationRec
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        if (informationModel.getProduct_information_tutorial().equals("No information yet")) {
+            holder.textView_ProductName.setError("No information yet");
+        }
         holder.textView_ProductName.setText(informationModel.getProductModel().getProduct_name());
         holder.cardView_Item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +113,7 @@ public class InformationRecyclerView extends RecyclerView.Adapter<InformationRec
                     public void onClick(View v) {
                         if (!updateedInformation[0].trim().isEmpty()) {
                             updateedInformation[0] = txt_information.getEditText().getText().toString();
-                            presenter.onFloatingActionButtonClickedPopup(updateedInformation[0],informationModel.getProductModel().getProduct_id());
+                            presenter.onFloatingActionButtonClickedPopup(updateedInformation[0], informationModel.getProductModel().getProduct_id());
                             presenter.loadData();
                             dialog.cancel();
                         } else {

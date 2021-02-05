@@ -77,7 +77,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                                 return true;
                             case R.id.page_finished_orders:
                                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                                dialogBuilder.setTitle("Delete Item");
+                                dialogBuilder.setTitle("Finsish Item");
                                 dialogBuilder.setIcon(R.drawable.ic_move);
                                 dialogBuilder.setMessage("Are you sure you want to finish this order?");
                                 dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

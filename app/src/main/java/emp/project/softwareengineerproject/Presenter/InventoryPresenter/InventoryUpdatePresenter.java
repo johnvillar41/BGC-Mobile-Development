@@ -92,13 +92,13 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                view.showProgressIndicator();
                 String[] arrTextValues = new String[5];
                 arrTextValues[0] = product_name;
                 arrTextValues[1] = product_description;
                 arrTextValues[2] = product_price;
                 arrTextValues[3] = product_stocks;
                 arrTextValues[4] = product_category;
-                view.showProgressIndicator();
 
                 List<InventoryModel.VALIDITY_PRODUCTS> validity_products = model.validateProductOnAdd(arrTextValues, inputStream);
                 for (int i = 0; i < validity_products.size(); i++) {
