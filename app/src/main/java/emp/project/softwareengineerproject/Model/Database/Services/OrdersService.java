@@ -127,22 +127,11 @@ public class OrdersService implements IOrders.IOrdersService {
     @Override
     public void addNotificationInDB(String title, String content) throws ClassNotFoundException, SQLException {
         strictMode();
-        Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-        String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         NotificationModel notificationModel = new NotificationModel(title, content, String.valueOf(dtf.format(now)),
                 MainMenuActivityView.GET_PREFERENCES_REALNAME);
-        PreparedStatement preparedStatementUpdateNotification = connection.prepareStatement(sqlNotification);
-        preparedStatementUpdateNotification.setString(1, notificationModel.getNotif_title());
-        preparedStatementUpdateNotification.setString(2, notificationModel.getNotif_content());
-        preparedStatementUpdateNotification.setString(3, notificationModel.getNotif_date());
-        preparedStatementUpdateNotification.setString(4, notificationModel.getUser_name());
-        preparedStatementUpdateNotification.execute();
-
-        connection.close();
-        preparedStatementUpdateNotification.close();
-
+        NotificationService.getInstance().insertNewNotifications(notificationModel);
     }
 
 }
