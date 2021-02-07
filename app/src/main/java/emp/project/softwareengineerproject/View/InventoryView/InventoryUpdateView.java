@@ -438,6 +438,8 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
+                    //Setting this null to avoid errors
+                    FILE_INPUT_STREAM = null;
                     if (originBitmap != null) {
                         final Bitmap finalOriginBitmap = originBitmap;
                         runOnUiThread(new Runnable() {

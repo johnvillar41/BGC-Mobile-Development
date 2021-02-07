@@ -20,6 +20,7 @@ import java.util.List;
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
+import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class InventoryService implements IInvetory.IInventoryService {
@@ -105,23 +106,16 @@ public class InventoryService implements IInvetory.IInventoryService {
         preparedStatementDelete.setString(1,product_id);
         preparedStatementDelete.execute();
 
-        String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
+        //Notification
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         NotificationModel notificationModel;
         notificationModel = new NotificationModel("Deleted product", "Deleted product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
                 MainMenuActivityView.GET_PREFERENCES_REALNAME);
-        PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(sqlNotification);
-        preparedStatement.setString(1, notificationModel.getNotif_title());
-        preparedStatement.setString(2, notificationModel.getNotif_content());
-        preparedStatement.setString(3, notificationModel.getNotif_date());
-        preparedStatement.setString(4, notificationModel.getUser_name());
-        preparedStatement.execute();
-        preparedStatement.close();
-        preparedStatement.close();
+        NotificationService.getInstance().insertNewNotifications(notificationModel);
+
 
         statement.close();
-        preparedStatement.close();
         connection.close();
     }
 

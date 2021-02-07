@@ -74,6 +74,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                 } catch (final SQLException e) {
                     e.printStackTrace();
                 }
+                view.hideProgressIndicator();
             }
         });
         thread.start();

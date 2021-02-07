@@ -57,7 +57,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
 
     @Override
     public void initViews() throws SQLException, ClassNotFoundException {
-        presenter = new NotificationPresenter(this, NotificationService.getInstance(new NotificationModel()));
+        presenter = new NotificationPresenter(this, NotificationService.getInstance());
         recyclerView = findViewById(R.id.recyclerView_notification);
         animationView_Noresult = findViewById(R.id.animationView_noResult);
         progressIndicator = findViewById(R.id.progressBar_Notifications);

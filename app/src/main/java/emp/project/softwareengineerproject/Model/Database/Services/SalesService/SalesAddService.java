@@ -21,6 +21,7 @@ import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.SalesModel;
+import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 import emp.project.softwareengineerproject.View.LoginActivityView;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
@@ -68,17 +69,12 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
 
 
             //Update Notifications
-            String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
             NotificationModel notificationModel;
             notificationModel = new NotificationModel("Added sales", "Added sales " + model.getSales_title(), String.valueOf(dtf.format(now)),
                     MainMenuActivityView.GET_PREFERENCES_REALNAME);
-            com.mysql.jdbc.PreparedStatement preparedStatement2 = (com.mysql.jdbc.PreparedStatement) connection.prepareStatement(sqlNotification);
-            preparedStatement2.setString(1, notificationModel.getNotif_title());
-            preparedStatement2.setString(2, notificationModel.getNotif_content());
-            preparedStatement2.setString(3, notificationModel.getNotif_date());
-            preparedStatement2.setString(4, notificationModel.getUser_name());
+            NotificationService.getInstance().insertNewNotifications(notificationModel);
 
             //Update Reports Table
             DateTimeFormatter dtf_year = DateTimeFormatter.ofPattern("yyyy");
@@ -145,9 +141,6 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
                 preparedStatement_Update_Sale.close();
             }
 
-
-            preparedStatement2.execute();
-            preparedStatement2.close();
             preparedStatement.close();
             statement.close();
             connection.close();

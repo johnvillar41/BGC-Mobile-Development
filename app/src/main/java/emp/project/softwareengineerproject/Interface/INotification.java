@@ -61,5 +61,6 @@ public interface INotification {
          */
         List<NotificationModel> fetchNotifsFromDB(String date_today) throws SQLException, ClassNotFoundException;
 
+        void insertNewNotifications(NotificationModel notificationModel) throws SQLException, ClassNotFoundException;
     }
 }

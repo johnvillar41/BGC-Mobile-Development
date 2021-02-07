@@ -18,6 +18,7 @@ import java.util.List;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
+import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class UsersService implements IUsers.IUsersService {
@@ -112,19 +113,11 @@ public class UsersService implements IUsers.IUsersService {
             /**
              * Create Notification here
              */
-            String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
             NotificationModel notificationModel = new NotificationModel("Updated User", "Updated User: " + model.getUser_full_name(), String.valueOf(dtf.format(now)),
                     MainMenuActivityView.GET_PREFERENCES_REALNAME);
-            PreparedStatement preparedStatementUpdateNotification = connection.prepareStatement(sqlNotification);
-            preparedStatementUpdateNotification.setString(1, notificationModel.getNotif_title());
-            preparedStatementUpdateNotification.setString(2, notificationModel.getNotif_content());
-            preparedStatementUpdateNotification.setString(3, notificationModel.getNotif_date());
-            preparedStatementUpdateNotification.setString(4, notificationModel.getUser_name());
-            preparedStatementUpdateNotification.execute();
-            connection.close();
-            preparedStatement.close();
+            NotificationService.getInstance().insertNewNotifications(notificationModel);
         } catch (Exception e) {
             e.printStackTrace();
             isSuccesfull = false;
@@ -146,21 +139,14 @@ public class UsersService implements IUsers.IUsersService {
             /**
              * Create Notification here
              */
-            String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
             NotificationModel notificationModel = new NotificationModel("Deleted User", "Deleted User: " + username, String.valueOf(dtf.format(now)),
                     MainMenuActivityView.GET_PREFERENCES_REALNAME);
-            PreparedStatement preparedStatementUpdateNotification = connection.prepareStatement(sqlNotification);
-            preparedStatementUpdateNotification.setString(1, notificationModel.getNotif_title());
-            preparedStatementUpdateNotification.setString(2, notificationModel.getNotif_content());
-            preparedStatementUpdateNotification.setString(3, notificationModel.getNotif_date());
-            preparedStatementUpdateNotification.setString(4, notificationModel.getUser_name());
-            preparedStatementUpdateNotification.execute();
+            NotificationService.getInstance().insertNewNotifications(notificationModel);
 
             connection.close();
             statement.close();
-            preparedStatementUpdateNotification.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

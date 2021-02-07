@@ -19,6 +19,7 @@ import javax.xml.transform.Result;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
+import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class InventoryUpdateService implements IUpdateInventory.IUpdateInventoryService {
@@ -66,16 +67,14 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
             preparedStatement.setBlob(6, model.getUpload_picture());
             preparedStatement.setString(7, model.getProduct_id());
         }
-
         preparedStatement.executeUpdate();
 
-        String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         NotificationModel notificationModel;
         notificationModel = new NotificationModel("Updated product", "Updated product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
                 MainMenuActivityView.GET_PREFERENCES_REALNAME);
-        addNotifications(connection, sqlNotification, notificationModel);
+        NotificationService.getInstance().insertNewNotifications(notificationModel);
 
 
         preparedStatement.close();
@@ -100,13 +99,12 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         preparedStatement.close();
 
         //inserting values to notification_table
-        String sqlNotification = "INSERT INTO notifications_table(notif_title,notif_content,notif_date,user_name)VALUES(?,?,?,?)";
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         NotificationModel notificationModel;
         notificationModel = new NotificationModel("Added product", "Added product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
                 MainMenuActivityView.GET_PREFERENCES_REALNAME);
-        addNotifications(connection, sqlNotification, notificationModel);
+        NotificationService.getInstance().insertNewNotifications(notificationModel);
 
         //Inserting values to information_table
         String insertProductIdToInformationTable = "INSERT INTO information_table(product_id,product_information) VALUES(?,?)";
@@ -118,22 +116,6 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         preparedStatement.close();
         preparedStatement1.close();
         connection.close();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void addNotifications(Connection connection, String sqlNotification, NotificationModel notificationModel) throws ClassNotFoundException, SQLException {
-        strictMode();
-        //Adding notifications on database
-
-        PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(sqlNotification);
-        preparedStatement.setString(1, notificationModel.getNotif_title());
-        preparedStatement.setString(2, notificationModel.getNotif_content());
-        preparedStatement.setString(3, notificationModel.getNotif_date());
-        preparedStatement.setString(4, notificationModel.getUser_name());
-        preparedStatement.execute();
-        preparedStatement.close();
-
     }
 
     @Override

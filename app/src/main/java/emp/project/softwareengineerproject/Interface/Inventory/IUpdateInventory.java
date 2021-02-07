@@ -165,13 +165,6 @@ public interface IUpdateInventory {
          */
         void addNewProduct(InventoryModel model) throws ClassNotFoundException, SQLException;
 
-        /**
-         * This adds notifications on the database on each CRUD on the product a notification is created
-         *
-         * @param notificationModel parameter for the notfication object
-         */
-        void addNotifications(Connection connection, String sqlNotification, NotificationModel notificationModel) throws ClassNotFoundException, SQLException;
-
         HashSet<String> getCategories() throws ClassNotFoundException, SQLException;
     }
 }
