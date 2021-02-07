@@ -38,6 +38,7 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
+import emp.project.softwareengineerproject.Model.Bean.CartListModel;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.Model.Database.Services.SalesService.SalesAddService;
@@ -88,7 +89,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
             @Override
             public void onClick(View v) {
                 isUpdateButtonClicked = false;
-                presenter.onCartButtonClicked(SalesModel.cartList);
+                presenter.onCartButtonClicked(CartListModel.getInstance().cartList);
             }
         });
     }
@@ -142,7 +143,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
                         if (isUpdateButtonClicked) {
                             presenter.loadProductList();
                         }
-                        SalesModel.cartList.clear();
+                        CartListModel.getInstance().cartList.clear();
                         numberOfDialogsOpen = 0;
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -158,7 +159,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
 
     @Override
     public void onBackPressed() {
-        SalesModel.cartList.clear();
+        CartListModel.getInstance().cartList.clear();
         numberOfDialogsOpen = 0;
         super.onBackPressed();
     }
@@ -287,7 +288,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            SalesModel.cartList.clear();
+            CartListModel.getInstance().cartList.clear();
             this.finish();
         }
         return super.onOptionsItemSelected(item);

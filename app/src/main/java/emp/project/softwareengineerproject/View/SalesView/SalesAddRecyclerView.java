@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import emp.project.softwareengineerproject.Model.Bean.CartListModel;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.R;
@@ -86,9 +87,9 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
             @Override
             public void onClick(View v) {
                 if (holder.checkBox.isChecked()) {
-                    SalesModel.cartList.add(model);
+                    CartListModel.getInstance().cartList.add(model);
                 } else {
-                    SalesModel.cartList.remove(model);
+                    CartListModel.getInstance().cartList.remove(model);
                 }
             }
         });

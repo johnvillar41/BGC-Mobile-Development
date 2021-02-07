@@ -22,6 +22,7 @@ import com.mysql.jdbc.Blob;
 import java.sql.SQLException;
 import java.util.List;
 
+import emp.project.softwareengineerproject.Model.Bean.CartListModel;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.R;
@@ -46,7 +47,7 @@ public class SalesAddRecyclerView2 extends RecyclerView.Adapter<SalesAddRecycler
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        final InventoryModel model = SalesModel.cartList.get(position);
+        final InventoryModel model = CartListModel.getInstance().cartList.get(position);
         holder.txt_name.setText(model.getProduct_name());
         final Blob b = model.getProduct_picture();
         final int[] blobLength = new int[1];
@@ -82,8 +83,8 @@ public class SalesAddRecyclerView2 extends RecyclerView.Adapter<SalesAddRecycler
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int p, long id) {
                 long newValue = model.getProduct_price() * Long.parseLong(parent.getSelectedItem().toString());
-                SalesModel.cartList.get(position).setNewPrice(newValue);
-                SalesModel.cartList.get(position).setTotal_number_of_products(parent.getSelectedItem().toString());
+                CartListModel.getInstance().cartList.get(position).setNewPrice(newValue);
+                CartListModel.getInstance().cartList.get(position).setTotal_number_of_products(parent.getSelectedItem().toString());
             }
 
             @Override
@@ -95,7 +96,7 @@ public class SalesAddRecyclerView2 extends RecyclerView.Adapter<SalesAddRecycler
         holder.imageViewRemoveItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SalesModel.cartList.remove(model);
+                CartListModel.getInstance().cartList.remove(model);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, list.size());
             }

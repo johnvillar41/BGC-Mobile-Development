@@ -11,9 +11,6 @@ public class SalesModel {
     private String date_month;
     private String user_username;
 
-    public static List<InventoryModel> cartList = new ArrayList<>();
-
-
     public SalesModel(String sales_id, String sales_title, Blob sales_image, long product_total, String product_id, String total_number_of_products, String sales_date, String user_username) {
         this.sales_id = sales_id;
         this.sales_title = sales_title;

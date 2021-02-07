@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
+import emp.project.softwareengineerproject.Model.Bean.CartListModel;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.View.LoginActivityView;
@@ -65,11 +66,12 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
             @Override
             public void run() {
                 view.displayProgressIndicatorCart();
-                for (int i = 0; i < SalesModel.cartList.size(); i++) {
+                for (int i = 0; i < CartListModel.getInstance().cartList.size(); i++) {
                     try {
-                        if (!service.checkIfProductIsEnough(SalesModel.cartList.get(i).getProduct_id(),
-                                SalesModel.cartList.get(i).getTotal_number_of_products()) ||
-                                SalesModel.cartList.get(i).getTotal_number_of_products().equals(String.valueOf(0))) {
+                        if (!service.checkIfProductIsEnough(
+                                CartListModel.getInstance().cartList.get(i).getProduct_id(),
+                                CartListModel.getInstance().cartList.get(i).getTotal_number_of_products()) ||
+                                CartListModel.getInstance().cartList.get(i).getTotal_number_of_products().equals(String.valueOf(0))) {
                             isValid = false;
                             view.displayOnErrorMessage(PRODUCT_NOT_ENOUGH, v);
                             view.hideProgressIndicatorCart();
@@ -80,9 +82,14 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                             LocalDateTime now = LocalDateTime.now();
                             DateTimeFormatter dtf_month = DateTimeFormatter.ofPattern("MM");
                             LocalDateTime now_month = LocalDateTime.now();
-                            model = new SalesModel(SalesModel.cartList.get(i).getProduct_picture(), SalesModel.cartList.get(i).getProduct_name(),
-                                    SalesModel.cartList.get(i).getNewPrice(), SalesModel.cartList.get(i).getProduct_id(), SalesModel.cartList.get(i).getTotal_number_of_products(),
-                                    String.valueOf(dtf.format(now)), String.valueOf(dtf_month.format(now_month)), LoginActivityView.USERNAME_VALUE);
+                            model = new SalesModel(
+                                    CartListModel.getInstance().cartList.get(i).getProduct_picture(),
+                                    CartListModel.getInstance().cartList.get(i).getProduct_name(),
+                                    CartListModel.getInstance().cartList.get(i).getNewPrice(),
+                                    CartListModel.getInstance().cartList.get(i).getProduct_id(),
+                                    CartListModel.getInstance().cartList.get(i).getTotal_number_of_products(),
+                                    String.valueOf(dtf.format(now)), String.valueOf(dtf_month.format(now_month)),
+                                    LoginActivityView.USERNAME_VALUE);
                             service.insertOrderToDB(model);
                         }
                     } catch (SQLException throwables) {
