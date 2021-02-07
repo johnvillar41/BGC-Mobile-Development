@@ -66,11 +66,6 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         setContentView(R.layout.activity_main_menu);
 
         initViews();
-        try {
-            presenter.directProfileDisplay();
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -82,6 +77,13 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
 
         presenter = new MainMenuPresenter(this, MainMenuService.getInstance());
         Animation atg = AnimationUtils.loadAnimation(this, R.anim.atg);
+
+        try {
+            presenter.directProfileDisplay();
+            presenter.directPictureDisplay();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         txt_name = findViewById(R.id.txt_name);
         txt_number_notifs = findViewById(R.id.txt_number_notification);
@@ -253,12 +255,6 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
      */
     @Override
     protected void onResume() {
-        try {
-            presenter.directProfileDisplay();
-            presenter.directPictureDisplay();
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         if (sharedPreferences.getString(LoginActivityView.USERNAME_PREFS, null) == null) {
             this.finish();
         }

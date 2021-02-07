@@ -173,7 +173,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                                 txt_product_description.getEditText().getText().toString(),
                                 txt_product_Price.getEditText().getText().toString(),
                                 txt_product_Stocks.getEditText().getText().toString(), FILE_INPUT_STREAM,
-                                txt_product_category.getText().toString(), v);
+                                txt_product_category.getText().toString().toUpperCase(), v);
                     }
                 });
             }
@@ -191,7 +191,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                             txt_product_description.getEditText().getText().toString(),
                             txt_product_Price.getEditText().getText().toString(),
                             txt_product_Stocks.getEditText().getText().toString(), FILE_INPUT_STREAM,
-                            txt_product_category.getText().toString(), v);
+                            txt_product_category.getText().toString().toUpperCase(), v);
                 }
             });
         }

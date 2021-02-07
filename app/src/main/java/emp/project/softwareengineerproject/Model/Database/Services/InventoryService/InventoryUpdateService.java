@@ -129,6 +129,8 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         while (resultSet.next()) {
             categories.add(resultSet.getString("product_category"));
         }
+        categories.add("GREENHOUSE");
+        categories.add("HYDROPONICS");
         return categories;
     }
 
