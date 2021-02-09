@@ -68,4 +68,8 @@ public class LoginPresenter implements ILogin.ILoginPresenter {
         thread.start();
     }
 
+    @Override
+    public void initializeViews() {
+        view.initViews();
+    }
 }

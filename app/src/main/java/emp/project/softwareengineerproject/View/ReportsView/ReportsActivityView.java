@@ -25,7 +25,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.progressindicator.ProgressIndicator;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,21 +52,13 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_reports__view);
 
-
-        try {
-            initViews();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        presenter = new ReportsPresenter(this, ReportsService.getInstance(new ReportsModel()));
+        presenter.initializeViews();
 
     }
 
     @Override
-    public void initViews() throws SQLException, ClassNotFoundException {
-        presenter = new ReportsPresenter(this, ReportsService.getInstance(new ReportsModel()));
-
+    public void initViews() {
         progressIndicator = findViewById(R.id.progressBar_Reports);
         progressIndicator.hide();
         recyclerView = findViewById(R.id.recyclerView_Reports);
@@ -114,7 +105,7 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
     }
 
     @Override
-    public void displayProgressIndicator() {
+    public void displayProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -124,7 +115,7 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
     }
 
     @Override
-    public void hideProgressIndicator() {
+    public void hideProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

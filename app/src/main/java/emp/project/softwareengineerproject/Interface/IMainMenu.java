@@ -34,7 +34,7 @@ public interface IMainMenu {
         void displayProfileImage(Blob profile);
     }
 
-    interface IMainPresenter {
+    interface IMainPresenter extends IBasePresenter{
         /**
          * Handles all the click events on the main screen and redirects them to their specified activities
          * */

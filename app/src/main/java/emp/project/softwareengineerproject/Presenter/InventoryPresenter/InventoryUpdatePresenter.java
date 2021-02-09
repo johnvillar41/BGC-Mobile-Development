@@ -54,7 +54,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
             @Override
             public void run() {
                 try {
-                    view.showProgressIndicator();
+                    view.displayProgressBar();
                     TextInputLayout[] arrTexts = new TextInputLayout[4];
                     arrTexts[0] = editText_productTitle;
                     arrTexts[1] = txt_product_description;
@@ -64,7 +64,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                         service.updateProductToDB(model.validateProductOnUpdate(arrTexts, upload_picture, txt_product_category, product_id));
                         view.showCheckAnimation();
                         view.displayStatusMessage(SUCCESSFULL_UPDATE_PRODUCT, v);
-                        view.hideProgressIndicator();
+                        view.hideProgressBar();
                     }
 
                 } catch (final ClassNotFoundException e) {
@@ -74,7 +74,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                 } catch (final SQLException e) {
                     e.printStackTrace();
                 }
-                view.hideProgressIndicator();
+                view.hideProgressBar();
             }
         });
         thread.start();
@@ -93,7 +93,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.showProgressIndicator();
+                view.displayProgressBar();
                 String[] arrTextValues = new String[5];
                 arrTextValues[0] = product_name;
                 arrTextValues[1] = product_description;
@@ -107,55 +107,55 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                         //Invalid
                         case EMPTY_PRODUCT_NAME:
                             view.setErrorProductName(EMPTY_PRODUCT_NAME);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case EMPTY_PRODUCT_DESCRIPTION:
                             view.setErrorProductDescription(EMPTY_PRODUCT_DESCRIPTION);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case EMPTY_PRODUCT_PRICE:
                             view.setErrorProductPrice(EMPTY_PRODUCT_PRICE);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case EMPTY_PRODUCT_STOCKS:
                             view.setErrorProductStocks(EMPTY_PRODUCT_STOCKS);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case EMPTY_PRODUCT_CATEGORY:
                             view.setErrorProductCategory(EMPTY_PRODUCT_CATEGORY);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case EMPTY_PRODUCT_IMAGE:
                             view.displayStatusMessage(EMPTY_PICTURE, v);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
 
                         //Zero value cases
                         case INVALID_PRODUCT_PRICE:
                             view.displayStatusMessage(ZERO_VALUE_PRICE, v);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
 
                         //Valid cases
                         case VALID_PRODUCT_NAME:
                             view.removeErrorProductName();
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case VALID_PRODUCT_DESCRIPTION:
                             view.removeErrorProductDescription();
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case VALID_PRODUCT_PRICE:
                             view.removeErrorProductPrice();
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case VALID_PRODUCT_STOCKS:
                             view.removeErrorProductStocks();
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case VALID_PRODUCT_CATEGORY:
                             view.removeErrorProductCategory();
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case VALID_ALL:
                             try {
@@ -174,7 +174,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                     }
                 }
@@ -185,7 +185,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
     }
 
     @Override
-    public void onPageLoadHints(InventoryModel model) throws SQLException {
+    public void onPageLoadHints(InventoryModel model) {
         view.setHints(model);
     }
 
@@ -199,7 +199,7 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.showProgressIndicator();
+                view.displayProgressBar();
                 HashSet<String> categories = null;
                 try {
                     categories = service.getCategories();
@@ -210,11 +210,15 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                 }
                 List<String> categoryList = new ArrayList<>(categories);
                 view.displayCategoryList(categoryList);
-                view.hideProgressIndicator();
+                view.hideProgressBar();
             }
         });
         thread.start();
     }
 
 
+    @Override
+    public void initializeViews() {
+        view.initViews();
+    }
 }

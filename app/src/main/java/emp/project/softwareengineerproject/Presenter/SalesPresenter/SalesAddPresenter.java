@@ -41,7 +41,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 try {
                     final List<InventoryModel> productList = service.getProductListFromDB();
                     view.displayProducts(productList);
@@ -50,7 +50,7 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                view.hideProgressIndicator();
+                view.hideProgressBar();
 
             }
         });
@@ -109,4 +109,8 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
     }
 
 
+    @Override
+    public void initializeViews() {
+        view.initViews();
+    }
 }

@@ -22,7 +22,7 @@ public class InventorySearchItemPresenter implements ISearchInventory.ISearchInv
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressLoader();
+                view.displayProgressBar();
 
                 List<InventoryModel> searchedlist = null;
                 try {
@@ -33,7 +33,7 @@ public class InventorySearchItemPresenter implements ISearchInventory.ISearchInv
                 final List<InventoryModel> finalSearchedlist = searchedlist;
 
                 view.displayRecyclerView(finalSearchedlist);
-                view.hideProgressLoader();
+                view.hideProgressBar();
 
             }
         });
@@ -54,4 +54,8 @@ public class InventorySearchItemPresenter implements ISearchInventory.ISearchInv
     }
 
 
+    @Override
+    public void initializeViews() {
+        view.initViews();
+    }
 }

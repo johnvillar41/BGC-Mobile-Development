@@ -52,4 +52,9 @@ public class InformationPresenter implements IInformation.IInformationPresenter 
             }
         });thread.start();
     }
+
+    @Override
+    public void initializeViews() {
+        view.initViews();
+    }
 }

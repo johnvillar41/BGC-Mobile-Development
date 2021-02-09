@@ -78,12 +78,12 @@ public class NotificationPresenterTest {
         }
 
         @Override
-        public void displayProgressIndicator() {
+        public void displayProgressBar() {
             isProgressIndicatorShowing = true;
         }
 
         @Override
-        public void hideProgressIndicator() {
+        public void hideProgressBar() {
             isProgressIndicatorNotShowing = true;
         }
     }
@@ -105,6 +105,11 @@ public class NotificationPresenterTest {
                 }
             }
             return mockNotifs;
+        }
+
+        @Override
+        public void insertNewNotifications(NotificationModel notificationModel) throws SQLException, ClassNotFoundException {
+
         }
     }
 }

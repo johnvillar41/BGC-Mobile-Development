@@ -27,11 +27,11 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 try {
                     final List<OrdersModel> ordersList = service.getOrdersFromDB(STATUS.PENDING.getStatus());
                     view.displayRecyclerView(ordersList);
-                    view.hideProgressIndicator();
+                    view.hideProgressBar();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -48,11 +48,11 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 try {
                     final List<OrdersModel> ordersList = service.getOrdersFromDB(STATUS.FINISHED.getStatus());
                     view.displayRecyclerView(ordersList);
-                    view.hideProgressIndicator();
+                    view.hideProgressBar();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -69,11 +69,11 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 try {
                     final List<OrdersModel> ordersList = service.getOrdersFromDB(STATUS.CANCELLED.getStatus());
                     view.displayRecyclerView(ordersList);
-                    view.hideProgressIndicator();
+                    view.hideProgressBar();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -90,7 +90,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 try {
                     service.updateOrderFromDB(order_id, STATUS.PENDING.getStatus());
                 } catch (ClassNotFoundException e) {
@@ -98,7 +98,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                view.hideProgressIndicator();
+                view.hideProgressBar();
             }
         });
         thread.start();
@@ -110,7 +110,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 try {
                     service.updateOrderFromDB(order_id, STATUS.FINISHED.getStatus());
                 } catch (ClassNotFoundException e) {
@@ -118,7 +118,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                view.hideProgressIndicator();
+                view.hideProgressBar();
             }
         });
         thread.start();
@@ -129,7 +129,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 try {
                     service.updateOrderFromDB(order_id, STATUS.CANCELLED.getStatus());
                 } catch (ClassNotFoundException e) {
@@ -137,7 +137,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                view.hideProgressIndicator();
+                view.hideProgressBar();
             }
         });
         thread.start();
@@ -154,6 +154,11 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void initializeViews() {
+        view.initViews();
     }
 
     private enum STATUS {

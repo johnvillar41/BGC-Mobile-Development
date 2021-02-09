@@ -81,14 +81,12 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_inventory_update_view);
-
-        initViews();
+        presenter = new InventoryUpdatePresenter(this, InventoryUpdateService.getInstance());
+        presenter.initializeViews();
     }
 
     @Override
     public void initViews() {
-        presenter = new InventoryUpdatePresenter(this, InventoryUpdateService.getInstance());
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -112,16 +110,12 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
                 .skipMemoryCache(true)
                 .into(IMAGE_VIEW);
-        try {
-            presenter.onPageLoadHints(InventoryRecyclerView.PRODUCT_MODEL);
-            presenter.loadCategories();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        presenter.onPageLoadHints(InventoryRecyclerView.PRODUCT_MODEL);
+        presenter.loadCategories();
     }
 
     @Override
-    public void setHints(final InventoryModel model) throws SQLException {
+    public void setHints(final InventoryModel model) {
         try {
             if (!model.getProduct_id().equals("-1")) {//This checks the id of the current product
                 setSupportActionBar(toolbar);
@@ -194,6 +188,8 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                             txt_product_category.getText().toString().toUpperCase(), v);
                 }
             });
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         IMAGE_VIEW.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,7 +237,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     }
 
     @Override
-    public void showProgressIndicator() {
+    public void displayProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -251,7 +247,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     }
 
     @Override
-    public void hideProgressIndicator() {
+    public void hideProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

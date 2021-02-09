@@ -48,16 +48,12 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_notifications_view);
-        try {
-            initViews();
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        presenter = new NotificationPresenter(this, NotificationService.getInstance());
+        presenter.initializeViews();
     }
 
     @Override
-    public void initViews() throws SQLException, ClassNotFoundException {
-        presenter = new NotificationPresenter(this, NotificationService.getInstance());
+    public void initViews() {
         recyclerView = findViewById(R.id.recyclerView_notification);
         animationView_Noresult = findViewById(R.id.animationView_noResult);
         progressIndicator = findViewById(R.id.progressBar_Notifications);
@@ -126,13 +122,9 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
                         calendar.set(year, month, dayOfMonth);
                         String dateString = sdf.format(calendar.getTime());
                         Toast.makeText(NotificationsActivityView.this, dateString, Toast.LENGTH_LONG).show();
-
                         // Set search on notifications
-                        try {
-                            presenter.onSearchNotificationYesClicked(dateString);
-                        } catch (SQLException | ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
+                        presenter.onSearchNotificationYesClicked(dateString);
+
                     }
                 }, year, month, day);
                 datePicker.show();
@@ -141,7 +133,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
     }
 
     @Override
-    public void displayProgressIndicator() {
+    public void displayProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -151,7 +143,7 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
     }
 
     @Override
-    public void hideProgressIndicator() {
+    public void hideProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

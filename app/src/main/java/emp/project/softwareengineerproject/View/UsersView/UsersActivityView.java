@@ -1,6 +1,5 @@
 package emp.project.softwareengineerproject.View.UsersView;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -71,13 +70,55 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_users_view);
 
-        try {
-            initViews();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        presenter = new UsersPresenter(this, UsersService.getInstance(new UserModel()));
+        presenter.initializeViews();
+    }
+
+    @Override
+    public void initViews() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
+        toolbar.setTitle("User Profile");
+
+        PROFILE_PICTURE = findViewById(R.id.profile_image);
+        cardView = findViewById(R.id.cardView_Profile);
+        txt_user_id = findViewById(R.id.user_id);
+        txt_username = findViewById(R.id.user_username);
+        txt_password = findViewById(R.id.user_password);
+        txt_real_name = findViewById(R.id.user_real_name);
+        txt_username.setEnabled(false);
+        txt_password.setEnabled(false);
+        txt_real_name.setEnabled(false);
+        cardView = findViewById(R.id.cardView_Profile);
+        progressIndicator = findViewById(R.id.progress_bar_users);
+        progressIndicator.hide();
+        FloatingActionButton floatingActionButton = findViewById(R.id.fab_view);
+        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE);
+        presenter.onPageDisplayProfile(sharedPreferences.getString(LoginActivityView.USERNAME_PREFS, null));
+
+        Animation atg = AnimationUtils.loadAnimation(this, R.anim.atg);
+        Animation atg2 = AnimationUtils.loadAnimation(this, R.anim.atg2);
+        cardView.setAnimation(atg);
+        PROFILE_PICTURE.setAnimation(atg2);
+        PROFILE_PICTURE.setEnabled(false);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onViewButtonClicked();
+            }
+        });
+
+        PROFILE_PICTURE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onImageClicked();
+            }
+        });
+
     }
 
     private static final int IMAGE_PICK_CODE = 777;
@@ -176,54 +217,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         return true;
     }
 
-    @Override
-    public void initViews() throws SQLException, ClassNotFoundException {
-        presenter = new UsersPresenter(this, UsersService.getInstance(new UserModel()));
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
-        toolbar.setTitle("User Profile");
-
-        PROFILE_PICTURE = findViewById(R.id.profile_image);
-        cardView = findViewById(R.id.cardView_Profile);
-        txt_user_id = findViewById(R.id.user_id);
-        txt_username = findViewById(R.id.user_username);
-        txt_password = findViewById(R.id.user_password);
-        txt_real_name = findViewById(R.id.user_real_name);
-        txt_username.setEnabled(false);
-        txt_password.setEnabled(false);
-        txt_real_name.setEnabled(false);
-        cardView = findViewById(R.id.cardView_Profile);
-        progressIndicator = findViewById(R.id.progress_bar_users);
-        progressIndicator.hide();
-        FloatingActionButton floatingActionButton = findViewById(R.id.fab_view);
-        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE);
-        presenter.onPageDisplayProfile(sharedPreferences.getString(LoginActivityView.USERNAME_PREFS, null));
-
-        Animation atg = AnimationUtils.loadAnimation(this, R.anim.atg);
-        Animation atg2 = AnimationUtils.loadAnimation(this, R.anim.atg2);
-        cardView.setAnimation(atg);
-        PROFILE_PICTURE.setAnimation(atg2);
-        PROFILE_PICTURE.setEnabled(false);
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onViewButtonClicked();
-            }
-        });
-
-        PROFILE_PICTURE.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onImageClicked();
-            }
-        });
-
-    }
 
     @Override
     public void displayProfile(UserModel model) {

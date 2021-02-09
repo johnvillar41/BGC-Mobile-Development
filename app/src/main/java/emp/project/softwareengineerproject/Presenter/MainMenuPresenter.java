@@ -105,4 +105,8 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
     }
 
 
+    @Override
+    public void initializeViews() {
+        view.initViews();
+    }
 }

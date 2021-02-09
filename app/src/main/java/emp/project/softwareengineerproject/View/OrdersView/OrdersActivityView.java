@@ -1,6 +1,5 @@
 package emp.project.softwareengineerproject.View.OrdersView;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,15 +39,12 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_orders_view);
-        initViews();
-
-
+        presenter = new OrdersPresenter(this, OrdersService.getInstance(new OrdersModel()));
+        presenter.initializeViews();
     }
 
     @Override
     public void initViews() {
-        presenter = new OrdersPresenter(this, OrdersService.getInstance(new OrdersModel()));
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,7 +64,7 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
     }
 
     @Override
-    public void displayProgressIndicator() {
+    public void displayProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -78,7 +74,7 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
     }
 
     @Override
-    public void hideProgressIndicator() {
+    public void hideProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

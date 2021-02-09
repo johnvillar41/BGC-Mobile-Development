@@ -26,16 +26,16 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 try {
                     List<SalesModel> transactionList = service.getSearchedTransactionListFromDB(date_today);
                     view.displayTransactions(transactionList);
-                    view.hideProgressIndicator();
+                    view.hideProgressBar();
                 } catch (ClassNotFoundException e) {
-                    view.hideProgressIndicator();
+                    view.hideProgressBar();
                     e.printStackTrace();
                 } catch (SQLException e) {
-                    view.hideProgressIndicator();
+                    view.hideProgressBar();
                     e.printStackTrace();
                 }
             }
@@ -48,11 +48,11 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 try {
                     final List<SalesModel> transactionList = service.getSearchedTransactionListFromDB(date);
                     view.displayTransactions(transactionList);
-                    view.hideProgressIndicator();
+                    view.hideProgressBar();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -69,11 +69,11 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 try {
                     final List<SalesModel> transactionList = service.getTransactionsFromDB();
                     view.displayTransactions(transactionList);
-                    view.hideProgressIndicator();
+                    view.hideProgressBar();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -91,7 +91,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 try {
                     service.deleteItem(id);
                 } catch (ClassNotFoundException e) {
@@ -99,7 +99,7 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                view.hideProgressIndicator();
+                view.hideProgressBar();
             }
         });
         thread.start();
@@ -107,4 +107,8 @@ public class SalesTransactionPresenter implements ISalesTransactions.ISalesTrans
     }
 
 
+    @Override
+    public void initializeViews() {
+        view.initViews();
+    }
 }

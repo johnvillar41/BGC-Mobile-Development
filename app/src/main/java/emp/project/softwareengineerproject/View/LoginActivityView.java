@@ -23,7 +23,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.Objects;
 
 import emp.project.softwareengineerproject.CacheManager;
@@ -52,7 +51,9 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
-        initViews();
+
+        presenter = new LoginPresenter(this, LoginService.getInstance());
+        presenter.initializeViews();
         if (!checkNetwork()) {
             displayNoNetworkPrompt();
         }
@@ -64,8 +65,6 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
             displayNoNetworkPrompt();
         } catch (NullPointerException ignored) {
         }
-
-        presenter = new LoginPresenter(this, LoginService.getInstance());
         btn_login = findViewById(R.id.btn_login);
         txt_username = findViewById(R.id.textField_username);
         txt_password = findViewById(R.id.textField_password);
@@ -76,19 +75,13 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                try {
-                    if(checkNetwork()) {
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                        presenter.onLoginButtonClicked(Objects.requireNonNull(txt_username.getEditText()).getText().toString(),
-                                Objects.requireNonNull(txt_password.getEditText()).getText().toString(), v);
-                    } else {
-                        displayNoNetworkPrompt();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                if(checkNetwork()) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    presenter.onLoginButtonClicked(Objects.requireNonNull(txt_username.getEditText()).getText().toString(),
+                            Objects.requireNonNull(txt_password.getEditText()).getText().toString(), v);
+                } else {
+                    displayNoNetworkPrompt();
                 }
             }
         });

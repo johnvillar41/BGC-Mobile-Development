@@ -29,23 +29,9 @@ public class InventoryPresenterTest {
     }
 
     @Test
-    public void testDisplayRecyclerView() throws InterruptedException, SQLException, ClassNotFoundException {
-        presenter.getGreenHouseFromDB();
-        Thread.sleep(1000);
-        Assert.assertTrue(((MockInventoryView)view).isProductDisplaying);
-    }
-
-    @Test
     public void testGoToAddProductPage() {
         presenter.onAddProductButtonClicked();
         Assert.assertTrue(((MockInventoryView)view).goToProductPage);
-    }
-
-    @Test
-    public void testProgressBarsShowing() throws InterruptedException, SQLException, ClassNotFoundException {
-        presenter.getGreenHouseFromDB();
-        Thread.sleep(1000);
-        Assert.assertFalse(((MockInventoryView)view).isProgressBarRecyclersShowing);
     }
 
     @Test
@@ -58,13 +44,6 @@ public class InventoryPresenterTest {
     public void testRefresh() {
         presenter.onSwipeRefresh();
         Assert.assertTrue(((MockInventoryView)view).isRefreshing);
-    }
-
-    @Test
-    public void testCategories() throws InterruptedException, SQLException, ClassNotFoundException {
-        presenter.getGreenHouseFromDB();
-        Thread.sleep(1000);
-        Assert.assertTrue(((MockInventoryView)view).areCategoriesDisplayed);
     }
 
     @Test
@@ -122,12 +101,12 @@ public class InventoryPresenterTest {
         }
 
         @Override
-        public void showProgressBarRecyclers() {
+        public void displayProgressBar() {
             isProgressBarRecyclersShowing = true;
         }
 
         @Override
-        public void hideProgressBarReyclers() {
+        public void hideProgressBar() {
             isProgressBarRecyclersShowing = false;
         }
 

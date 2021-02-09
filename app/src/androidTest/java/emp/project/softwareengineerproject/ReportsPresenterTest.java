@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -110,12 +109,12 @@ public class ReportsPresenterTest {
         }
 
         @Override
-        public void displayProgressIndicator() {
+        public void displayProgressBar() {
             isProgressIndicatorShowing = true;
         }
 
         @Override
-        public void hideProgressIndicator() {
+        public void hideProgressBar() {
             isProgressIndicatorNotShowing = true;
         }
 

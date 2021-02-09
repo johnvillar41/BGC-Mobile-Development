@@ -68,13 +68,18 @@ public class InventorySearchPresenterTest {
         }
 
         @Override
-        public void displayProgressLoader() {
+        public void displayProgressBar() {
             isProgressLoaderShowing = true;
         }
 
         @Override
-        public void hideProgressLoader() {
+        public void hideProgressBar() {
             isProgressLoaderNotShowing = true;
+        }
+
+        @Override
+        public void initViews() {
+
         }
     }
 

@@ -290,12 +290,12 @@ public class InventoryUpdatePresenterTest {
         }
 
         @Override
-        public void showProgressIndicator() {
+        public void displayProgressBar() {
 
         }
 
         @Override
-        public void hideProgressIndicator() {
+        public void hideProgressBar() {
 
         }
 
@@ -394,11 +394,6 @@ public class InventoryUpdatePresenterTest {
                     model.getProduct_description().equals(MOCK_PRODUCT.MOCK_PRODUCT_DESCRIPTION.getVal())) {
                 isProductAdded = true;
             }
-        }
-
-        @Override
-        public void addNotifications(Connection connection, String sqlNotification, NotificationModel notificationModel) {
-
         }
 
         @Override

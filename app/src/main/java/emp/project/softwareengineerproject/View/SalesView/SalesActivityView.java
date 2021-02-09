@@ -19,7 +19,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.progressindicator.ProgressIndicator;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -44,18 +43,12 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sales_view);
 
-
-        try {
-            initViews();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        presenter = new SalesPresenter(this, SalesService.getInstance());
+        presenter.initializeViews();
     }
 
     @Override
-    public void initViews() throws SQLException, ClassNotFoundException {
+    public void initViews() {
         txtBalance = findViewById(R.id.txt_balance);
         image_create_sale = findViewById(R.id.image_create_sale);
         image_view_transactions = findViewById(R.id.image_view_transactions);
@@ -64,17 +57,13 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
         Glide.with(this).load(R.drawable.ic_money_large).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_create_sale);
         Glide.with(this).load(R.drawable.ic_list_large).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(image_view_transactions);
 
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
 
-        presenter = new SalesPresenter(this, SalesService.getInstance());
-
         presenter.onLoadPage();
-
         image_create_sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,13 +94,7 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
 
     @Override
     protected void onResume() {
-        try {
-            presenter.onLoadPage();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        presenter.onLoadPage();
         super.onResume();
     }
 
@@ -141,7 +124,7 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
     }
 
     @Override
-    public void displayProgressIndicator() {
+    public void displayProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -151,7 +134,7 @@ public class SalesActivityView extends AppCompatActivity implements ISales.ISale
     }
 
     @Override
-    public void hideProgressIndicator() {
+    public void hideProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

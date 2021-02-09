@@ -28,13 +28,19 @@ public class InformationActivityView extends AppCompatActivity implements IInfor
     private ProgressIndicator progressIndicator;
     private RecyclerView recyclerView_Information;
     private IInformation.IInformationPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_information_view);
+        presenter = new InformationPresenter(this, InformationService.getInstance());
+        presenter.initializeViews();
+    }
 
+    @Override
+    public void initViews() {
         progressIndicator = findViewById(R.id.progressBar_Information);
         recyclerView_Information = findViewById(R.id.recyclerView_Information);
 
@@ -44,7 +50,6 @@ public class InformationActivityView extends AppCompatActivity implements IInfor
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
 
-        presenter = new InformationPresenter(this, InformationService.getInstance());
         presenter.loadData();
     }
 
@@ -82,8 +87,8 @@ public class InformationActivityView extends AppCompatActivity implements IInfor
             @Override
             public void run() {
                 InformationRecyclerView adapter = new InformationRecyclerView(
-                        InformationActivityView.this, informationModelList,presenter);
-                recyclerView_Information.setLayoutManager(new GridLayoutManager(InformationActivityView.this,3));
+                        InformationActivityView.this, informationModelList, presenter);
+                recyclerView_Information.setLayoutManager(new GridLayoutManager(InformationActivityView.this, 3));
                 recyclerView_Information.setAdapter(adapter);
                 recyclerView_Information.scheduleLayoutAnimation();
             }

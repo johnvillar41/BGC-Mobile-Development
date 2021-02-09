@@ -33,14 +33,12 @@ import com.google.android.material.progressindicator.ProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.CacheManager;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
 import emp.project.softwareengineerproject.Model.Bean.CartListModel;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
-import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.Model.Database.Services.SalesService.SalesAddService;
 import emp.project.softwareengineerproject.Presenter.SalesPresenter.SalesAddPresenter;
 import emp.project.softwareengineerproject.R;
@@ -62,17 +60,12 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sales_add_transaction_view);
 
-        try {
-            initViews();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        presenter = new SalesAddPresenter(this, SalesAddService.getInstance());
+        presenter.initializeViews();
     }
 
     @Override
-    public void initViews() throws SQLException, ClassNotFoundException {
+    public void initViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,7 +76,6 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
         progressIndicator = findViewById(R.id.progressBar_AddSales);
         animationView_Noresult = findViewById(R.id.animationView_noResult);
 
-        presenter = new SalesAddPresenter(this, SalesAddService.getInstance());
         presenter.loadProductList();
         floatingActionButton_Cart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,17 +131,11 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
             alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    try {
-                        if (isUpdateButtonClicked) {
-                            presenter.loadProductList();
-                        }
-                        CartListModel.getInstance().cartList.clear();
-                        numberOfDialogsOpen = 0;
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                    if (isUpdateButtonClicked) {
+                        presenter.loadProductList();
                     }
+                    CartListModel.getInstance().cartList.clear();
+                    numberOfDialogsOpen = 0;
                 }
             });
         }
@@ -246,7 +232,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
     }
 
     @Override
-    public void displayProgressIndicator() {
+    public void displayProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -256,7 +242,7 @@ public class SalesAddActivityView extends AppCompatActivity implements ISalesAdd
     }
 
     @Override
-    public void hideProgressIndicator() {
+    public void hideProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

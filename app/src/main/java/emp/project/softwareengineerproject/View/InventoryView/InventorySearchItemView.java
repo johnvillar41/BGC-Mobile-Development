@@ -39,12 +39,12 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_inventory_search_item_view);
-
-        initViews();
+        presenter = new InventorySearchItemPresenter(this, InventorySearchItemService.getInstance(new InventoryModel()));
+        presenter.initializeViews();
     }
 
-    private void initViews() {
-        presenter = new InventorySearchItemPresenter(this, InventorySearchItemService.getInstance(new InventoryModel()));
+    @Override
+    public void initViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,11 +57,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
         txt_searchItem.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, String newQuery) {
-                try {
-                    presenter.onSearchItemProduct(txt_searchItem.getQuery());
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
+                presenter.onSearchItemProduct(txt_searchItem.getQuery());
             }
         });
         progressBar = findViewById(R.id.progressBar_search_item);
@@ -101,7 +97,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
     }
 
     @Override
-    public void displayProgressLoader() {
+    public void displayProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -111,7 +107,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
     }
 
     @Override
-    public void hideProgressLoader() {
+    public void hideProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

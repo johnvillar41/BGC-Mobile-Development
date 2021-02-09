@@ -250,12 +250,12 @@ public class UsersAddPresenterTest {
         }
 
         @Override
-        public void displayProgressIndicator() {
+        public void displayProgressBar() {
             isProgressIndicatoryShowing = true;
         }
 
         @Override
-        public void hideProgressIndicator() {
+        public void hideProgressBar() {
             isProgressIndicatoryNotShowing = true;
         }
 

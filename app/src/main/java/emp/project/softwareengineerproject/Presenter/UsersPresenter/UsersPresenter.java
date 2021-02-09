@@ -57,11 +57,7 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
             public void run() {
                 try {
                     final List<UserModel> userList = service.getUsersListFromDB();
-                    try {
-                        view.displayPopupUsers(userList);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    view.displayPopupUsers(userList);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -159,4 +155,8 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
     }
 
 
+    @Override
+    public void initializeViews() {
+        view.initViews();
+    }
 }

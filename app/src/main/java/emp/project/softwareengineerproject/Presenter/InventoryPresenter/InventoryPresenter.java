@@ -23,7 +23,7 @@ public class InventoryPresenter implements IInvetory.IinventoryPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.showProgressBarRecyclers();
+                view.displayProgressBar();
                 final List<InventoryModel>[] productlistDb = new ArrayList[3];
                 List<String> productList = new ArrayList<>();
                 try {
@@ -41,7 +41,7 @@ public class InventoryPresenter implements IInvetory.IinventoryPresenter {
                 final List<String> finalProductList = productList;
                 view.displayRecyclerView(productlistDb);
                 view.displayCategory(finalProductList);
-                view.hideProgressBarReyclers();
+                view.hideProgressBar();
             }
         });
         thread.start();
@@ -100,4 +100,8 @@ public class InventoryPresenter implements IInvetory.IinventoryPresenter {
     }
 
 
+    @Override
+    public void initializeViews() {
+        view.initViews();
+    }
 }

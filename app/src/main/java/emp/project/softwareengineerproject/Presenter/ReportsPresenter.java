@@ -51,12 +51,12 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
             public void run() {
                 try {
 
-                    view.displayProgressIndicator();
+                    view.displayProgressBar();
 
                     adminList[0] = service.getListOfAdministrators();
 
                     view.displayAdministratorList(adminList[0]);
-                    view.hideProgressIndicator();
+                    view.hideProgressBar();
 
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
@@ -79,7 +79,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
                     final int totalAveMonthly = service.computeAverages(username)[2];
 
                     view.displayTotals(String.valueOf(total), String.valueOf(average), String.valueOf(totalAveMonthly));
-                    view.hideProgressIndicator();
+                    view.hideProgressBar();
 
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
@@ -98,7 +98,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
             public void run() {
                 try {
 
-                    view.displayProgressIndicator();
+                    view.displayProgressBar();
 
                     final int total = service.computeAverages(username)[0];
                     final int average = service.computeAverages(username)[1];
@@ -107,7 +107,7 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
                     try {
                         view.displayTotals(String.valueOf(total), String.valueOf(average), String.valueOf(totalAveMonthly));
                         view.displayChart(service.getMonthlySales(username), username);
-                        view.hideProgressIndicator();
+                        view.hideProgressBar();
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (SQLException e) {
@@ -151,5 +151,10 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
         thread.start();
 
 
+    }
+
+    @Override
+    public void initializeViews() {
+        view.initViews();
     }
 }

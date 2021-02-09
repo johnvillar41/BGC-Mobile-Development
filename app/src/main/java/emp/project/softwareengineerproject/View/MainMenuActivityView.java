@@ -65,17 +65,13 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main_menu);
 
-        initViews();
+        presenter = new MainMenuPresenter(this, MainMenuService.getInstance());
+        presenter.initializeViews();
     }
 
     @Override
     public void initViews() {
-        /**
-         * Shared Preferences for getting the session of the user
-         */
         sharedPreferences = getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE);
-
-        presenter = new MainMenuPresenter(this, MainMenuService.getInstance());
         Animation atg = AnimationUtils.loadAnimation(this, R.anim.atg);
 
         try {

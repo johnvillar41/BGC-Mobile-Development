@@ -35,7 +35,7 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 String[] arrTexts = new String[4];
                 arrTexts[0] = username;
                 arrTexts[1] = password1;
@@ -50,51 +50,51 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                         case EMPTY_USERNAME:
                             view.displayStatusMessage(EMPTY_USERNAME_FIELD, v);
                             view.setErrorUserName(EMPTY_USERNAME_FIELD);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case EMPTY_PASSWORD:
                             view.displayStatusMessage(EMPTY_PASSWORD_FIELD, v);
                             view.setErrorPassword(EMPTY_PASSWORD_FIELD);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case EMPTY_PASSWORD_2:
                             view.displayStatusMessage(EMPTY_PASSWORD_2_FIELD, v);
                             view.setErrorPassword_2(EMPTY_PASSWORD_2_FIELD);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case EMPTY_REAL_NAME:
                             view.displayStatusMessage(EMPTY_REAL_NAME_FIELD, v);
                             view.setErrorRealName(EMPTY_REAL_NAME_FIELD);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case EMPTY_PROFILE_PICTURE:
                             view.displayStatusMessage(EMPTY_PROFILE_PIC_FIELD, v);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case PASSWORD_NOT_EQUAL:
                             view.displayStatusMessage(PASSWORD_NOT_EQUAL, v);
                             view.setErrorPassword(PASSWORD_NOT_EQUAL);
                             view.setErrorPassword_2(PASSWORD_NOT_EQUAL);
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         /**
                          * This is for the Valid Cases
                          */
                         case VALID_USERNAME:
                             view.removeErrorUsername();
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case VALID_PASSWORD:
                             view.removeErrorPassword();
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case VALID_PASSWORD_2:
                             view.removeErrorPassword_2();
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case VALID_REAL_NAME:
                             view.removeErrorRealName();
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                         case EQUAL_PASSWORD:
                             view.removeErrorPassword();
@@ -113,7 +113,7 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
-                            view.hideProgressIndicator();
+                            view.hideProgressBar();
                             break;
                     }
                 }
@@ -129,4 +129,8 @@ public class UsersAddPresenter implements IUsersAdd.IUsersAddPresenter {
     }
 
 
+    @Override
+    public void initializeViews() {
+        view.initViews();
+    }
 }

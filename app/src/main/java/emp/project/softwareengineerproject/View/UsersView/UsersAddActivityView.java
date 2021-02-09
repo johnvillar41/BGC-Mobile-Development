@@ -42,7 +42,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.sql.SQLException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.CacheManager;
@@ -66,12 +65,13 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_users_add_view);
-        initViews();
+
+        presenter = new UsersAddPresenter(this, UsersAddService.getInstance());
+        presenter.initializeViews();
     }
 
     @Override
     public void initViews() {
-        presenter = new UsersAddPresenter(this, UsersAddService.getInstance());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -92,18 +92,12 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
         btn_add_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    presenter.onAddButtonClicked(
-                            txt_username.getEditText().getText().toString(),
-                            txt_password1.getEditText().getText().toString(),
-                            txt_password2.getEditText().getText().toString(),
-                            txt_realName.getEditText().getText().toString(),
-                            FILE_INPUT_STREAM, v);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
+                presenter.onAddButtonClicked(
+                        txt_username.getEditText().getText().toString(),
+                        txt_password1.getEditText().getText().toString(),
+                        txt_password2.getEditText().getText().toString(),
+                        txt_realName.getEditText().getText().toString(),
+                        FILE_INPUT_STREAM, v);
             }
         });
         PROFILE_PICTURE.setOnClickListener(new View.OnClickListener() {
@@ -219,7 +213,7 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
     }
 
     @Override
-    public void displayProgressIndicator() {
+    public void displayProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -229,7 +223,7 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
     }
 
     @Override
-    public void hideProgressIndicator() {
+    public void hideProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

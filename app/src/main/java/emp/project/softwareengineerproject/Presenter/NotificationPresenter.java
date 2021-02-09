@@ -48,9 +48,9 @@ public class NotificationPresenter implements INotification.INotificationPresent
                     e.printStackTrace();
                 }
                 final List<NotificationModel> finalNotifsList = notifsList;
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 view.displayNotificationRecyclerView(finalNotifsList);
-                view.hideProgressIndicator();
+                view.hideProgressBar();
             }
 
         });
@@ -63,7 +63,7 @@ public class NotificationPresenter implements INotification.INotificationPresent
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                view.displayProgressIndicator();
+                view.displayProgressBar();
                 try {
                     view.displayNotificationRecyclerView(service.fetchNotifsFromDB(date));
                 } catch (SQLException e) {
@@ -71,7 +71,7 @@ public class NotificationPresenter implements INotification.INotificationPresent
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                view.hideProgressIndicator();
+                view.hideProgressBar();
             }
         });
         thread.start();
@@ -79,4 +79,8 @@ public class NotificationPresenter implements INotification.INotificationPresent
     }
 
 
+    @Override
+    public void initializeViews() {
+        view.initViews();
+    }
 }

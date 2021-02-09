@@ -31,9 +31,9 @@ public class SalesPresenter implements ISales.ISalesPresenter {
             public void run() {
                 try {
                     final String totalTransactions = String.valueOf(service.getTotalTransactionsFromDB());
-                    view.displayProgressIndicator();
+                    view.displayProgressBar();
                     view.displayTotalBalance(totalTransactions);
-                    view.hideProgressIndicator();
+                    view.hideProgressBar();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -42,5 +42,10 @@ public class SalesPresenter implements ISales.ISalesPresenter {
             }
         });
         thread.start();
+    }
+
+    @Override
+    public void initializeViews() {
+        view.initViews();
     }
 }

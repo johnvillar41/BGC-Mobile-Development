@@ -22,7 +22,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.airbnb.lottie.LottieAnimationView;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.CacheManager;
@@ -48,27 +47,17 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_inventory_view);
-
-        try {
-            initViews();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        presenter = new InventoryPresenter(this, InventoryService.getInstance(new InventoryModel()));
+        presenter.initializeViews();
     }
 
     @Override
-    public void initViews() throws SQLException, ClassNotFoundException, InterruptedException {
+    public void initViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
-
-        presenter = new InventoryPresenter(this, InventoryService.getInstance(new InventoryModel()));
 
         progressBar_greenHouse = findViewById(R.id.progress_bar_greenhouse);
         progressBar_hydroponics = findViewById(R.id.progress_bar_hydroponics);
@@ -98,15 +87,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     @Override
     protected void onResume() {
         if (InventoryUpdatePresenter.isAddProductClicked) {
-            try {
-                presenter.loadData();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+            presenter.loadData();
         }
         super.onResume();
     }
@@ -194,7 +175,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     }
 
     @Override
-    public void showProgressBarRecyclers() {
+    public void displayProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -206,7 +187,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     }
 
     @Override
-    public void hideProgressBarReyclers() {
+    public void hideProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -225,15 +206,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     public void refreshPage() {
-        try {
-            presenter.loadData();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        presenter.loadData();
     }
 
     @Override
@@ -247,13 +220,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         final String selectedItem = spinner_category.getSelectedItem().toString();
-                        try {
-                            presenter.onItemSpinnerSelected(selectedItem);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
+                        presenter.onItemSpinnerSelected(selectedItem);
                     }
 
                     @Override

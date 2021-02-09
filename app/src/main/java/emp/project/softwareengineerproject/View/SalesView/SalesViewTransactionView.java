@@ -48,13 +48,13 @@ public class SalesViewTransactionView extends AppCompatActivity implements ISale
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sales_transaction_view);
-        initViews();
 
+        presenter = new SalesTransactionPresenter(this, SalesTransactionService.getInstance(new SalesModel()));
+        presenter.initializeViews();
     }
 
     @Override
     public void initViews() {
-        presenter = new SalesTransactionPresenter(this, SalesTransactionService.getInstance(new SalesModel()));
         recyclerView = findViewById(R.id.recyclerView_transactions);
         empty_image = findViewById(R.id.animationView_noResult);
         progressIndicator = findViewById(R.id.progressBar_TransactionList);
@@ -146,7 +146,7 @@ public class SalesViewTransactionView extends AppCompatActivity implements ISale
     }
 
     @Override
-    public void displayProgressIndicator() {
+    public void displayProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -156,7 +156,7 @@ public class SalesViewTransactionView extends AppCompatActivity implements ISale
     }
 
     @Override
-    public void hideProgressIndicator() {
+    public void hideProgressBar() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

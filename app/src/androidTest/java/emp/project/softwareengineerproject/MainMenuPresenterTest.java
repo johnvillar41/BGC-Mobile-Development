@@ -147,12 +147,22 @@ public class MainMenuPresenterTest {
         }
 
         @Override
+        public void goToInformation() {
+
+        }
+
+        @Override
         public void displayNumberOfNotifs(String numberOfNotifs) {
             if (numberOfNotifs.equals("3")) {
                 isNumberOfNotifsDisplayed = true;
             } else {
                 isNumberOfNotifsDisplayed = false;
             }
+        }
+
+        @Override
+        public void displayNumberOfInformations(String numberOfInfo) {
+
         }
 
         @Override
@@ -189,6 +199,11 @@ public class MainMenuPresenterTest {
 
         @Override
         public Blob getProfilePicture() {
+            return null;
+        }
+
+        @Override
+        public Integer getNumberOfInformation() throws ClassNotFoundException, SQLException {
             return null;
         }
     }

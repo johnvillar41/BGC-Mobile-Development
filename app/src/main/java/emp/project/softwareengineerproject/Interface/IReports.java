@@ -7,13 +7,7 @@ import emp.project.softwareengineerproject.Model.Bean.ReportsModel;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
 
 public interface IReports {
-    interface IReportsView{
-        void initViews() throws SQLException, ClassNotFoundException;
-
-        void displayProgressIndicator();
-
-        void hideProgressIndicator();
-
+    interface IReportsView extends IBaseView {
         void displayProgressCircle();
 
         void hideProgressCircle();
@@ -22,16 +16,17 @@ public interface IReports {
 
         void hideProgressCircle_Users();
 
-        void displayTotals(String total,String average, String ave_Monthly);
+        void displayTotals(String total, String average, String ave_Monthly);
 
-        void displayChart(ReportsModel monthValues,String username);
+        void displayChart(ReportsModel monthValues, String username);
 
-        void displayRecyclerView(List<UserModel>sortedUserList);
+        void displayRecyclerView(List<UserModel> sortedUserList);
 
-        void displayAdministratorList(List<String>adminList);
+        void displayAdministratorList(List<String> adminList);
     }
-    interface IReportsPresenter{
-        void loadTotals(String username) throws SQLException, ClassNotFoundException;
+
+    interface IReportsPresenter extends IBasePresenter {
+        void loadTotals(String username);
 
         void loadChartValues();
 
@@ -41,14 +36,15 @@ public interface IReports {
 
         void loadSortedAdministrators();
     }
-    interface IReportsService extends IServiceStrictMode{
+
+    interface IReportsService extends IServiceStrictMode {
 
         int[] computeAverages(String username) throws ClassNotFoundException, SQLException;
 
         ReportsModel getMonthlySales(String username) throws ClassNotFoundException, SQLException;
 
-        List<String>getListOfAdministrators() throws ClassNotFoundException, SQLException;
+        List<String> getListOfAdministrators() throws ClassNotFoundException, SQLException;
 
-        List<UserModel>getAdminsFromDB() throws ClassNotFoundException, SQLException;
+        List<UserModel> getAdminsFromDB() throws ClassNotFoundException, SQLException;
     }
 }

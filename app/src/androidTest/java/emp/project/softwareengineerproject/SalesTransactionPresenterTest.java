@@ -72,12 +72,12 @@ public class SalesTransactionPresenterTest {
         }
 
         @Override
-        public void displayProgressIndicator() {
+        public void displayProgressBar() {
             isProgressIndicatorShowing = true;
         }
 
         @Override
-        public void hideProgressIndicator() {
+        public void hideProgressBar() {
             isProgressIndicatorNotShowing = true;
         }
     }
