@@ -320,19 +320,12 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                this.finish();
-                break;
-            }
-            case R.id.action_addfav: {
-                presenter.onAddProductButtonClicked();
-                break;
-            }
-            case R.id.search_item: {
-                presenter.searchButtonClicked();
-                break;
-            }
+        if (item.getItemId() == android.R.id.home) {
+            this.finish();
+        } else if (item.getItemId() == R.id.action_addfav) {
+            presenter.onAddProductButtonClicked();
+        } else if (item.getItemId() == R.id.search_item) {
+            presenter.searchButtonClicked();
         }
         return super.onOptionsItemSelected(item);
     }

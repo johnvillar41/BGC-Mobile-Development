@@ -291,42 +291,24 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         super.onDestroy();
     }
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.cardView_inventory: {
-                presenter.onInventoryButtonClicked();
-                break;
-            }
-            case R.id.cardView_sales: {
-                presenter.onSalesButtonClicked();
-                break;
-            }
-            case R.id.cardView_reports: {
-                presenter.onReportsButtonClicked();
-                break;
-            }
-            case R.id.cardView_users: {
-                presenter.onUsersButtonClicked();
-                break;
-            }
-            case R.id.cardView_settings: {
-                presenter.onSettingsButtonClicked();
-                break;
-            }
-            case R.id.cardView_logout: {
-                presenter.onLogoutButtonClicked(v);
-                break;
-            }
-            case R.id.fab_notifications: {
-                presenter.onNotificationButtonClicked();
-                break;
-            }
-            case R.id.fab_information: {
-                presenter.onInformationButtonClicked();
-                break;
-            }
+        if (v.getId() == R.id.cardView_inventory) {
+            presenter.onInventoryButtonClicked();
+        } else if (v.getId() == R.id.cardView_sales) {
+            presenter.onSalesButtonClicked();
+        } else if (v.getId() == R.id.cardView_reports) {
+            presenter.onReportsButtonClicked();
+        } else if (v.getId() == R.id.cardView_users) {
+            presenter.onUsersButtonClicked();
+        } else if (v.getId() == R.id.cardView_settings) {
+            presenter.onSettingsButtonClicked();
+        } else if (v.getId() == R.id.cardView_logout) {
+            presenter.onLogoutButtonClicked(v);
+        } else if (v.getId() == R.id.fab_notifications) {
+            presenter.onNotificationButtonClicked();
+        } else if (v.getId() == R.id.fab_information) {
+            presenter.onInformationButtonClicked();
         }
     }
 }

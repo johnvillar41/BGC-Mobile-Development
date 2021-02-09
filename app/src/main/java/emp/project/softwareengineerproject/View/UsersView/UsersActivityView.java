@@ -280,27 +280,20 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         return isEnabled;
     }
 
-    @SuppressLint("NonConstantResourceId")
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                this.finish();
-                break;
-            }
-            case R.id.action_addfav: {
-                presenter.onAddButtonClicked();
-                break;
-            }
-            case R.id.action_editfav: {
-                presenter.onEditAccountButtonClicked(
-                        txt_user_id.getEditText().getText().toString(),
-                        txt_username.getEditText().getText().toString(),
-                        txt_password.getEditText().getText().toString(),
-                        txt_real_name.getEditText().getText().toString(),
-                        FILE_INPUT_STREAM);
-                break;
-            }
+        if (item.getItemId() == android.R.id.home) {
+            this.finish();
+        } else if (item.getItemId() == R.id.action_addfav) {
+            presenter.onAddButtonClicked();
+        } else if (item.getItemId() == R.id.action_editfav) {
+            presenter.onEditAccountButtonClicked(
+                    txt_user_id.getEditText().getText().toString(),
+                    txt_username.getEditText().getText().toString(),
+                    txt_password.getEditText().getText().toString(),
+                    txt_real_name.getEditText().getText().toString(),
+                    FILE_INPUT_STREAM);
         }
         return super.onOptionsItemSelected(item);
     }

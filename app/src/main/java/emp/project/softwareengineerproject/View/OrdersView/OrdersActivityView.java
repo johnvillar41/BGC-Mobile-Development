@@ -131,26 +131,18 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         boolean clicked = false;
-        switch (item.getItemId()) {
-            case R.id.page_finished_orders: {
-                clicked = true;
-                presenter.onNavigationFinishedOrders();
-                break;
-            }
-            case R.id.page_cancelled_orders: {
-                clicked = true;
-                presenter.onNavigationCancelledOrders();
-                break;
-            }
-            case R.id.page_pending_orders: {
-                clicked = true;
-                presenter.onNavigationPendingOrders();
-                break;
-            }
+        if (item.getItemId() == R.id.page_finished_orders) {
+            clicked = true;
+            presenter.onNavigationFinishedOrders();
+        } else if (item.getItemId() == R.id.page_cancelled_orders) {
+            clicked = true;
+            presenter.onNavigationCancelledOrders();
+        } else if (item.getItemId() == R.id.page_pending_orders) {
+            clicked = true;
+            presenter.onNavigationPendingOrders();
         }
         return clicked;
     }

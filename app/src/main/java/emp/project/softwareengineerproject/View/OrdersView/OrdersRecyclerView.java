@@ -62,52 +62,50 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                 PopupMenu popup = new PopupMenu(context, holder.imageView_menu);
                 popup.inflate(R.menu.menu_orders);
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @SuppressLint("NonConstantResourceId")
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.page_pending_orders:
-                                presenter.onMenuPendingClicked(model.getOrder_id());
-                                if (!model.getOrder_status().equals(STATUS.PENDING.getStatus())) {
-                                    list.remove(position);
-                                    notifyItemRemoved(position);
-                                    notifyItemRangeChanged(position, list.size());
-                                    presenter.addNotification(STATUS.PENDING_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
-                                }
-                                return true;
-                            case R.id.page_finished_orders:
-                                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                                dialogBuilder.setTitle("Finsish Item");
-                                dialogBuilder.setIcon(R.drawable.ic_move);
-                                dialogBuilder.setMessage("Are you sure you want to finish this order?");
-                                dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        presenter.onMenuFinishClicked(model.getOrder_id());
-                                        if (!model.getOrder_status().equals(STATUS.FINISHED.getStatus())) {
-                                            list.remove(position);
-                                            notifyItemRemoved(position);
-                                            notifyItemRangeChanged(position, list.size());
-                                            presenter.addNotification(STATUS.FINISHED_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
-                                        }
+                        if (item.getItemId() == R.id.page_pending_orders) {
+                            presenter.onMenuPendingClicked(model.getOrder_id());
+                            if (!model.getOrder_status().equals(STATUS.PENDING.getStatus())) {
+                                list.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, list.size());
+                                presenter.addNotification(STATUS.PENDING_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
+                            }
+                            return true;
+                        } else if (item.getItemId() == R.id.page_finished_orders) {
+                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                            dialogBuilder.setTitle("Finsish Item");
+                            dialogBuilder.setIcon(R.drawable.ic_move);
+                            dialogBuilder.setMessage("Are you sure you want to finish this order?");
+                            dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    presenter.onMenuFinishClicked(model.getOrder_id());
+                                    if (!model.getOrder_status().equals(STATUS.FINISHED.getStatus())) {
+                                        list.remove(position);
+                                        notifyItemRemoved(position);
+                                        notifyItemRangeChanged(position, list.size());
+                                        presenter.addNotification(STATUS.FINISHED_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
                                     }
-                                });
-                                dialogBuilder.setNegativeButton("No", null);
-                                dialogBuilder.show();
-                                return true;
-                            case R.id.page_cancelled_orders:
-                                presenter.onMenuCancelClicked(model.getOrder_id());
-                                if (!model.getOrder_status().equals(STATUS.CANCELLED.getStatus())) {
-                                    list.remove(position);
-                                    notifyItemRemoved(position);
-                                    notifyItemRangeChanged(position, list.size());
-                                    presenter.addNotification(STATUS.CANCELLED_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
                                 }
-                                return true;
-                            default:
-                                return false;
+                            });
+                            dialogBuilder.setNegativeButton("No", null);
+                            dialogBuilder.show();
+                            return true;
+                        } else if (item.getItemId() == R.id.page_cancelled_orders) {
+                            presenter.onMenuCancelClicked(model.getOrder_id());
+                            if (!model.getOrder_status().equals(STATUS.CANCELLED.getStatus())) {
+                                list.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, list.size());
+                                presenter.addNotification(STATUS.CANCELLED_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
+                            }
+                            return true;
                         }
+                        return false;
                     }
+
                 });
                 popup.show();
             }
@@ -130,7 +128,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                     Thread thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            ((Activity)context).runOnUiThread(new Runnable() {
+                            ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     holder.progress_bar_specific_orders.setVisibility(View.VISIBLE);
