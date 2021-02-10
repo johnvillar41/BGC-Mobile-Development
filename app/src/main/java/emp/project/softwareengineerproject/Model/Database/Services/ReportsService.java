@@ -70,8 +70,10 @@ public class ReportsService implements IReports.IReportsService {
         String sqlGetMonthlyVals = "SELECT * FROM reports_table WHERE user_username=" + "'" + username + "'";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlGetMonthlyVals);
         ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            model = new ReportsModel(resultSet.getString("reports_id"), resultSet.getString("user_username"),
+        if (resultSet.next()) {
+            model = new ReportsModel(
+                    resultSet.getString("reports_id"),
+                    resultSet.getString("user_username"),
                     resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6),
                     resultSet.getString(7), resultSet.getString(8), resultSet.getString(9), resultSet.getString(10),
                     resultSet.getString(11), resultSet.getString(12), resultSet.getString(13), resultSet.getString(14),

@@ -89,6 +89,7 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
             public void run() {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(ReportsActivityView.this, android.R.layout.simple_spinner_dropdown_item, adminList);
                 spinner.setAdapter(adapter);
+                spinner.setSelection(0);
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

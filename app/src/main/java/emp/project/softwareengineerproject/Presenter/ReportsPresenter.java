@@ -27,12 +27,9 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
             public void run() {
                 try {
                     view.displayProgressCircle();
-
                     ReportsModel model = service.getMonthlySales(LoginActivityView.USERNAME_VALUE);
-
                     view.displayChart(model, LoginActivityView.USERNAME_VALUE);
                     view.hideProgressCircle();
-
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -50,14 +47,10 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
             @Override
             public void run() {
                 try {
-
                     view.displayProgressBar();
-
                     adminList[0] = service.getListOfAdministrators();
-
                     view.displayAdministratorList(adminList[0]);
                     view.hideProgressBar();
-
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -77,10 +70,8 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
                     final int total = service.computeAverages(username)[0];
                     final int average = service.computeAverages(username)[1];
                     final int totalAveMonthly = service.computeAverages(username)[2];
-
                     view.displayTotals(String.valueOf(total), String.valueOf(average), String.valueOf(totalAveMonthly));
                     view.hideProgressBar();
-
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -97,28 +88,27 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
             @Override
             public void run() {
                 try {
-
                     view.displayProgressBar();
-
                     final int total = service.computeAverages(username)[0];
                     final int average = service.computeAverages(username)[1];
                     final int totalAveMonthly = service.computeAverages(username)[2];
-
                     try {
                         view.displayTotals(String.valueOf(total), String.valueOf(average), String.valueOf(totalAveMonthly));
-                        view.displayChart(service.getMonthlySales(username), username);
+                        ReportsModel reportsModel = service.getMonthlySales(username);
+                        view.displayChart(reportsModel, username);
                         view.hideProgressBar();
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-
+                    view.hideProgressBar();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                view.hideProgressBar();
             }
         });
         thread.start();
@@ -132,15 +122,11 @@ public class ReportsPresenter implements IReports.IReportsPresenter {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 view.displayProgressCircle_Users();
-
                 try {
                     final List<UserModel> adminList = service.getAdminsFromDB();
-
                     view.displayRecyclerView(adminList);
                     view.hideProgressCircle_Users();
-
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
