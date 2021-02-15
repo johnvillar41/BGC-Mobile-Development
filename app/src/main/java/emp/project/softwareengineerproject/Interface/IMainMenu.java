@@ -61,6 +61,9 @@ public interface IMainMenu {
 
         void directPictureDisplay();
 
+        void loadNumberOfNotfis();
+
+        void loadNumberOfInfos();
 
     }
 

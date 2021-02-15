@@ -95,6 +95,38 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
     }
 
     @Override
+    public void loadNumberOfNotfis() {
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                    LocalDateTime now = LocalDateTime.now();
+                    String numberOfNotifs = String.valueOf(service.getNumberOfNotifications(dtf.format(now)));
+                    view.displayNumberOfNotifs(numberOfNotifs);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });thread.start();
+    }
+
+    @Override
+    public void loadNumberOfInfos() {
+        try {
+            String numberOfInfo = String.valueOf(service.getNumberOfInformation());
+            view.displayNumberOfInformations(numberOfInfo);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    @Override
     public void onNotificationButtonClicked() {
         view.gotoNotifications();
     }

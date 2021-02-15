@@ -251,6 +251,8 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
      */
     @Override
     protected void onResume() {
+        presenter.loadNumberOfInfos();
+        presenter.loadNumberOfNotfis();
         if (sharedPreferences.getString(LoginActivityView.USERNAME_PREFS, null) == null) {
             this.finish();
         }
