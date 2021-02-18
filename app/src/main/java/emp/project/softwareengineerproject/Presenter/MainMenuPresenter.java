@@ -115,14 +115,20 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
 
     @Override
     public void loadNumberOfInfos() {
-        try {
-            String numberOfInfo = String.valueOf(service.getNumberOfInformation());
-            view.displayNumberOfInformations(numberOfInfo);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String numberOfInfo = String.valueOf(service.getNumberOfInformation());
+                    view.displayNumberOfInformations(numberOfInfo);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });thread.start();
+
 
     }
 
