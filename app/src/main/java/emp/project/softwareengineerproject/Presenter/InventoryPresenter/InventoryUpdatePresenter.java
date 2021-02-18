@@ -107,55 +107,43 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                         //Invalid
                         case EMPTY_PRODUCT_NAME:
                             view.setErrorProductName(EMPTY_PRODUCT_NAME);
-                            view.hideProgressBar();
                             break;
                         case EMPTY_PRODUCT_DESCRIPTION:
                             view.setErrorProductDescription(EMPTY_PRODUCT_DESCRIPTION);
-                            view.hideProgressBar();
                             break;
                         case EMPTY_PRODUCT_PRICE:
                             view.setErrorProductPrice(EMPTY_PRODUCT_PRICE);
-                            view.hideProgressBar();
                             break;
                         case EMPTY_PRODUCT_STOCKS:
                             view.setErrorProductStocks(EMPTY_PRODUCT_STOCKS);
-                            view.hideProgressBar();
                             break;
                         case EMPTY_PRODUCT_CATEGORY:
                             view.setErrorProductCategory(EMPTY_PRODUCT_CATEGORY);
-                            view.hideProgressBar();
                             break;
                         case EMPTY_PRODUCT_IMAGE:
                             view.displayStatusMessage(EMPTY_PICTURE, v);
-                            view.hideProgressBar();
                             break;
 
                         //Zero value cases
                         case INVALID_PRODUCT_PRICE:
                             view.displayStatusMessage(ZERO_VALUE_PRICE, v);
-                            view.hideProgressBar();
                             break;
 
                         //Valid cases
                         case VALID_PRODUCT_NAME:
                             view.removeErrorProductName();
-                            view.hideProgressBar();
                             break;
                         case VALID_PRODUCT_DESCRIPTION:
                             view.removeErrorProductDescription();
-                            view.hideProgressBar();
                             break;
                         case VALID_PRODUCT_PRICE:
                             view.removeErrorProductPrice();
-                            view.hideProgressBar();
                             break;
                         case VALID_PRODUCT_STOCKS:
                             view.removeErrorProductStocks();
-                            view.hideProgressBar();
                             break;
                         case VALID_PRODUCT_CATEGORY:
                             view.removeErrorProductCategory();
-                            view.hideProgressBar();
                             break;
                         case VALID_ALL:
                             try {
@@ -171,8 +159,10 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                 view.showCheckAnimation();
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
+                                view.hideProgressBar();
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
+                                view.hideProgressBar();
                             }
                             view.hideProgressBar();
                             break;

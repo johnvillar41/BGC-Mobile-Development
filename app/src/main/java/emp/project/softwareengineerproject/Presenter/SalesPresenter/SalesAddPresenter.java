@@ -94,14 +94,17 @@ public class SalesAddPresenter implements ISalesAdd.ISalesAddPresenter {
                         }
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
+                        view.hideProgressIndicatorCart();
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
+                        view.hideProgressIndicatorCart();
                     }
                 }
                 if (isValid) {
                     view.displaySuccessfullPrompt();
                     view.hideProgressIndicatorCart();
                 }
+                view.hideProgressIndicatorCart();
             }
         });
         view.hideProgressIndicatorCart();
