@@ -68,11 +68,11 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                     }
 
                 } catch (final ClassNotFoundException e) {
-                    e.printStackTrace();
+                    view.displayStatusMessage(e.getMessage(),v);
                 } catch (final PacketTooBigException e) {
-                    e.printStackTrace();
+                    view.displayStatusMessage(e.getMessage(),v);
                 } catch (final SQLException e) {
-                    e.printStackTrace();
+                    view.displayStatusMessage(e.getMessage(),v);
                 }
                 view.hideProgressBar();
             }
@@ -158,9 +158,10 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
                                 view.displayStatusMessage(SUCCESSFULL_MESSAGE, v);
                                 view.showCheckAnimation();
                             } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
+                                view.displayStatusMessage(e.getMessage(),v);
                                 view.hideProgressBar();
                             } catch (SQLException throwables) {
+                                view.displayStatusMessage(throwables.getMessage(),v);
                                 throwables.printStackTrace();
                                 view.hideProgressBar();
                             }
