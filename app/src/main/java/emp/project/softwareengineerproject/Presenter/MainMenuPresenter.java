@@ -77,7 +77,7 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
     }
 
     @Override
-    public void directPictureDisplay() {
+    public void loadProfilePicture() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

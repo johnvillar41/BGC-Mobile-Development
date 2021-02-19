@@ -1,6 +1,5 @@
 package emp.project.softwareengineerproject.View;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -76,7 +75,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
 
         try {
             presenter.directProfileDisplay();
-            presenter.directPictureDisplay();
+            presenter.loadProfilePicture();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -253,6 +252,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
     protected void onResume() {
         presenter.loadNumberOfInfos();
         presenter.loadNumberOfNotfis();
+        presenter.loadProfilePicture();
         if (sharedPreferences.getString(LoginActivityView.USERNAME_PREFS, null) == null) {
             this.finish();
         }

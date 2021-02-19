@@ -59,7 +59,7 @@ public interface IMainMenu {
          */
         void directProfileDisplay() throws SQLException, ClassNotFoundException;
 
-        void directPictureDisplay();
+        void loadProfilePicture();
 
         void loadNumberOfNotfis();
 

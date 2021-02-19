@@ -84,7 +84,7 @@ public class MainMenuPresenterTest {
 
     @Test
     public void testProfilePicture() throws InterruptedException {
-        presenter.directPictureDisplay();
+        presenter.loadProfilePicture();
         Thread.sleep(1000);
         Assert.assertTrue(MockMainMenuView.isProfileDisplayed);
     }
