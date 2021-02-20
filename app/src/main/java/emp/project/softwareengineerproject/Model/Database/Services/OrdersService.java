@@ -82,11 +82,11 @@ public class OrdersService implements IOrders.IOrdersService {
              * resultSet2 = specific_orders_table
              * resultSet3 = products_table
              */
-            String sqlGetProducts = "SELECT * FROM specific_orders_table WHERE order_id=" + "'" + resultSet.getString(1) + "'";
+            String sqlGetProducts = "SELECT * FROM specific_orders_table WHERE order_id=" + "'" + resultSet.getString("order_id") + "'";
             PreparedStatement preparedStatement2 = connection.prepareStatement(sqlGetProducts);
             ResultSet resultSet2 = preparedStatement2.executeQuery();
             while (resultSet2.next()) {
-                String sqlGetSpecificProducts = "SELECT * FROM products_table WHERE product_id=" + "'" + resultSet2.getString(2) + "'";
+                String sqlGetSpecificProducts = "SELECT * FROM products_table WHERE product_id=" + "'" + resultSet2.getString("product_id") + "'";
                 PreparedStatement preparedStatement3 = connection.prepareStatement(sqlGetSpecificProducts);
                 ResultSet resultSet3 = preparedStatement3.executeQuery();
                 while (resultSet3.next()) {
