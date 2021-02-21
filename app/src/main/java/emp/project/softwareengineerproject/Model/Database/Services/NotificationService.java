@@ -98,6 +98,10 @@ public class NotificationService implements INotification.INotificationService {
             return notificationContent;
         }
 
+        public void setNotificationStatusToEmptyString() {
+            this.notificationContent = "";
+        }
+
         public String getNotificationTitle() {
             return notificationTitle;
         }
@@ -106,6 +110,9 @@ public class NotificationService implements INotification.INotificationService {
     public NotificationModel notificationFactory(String name, NotificationStatus notificationStatus) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
+        if (notificationStatus.getNotificationContent() == null) {
+            notificationStatus.setNotificationStatusToEmptyString();
+        }
         NotificationModel notificationModel = new NotificationModel(
                 notificationStatus.getNotificationTitle(),
                 notificationStatus.getNotificationContent() + name, String.valueOf(dtf.format(now)),
