@@ -238,6 +238,8 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
                             .into(image_profile);
                 } catch (SQLException ignored) {
 
+                } catch (IllegalArgumentException ignored){
+
                 }
             }
         });

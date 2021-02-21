@@ -83,6 +83,9 @@ public class MainMenuService extends Activity implements IMainMenu.IMainService 
         while (resultSet.next()) {
             totalVal = resultSet.getInt(1);
         }
+        preparedStatement.close();
+        connection.close();
+        resultSet.close();
         return totalVal;
     }
 }
