@@ -23,7 +23,6 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Model.Bean.CartListModel;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
-import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.R;
 
 public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerView.MyViewHolder> {

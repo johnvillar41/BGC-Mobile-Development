@@ -10,16 +10,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
-import emp.project.softwareengineerproject.View.MainMenuActivityView;
-import emp.project.softwareengineerproject.View.OrdersView.OrdersRecyclerView;
 
 public class OrdersService implements IOrders.IOrdersService {
 

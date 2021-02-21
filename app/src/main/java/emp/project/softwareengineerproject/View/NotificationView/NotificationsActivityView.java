@@ -24,7 +24,6 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.progressindicator.ProgressIndicator;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 

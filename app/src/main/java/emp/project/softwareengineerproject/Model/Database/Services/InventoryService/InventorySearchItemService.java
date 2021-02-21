@@ -5,7 +5,6 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.mysql.jdbc.Blob;
-import com.mysql.jdbc.PreparedStatement;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

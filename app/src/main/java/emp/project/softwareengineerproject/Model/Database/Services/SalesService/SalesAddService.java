@@ -12,8 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,6 @@ import emp.project.softwareengineerproject.Model.Database.Services.InventoryServ
 import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 import emp.project.softwareengineerproject.Model.Database.Services.ReportsService;
 import emp.project.softwareengineerproject.View.LoginActivityView;
-import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class SalesAddService implements ISalesAdd.ISalesAddService {
     private static SalesAddService SINGLE_INSTANCE = null;

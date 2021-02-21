@@ -15,7 +15,6 @@ import emp.project.softwareengineerproject.Interface.IUsers.IUsersAdd;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
-import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class UsersAddService implements IUsersAdd.IUsersAddService {
 

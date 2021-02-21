@@ -1,8 +1,6 @@
 package emp.project.softwareengineerproject.Model.Bean;
 
 import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SalesModel {
     private String sales_id, sales_title, product_id, total_number_of_products, sales_date;

@@ -11,11 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
-
-import javax.xml.transform.Result;
 
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
@@ -23,7 +19,6 @@ import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.Model.Database.Services.InformationService;
 import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
-import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class InventoryUpdateService implements IUpdateInventory.IUpdateInventoryService {
     private static InventoryUpdateService SINGLE_INSTANCE = null;

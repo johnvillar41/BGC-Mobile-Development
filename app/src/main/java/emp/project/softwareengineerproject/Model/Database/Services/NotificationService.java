@@ -1,7 +1,5 @@
 package emp.project.softwareengineerproject.Model.Database.Services;
 
-import android.app.Notification;
-
 import com.mysql.jdbc.PreparedStatement;
 
 import java.sql.Connection;
