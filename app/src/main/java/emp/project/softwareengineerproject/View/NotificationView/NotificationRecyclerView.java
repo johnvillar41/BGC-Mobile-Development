@@ -70,7 +70,7 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
     }
 
 
-    private enum PRODUCT_STATUS {
+    public enum PRODUCT_STATUS {
         DELETED_PRODUCT("Deleted product"),
         UPDATED_PRODUCT("Updated product"),
         ADDED_PRODUCT("Added product"),
@@ -88,7 +88,7 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
             this.product_status = product_status;
         }
 
-        private String getProduct_status() {
+        public String getProduct_status() {
             return product_status;
         }
     }

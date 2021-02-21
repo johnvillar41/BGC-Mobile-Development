@@ -161,7 +161,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
         view.initViews();
     }
 
-    private enum STATUS {
+    public enum STATUS {
         PENDING("Processing"),
         //TODO: STATUS: READY FOR PICKUP
         CANCELLED("Cancelled"),
@@ -174,7 +174,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
             this.status = status;
         }
 
-        private String getStatus() {
+        public String getStatus() {
             return status;
         }
     }

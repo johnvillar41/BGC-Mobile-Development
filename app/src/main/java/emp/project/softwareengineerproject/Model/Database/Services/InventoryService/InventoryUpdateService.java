@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -19,6 +20,8 @@ import javax.xml.transform.Result;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
+import emp.project.softwareengineerproject.Model.Bean.SalesModel;
+import emp.project.softwareengineerproject.Model.Database.Services.InformationService;
 import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
@@ -69,12 +72,9 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         }
         preparedStatement.executeUpdate();
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        NotificationModel notificationModel;
-        notificationModel = new NotificationModel("Updated product", "Updated product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
-                MainMenuActivityView.GET_PREFERENCES_REALNAME);
-        NotificationService.getInstance().insertNewNotifications(notificationModel);
+        //Notifications
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProduct_name(),NotificationService.NotificationStatus.UPDATED_PRODUCT);
+        NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
 
         preparedStatement.close();
@@ -99,22 +99,13 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         preparedStatement.close();
 
         //inserting values to notification_table
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        NotificationModel notificationModel;
-        notificationModel = new NotificationModel("Added product", "Added product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
-                MainMenuActivityView.GET_PREFERENCES_REALNAME);
-        NotificationService.getInstance().insertNewNotifications(notificationModel);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProduct_name(),NotificationService.NotificationStatus.ADDED_PRODUCT);
+        NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         //Inserting values to information_table
-        String insertProductIdToInformationTable = "INSERT INTO information_table(product_id,product_information) VALUES(?,?)";
-        PreparedStatement preparedStatement1 = (PreparedStatement) connection.prepareStatement(insertProductIdToInformationTable);
-        preparedStatement1.setString(1, getHighestIdFromInventoryTable());
-        preparedStatement1.setString(2,"No information yet");
-        preparedStatement1.execute();
+        InformationService.getInstance().insertNewInformation(connection);
 
         preparedStatement.close();
-        preparedStatement1.close();
         connection.close();
     }
 
@@ -131,23 +122,19 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         }
         categories.add("GREENHOUSE");
         categories.add("HYDROPONICS");
+        resultSet.close();
+        connection.close();
+        preparedStatement.close();
         return categories;
     }
 
-    private String getHighestIdFromInventoryTable() throws ClassNotFoundException, SQLException {
-        strictMode();
-        int highestNUm = 0;
-        Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-        String sqlget = "SELECT product_id FROM products_table";
-        PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(sqlget);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            if (resultSet.getInt(1) > highestNUm) {
-                highestNUm = resultSet.getInt(1);
-            }
-        }
-        connection.close();
-        preparedStatement.close();
-        return String.valueOf(highestNUm);
+    public void updateProductTotal(Connection connection, SalesModel model) throws SQLException {
+        String sqlMinusStocks = "UPDATE products_table SET product_stocks=product_stocks-" + "'" + model.getTotal_number_of_products() + "' WHERE product_id=" + "'" +
+                model.getProduct_id() + "'";
+        Statement statement = connection.createStatement();
+        statement.execute(sqlMinusStocks);
+        statement.close();
     }
+
+
 }

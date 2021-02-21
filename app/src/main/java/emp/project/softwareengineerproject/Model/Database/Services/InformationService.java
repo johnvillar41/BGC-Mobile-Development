@@ -66,10 +66,36 @@ public class InformationService implements IInformation.IInformationService {
     public void saveNewInformation(String updatedInformation, String product_id) throws ClassNotFoundException, SQLException {
         strictMode();
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-        String sqlUpdateInformation="UPDATE information_table SET product_information = ? WHERE product_id = ?";
+        String sqlUpdateInformation = "UPDATE information_table SET product_information = ? WHERE product_id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateInformation);
-        preparedStatement.setString(1,updatedInformation);
-        preparedStatement.setString(2,product_id);
+        preparedStatement.setString(1, updatedInformation);
+        preparedStatement.setString(2, product_id);
         preparedStatement.execute();
+    }
+
+    public void insertNewInformation(Connection connection) throws SQLException, ClassNotFoundException {
+        String insertProductIdToInformationTable = "INSERT INTO information_table(product_id,product_information) VALUES(?,?)";
+        com.mysql.jdbc.PreparedStatement preparedStatement1 = (com.mysql.jdbc.PreparedStatement) connection.prepareStatement(insertProductIdToInformationTable);
+        preparedStatement1.setString(1, getHighestIdFromInventoryTable());
+        preparedStatement1.setString(2, "No information yet");
+        preparedStatement1.execute();
+        preparedStatement1.close();
+    }
+
+    private String getHighestIdFromInventoryTable() throws ClassNotFoundException, SQLException {
+        strictMode();
+        int highestNUm = 0;
+        Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+        String sqlget = "SELECT product_id FROM products_table";
+        com.mysql.jdbc.PreparedStatement preparedStatement = (com.mysql.jdbc.PreparedStatement) connection.prepareStatement(sqlget);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            if (resultSet.getInt(1) > highestNUm) {
+                highestNUm = resultSet.getInt(1);
+            }
+        }
+        connection.close();
+        preparedStatement.close();
+        return String.valueOf(highestNUm);
     }
 }

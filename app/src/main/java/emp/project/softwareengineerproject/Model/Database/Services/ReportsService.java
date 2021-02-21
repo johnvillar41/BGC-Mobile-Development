@@ -5,25 +5,30 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IReports;
 import emp.project.softwareengineerproject.Model.Bean.ReportsModel;
+import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
+import emp.project.softwareengineerproject.View.LoginActivityView;
 
 public class ReportsService implements IReports.IReportsService {
 
     private ReportsModel model;
     private static ReportsService SINGLE_INSTANCE = null;
 
-    private ReportsService(ReportsModel model) {
-        this.model = model;
+    private ReportsService() {
+
     }
 
-    public static ReportsService getInstance(ReportsModel model) {
+    public static ReportsService getInstance() {
         if (SINGLE_INSTANCE == null) {
-            SINGLE_INSTANCE = new ReportsService(model);
+            SINGLE_INSTANCE = new ReportsService();
         }
         return SINGLE_INSTANCE;
     }
@@ -124,6 +129,75 @@ public class ReportsService implements IReports.IReportsService {
         preparedStatement.close();
         resultSet.close();
         return adminList;
+    }
+
+    public void updateReportsTable(Connection connection, SalesModel model) throws SQLException {
+        DateTimeFormatter dtf_year = DateTimeFormatter.ofPattern("yyyy");
+        LocalDateTime now_year = LocalDateTime.now();
+        /**
+         * Select latest year in dbase
+         */
+        String sqlGetLatestYear = "SELECT sales_year FROM reports_table WHERE user_username=" + "'" + LoginActivityView.USERNAME_VALUE + "'AND sales_year=" +
+                "'" + dtf_year.format(now_year) + "'";
+        Statement statement_SearchYear = connection.createStatement();
+        ResultSet resultSet_Year = statement_SearchYear.executeQuery(sqlGetLatestYear);
+        if (resultSet_Year.next()) {
+            DateTimeFormatter dtf_month = DateTimeFormatter.ofPattern("M");
+            LocalDateTime now_month = LocalDateTime.now();
+            String sqlUpdateReports = "UPDATE reports_table SET sales_month_" + Integer.parseInt(dtf_month.format(now_month)) + "=" +
+                    "sales_month_" + Integer.parseInt(dtf_month.format(now_month)) + "+ ?" +
+                    " WHERE user_username=? AND sales_year=" + "'" + dtf_year.format(now_year) + "'";
+            PreparedStatement preparedStatement3 = connection.prepareStatement(sqlUpdateReports);
+            preparedStatement3.setLong(1, model.getProduct_total());
+            preparedStatement3.setString(2, LoginActivityView.USERNAME_VALUE);
+            preparedStatement3.execute();
+
+            preparedStatement3.close();
+        } else {
+            /**
+             * Insert new row in dbase if year is not equal to year.now
+             */
+            String sqlInsertNewRow = "INSERT INTO reports_table(user_username," +
+                    "sales_month_1,sales_month_2,sales_month_3,sales_month_4," +
+                    "sales_month_5,sales_month_6,sales_month_7,sales_month_8," +
+                    "sales_month_9,sales_month_10,sales_month_11,sales_month_12," +
+                    "sales_year) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement preparedStatement_Insert = connection.prepareStatement(sqlInsertNewRow);
+            preparedStatement_Insert.setString(1, LoginActivityView.USERNAME_VALUE);
+            preparedStatement_Insert.setString(2, "0");
+            preparedStatement_Insert.setString(3, "0");
+            preparedStatement_Insert.setString(4, "0");
+            preparedStatement_Insert.setString(5, "0");
+            preparedStatement_Insert.setString(6, "0");
+            preparedStatement_Insert.setString(7, "0");
+            preparedStatement_Insert.setString(8, "0");
+            preparedStatement_Insert.setString(9, "0");
+            preparedStatement_Insert.setString(10, "0");
+            preparedStatement_Insert.setString(11, "0");
+            preparedStatement_Insert.setString(12, "0");
+            preparedStatement_Insert.setString(13, "0");
+            preparedStatement_Insert.setString(14, dtf_year.format(now_year));
+            preparedStatement_Insert.execute();
+
+
+            /**
+             * Update the new dbase of the newly created sales product
+             */
+            DateTimeFormatter dtf_month = DateTimeFormatter.ofPattern("M");
+            LocalDateTime now_month = LocalDateTime.now();
+            String sqlUpdateReports = "UPDATE reports_table SET sales_month_" + Integer.parseInt(dtf_month.format(now_month)) + "=" +
+                    "sales_month_" + Integer.parseInt(dtf_month.format(now_month)) + "+ ?" +
+                    " WHERE user_username=? AND sales_year=" + "'" + dtf_year.format(now_year) + "'";
+            PreparedStatement preparedStatement_Update_Sale = connection.prepareStatement(sqlUpdateReports);
+            preparedStatement_Update_Sale.setLong(1, model.getProduct_total());
+            preparedStatement_Update_Sale.setString(2, LoginActivityView.USERNAME_VALUE);
+            preparedStatement_Update_Sale.execute();
+
+            //Close all
+            preparedStatement_Update_Sale.close();
+            preparedStatement_Insert.close();
+            resultSet_Year.close();
+        }
     }
 
 }

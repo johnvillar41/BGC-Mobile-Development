@@ -107,13 +107,8 @@ public class InventoryService implements IInvetory.IInventoryService {
         preparedStatementDelete.execute();
 
         //Notification
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        NotificationModel notificationModel;
-        notificationModel = new NotificationModel("Deleted product", "Deleted product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
-                MainMenuActivityView.GET_PREFERENCES_REALNAME);
-        NotificationService.getInstance().insertNewNotifications(notificationModel);
-
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProduct_name(),NotificationService.NotificationStatus.DELETED_PRODUCT);
+        NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         statement.close();
         connection.close();

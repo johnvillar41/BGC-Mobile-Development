@@ -52,7 +52,7 @@ public class ReportsActivityView extends AppCompatActivity implements IReports.I
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_reports__view);
 
-        presenter = new ReportsPresenter(this, ReportsService.getInstance(new ReportsModel()));
+        presenter = new ReportsPresenter(this, ReportsService.getInstance());
         presenter.initializeViews();
 
     }

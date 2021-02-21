@@ -19,6 +19,7 @@ import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
+import emp.project.softwareengineerproject.View.OrdersView.OrdersRecyclerView;
 
 public class OrdersService implements IOrders.IOrdersService {
 
@@ -127,11 +128,22 @@ public class OrdersService implements IOrders.IOrdersService {
     @Override
     public void addNotificationInDB(String title, String content) throws ClassNotFoundException, SQLException {
         strictMode();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        NotificationModel notificationModel = new NotificationModel(title, content, String.valueOf(dtf.format(now)),
-                MainMenuActivityView.GET_PREFERENCES_REALNAME);
-        NotificationService.getInstance().insertNewNotifications(notificationModel);
+        NotificationModel newNotoficationModel = null;
+
+        switch (title) {
+            case "Order moved to pending":
+                newNotoficationModel = NotificationService.getInstance().notificationFactory(title, NotificationService.NotificationStatus.ORDER_PENDING);
+                break;
+            case "Order cancelled":
+                newNotoficationModel = NotificationService.getInstance().notificationFactory(title, NotificationService.NotificationStatus.ORDER_CANCEL);
+                break;
+            case "Order is finished":
+                newNotoficationModel = NotificationService.getInstance().notificationFactory(title, NotificationService.NotificationStatus.ORDER_FINISHED);
+                break;
+        }
+        if (newNotoficationModel != null) {
+            NotificationService.getInstance().insertNewNotifications(newNotoficationModel);
+        }
     }
 
 }

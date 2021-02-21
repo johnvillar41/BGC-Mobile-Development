@@ -51,12 +51,8 @@ public class UsersAddService implements IUsersAdd.IUsersAddService {
         preparedStatement.close();
 
         //notification for new account
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        NotificationModel notificationModel;
-        notificationModel = new NotificationModel("Added new User", "Added user " + model.getUser_full_name(), String.valueOf(dtf.format(now)),
-                MainMenuActivityView.GET_PREFERENCES_REALNAME);
-        NotificationService.getInstance().insertNewNotifications(notificationModel);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getUser_full_name(),NotificationService.NotificationStatus.ADDED_NEW_USER);
+        NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
 
         //insert new row for reports_table
@@ -64,6 +60,8 @@ public class UsersAddService implements IUsersAdd.IUsersAddService {
                 "sales_month_1,sales_month_2,sales_month_3,sales_month_4,sales_month_5," +
                 "sales_month_6,sales_month_7,sales_month_8,sales_month_9,sales_month_10," +
                 "sales_month_11,sales_month_12,sales_year)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
         dtf = DateTimeFormatter.ofPattern("yyyy");
         now = LocalDateTime.now();
         PreparedStatement preparedStatementReports = connection.prepareStatement(sqlInsertToReportsTable);

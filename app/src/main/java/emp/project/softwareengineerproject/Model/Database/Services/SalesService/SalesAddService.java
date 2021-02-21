@@ -21,7 +21,9 @@ import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.SalesModel;
+import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventoryUpdateService;
 import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
+import emp.project.softwareengineerproject.Model.Database.Services.ReportsService;
 import emp.project.softwareengineerproject.View.LoginActivityView;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
@@ -62,94 +64,21 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
             preparedStatement.execute();
 
             //Update Products
-            String sqlMinusStocks = "UPDATE products_table SET product_stocks=product_stocks-" + "'" + model.getTotal_number_of_products() + "' WHERE product_id=" + "'" +
-                    model.getProduct_id() + "'";
-            Statement statement = connection.createStatement();
-            statement.execute(sqlMinusStocks);
-
+            InventoryUpdateService.getInstance().updateProductTotal(connection, model);
 
             //Update Notifications
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            NotificationModel notificationModel;
-            notificationModel = new NotificationModel("Added sales", "Added sales " + model.getSales_title(), String.valueOf(dtf.format(now)),
-                    MainMenuActivityView.GET_PREFERENCES_REALNAME);
-            NotificationService.getInstance().insertNewNotifications(notificationModel);
+            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getSales_title(),NotificationService.NotificationStatus.ADDED_SALES);
+            NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
             //Update Reports Table
-            DateTimeFormatter dtf_year = DateTimeFormatter.ofPattern("yyyy");
-            LocalDateTime now_year = LocalDateTime.now();
-            /**
-             * Select latest year in dbase
-             */
-            String sqlGetLatestYear = "SELECT sales_year FROM reports_table WHERE user_username=" + "'" + LoginActivityView.USERNAME_VALUE + "'AND sales_year=" +
-                    "'" + dtf_year.format(now_year) + "'";
-            Statement statement_SearchYear = connection.createStatement();
-            ResultSet resultSet_Year = statement_SearchYear.executeQuery(sqlGetLatestYear);
-            if (resultSet_Year.next()) {
-                DateTimeFormatter dtf_month = DateTimeFormatter.ofPattern("M");
-                LocalDateTime now_month = LocalDateTime.now();
-                String sqlUpdateReports = "UPDATE reports_table SET sales_month_" + Integer.parseInt(dtf_month.format(now_month)) + "=" +
-                        "sales_month_" + Integer.parseInt(dtf_month.format(now_month)) + "+ ?" +
-                        " WHERE user_username=? AND sales_year=" + "'" + dtf_year.format(now_year) + "'";
-                PreparedStatement preparedStatement3 = connection.prepareStatement(sqlUpdateReports);
-                preparedStatement3.setLong(1, model.getProduct_total());
-                preparedStatement3.setString(2, LoginActivityView.USERNAME_VALUE);
-                preparedStatement3.execute();
-
-                preparedStatement3.close();
-            } else {
-                /**
-                 * Insert new row in dbase if year is not equal to year.now
-                 */
-                String sqlInsertNewRow = "INSERT INTO reports_table(user_username," +
-                        "sales_month_1,sales_month_2,sales_month_3,sales_month_4," +
-                        "sales_month_5,sales_month_6,sales_month_7,sales_month_8," +
-                        "sales_month_9,sales_month_10,sales_month_11,sales_month_12," +
-                        "sales_year) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                PreparedStatement preparedStatement_Insert = connection.prepareStatement(sqlInsertNewRow);
-                preparedStatement_Insert.setString(1, LoginActivityView.USERNAME_VALUE);
-                preparedStatement_Insert.setString(2, "0");
-                preparedStatement_Insert.setString(3, "0");
-                preparedStatement_Insert.setString(4, "0");
-                preparedStatement_Insert.setString(5, "0");
-                preparedStatement_Insert.setString(6, "0");
-                preparedStatement_Insert.setString(7, "0");
-                preparedStatement_Insert.setString(8, "0");
-                preparedStatement_Insert.setString(9, "0");
-                preparedStatement_Insert.setString(10, "0");
-                preparedStatement_Insert.setString(11, "0");
-                preparedStatement_Insert.setString(12, "0");
-                preparedStatement_Insert.setString(13, "0");
-                preparedStatement_Insert.setString(14, dtf_year.format(now_year));
-                preparedStatement_Insert.execute();
-                preparedStatement_Insert.close();
-
-                /**
-                 * Update the new dbase of the newly created sales product
-                 */
-                DateTimeFormatter dtf_month = DateTimeFormatter.ofPattern("M");
-                LocalDateTime now_month = LocalDateTime.now();
-                String sqlUpdateReports = "UPDATE reports_table SET sales_month_" + Integer.parseInt(dtf_month.format(now_month)) + "=" +
-                        "sales_month_" + Integer.parseInt(dtf_month.format(now_month)) + "+ ?" +
-                        " WHERE user_username=? AND sales_year=" + "'" + dtf_year.format(now_year) + "'";
-                PreparedStatement preparedStatement_Update_Sale = connection.prepareStatement(sqlUpdateReports);
-                preparedStatement_Update_Sale.setLong(1, model.getProduct_total());
-                preparedStatement_Update_Sale.setString(2, LoginActivityView.USERNAME_VALUE);
-                preparedStatement_Update_Sale.execute();
-
-                preparedStatement_Update_Sale.close();
-            }
+            ReportsService.getInstance().updateReportsTable(connection, model);
 
             preparedStatement.close();
-            statement.close();
             connection.close();
             return true;
         } else {
             return false;
         }
-
-
     }
 
     @Override

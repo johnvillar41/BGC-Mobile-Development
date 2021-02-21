@@ -236,9 +236,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
                             .load(blobAsBytes)
                             .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
                             .into(image_profile);
-                } catch (SQLException ignored) {
-
-                } catch (IllegalArgumentException ignored){
+                } catch (Exception ignored) {
 
                 }
             }
@@ -287,7 +285,7 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
         MainMenuService.getInstance().removeInstance();
         NotificationService.getInstance().removeInstance();
         OrdersService.getInstance(null).removeInstance();
-        ReportsService.getInstance(null).removeInstance();
+        ReportsService.getInstance().removeInstance();
         super.onDestroy();
     }
 

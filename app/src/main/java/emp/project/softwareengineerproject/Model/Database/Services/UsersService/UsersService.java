@@ -108,16 +108,16 @@ public class UsersService implements IUsers.IUsersService {
             }
 
             preparedStatement.execute();
+            preparedStatement.close();
+            connection.close();
             isSuccesfull = true;
 
             /**
              * Create Notification here
              */
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            NotificationModel notificationModel = new NotificationModel("Updated User", "Updated User: " + model.getUser_full_name(), String.valueOf(dtf.format(now)),
-                    MainMenuActivityView.GET_PREFERENCES_REALNAME);
-            NotificationService.getInstance().insertNewNotifications(notificationModel);
+            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getUser_full_name(), NotificationService.NotificationStatus.UPDATE_USER);
+            NotificationService.getInstance().insertNewNotifications(newNotificationModel);
+
         } catch (Exception e) {
             e.printStackTrace();
             isSuccesfull = false;
@@ -139,11 +139,8 @@ public class UsersService implements IUsers.IUsersService {
             /**
              * Create Notification here
              */
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            NotificationModel notificationModel = new NotificationModel("Deleted User", "Deleted User: " + username, String.valueOf(dtf.format(now)),
-                    MainMenuActivityView.GET_PREFERENCES_REALNAME);
-            NotificationService.getInstance().insertNewNotifications(notificationModel);
+            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(username, NotificationService.NotificationStatus.DELETED_USER);
+            NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
             connection.close();
             statement.close();

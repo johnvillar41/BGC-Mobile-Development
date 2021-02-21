@@ -171,7 +171,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
         return new OrdersRecyclerView.MyViewHolder(view);
     }
 
-    private enum STATUS {
+    public enum STATUS {
         PENDING("Processing"),
         CANCELLED("Cancelled"),
         FINISHED("Finished"),
@@ -188,7 +188,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
             this.status = status;
         }
 
-        private String getStatus() {
+        public String getStatus() {
             return status;
         }
     }
