@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
+import emp.project.softwareengineerproject.View.OrdersView.OrdersRecyclerView;
 
 public interface IOrders {
     interface IOrdersView extends IBaseView {
@@ -23,7 +24,7 @@ public interface IOrders {
 
         void onMenuCancelClicked(String order_id);
 
-        void addNotification(String title, String content);
+        void addNotification(OrdersRecyclerView.STATUS status, String content);
 
     }
 
@@ -32,6 +33,6 @@ public interface IOrders {
 
         void updateOrderFromDB(String order_id, String status) throws ClassNotFoundException, SQLException;
 
-        void addNotificationInDB(String title, String content) throws ClassNotFoundException, SQLException;
+        void addNotificationInDB(OrdersRecyclerView.STATUS status, String content) throws ClassNotFoundException, SQLException;
     }
 }

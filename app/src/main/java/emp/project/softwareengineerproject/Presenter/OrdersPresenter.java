@@ -9,6 +9,7 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
+import emp.project.softwareengineerproject.View.OrdersView.OrdersRecyclerView;
 
 public class OrdersPresenter implements IOrders.IOrdersPresenter {
 
@@ -146,9 +147,9 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void addNotification(String title, String content) {
+    public void addNotification(OrdersRecyclerView.STATUS status, String content) {
         try {
-            service.addNotificationInDB(title, content);
+            service.addNotificationInDB(status, content);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {

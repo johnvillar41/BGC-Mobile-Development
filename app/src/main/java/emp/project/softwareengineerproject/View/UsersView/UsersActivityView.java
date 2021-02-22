@@ -233,8 +233,8 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
                             .load(blobAsBytes)
                             .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
                             .into(PROFILE_PICTURE);
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException ignored) {
+
                 }
                 txt_user_id.getEditText().setText(String.valueOf(model.getUser_id()));
                 txt_username.getEditText().setText(model.getUser_username());

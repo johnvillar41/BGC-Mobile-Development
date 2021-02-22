@@ -69,7 +69,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                                 list.remove(position);
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position, list.size());
-                                presenter.addNotification(STATUS.PENDING_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
+                                presenter.addNotification(STATUS.PENDING_NOTIF, STATUS.NOTIF_CONTENT.getStatus());
                             }
                             return true;
                         } else if (item.getItemId() == R.id.page_finished_orders) {
@@ -85,7 +85,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                                         list.remove(position);
                                         notifyItemRemoved(position);
                                         notifyItemRangeChanged(position, list.size());
-                                        presenter.addNotification(STATUS.FINISHED_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
+                                        presenter.addNotification(STATUS.FINISHED_NOTIF, STATUS.NOTIF_CONTENT.getStatus());
                                     }
                                 }
                             });
@@ -98,7 +98,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                                 list.remove(position);
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position, list.size());
-                                presenter.addNotification(STATUS.CANCELLED_NOTIF.getStatus(), STATUS.NOTIF_CONTENT.getStatus());
+                                presenter.addNotification(STATUS.CANCELLED_NOTIF, STATUS.NOTIF_CONTENT.getStatus());
                             }
                             return true;
                         }

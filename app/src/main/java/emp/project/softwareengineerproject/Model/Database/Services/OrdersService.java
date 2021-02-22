@@ -16,6 +16,7 @@ import java.util.List;
 import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
+import emp.project.softwareengineerproject.View.OrdersView.OrdersRecyclerView;
 
 public class OrdersService implements IOrders.IOrdersService {
 
@@ -122,19 +123,25 @@ public class OrdersService implements IOrders.IOrdersService {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void addNotificationInDB(String title, String content) throws ClassNotFoundException, SQLException {
+    public void addNotificationInDB(OrdersRecyclerView.STATUS status, String content) throws ClassNotFoundException, SQLException {
         strictMode();
         NotificationModel newNotoficationModel = null;
 
-        switch (title) {
-            case "Order moved to pending":
-                newNotoficationModel = NotificationService.getInstance().notificationFactory(title, NotificationService.NotificationStatus.ORDER_PENDING);
+        switch (status) {
+            case PENDING_NOTIF:
+                newNotoficationModel = NotificationService.getInstance().notificationFactory(
+                        OrdersRecyclerView.STATUS.PENDING_NOTIF.getStatus(),
+                        NotificationService.NotificationStatus.ORDER_PENDING);
                 break;
-            case "Order cancelled":
-                newNotoficationModel = NotificationService.getInstance().notificationFactory(title, NotificationService.NotificationStatus.ORDER_CANCEL);
+            case CANCELLED_NOTIF:
+                newNotoficationModel = NotificationService.getInstance().notificationFactory(
+                        OrdersRecyclerView.STATUS.CANCELLED_NOTIF.getStatus(),
+                        NotificationService.NotificationStatus.ORDER_CANCEL);
                 break;
-            case "Order is finished":
-                newNotoficationModel = NotificationService.getInstance().notificationFactory(title, NotificationService.NotificationStatus.ORDER_FINISHED);
+            case FINISHED_NOTIF:
+                newNotoficationModel = NotificationService.getInstance().notificationFactory(
+                        OrdersRecyclerView.STATUS.FINISHED_NOTIF.getStatus(),
+                        NotificationService.NotificationStatus.ORDER_FINISHED);
                 break;
         }
         if (newNotoficationModel != null) {
