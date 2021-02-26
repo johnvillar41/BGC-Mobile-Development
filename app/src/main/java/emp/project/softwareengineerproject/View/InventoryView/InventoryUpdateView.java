@@ -71,7 +71,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     private Button btn_cancel;
     private Toolbar toolbar;
     private ProgressIndicator progressIndicator;
-    private static InputStream FILE_INPUT_STREAM;
+    private InputStream FILE_INPUT_STREAM;
     private IUpdateInventory.IUpdatePresenter presenter;
 
 
