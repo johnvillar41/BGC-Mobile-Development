@@ -17,6 +17,8 @@ import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 
+import static emp.project.softwareengineerproject.Constants.Status.NotificationStatus.ADDED_NEW_USER;
+
 public class UsersAddService implements IUsersAdd.IUsersAddService {
 
     private static UsersAddService SINGLE_INSTANCE = null;
@@ -51,7 +53,7 @@ public class UsersAddService implements IUsersAdd.IUsersAddService {
         preparedStatement.close();
 
         //notification for new account
-        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getFullName(), Constants.NotificationStatus.ADDED_NEW_USER);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getFullName(), ADDED_NEW_USER);
         NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         connection.close();

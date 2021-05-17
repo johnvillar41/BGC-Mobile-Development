@@ -21,6 +21,9 @@ import emp.project.softwareengineerproject.Model.Bean.SalesModel;
 import emp.project.softwareengineerproject.Model.Database.Services.InformationService;
 import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 
+import static emp.project.softwareengineerproject.Constants.Status.NotificationStatus.ADDED_PRODUCT;
+import static emp.project.softwareengineerproject.Constants.Status.NotificationStatus.UPDATED_PRODUCT;
+
 public class InventoryUpdateService implements IUpdateInventory.IUpdateInventoryService {
     private static InventoryUpdateService SINGLE_INSTANCE = null;
 
@@ -69,7 +72,7 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         preparedStatement.executeUpdate();
 
         //Notifications
-        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(), Constants.NotificationStatus.UPDATED_PRODUCT);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(), UPDATED_PRODUCT);
         NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
 
@@ -95,7 +98,7 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         preparedStatement.close();
 
         //inserting values to notification_table
-        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(),Constants.NotificationStatus.ADDED_PRODUCT);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(),ADDED_PRODUCT);
         NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         //Inserting values to information_table

@@ -21,6 +21,8 @@ import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 
+import static emp.project.softwareengineerproject.Constants.Status.NotificationStatus.DELETED_PRODUCT;
+
 public class InventoryService implements IInvetory.IInventoryService {
 
     private static InventoryService SINGLE_INSTANCE = null;
@@ -124,7 +126,7 @@ public class InventoryService implements IInvetory.IInventoryService {
         preparedStatementDelete.execute();
 
         //Notification
-        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(), Constants.NotificationStatus.DELETED_PRODUCT);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(), DELETED_PRODUCT);
         NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         statement.close();

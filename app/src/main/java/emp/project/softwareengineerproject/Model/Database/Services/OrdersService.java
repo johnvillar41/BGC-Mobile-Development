@@ -20,6 +20,10 @@ import emp.project.softwareengineerproject.Model.Bean.SpecificOrdersModel;
 import emp.project.softwareengineerproject.Model.Database.Services.InventoryService.InventoryService;
 import emp.project.softwareengineerproject.View.OrdersView.OrdersRecyclerView;
 
+import static emp.project.softwareengineerproject.Constants.Status.NotificationStatus.ORDER_CANCEL;
+import static emp.project.softwareengineerproject.Constants.Status.NotificationStatus.ORDER_FINISHED;
+import static emp.project.softwareengineerproject.Constants.Status.NotificationStatus.ORDER_PENDING;
+
 public class OrdersService implements IOrders.IOrdersService {
 
     private static OrdersService SINGLE_INSTANCE = null;
@@ -110,17 +114,17 @@ public class OrdersService implements IOrders.IOrdersService {
             case PENDING_NOTIF:
                 newNotoficationModel = NotificationService.getInstance().notificationFactory(
                         OrdersRecyclerView.STATUS.PENDING_NOTIF.getStatus(),
-                        Constants.NotificationStatus.ORDER_PENDING);
+                        ORDER_PENDING);
                 break;
             case CANCELLED_NOTIF:
                 newNotoficationModel = NotificationService.getInstance().notificationFactory(
                         OrdersRecyclerView.STATUS.CANCELLED_NOTIF.getStatus(),
-                        Constants.NotificationStatus.ORDER_CANCEL);
+                        ORDER_CANCEL);
                 break;
             case FINISHED_NOTIF:
                 newNotoficationModel = NotificationService.getInstance().notificationFactory(
                         OrdersRecyclerView.STATUS.FINISHED_NOTIF.getStatus(),
-                        Constants.NotificationStatus.ORDER_FINISHED);
+                        ORDER_FINISHED);
                 break;
         }
         if (newNotoficationModel != null) {

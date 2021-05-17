@@ -19,6 +19,9 @@ import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 
+import static emp.project.softwareengineerproject.Constants.Status.NotificationStatus.DELETED_USER;
+import static emp.project.softwareengineerproject.Constants.Status.NotificationStatus.UPDATE_USER;
+
 public class UsersService implements IUsers.IUsersService {
     private static UsersService SINGLE_INSTANCE = null;
 
@@ -135,7 +138,7 @@ public class UsersService implements IUsers.IUsersService {
             /**
              * Create Notification here
              */
-            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getFullName(), Constants.NotificationStatus.UPDATE_USER);
+            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getFullName(), UPDATE_USER);
             NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         } catch (Exception e) {
@@ -159,7 +162,7 @@ public class UsersService implements IUsers.IUsersService {
             /**
              * Create Notification here
              */
-            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(username, Constants.NotificationStatus.DELETED_USER);
+            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(username, DELETED_USER);
             NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
             connection.close();

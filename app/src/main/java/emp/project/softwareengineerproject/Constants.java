@@ -1,7 +1,4 @@
 package emp.project.softwareengineerproject;
-
-
-
 public class Constants {
     public enum Position {ADMINISTRATOR, EMPLOYEE}
 

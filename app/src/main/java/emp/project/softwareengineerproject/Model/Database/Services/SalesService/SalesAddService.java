@@ -25,6 +25,8 @@ import emp.project.softwareengineerproject.Model.Database.Services.NotificationS
 import emp.project.softwareengineerproject.Model.Database.Services.ReportsService;
 import emp.project.softwareengineerproject.View.LoginActivityView;
 
+import static emp.project.softwareengineerproject.Constants.Status.NotificationStatus.ADDED_SALES;
+
 public class SalesAddService implements ISalesAdd.ISalesAddService {
     private static SalesAddService SINGLE_INSTANCE = null;
 
@@ -65,7 +67,7 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
             InventoryUpdateService.getInstance().updateProductTotal(connection, model);
 
             //Update Notifications
-            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getSales_title(), Constants.NotificationStatus.ADDED_SALES);
+            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getSales_title(), ADDED_SALES);
             NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
             preparedStatement.close();
