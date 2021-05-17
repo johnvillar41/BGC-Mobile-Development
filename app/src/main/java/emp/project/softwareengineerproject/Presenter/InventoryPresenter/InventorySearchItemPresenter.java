@@ -8,12 +8,10 @@ import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 
 public class InventorySearchItemPresenter implements ISearchInventory.ISearchInventoryPresenter {
     private ISearchInventory.ISearchInventoryView view;
-    private InventoryModel model;
     private ISearchInventory.ISearchInventoryService service;
 
     public InventorySearchItemPresenter(ISearchInventory.ISearchInventoryView view, ISearchInventory.ISearchInventoryService service) {
         this.view = view;
-        this.model = new InventoryModel();
         this.service = service;
     }
 
@@ -43,7 +41,8 @@ public class InventorySearchItemPresenter implements ISearchInventory.ISearchInv
 
     @Override
     public void onCardViewLongClicked(String product_id, String product_name) {
-        model.setProduct_name(product_name);
+        InventoryModel model = new InventoryModel();
+        model.setProductName(product_name);
         try {
             service.deleteItem(product_id, model);
         } catch (ClassNotFoundException e) {

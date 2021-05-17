@@ -44,9 +44,9 @@ public class OrdersSpecificRecyclerView extends RecyclerView.Adapter<OrdersSpeci
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         SpecificOrdersModel model = getItem(position);
         holder.number_products.setText(model.getTotalOrders());
-        holder.product_id.setText(model.getProductID());
-        holder.product_name.setText(model.getProductID());
-        final Blob b = (Blob) model.getProductID();
+        holder.product_id.setText(model.getProductModel().getProductID());
+        holder.product_name.setText(model.getProductModel().getProductName());
+        final Blob b = (Blob) model.getProductModel().getProductPicture();
         final int[] blobLength = new int[1];
         try {
             blobLength[0] = (int) b.length();
@@ -70,7 +70,7 @@ public class OrdersSpecificRecyclerView extends RecyclerView.Adapter<OrdersSpeci
         return orderList.get(position);
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView product_id, number_products, product_name;
         CircleImageView circleImageView;
 

@@ -81,16 +81,20 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
     @Override
     public List<InventoryModel> getProductListFromDB() throws ClassNotFoundException, SQLException {
         strictMode();
-        InventoryModel model;
         List<InventoryModel> list = new ArrayList<>();
         String sql = "SELECT * FROM products_table";
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
         while (resultSet.next()) {
-            model = new InventoryModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getLong(4),
-                    (Blob) resultSet.getBlob(5),
-                    resultSet.getInt(6), resultSet.getString(7));
+            InventoryModel model = new InventoryModel(
+                    resultSet.getInt("product_id"),
+                    resultSet.getString("product_name"),
+                    resultSet.getString("product_description"),
+                    resultSet.getInt("product_price"),
+                    (Blob) resultSet.getBlob("product_picture"),
+                    resultSet.getInt("product_stocks"),
+                    resultSet.getString("product_category"));
             list.add(model);
         }
         statement.close();

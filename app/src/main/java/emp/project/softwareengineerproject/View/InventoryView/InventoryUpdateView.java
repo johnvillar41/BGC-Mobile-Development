@@ -142,12 +142,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                     @Override
                     public void onClick(View v) {
                         try {
-                            presenter.onSaveProductButtonClicked(model.getProduct_id(),
-                                    editText_productTitle,
-                                    txt_product_description,
-                                    txt_product_Price,
-                                    txt_product_Stocks, FILE_INPUT_STREAM,
-                                    txt_product_category, v);
+                            presenter.onSaveProductButtonClicked();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -163,11 +158,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                     @Override
                     public void onClick(View v) {
                         presenter.onAddProductButtonClicked(
-                                editText_productTitle.getEditText().getText().toString(),
-                                txt_product_description.getEditText().getText().toString(),
-                                txt_product_Price.getEditText().getText().toString(),
-                                txt_product_Stocks.getEditText().getText().toString(), FILE_INPUT_STREAM,
-                                txt_product_category.getText().toString().toUpperCase(), v);
+                        );
                     }
                 });
             }
@@ -181,11 +172,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
                 @Override
                 public void onClick(View v) {
                     presenter.onAddProductButtonClicked(
-                            editText_productTitle.getEditText().getText().toString(),
-                            txt_product_description.getEditText().getText().toString(),
-                            txt_product_Price.getEditText().getText().toString(),
-                            txt_product_Stocks.getEditText().getText().toString(), FILE_INPUT_STREAM,
-                            txt_product_category.getText().toString().toUpperCase(), v);
+                    );
                 }
             });
         } catch (SQLException throwables) {

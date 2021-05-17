@@ -47,10 +47,10 @@ public class InformationService implements IInformation.IInformationService {
             ResultSet resultSet1 = preparedStatement1.executeQuery();
             while (resultSet1.next()) {
                 inventoryModel = new InventoryModel(
-                        resultSet1.getString("product_id"),
+                        resultSet1.getInt("product_id"),
                         resultSet1.getString("product_name"),
                         resultSet1.getString("product_description"),
-                        resultSet1.getLong("product_price"),
+                        resultSet1.getInt("product_price"),
                         (Blob) resultSet1.getBlob("product_picture"),
                         resultSet1.getInt("product_stocks"),
                         resultSet1.getString("product_category")

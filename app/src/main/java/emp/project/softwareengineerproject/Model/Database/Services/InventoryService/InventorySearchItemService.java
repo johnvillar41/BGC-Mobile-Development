@@ -23,17 +23,16 @@ import emp.project.softwareengineerproject.Model.Database.Services.NotificationS
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
 
 public class InventorySearchItemService implements ISearchInventory.ISearchInventoryService {
-    private InventoryModel model;
 
     private static InventorySearchItemService SINGLE_INSTANCE = null;
 
-    private InventorySearchItemService(InventoryModel model) {
-        this.model = model;
+    private InventorySearchItemService() {
+
     }
 
-    public static InventorySearchItemService getInstance(InventoryModel model) {
+    public static InventorySearchItemService getInstance() {
         if (SINGLE_INSTANCE == null) {
-            SINGLE_INSTANCE = new InventorySearchItemService(model);
+            SINGLE_INSTANCE = new InventorySearchItemService();
         }
         return SINGLE_INSTANCE;
     }
@@ -52,8 +51,14 @@ public class InventorySearchItemService implements ISearchInventory.ISearchInven
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(searchSQL);
             while (resultSet.next()) {
-                model = new InventoryModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getLong(4),
-                        (Blob) resultSet.getBlob(5), resultSet.getInt(6), resultSet.getString(7));
+                InventoryModel model = new InventoryModel(
+                        resultSet.getInt("product_id"),
+                        resultSet.getString("product_name"),
+                        resultSet.getString("product_description"),
+                        resultSet.getInt("product_price"),
+                        (Blob) resultSet.getBlob("product_picture"),
+                        resultSet.getInt("product_stocks"),
+                        resultSet.getString("product_category"));
                 list.add(model);
             }
             connection.close();
@@ -78,7 +83,7 @@ public class InventorySearchItemService implements ISearchInventory.ISearchInven
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         NotificationModel notificationModel;
-        notificationModel = new NotificationModel("Deleted product", "Deleted product " + model.getProduct_name(), String.valueOf(dtf.format(now)),
+        notificationModel = new NotificationModel("Deleted product", "Deleted product " + model.getProductName(), String.valueOf(dtf.format(now)),
                 MainMenuActivityView.GET_PREFERENCES_REALNAME);
         NotificationService.getInstance().insertNewNotifications(notificationModel);
 

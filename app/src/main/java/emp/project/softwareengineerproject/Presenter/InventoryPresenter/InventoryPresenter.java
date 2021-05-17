@@ -9,12 +9,10 @@ import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 
 public class InventoryPresenter implements IInvetory.IinventoryPresenter {
     private IInvetory.IinventoryView view;
-    private InventoryModel model;
     private IInvetory.IInventoryService service;
 
     public InventoryPresenter(IInvetory.IinventoryView view, IInvetory.IInventoryService service) {
         this.view = view;
-        this.model = new InventoryModel();
         this.service = service;
     }
 
@@ -65,7 +63,8 @@ public class InventoryPresenter implements IInvetory.IinventoryPresenter {
 
     @Override
     public void onCardViewLongClicked(String product_id, String product_name) {
-        model.setProduct_name(product_name);
+        InventoryModel model = new InventoryModel();
+        model.setProductName(product_name);
         try {
             service.deleteItem(product_id, model);
         } catch (ClassNotFoundException e) {

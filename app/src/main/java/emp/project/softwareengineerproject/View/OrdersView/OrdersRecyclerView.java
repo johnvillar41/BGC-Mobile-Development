@@ -123,7 +123,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                             new AutoTransition());
                     holder.expandableLayout.setVisibility(View.VISIBLE);
                     holder.expandable_fab.setImageResource(R.drawable.animation_up);
-                    OrdersService service = OrdersService.getInstance(model);
+                    OrdersService service = OrdersService.getInstance();
                     Thread thread = new Thread(new Runnable() {
                         @Override
                         public void run() {

@@ -45,30 +45,30 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         PreparedStatement preparedStatement;
 
-        if (model.getUpload_picture() == null) {
+        if (model.getProductPicture() == null) {
             preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_name=?," +
                     "product_description=?,product_price=?,product_stocks=?,product_category=? WHERE product_id=?");
-            preparedStatement.setString(1, model.getProduct_name());
-            preparedStatement.setString(2, model.getProduct_description());
-            preparedStatement.setLong(3, model.getProduct_price());
-            preparedStatement.setInt(4, model.getProduct_stocks());
-            preparedStatement.setString(5, model.getProduct_category());
-            preparedStatement.setString(6, model.getProduct_id());
+            preparedStatement.setString(1, model.getProductName());
+            preparedStatement.setString(2, model.getProductDescription());
+            preparedStatement.setLong(3, model.getProductPrice());
+            preparedStatement.setInt(4, model.getProductStocks());
+            preparedStatement.setString(5, model.getProductCategory());
+            preparedStatement.setInt(6, model.getProductID());
         } else {
             preparedStatement = (PreparedStatement) connection.prepareStatement("UPDATE products_table SET product_name=?," +
                     "product_description=?,product_price=?,product_stocks=?,product_category=?,product_picture=? WHERE product_id=?");
-            preparedStatement.setString(1, model.getProduct_name());
-            preparedStatement.setString(2, model.getProduct_description());
-            preparedStatement.setLong(3, model.getProduct_price());
-            preparedStatement.setInt(4, model.getProduct_stocks());
-            preparedStatement.setString(5, model.getProduct_category());
-            preparedStatement.setBlob(6, model.getUpload_picture());
-            preparedStatement.setString(7, model.getProduct_id());
+            preparedStatement.setString(1, model.getProductName());
+            preparedStatement.setString(2, model.getProductDescription());
+            preparedStatement.setInt(3, model.getProductPrice());
+            preparedStatement.setInt(4, model.getProductStocks());
+            preparedStatement.setString(5, model.getProductCategory());
+            preparedStatement.setBlob(6, model.getProductPicture());
+            preparedStatement.setInt(7, model.getProductID());
         }
         preparedStatement.executeUpdate();
 
         //Notifications
-        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProduct_name(),NotificationService.NotificationStatus.UPDATED_PRODUCT);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(),NotificationService.NotificationStatus.UPDATED_PRODUCT);
         NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
 
@@ -84,17 +84,17 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         String sql = "INSERT INTO products_table(product_name,product_description,product_price,product_picture,product_stocks,product_category)" +
                 "VALUES(?,?,?,?,?,?)";
         PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
-        preparedStatement.setString(1, model.getProduct_name());
-        preparedStatement.setString(2, model.getProduct_description());
-        preparedStatement.setLong(3, model.getProduct_price());
-        preparedStatement.setBlob(4, model.getUpload_picture());
-        preparedStatement.setInt(5, model.getProduct_stocks());
-        preparedStatement.setString(6, model.getProduct_category());
+        preparedStatement.setString(1, model.getProductName());
+        preparedStatement.setString(2, model.getProductDescription());
+        preparedStatement.setLong(3, model.getProductPrice());
+        preparedStatement.setBlob(4, model.getProductPicture());
+        preparedStatement.setInt(5, model.getProductStocks());
+        preparedStatement.setString(6, model.getProductCategory());
         preparedStatement.execute();
         preparedStatement.close();
 
         //inserting values to notification_table
-        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProduct_name(),NotificationService.NotificationStatus.ADDED_PRODUCT);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(),NotificationService.NotificationStatus.ADDED_PRODUCT);
         NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         //Inserting values to information_table

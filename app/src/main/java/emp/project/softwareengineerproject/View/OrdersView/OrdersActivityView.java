@@ -39,7 +39,7 @@ public class OrdersActivityView extends AppCompatActivity implements IOrders.IOr
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_orders_view);
-        presenter = new OrdersPresenter(this, OrdersService.getInstance(new OrdersModel()));
+        presenter = new OrdersPresenter(this, OrdersService.getInstance());
         presenter.initializeViews();
     }
 

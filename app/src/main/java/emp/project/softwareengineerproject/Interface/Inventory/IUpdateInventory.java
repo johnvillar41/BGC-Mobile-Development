@@ -1,11 +1,7 @@
 package emp.project.softwareengineerproject.Interface.Inventory;
 
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 
-import com.google.android.material.textfield.TextInputLayout;
-
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
@@ -53,19 +49,9 @@ public interface IUpdateInventory {
     interface IUpdatePresenter extends IBasePresenter {
         void onCancelButtonClicked();
 
-        void onSaveProductButtonClicked(String product_id, TextInputLayout editText_productTitle,
-                                        TextInputLayout txt_product_description,
-                                        TextInputLayout txt_product_Price,
-                                        TextInputLayout txt_product_Stocks, InputStream upload_picture,
-                                        AutoCompleteTextView txt_product_category, View v);
+        void onSaveProductButtonClicked();
 
-        void onAddProductButtonClicked(String product_name,
-                                       String product_description,
-                                       String product_price,
-                                       String product_stocks,
-                                       InputStream inputStream,
-                                       String product_category,
-                                       View v);
+        void onAddProductButtonClicked();
 
         void onPageLoadHints(InventoryModel model);
 

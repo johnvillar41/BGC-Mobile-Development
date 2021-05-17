@@ -23,13 +23,13 @@ public class OrdersService implements IOrders.IOrdersService {
 
     private static OrdersService SINGLE_INSTANCE = null;
 
-    private OrdersService(OrdersModel model) {
+    private OrdersService() {
 
     }
 
-    public static OrdersService getInstance(OrdersModel model) {
+    public static OrdersService getInstance() {
         if (SINGLE_INSTANCE == null) {
-            SINGLE_INSTANCE = new OrdersService(model);
+            SINGLE_INSTANCE = new OrdersService();
         }
         return SINGLE_INSTANCE;
     }
@@ -77,7 +77,7 @@ public class OrdersService implements IOrders.IOrdersService {
                             resultSet.getInt("specific_orders_id"),
                             resultSet.getInt("order_id"),
                             resultSet.getString("administrator_username"),
-                            InventoryService.getInstance()
+                            InventoryService.getInstance().fetchProductGivenByID(order_id),
                             resultSet.getInt("total_orders"),
                             resultSet.getInt("subtotal_price")
                     )

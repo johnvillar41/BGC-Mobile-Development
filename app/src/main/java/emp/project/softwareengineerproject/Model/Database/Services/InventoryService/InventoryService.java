@@ -28,7 +28,7 @@ public class InventoryService implements IInvetory.IInventoryService {
     private InventoryService() {
     }
 
-    public static InventoryService getInstance(InventoryModel model) {
+    public static InventoryService getInstance() {
         if (SINGLE_INSTANCE == null) {
             SINGLE_INSTANCE = new InventoryService();
         }
