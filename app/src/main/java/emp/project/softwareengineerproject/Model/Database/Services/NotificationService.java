@@ -40,13 +40,18 @@ public class NotificationService implements INotification.INotificationService {
         strictMode();
         List<NotificationModel> list = new ArrayList<>();
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-        Statement statement = connection.createStatement();
-        String sql = "SELECT * FROM notifications_table WHERE notif_date LIKE " + "'" + date_today + "%'";
+        String sql = "SELECT * FROM notifications_table WHERE notif_date LIKE ?";
+        PreparedStatement statement = (PreparedStatement) connection.prepareStatement(sql);
+        statement.setString(1, "'" + date_today + "%'");
         ResultSet resultSet = statement.executeQuery(sql);
         while (resultSet.next()) {
-            NotificationModel model = new NotificationModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3)
-                    , resultSet.getString(4),
-                    resultSet.getString(5));
+            NotificationModel model = new NotificationModel(
+                    resultSet.getString("notif_id"),
+                    resultSet.getString("notif_title"),
+                    resultSet.getString("notif_content"),
+                    resultSet.getString("notif_date"),
+                    resultSet.getString("user_name")
+            );
             list.add(model);
         }
         connection.close();
