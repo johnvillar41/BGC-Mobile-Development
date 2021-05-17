@@ -18,11 +18,11 @@ public interface IOrders {
 
         void onNavigationCancelledOrders();
 
-        void onMenuPendingClicked(String order_id);
+        void onMenuPendingClicked(int order_id);
 
-        void onMenuFinishClicked(String order_id);
+        void onMenuFinishClicked(int order_id);
 
-        void onMenuCancelClicked(String order_id);
+        void onMenuCancelClicked(int order_id);
 
         void addNotification(OrdersRecyclerView.STATUS status, String content);
 

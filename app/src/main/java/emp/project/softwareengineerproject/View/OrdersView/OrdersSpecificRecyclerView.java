@@ -19,14 +19,15 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
+import emp.project.softwareengineerproject.Model.Bean.SpecificOrdersModel;
 import emp.project.softwareengineerproject.R;
 
 public class OrdersSpecificRecyclerView extends RecyclerView.Adapter<OrdersSpecificRecyclerView.MyViewHolder> {
 
-    Context context;
-    List<OrdersModel> orderList;
+    private Context context;
+    private List<SpecificOrdersModel> orderList;
 
-    public OrdersSpecificRecyclerView(Context context, List<OrdersModel> orderList) {
+    public OrdersSpecificRecyclerView(Context context, List<SpecificOrdersModel> orderList) {
         this.context = context;
         this.orderList = orderList;
     }
@@ -41,11 +42,11 @@ public class OrdersSpecificRecyclerView extends RecyclerView.Adapter<OrdersSpeci
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        OrdersModel model = getItem(position);
-        holder.number_products.setText(model.getTotal_number_of_orders());
-        holder.product_id.setText(model.getProduct_id());
-        holder.product_name.setText(model.getProduct_name());
-        final Blob b = (Blob) model.getProduct_picture();
+        SpecificOrdersModel model = getItem(position);
+        holder.number_products.setText(model.getTotalOrders());
+        holder.product_id.setText(model.getProductID());
+        holder.product_name.setText(model.getProductID());
+        final Blob b = (Blob) model.getProductID();
         final int[] blobLength = new int[1];
         try {
             blobLength[0] = (int) b.length();
@@ -65,7 +66,7 @@ public class OrdersSpecificRecyclerView extends RecyclerView.Adapter<OrdersSpeci
         return orderList.size();
     }
 
-    public OrdersModel getItem(int position) {
+    public SpecificOrdersModel getItem(int position) {
         return orderList.get(position);
     }
 

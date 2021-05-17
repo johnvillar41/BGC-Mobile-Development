@@ -87,7 +87,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
     }
 
     @Override
-    public void onMenuPendingClicked(final String order_id) {
+    public void onMenuPendingClicked(final int order_id) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -107,7 +107,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
     }
 
     @Override
-    public void onMenuFinishClicked(final String order_id) {
+    public void onMenuFinishClicked(final int order_id) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -126,7 +126,7 @@ public class OrdersPresenter implements IOrders.IOrdersPresenter {
     }
 
     @Override
-    public void onMenuCancelClicked(final String order_id) {
+    public void onMenuCancelClicked(final int order_id) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

@@ -23,15 +23,14 @@ import emp.project.softwareengineerproject.Model.Database.Services.NotificationS
 public class InventoryService implements IInvetory.IInventoryService {
 
     private static InventoryService SINGLE_INSTANCE = null;
-    private InventoryModel model;
 
-    private InventoryService(InventoryModel model) {
-        this.model = model;
+
+    private InventoryService() {
     }
 
     public static InventoryService getInstance(InventoryModel model) {
         if (SINGLE_INSTANCE == null) {
-            SINGLE_INSTANCE = new InventoryService(model);
+            SINGLE_INSTANCE = new InventoryService();
         }
         return SINGLE_INSTANCE;
     }
@@ -54,8 +53,14 @@ public class InventoryService implements IInvetory.IInventoryService {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlGetGreenHouse);
             while (resultSet.next()) {
-                model = new InventoryModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getLong(4),
-                        (Blob) resultSet.getBlob(5), resultSet.getInt(6), resultSet.getString(7));
+                InventoryModel model = new InventoryModel(
+                        resultSet.getInt("product_id"),
+                        resultSet.getString("product_name"),
+                        resultSet.getString("product_description"),
+                        resultSet.getInt("product_price"),
+                        (Blob) resultSet.getBlob("product_picture"),
+                        resultSet.getInt("product_stocks"),
+                        resultSet.getString("product_category"));
                 list[0].add(model);
             }
 
@@ -63,8 +68,14 @@ public class InventoryService implements IInvetory.IInventoryService {
             Statement statement2 = connection.createStatement();
             ResultSet resultSet2 = statement2.executeQuery(sqlGetHydroPonics);
             while (resultSet2.next()) {
-                model = new InventoryModel(resultSet2.getString(1), resultSet2.getString(2), resultSet2.getString(3), resultSet2.getLong(4),
-                        (Blob) resultSet2.getBlob(5), resultSet2.getInt(6), resultSet2.getString(7));
+                InventoryModel model = new InventoryModel(
+                        resultSet.getInt("product_id"),
+                        resultSet.getString("product_name"),
+                        resultSet.getString("product_description"),
+                        resultSet.getInt("product_price"),
+                        (Blob) resultSet.getBlob("product_picture"),
+                        resultSet.getInt("product_stocks"),
+                        resultSet.getString("product_category"));
                 list[1].add(model);
             }
 
@@ -72,8 +83,14 @@ public class InventoryService implements IInvetory.IInventoryService {
             Statement statement3 = connection.createStatement();
             ResultSet resultSet3 = statement3.executeQuery(sqlGetOtherProducts);
             while (resultSet3.next()) {
-                model = new InventoryModel(resultSet3.getString(1), resultSet3.getString(2), resultSet3.getString(3), resultSet3.getLong(4),
-                        (Blob) resultSet3.getBlob(5), resultSet3.getInt(6), resultSet3.getString(7));
+                InventoryModel model = new InventoryModel(
+                        resultSet.getInt("product_id"),
+                        resultSet.getString("product_name"),
+                        resultSet.getString("product_description"),
+                        resultSet.getInt("product_price"),
+                        (Blob) resultSet.getBlob("product_picture"),
+                        resultSet.getInt("product_stocks"),
+                        resultSet.getString("product_category"));
                 list[2].add(model);
             }
 
@@ -100,11 +117,11 @@ public class InventoryService implements IInvetory.IInventoryService {
 
         String deleteInformationItem = "DELETE FROM information_table WHERE product_id = ?";
         PreparedStatement preparedStatementDelete = (PreparedStatement) connection.prepareStatement(deleteInformationItem);
-        preparedStatementDelete.setString(1,product_id);
+        preparedStatementDelete.setString(1, product_id);
         preparedStatementDelete.execute();
 
         //Notification
-        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProduct_name(),NotificationService.NotificationStatus.DELETED_PRODUCT);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(), NotificationService.NotificationStatus.DELETED_PRODUCT);
         NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         statement.close();
@@ -139,19 +156,49 @@ public class InventoryService implements IInvetory.IInventoryService {
     public List<InventoryModel> getCategorizedItemsFromDB(String category) throws ClassNotFoundException, SQLException {
         strictMode();
         List<InventoryModel> list = new ArrayList<>();
-        String sql = "SELECT * FROM products_table WHERE product_category=" + "'" + category + "'";
+        String sql = "SELECT * FROM products_table WHERE product_category=?";
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
+        PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
+        preparedStatement.setString(1,category);
+        ResultSet resultSet = preparedStatement.executeQuery(sql);
         while (resultSet.next()) {
-            model = new InventoryModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getLong(4),
-                    (Blob) resultSet.getBlob(5), resultSet.getInt(6), resultSet.getString(7));
+            InventoryModel model = new InventoryModel(
+                    resultSet.getInt("product_id"),
+                    resultSet.getString("product_name"),
+                    resultSet.getString("product_description"),
+                    resultSet.getInt("product_price"),
+                    (Blob) resultSet.getBlob("product_picture"),
+                    resultSet.getInt("product_stocks"),
+                    resultSet.getString("product_category"));
             list.add(model);
         }
         connection.close();
-        statement.close();
+        preparedStatement.close();
         resultSet.close();
         return list;
+    }
+
+    @Override
+    public InventoryModel fetchProductGivenByID(int id) throws ClassNotFoundException, SQLException {
+        strictMode();
+        InventoryModel model = null;
+        Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
+        String sql = "SELECT * FROM products_table WHERE product_id=?";
+        PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            model = new InventoryModel(
+                    resultSet.getInt("product_id"),
+                    resultSet.getString("product_name"),
+                    resultSet.getString("product_description"),
+                    resultSet.getInt("product_price"),
+                    resultSet.getBlob("product_picture"),
+                    resultSet.getInt("product_stocks"),
+                    resultSet.getString("product_category")
+                    );
+        }
+        return model;
     }
 
 

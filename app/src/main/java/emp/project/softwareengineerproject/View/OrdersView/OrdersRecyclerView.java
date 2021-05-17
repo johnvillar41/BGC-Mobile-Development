@@ -28,6 +28,7 @@ import java.util.List;
 
 import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
+import emp.project.softwareengineerproject.Model.Bean.SpecificOrdersModel;
 import emp.project.softwareengineerproject.Model.Database.Services.OrdersService;
 import emp.project.softwareengineerproject.Presenter.OrdersPresenter;
 import emp.project.softwareengineerproject.R;
@@ -43,18 +44,17 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
         this.list = list;
         this.context = context;
         this.activity = activity;
-        this.presenter = new OrdersPresenter(activity, OrdersService.getInstance(new OrdersModel()));
+        this.presenter = new OrdersPresenter(activity, OrdersService.getInstance());
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         final OrdersModel model = getItem(position);
-        holder.customer_name.setText(model.getCustomer_name());
-        holder.customer_email.setText(model.getCustomer_email());
-        holder.txt_total.setText(model.getOrder_total_price());
-        holder.txt_order_id.setText(model.getOrder_id());
-        holder.txt_order_date.setText(model.getOrder_date());
-        holder.order_status.setText(model.getOrder_status());
+        holder.customer_name.setText(model.getUserID());
+        holder.txt_total.setText(model.getOrderTotalPrice());
+        holder.txt_order_id.setText(model.getOrderID());
+        holder.txt_order_date.setText(model.getOrderDate().toString());
+        holder.order_status.setText(model.getOrderStatus());
         holder.imageView_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,8 +64,8 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if (item.getItemId() == R.id.page_pending_orders) {
-                            presenter.onMenuPendingClicked(model.getOrder_id());
-                            if (!model.getOrder_status().equals(STATUS.PENDING.getStatus())) {
+                            presenter.onMenuPendingClicked(model.getOrderID());
+                            if (!model.getOrderStatus().equals(STATUS.PENDING.getStatus())) {
                                 list.remove(position);
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position, list.size());
@@ -80,8 +80,8 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                             dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    presenter.onMenuFinishClicked(model.getOrder_id());
-                                    if (!model.getOrder_status().equals(STATUS.FINISHED.getStatus())) {
+                                    presenter.onMenuFinishClicked(model.getOrderID());
+                                    if (!model.getOrderStatus().equals(STATUS.FINISHED.getStatus())) {
                                         list.remove(position);
                                         notifyItemRemoved(position);
                                         notifyItemRangeChanged(position, list.size());
@@ -93,8 +93,8 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                             dialogBuilder.show();
                             return true;
                         } else if (item.getItemId() == R.id.page_cancelled_orders) {
-                            presenter.onMenuCancelClicked(model.getOrder_id());
-                            if (!model.getOrder_status().equals(STATUS.CANCELLED.getStatus())) {
+                            presenter.onMenuCancelClicked(model.getOrderID());
+                            if (!model.getOrderStatus().equals(STATUS.CANCELLED.getStatus())) {
                                 list.remove(position);
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position, list.size());
@@ -136,7 +136,7 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
                             LinearLayoutManager linearLayoutManager
                                     = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
                             try {
-                                List<OrdersModel> ordersModels = service.getCustomerSpecificOrders(model.getOrder_id());
+                                List<SpecificOrdersModel> ordersModels = service.getCustomerSpecificOrders(model.getOrderID());
                                 ((Activity) context).runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {

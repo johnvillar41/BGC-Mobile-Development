@@ -50,5 +50,7 @@ public interface IInvetory {
         List<String> getCategoriesFromDB() throws ClassNotFoundException, SQLException;
 
         List<InventoryModel> getCategorizedItemsFromDB(String category) throws ClassNotFoundException, SQLException;
+
+        InventoryModel fetchProductGivenByID(int id) throws ClassNotFoundException, SQLException;
     }
 }
