@@ -8,43 +8,13 @@ import emp.project.softwareengineerproject.Model.Bean.UserModel;
 
 public interface IReports {
     interface IReportsView extends IBaseView {
-        void displayProgressCircle();
 
-        void hideProgressCircle();
-
-        void displayProgressCircle_Users();
-
-        void hideProgressCircle_Users();
-
-        void displayTotals(String total, String average, String ave_Monthly);
-
-        void displayChart(ReportsModel monthValues, String username);
-
-        void displayRecyclerView(List<UserModel> sortedUserList);
-
-        void displayAdministratorList(List<String> adminList);
     }
 
     interface IReportsPresenter extends IBasePresenter {
-        void loadTotals(String username);
 
-        void loadChartValues();
-
-        void loadAdministratorValues();
-
-        void onSpinnerItemClicked(String adminName);
-
-        void loadSortedAdministrators();
     }
 
     interface IReportsService extends IServiceStrictMode {
-
-        int[] computeAverages(String username) throws ClassNotFoundException, SQLException;
-
-        ReportsModel getMonthlySales(String username) throws ClassNotFoundException, SQLException;
-
-        List<String> getListOfAdministrators() throws ClassNotFoundException, SQLException;
-
-        List<UserModel> getAdminsFromDB() throws ClassNotFoundException, SQLException;
     }
 }

@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.ILogin;
-import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Presenter.LoginPresenter;
 
 public class LoginService implements ILogin.ILoginService {
@@ -30,13 +29,13 @@ public class LoginService implements ILogin.ILoginService {
     }
 
     @Override
-    public boolean checkLoginCredentialsDB(UserModel model) throws ClassNotFoundException, SQLException {
+    public boolean checkLoginCredentialsDB(String username, String password) throws ClassNotFoundException, SQLException {
         strictMode();
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         String sqlSearch = "SELECT user_username,user_password,user_name FROM login_table WHERE user_username=? AND user_password=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlSearch);
-        preparedStatement.setString(1, model.getUser_username());
-        preparedStatement.setString(2, model.getUser_password());
+        preparedStatement.setString(1,username);
+        preparedStatement.setString(2, password);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             LoginPresenter.USER_REAL_NAME = resultSet.getString("user_name");

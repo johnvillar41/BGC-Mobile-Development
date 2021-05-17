@@ -23,6 +23,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import emp.project.softwareengineerproject.CacheManager;
@@ -31,6 +33,11 @@ import emp.project.softwareengineerproject.Model.Database.Services.LoginService;
 import emp.project.softwareengineerproject.NetworkChecker;
 import emp.project.softwareengineerproject.Presenter.LoginPresenter;
 import emp.project.softwareengineerproject.R;
+
+import static emp.project.softwareengineerproject.Constants.LoginConstants.EMPTY_BOTH;
+import static emp.project.softwareengineerproject.Constants.LoginConstants.EMPTY_PASSWORD;
+import static emp.project.softwareengineerproject.Constants.LoginConstants.EMPTY_USERNAME;
+import static emp.project.softwareengineerproject.Constants.LoginConstants.VALID_LOGIN;
 
 public class LoginActivityView extends AppCompatActivity implements ILogin.ILoginView {
 
@@ -75,7 +82,7 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                if(checkNetwork()) {
+                if (checkNetwork()) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     presenter.onLoginButtonClicked(Objects.requireNonNull(txt_username.getEditText()).getText().toString(),
@@ -126,6 +133,23 @@ public class LoginActivityView extends AppCompatActivity implements ILogin.ILogi
             }
         });
 
+    }
+
+    @Override
+    public String FindErrors() {
+        if (txt_username.getEditText().getText().toString().isEmpty() && txt_password.getEditText().getText().toString().isEmpty()) {
+            return EMPTY_BOTH;
+        }
+        if (!txt_username.getEditText().getText().toString().isEmpty() && !txt_password.getEditText().getText().toString().isEmpty()) {
+            return VALID_LOGIN;
+        }
+        if (txt_username.getEditText().getText().toString().isEmpty()) {
+            return EMPTY_USERNAME;
+        }
+        if (txt_password.getEditText().getText().toString().isEmpty()) {
+            return EMPTY_PASSWORD;
+        }
+        return null;
     }
 
     @Override

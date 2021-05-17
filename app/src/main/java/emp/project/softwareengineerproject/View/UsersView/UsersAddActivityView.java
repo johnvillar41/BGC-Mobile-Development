@@ -92,122 +92,13 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
         btn_add_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.onAddButtonClicked(
-                        txt_username.getEditText().getText().toString(),
-                        txt_password1.getEditText().getText().toString(),
-                        txt_password2.getEditText().getText().toString(),
-                        txt_realName.getEditText().getText().toString(),
-                        FILE_INPUT_STREAM, v);
+
             }
         });
         PROFILE_PICTURE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.onImageButtonClicked();
-            }
-        });
-    }
 
-    @Override
-    public void setErrorUserName(String errorMessage) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                txt_username.setError(errorMessage);
-            }
-        });
-    }
-
-    @Override
-    public void setErrorPassword(String errorMessage) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                txt_password1.setError(errorMessage);
-            }
-        });
-    }
-
-    @Override
-    public void setErrorPassword_2(String errorMessage) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                txt_password2.setError(errorMessage);
-            }
-        });
-    }
-
-    @Override
-    public void setErrorRealName(String empty_name) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                txt_realName.setError(empty_name);
-            }
-        });
-    }
-
-    @Override
-    public void removeErrorUsername() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                txt_username.setError(null);
-            }
-        });
-    }
-
-    @Override
-    public void removeErrorPassword() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                txt_password1.setError(null);
-            }
-        });
-    }
-
-    @Override
-    public void removeErrorPassword_2() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                txt_password2.setError(null);
-            }
-        });
-    }
-
-    @Override
-    public void removeErrorRealName() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                txt_realName.setError(null);
-            }
-        });
-    }
-
-    @Override
-    public void loadImageFromGallery() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(intent, IMAGE_PICK_CODE);
-    }
-
-    @Override
-    public void displayStatusMessage(String message, View v) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Snackbar snack = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
-                snack.getView().setBackgroundColor(Color.parseColor("#f9b207"));
-                View view = snack.getView();
-                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                tv.setTextColor(ContextCompat.getColor(UsersAddActivityView.this, R.color.black));
-                tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
-                tv.setGravity(Gravity.CENTER);
-                snack.show();
             }
         });
     }
@@ -232,8 +123,8 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
         });
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    
+    /*@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void displayCheckAnimation() {
         runOnUiThread(new Runnable() {
@@ -261,7 +152,7 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
                 dialog.show();
             }
         });
-    }
+    }*/
 
 
     @Override
@@ -356,5 +247,10 @@ public class UsersAddActivityView extends AppCompatActivity implements IUsersAdd
             this.finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void loadImageFromGallery() {
+
     }
 }

@@ -67,9 +67,6 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
             NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getSales_title(),NotificationService.NotificationStatus.ADDED_SALES);
             NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
-            //Update Reports Table
-            ReportsService.getInstance().updateReportsTable(connection, model);
-
             preparedStatement.close();
             connection.close();
             return true;

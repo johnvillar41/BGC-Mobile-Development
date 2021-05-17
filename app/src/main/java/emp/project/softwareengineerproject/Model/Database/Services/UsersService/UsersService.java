@@ -13,22 +13,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import emp.project.softwareengineerproject.Constants;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsers;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Model.Database.Services.NotificationService;
 
 public class UsersService implements IUsers.IUsersService {
-    private UserModel model;
     private static UsersService SINGLE_INSTANCE = null;
 
-    private UsersService(UserModel model) {
-        this.model = model;
+    private UsersService() {
+
     }
 
-    public static UsersService getInstance(UserModel model) {
+    public static UsersService getInstance() {
         if (SINGLE_INSTANCE == null) {
-            SINGLE_INSTANCE = new UsersService(model);
+            SINGLE_INSTANCE = new UsersService();
         }
         return SINGLE_INSTANCE;
     }
@@ -45,8 +45,22 @@ public class UsersService implements IUsers.IUsersService {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlGetUserProfile);
         if (resultSet.next()) {
-            model = new UserModel(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
-                    resultSet.getString(4), resultSet.getBlob(5));
+
+            Constants.Position position = null;
+            if(resultSet.getString("position").equals("Administrator")){
+                position = Constants.Position.ADMINISTRATOR;
+            } else {
+                position = Constants.Position.EMPLOYEE;
+            }
+
+            UserModel model = new UserModel(
+                    resultSet.getInt("user_id"),
+                    resultSet.getString("user_username"),
+                    resultSet.getString("user_password"),
+                    resultSet.getString("user_name"),
+                    resultSet.getBlob("user_image"),
+                    position);
+
             connection.close();
             statement.close();
             resultSet.close();
@@ -67,11 +81,20 @@ public class UsersService implements IUsers.IUsersService {
         String sqlSearch = "SELECT * FROM login_table";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlSearch);
-        while (resultSet.next()) {
-            model = new UserModel(resultSet.getString(1), resultSet.getString(2),
-                    resultSet.getString(3), resultSet.getString(4), resultSet.getBlob(5));
-            list.add(model);
+        Constants.Position position = null;
+        if(resultSet.getString("position").equals("Administrator")){
+            position = Constants.Position.ADMINISTRATOR;
+        } else {
+            position = Constants.Position.EMPLOYEE;
         }
+
+        UserModel model = new UserModel(
+                resultSet.getInt("user_id"),
+                resultSet.getString("user_username"),
+                resultSet.getString("user_password"),
+                resultSet.getString("user_name"),
+                resultSet.getBlob("user_image"),
+                position);
         connection.close();
         statement.close();
         resultSet.close();
@@ -87,21 +110,21 @@ public class UsersService implements IUsers.IUsersService {
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             PreparedStatement preparedStatement;
             String sqlUpdate;
-            if(model.getUploadUserImage() != null) {
+            if(model.getUserPicture() != null) {
                 sqlUpdate = "UPDATE login_table SET user_username=? ,user_password=? ,user_name=? ,user_image=? WHERE user_id=?";
                 preparedStatement = connection.prepareStatement(sqlUpdate);
-                preparedStatement.setString(1, model.getUser_username());
-                preparedStatement.setString(2, model.getUser_password());
-                preparedStatement.setString(3, model.getUser_full_name());
-                preparedStatement.setBlob(4, model.getUploadUserImage());
-                preparedStatement.setString(5,model.getUser_id());
+                preparedStatement.setString(1, model.getUsername());
+                preparedStatement.setString(2, model.getPassword());
+                preparedStatement.setString(3, model.getFullName());
+                preparedStatement.setBlob(4, model.getUserPicture());
+                preparedStatement.setInt(5,model.getUserID());
             } else {
                 sqlUpdate = "UPDATE login_table SET user_username=? ,user_password=? ,user_name=? WHERE user_id=?";
                 preparedStatement = connection.prepareStatement(sqlUpdate);
-                preparedStatement.setString(1, model.getUser_username());
-                preparedStatement.setString(2, model.getUser_password());
-                preparedStatement.setString(3, model.getUser_full_name());
-                preparedStatement.setString(4, model.getUser_id());
+                preparedStatement.setString(1, model.getUsername());
+                preparedStatement.setString(2, model.getPassword());
+                preparedStatement.setString(3, model.getFullName());
+                preparedStatement.setInt(4, model.getUserID());
             }
 
             preparedStatement.execute();
@@ -112,7 +135,7 @@ public class UsersService implements IUsers.IUsersService {
             /**
              * Create Notification here
              */
-            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getUser_full_name(), NotificationService.NotificationStatus.UPDATE_USER);
+            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getFullName(), NotificationService.NotificationStatus.UPDATE_USER);
             NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         } catch (Exception e) {

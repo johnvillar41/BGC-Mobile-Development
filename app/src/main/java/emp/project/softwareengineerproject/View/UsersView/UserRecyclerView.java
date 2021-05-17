@@ -39,7 +39,7 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyVi
     public UserRecyclerView(List<UserModel> list, Context context, IUsers.IUsersView activity) {
         this.list = list;
         this.context = context;
-        this.presenter = new UsersPresenter(activity, UsersService.getInstance(new UserModel()));
+        this.presenter = new UsersPresenter(activity, UsersService.getInstance());
     }
 
     @NonNull
@@ -53,7 +53,7 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final UserModel model = getItem(position);
-        final Blob b = (Blob) model.getUser_image();
+        final Blob b = (Blob) model.getUserPicture();
         final int[] blobLength = new int[1];
         try {
             blobLength[0] = (int) b.length();
@@ -65,21 +65,21 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyVi
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        holder.txt_userName.setText(model.getUser_username());
-        holder.txt_userId.setText(model.getUser_id());
+        holder.txt_userName.setText(model.getUsername());
+        holder.txt_userId.setText(model.getUserID());
         holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                 dialogBuilder.setTitle("Delete Item");
                 dialogBuilder.setIcon(R.drawable.ic_delete);
-                dialogBuilder.setMessage("Are you sure you want to delete this User?: " + model.getUser_full_name());
+                dialogBuilder.setMessage("Are you sure you want to delete this User?: " + model.getFullName());
                 dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         SharedPreferences mPrefs = context.getSharedPreferences(LoginActivityView.MyPREFERENCES, MODE_PRIVATE); //add key
                         String username = mPrefs.getString(LoginActivityView.USERNAME_PREFS, null);
-                        presenter.onCardViewLongClicked(model.getUser_username(), username);
+                        presenter.onCardViewLongClicked(model.getUsername(), username);
                         list.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, list.size());
@@ -101,7 +101,7 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyVi
         return list.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         CircleImageView circleImageView;
         TextView txt_userId, txt_userName;
         CardView cardView;

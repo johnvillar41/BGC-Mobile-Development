@@ -9,7 +9,6 @@ import org.junit.Test;
 import java.sql.SQLException;
 
 import emp.project.softwareengineerproject.Interface.ILogin;
-import emp.project.softwareengineerproject.Model.Bean.UserModel;
 import emp.project.softwareengineerproject.Presenter.LoginPresenter;
 
 public class LoginPresenterTest {
@@ -134,7 +133,7 @@ public class LoginPresenterTest {
     static class MockLoginService implements ILogin.ILoginService {
 
         @Override
-        public boolean checkLoginCredentialsDB(UserModel model) {
+        public boolean checkLoginCredentialsDB(String username, String password) {
             if (model.getUser_username().equals(MOCK_USER) && model.getUser_password().equals(MOCK_PASS)) {
                 return true;
             } else {

@@ -26,7 +26,6 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
 
     public UsersPresenter(IUsers.IUsersView view, IUsers.IUsersService service) {
         this.view = view;
-        this.model = new UserModel();
         this.service = service;
     }
 
@@ -75,58 +74,7 @@ public class UsersPresenter implements IUsers.IUsersPresenter {
 
     @Override
     public void onEditAccountButtonClicked(String id, String username, String password, String fullname, InputStream image_upload) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String temp_id = id;
-                if (!view.makeTextViewsEdittable()) {
-                    model = new UserModel(id, username, password, fullname, image_upload);
-                    Set<UserModel.VALIDITY> validity = model.validateEditCredentials(model);
-                    for (UserModel.VALIDITY set : validity) {
-                        switch (set) {
-                            //Invalid Cases
-                            case EMPTY_USERNAME:
-                                view.displayStatusMessage(EMPTY_USERNAME_FIELD);
-                                view.setErrorOnUsername(EMPTY_USERNAME_FIELD);
-                                break;
-                            case EMPTY_PASSWORD:
-                                view.displayStatusMessage(EMPTY_PASSWORD_FIELD);
-                                view.setErrorOnPassword(EMPTY_PASSWORD_FIELD);
-                                break;
-                            case EMPTY_REAL_NAME:
-                                view.displayStatusMessage(EMPTY_NAME_FIELD);
-                                view.setErrorOnRealName(EMPTY_NAME_FIELD);
-                                break;
-                            //Valid Cases
-                            case VALID_USERNAME:
-                                view.removeErrorOnUsername();
-                                break;
-                            case VALID_PASSWORD:
-                                view.removeErrorOnPassword();
-                                break;
-                            case VALID_REAL_NAME:
-                                view.removeErrorOnRealName();
-                                break;
-                            case VALID_EDIT:
-                                try {
-                                    if (service.updateNewUserCredentials(model)) {
-                                        view.removeErrorOnPassword();
-                                        view.removeErrorOnRealName();
-                                        view.removeErrorOnUsername();
-                                        view.displayStatusMessage(SAVING);
-                                        view.removeUserCredentialsOnSharedPreferences();
-                                        view.finishActivity();
-                                    }
-                                } catch (SQLException e) {
-                                    view.displayStatusMessage(e.getMessage());
-                                }
-                                break;
-                        }
-                    }
-                }
-            }
-        });
-        thread.start();
+
 
     }
 

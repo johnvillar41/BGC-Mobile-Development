@@ -1,206 +1,47 @@
 package emp.project.softwareengineerproject.Model.Bean;
 
-import java.io.InputStream;
 import java.sql.Blob;
-import java.util.HashSet;
+
+import emp.project.softwareengineerproject.Constants;
 
 public class UserModel {
-    private String user_id;
-    private String user_username;
-    private String user_password;
-    private String user_full_name;
-    private Blob user_image;
-    private InputStream uploadUserImage;
+    private int userID;
+    private String username;
+    private String password;
+    private String fullName;
+    private Blob userPicture;
+    private Constants.Position position;
 
-    public UserModel(String user_username, String user_password, String user_full_name, InputStream uploadUserImage) {
-        this.user_username = user_username;
-        this.user_password = user_password;
-        this.user_full_name = user_full_name;
-        this.uploadUserImage = uploadUserImage;
+    public UserModel(int userID, String username, String password, String fullName, Blob userPicture, Constants.Position position) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.userPicture = userPicture;
+        this.position = position;
     }
 
-    public UserModel(String user_id, String user_username, String user_password, String user_full_name, Blob user_image) {
-        this.user_id = user_id;
-        this.user_username = user_username;
-        this.user_password = user_password;
-        this.user_full_name = user_full_name;
-        this.user_image = user_image;
+    public int getUserID() {
+        return userID;
     }
 
-    public UserModel(String user_id, String user_username, String user_password, String user_full_name, InputStream updateUserImage) {
-        this.user_id = user_id;
-        this.user_username = user_username;
-        this.user_password = user_password;
-        this.user_full_name = user_full_name;
-        this.uploadUserImage = updateUserImage;
+    public String getUsername() {
+        return username;
     }
 
-    public UserModel(String user_username, String user_password) {
-        this.user_password = user_password;
-        this.user_username = user_username;
+    public String getPassword() {
+        return password;
     }
 
-    public UserModel() {
+    public String getFullName() {
+        return fullName;
     }
 
-    public String getUser_username() {
-        return user_username;
+    public Blob getUserPicture() {
+        return userPicture;
     }
 
-    public String getUser_password() {
-        return user_password;
-    }
-
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public Blob getUser_image() {
-        return user_image;
-    }
-
-    public String getUser_full_name() {
-        return user_full_name;
-    }
-
-    public InputStream getUploadUserImage() {
-        return uploadUserImage;
-    }
-
-    public HashSet<VALIDITY> validateAddUsers(String[] arrTexts, InputStream profileImage) {
-        boolean isValid = false;
-        boolean isImageValid = false;
-
-        boolean isFieldsValid_username = false;
-        boolean isFieldsValid_password = false;
-        boolean isFieldsValid_password_2 = false;
-        boolean isFieldsValid_realName = false;
-
-        //First Wave of Validation for empty Strings
-        HashSet<VALIDITY> validity = new HashSet<>();
-        for (int i = 0; i < arrTexts.length; i++) {
-            if (arrTexts[i].isEmpty()) {
-                switch (i) {
-                    case 0:
-                        validity.add(VALIDITY.EMPTY_USERNAME);
-                        break;
-                    case 1:
-                        validity.add(VALIDITY.EMPTY_PASSWORD);
-                        break;
-                    case 2:
-                        validity.add(VALIDITY.EMPTY_PASSWORD_2);
-                        break;
-                    case 3:
-                        validity.add(VALIDITY.EMPTY_REAL_NAME);
-                        break;
-                }
-            } else {
-                switch (i) {
-                    case 0:
-                        validity.add(VALIDITY.VALID_USERNAME);
-                        isFieldsValid_username = true;
-                        break;
-                    case 1:
-                        validity.add(VALIDITY.VALID_PASSWORD);
-                        isFieldsValid_password = true;
-                        break;
-                    case 2:
-                        validity.add(VALIDITY.VALID_PASSWORD_2);
-                        isFieldsValid_password_2 = true;
-                        break;
-                    case 3:
-                        validity.add(VALIDITY.VALID_REAL_NAME);
-                        isFieldsValid_realName = true;
-                        break;
-                }
-            }
-        }
-
-        //Second Wave of Validations
-
-        if (arrTexts[1].equals(arrTexts[2]) && !arrTexts[1].isEmpty() && !arrTexts[2].isEmpty()) {
-            validity.add(VALIDITY.EQUAL_PASSWORD);
-            isValid = true;
-        } else {
-            validity.add(VALIDITY.PASSWORD_NOT_EQUAL);
-            validity.remove(VALIDITY.VALID_PASSWORD_2);
-            validity.remove(VALIDITY.VALID_PASSWORD);
-            isValid = false;
-        }
-
-        if (profileImage == null) {
-            validity.add(VALIDITY.EMPTY_PROFILE_PICTURE);
-        } else {
-            isImageValid = true;
-        }
-
-        //Final Wave of Validations
-
-        if (isValid && isImageValid && isFieldsValid_username && isFieldsValid_password && isFieldsValid_password_2 && isFieldsValid_realName) {
-            validity.add(VALIDITY.VALID_REGISTER);
-        }
-
-        return validity;
-    }
-
-    public VALIDITY validateLoginCredentials(UserModel model) {
-        VALIDITY validity = null;
-        if (model.getUser_username().isEmpty()) {
-            validity = VALIDITY.EMPTY_USERNAME;
-        }
-        if (model.getUser_password().isEmpty()) {
-            validity = VALIDITY.EMPTY_PASSWORD;
-        }
-        if (model.getUser_username().isEmpty() && model.getUser_password().isEmpty()) {
-            validity = VALIDITY.EMPTY_BOTH;
-        }
-        if (!model.getUser_username().isEmpty() && !model.getUser_password().isEmpty()) {
-            validity = VALIDITY.VALID_LOGIN;
-        }
-        return validity;
-    }
-
-    public HashSet<VALIDITY> validateEditCredentials(UserModel model) {
-        HashSet<VALIDITY> validity = new HashSet<>();
-        if (model.getUser_username().isEmpty()) {
-            validity.add(VALIDITY.EMPTY_USERNAME);
-        } else {
-            validity.add(VALIDITY.VALID_USERNAME);
-        }
-        if (model.getUser_password().isEmpty()) {
-            validity.add(VALIDITY.EMPTY_PASSWORD);
-        } else {
-            validity.add(VALIDITY.VALID_PASSWORD);
-        }
-        if (model.getUser_full_name().isEmpty()) {
-            validity.add(VALIDITY.EMPTY_REAL_NAME);
-        } else {
-            validity.add(VALIDITY.VALID_REAL_NAME);
-        }
-        if (!model.getUser_username().isEmpty() && !model.getUser_password().isEmpty() && !model.getUser_full_name().isEmpty()) {
-            validity.add(VALIDITY.VALID_EDIT);
-        }
-        return validity;
-    }
-
-
-    public enum VALIDITY {
-        EMPTY_USERNAME,
-        EMPTY_PASSWORD,
-        EMPTY_PASSWORD_2,
-        EMPTY_BOTH,
-        EMPTY_REAL_NAME,
-        EMPTY_PROFILE_PICTURE,
-
-        EQUAL_PASSWORD,
-        PASSWORD_NOT_EQUAL,
-
-        VALID_USERNAME,
-        VALID_PASSWORD,
-        VALID_PASSWORD_2,
-        VALID_REAL_NAME,
-        VALID_LOGIN,
-        VALID_EDIT,
-        VALID_REGISTER;
+    public Constants.Position getPosition() {
+        return position;
     }
 }

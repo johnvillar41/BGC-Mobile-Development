@@ -70,7 +70,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_users_view);
 
-        presenter = new UsersPresenter(this, UsersService.getInstance(new UserModel()));
+        presenter = new UsersPresenter(this, UsersService.getInstance());
         presenter.initializeViews();
     }
 
@@ -225,7 +225,7 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
             @Override
             public void run() {
                 try {
-                    Blob b = model.getUser_image();
+                    Blob b = model.getUserPicture();
                     int blobLength;
                     blobLength = (int) b.length();
                     byte[] blobAsBytes = b.getBytes(1, blobLength);
@@ -236,10 +236,10 @@ public class UsersActivityView extends AppCompatActivity implements IUsers.IUser
                 } catch (SQLException ignored) {
 
                 }
-                txt_user_id.getEditText().setText(String.valueOf(model.getUser_id()));
-                txt_username.getEditText().setText(model.getUser_username());
-                txt_password.getEditText().setText(model.getUser_password());
-                txt_real_name.getEditText().setText(model.getUser_full_name());
+                txt_user_id.getEditText().setText(String.valueOf(model.getUserID()));
+                txt_username.getEditText().setText(model.getUsername());
+                txt_password.getEditText().setText(model.getPassword());
+                txt_real_name.getEditText().setText(model.getFullName());
             }
         });
     }
