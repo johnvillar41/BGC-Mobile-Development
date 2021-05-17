@@ -117,13 +117,11 @@ public class NotificationsActivityView extends AppCompatActivity implements INot
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         calendar.set(year, month, dayOfMonth);
                         String dateString = sdf.format(calendar.getTime());
                         Toast.makeText(NotificationsActivityView.this, dateString, Toast.LENGTH_LONG).show();
-                        // Set search on notifications
                         presenter.onSearchNotificationYesClicked(dateString);
-
                     }
                 }, year, month, day);
                 datePicker.show();

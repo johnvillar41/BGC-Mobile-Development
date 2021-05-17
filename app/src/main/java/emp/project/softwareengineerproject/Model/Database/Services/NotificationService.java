@@ -41,7 +41,7 @@ public class NotificationService implements INotification.INotificationService {
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         String sql = "SELECT * FROM notifications_table WHERE notif_date LIKE ?";
         PreparedStatement statement = (PreparedStatement) connection.prepareStatement(sql);
-        statement.setString(1, "'" + date_today + "%'");
+        statement.setString(1, date_today + "%");
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
             NotificationModel model = new NotificationModel(
@@ -74,7 +74,7 @@ public class NotificationService implements INotification.INotificationService {
         connection.close();
     }
 
-    public NotificationModel notificationFactory(String name, Constants.NotificationStatus notificationStatus) {
+    public NotificationModel notificationFactory(String name, Constants.Status.NotificationStatus notificationStatus) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         if (notificationStatus.getNotificationContent() == null) {

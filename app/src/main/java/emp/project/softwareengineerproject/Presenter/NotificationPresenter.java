@@ -16,11 +16,9 @@ public class NotificationPresenter implements INotification.INotificationPresent
 
     private INotification.INotificationView view;
     private INotification.INotificationService service;
-    private NotificationModel model;
 
     public NotificationPresenter(INotification.INotificationView view, INotification.INotificationService service) {
         this.view = view;
-        this.model = new NotificationModel();
         this.service = service;
     }
 
@@ -47,9 +45,8 @@ public class NotificationPresenter implements INotification.INotificationPresent
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                final List<NotificationModel> finalNotifsList = notifsList;
                 view.displayProgressBar();
-                view.displayNotificationRecyclerView(finalNotifsList);
+                view.displayNotificationRecyclerView(notifsList);
                 view.hideProgressBar();
             }
 
@@ -59,7 +56,7 @@ public class NotificationPresenter implements INotification.INotificationPresent
     }
 
     @Override
-    public void onSearchNotificationYesClicked(final String date) {
+    public void onSearchNotificationYesClicked(String date) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

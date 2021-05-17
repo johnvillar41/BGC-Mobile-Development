@@ -19,6 +19,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.R;
 
+import static emp.project.softwareengineerproject.Constants.Status.ProductStatus.ADDED_NEW_USER;
+import static emp.project.softwareengineerproject.Constants.Status.ProductStatus.ADDED_PRODUCT;
+import static emp.project.softwareengineerproject.Constants.Status.ProductStatus.ADDED_SALES;
+import static emp.project.softwareengineerproject.Constants.Status.ProductStatus.DELETED_PRODUCT;
+import static emp.project.softwareengineerproject.Constants.Status.ProductStatus.DELETED_USER;
+import static emp.project.softwareengineerproject.Constants.Status.ProductStatus.ORDER_CANCEL;
+import static emp.project.softwareengineerproject.Constants.Status.ProductStatus.ORDER_FINISHED;
+import static emp.project.softwareengineerproject.Constants.Status.ProductStatus.ORDER_PENDING;
+import static emp.project.softwareengineerproject.Constants.Status.ProductStatus.UPDATED_PRODUCT;
+import static emp.project.softwareengineerproject.Constants.Status.ProductStatus.UPDATED_USER;
+
 public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationRecyclerView.MyViewHolder> {
 
     Context context;
@@ -45,52 +56,28 @@ public class NotificationRecyclerView extends RecyclerView.Adapter<NotificationR
         holder.txt_content.setText(model.getNotif_content());
         holder.txt_username.setText(model.getUser_name());
 
-        if (model.getNotif_title().equals(PRODUCT_STATUS.DELETED_PRODUCT.getProduct_status())) {
+        if (model.getNotif_title().equals(DELETED_PRODUCT.getProduct_status())) {
             Glide.with(context).load(R.drawable.delete_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-        } else if (model.getNotif_title().equals(PRODUCT_STATUS.UPDATED_PRODUCT.getProduct_status())) {
+        } else if (model.getNotif_title().equals(UPDATED_PRODUCT.getProduct_status())) {
             Glide.with(context).load(R.drawable.update_logo).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-        } else if (model.getNotif_title().equals(PRODUCT_STATUS.ADDED_PRODUCT.getProduct_status())) {
+        } else if (model.getNotif_title().equals(ADDED_PRODUCT.getProduct_status())) {
             Glide.with(context).load(R.drawable.add_product).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-        } else if (model.getNotif_title().equals(PRODUCT_STATUS.ADDED_SALES.getProduct_status())) {
+        } else if (model.getNotif_title().equals(ADDED_SALES.getProduct_status())) {
             Glide.with(context).load(R.drawable.ic_money_large).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-        } else if (model.getNotif_title().equals(PRODUCT_STATUS.ADDED_NEW_USER.getProduct_status())) {
+        } else if (model.getNotif_title().equals(ADDED_NEW_USER.getProduct_status())) {
             Glide.with(context).load(R.drawable.ic_add_user).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-        } else if(model.getNotif_title().equals(PRODUCT_STATUS.ORDER_PENDING.getProduct_status())){
+        } else if(model.getNotif_title().equals(ORDER_PENDING.getProduct_status())){
             Glide.with(context).load(R.drawable.update_icon_order).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-        } else if(model.getNotif_title().equals(PRODUCT_STATUS.ORDER_FINISHED.getProduct_status())){
+        } else if(model.getNotif_title().equals(ORDER_FINISHED.getProduct_status())){
             Glide.with(context).load(R.drawable.update_icon_order).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-        } else if(model.getNotif_title().equals(PRODUCT_STATUS.ORDER_CANCEL.getProduct_status())){
+        } else if(model.getNotif_title().equals(ORDER_CANCEL.getProduct_status())){
             Glide.with(context).load(R.drawable.update_icon_order).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-        } else if(model.getNotif_title().equals(PRODUCT_STATUS.DELETED_USER.getProduct_status())){
+        } else if(model.getNotif_title().equals(DELETED_USER.getProduct_status())){
             Glide.with(context).load(R.drawable.baseline_person_remove_black_18dp).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
-        } else if(model.getNotif_title().equals(PRODUCT_STATUS.UPDATED_USER.getProduct_status())) {
+        } else if(model.getNotif_title().equals(UPDATED_USER.getProduct_status())) {
             Glide.with(context).load(R.drawable.ic_baseline_update_24).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(holder.circleImageView);
         }
 
-    }
-
-
-    public enum PRODUCT_STATUS {
-        DELETED_PRODUCT("Deleted product"),
-        UPDATED_PRODUCT("Updated product"),
-        ADDED_PRODUCT("Added product"),
-        ADDED_SALES("Added sales"),
-        ADDED_NEW_USER("Added new User"),
-        ORDER_PENDING("Order moved to pending"),
-        ORDER_FINISHED("Order is finished"),
-        ORDER_CANCEL("Order cancelled"),
-        DELETED_USER("Deleted User"),
-        UPDATED_USER("Updated User");
-
-        private String product_status;
-
-        PRODUCT_STATUS(String product_status) {
-            this.product_status = product_status;
-        }
-
-        public String getProduct_status() {
-            return product_status;
-        }
     }
 
     private NotificationModel getItem(int position) {

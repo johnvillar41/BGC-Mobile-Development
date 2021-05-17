@@ -1,44 +1,69 @@
 package emp.project.softwareengineerproject;
 
-import emp.project.softwareengineerproject.View.NotificationView.NotificationRecyclerView;
+
 
 public class Constants {
     public enum Position {ADMINISTRATOR, EMPLOYEE}
 
-    public enum NotificationStatus {
-        DELETED_USER(NotificationRecyclerView.PRODUCT_STATUS.DELETED_USER.getProduct_status(), "Deleted User: "),
-        UPDATE_USER(NotificationRecyclerView.PRODUCT_STATUS.UPDATED_USER.getProduct_status(), "Updated User: "),
-        DELETED_PRODUCT(NotificationRecyclerView.PRODUCT_STATUS.DELETED_PRODUCT.getProduct_status(), "Deleted Product: "),
-        UPDATED_PRODUCT(NotificationRecyclerView.PRODUCT_STATUS.UPDATED_PRODUCT.getProduct_status(), "Updated Product: "),
-        ADDED_PRODUCT(NotificationRecyclerView.PRODUCT_STATUS.ADDED_PRODUCT.getProduct_status(), "Added Product: "),
-        ADDED_SALES(NotificationRecyclerView.PRODUCT_STATUS.ADDED_SALES.getProduct_status(), "Added Sales: "),
-        ADDED_NEW_USER(NotificationRecyclerView.PRODUCT_STATUS.ADDED_NEW_USER.getProduct_status(), "Added new User: "),
-        ORDER_PENDING(NotificationRecyclerView.PRODUCT_STATUS.ORDER_PENDING.getProduct_status()),
-        ORDER_FINISHED(NotificationRecyclerView.PRODUCT_STATUS.ORDER_FINISHED.getProduct_status()),
-        ORDER_CANCEL(NotificationRecyclerView.PRODUCT_STATUS.ORDER_CANCEL.getProduct_status());
+    public static class Status {
+        public enum NotificationStatus {
+            DELETED_USER(ProductStatus.DELETED_USER.getProduct_status(), "Deleted User: "),
+            UPDATE_USER(ProductStatus.UPDATED_USER.getProduct_status(), "Updated User: "),
+            DELETED_PRODUCT(ProductStatus.DELETED_PRODUCT.getProduct_status(), "Deleted Product: "),
+            UPDATED_PRODUCT(ProductStatus.UPDATED_PRODUCT.getProduct_status(), "Updated Product: "),
+            ADDED_PRODUCT(ProductStatus.ADDED_PRODUCT.getProduct_status(), "Added Product: "),
+            ADDED_SALES(ProductStatus.ADDED_SALES.getProduct_status(), "Added Sales: "),
+            ADDED_NEW_USER(ProductStatus.ADDED_NEW_USER.getProduct_status(), "Added new User: "),
+            ORDER_PENDING(ProductStatus.ORDER_PENDING.getProduct_status()),
+            ORDER_FINISHED(ProductStatus.ORDER_FINISHED.getProduct_status()),
+            ORDER_CANCEL(ProductStatus.ORDER_CANCEL.getProduct_status());
 
-        private String notificationContent;
-        private String notificationTitle;
+            private String notificationContent;
+            private String notificationTitle;
 
-        NotificationStatus(String notificationTitle, String notificationContent) {
-            this.notificationContent = notificationContent;
-            this.notificationTitle = notificationTitle;
+            NotificationStatus(String notificationTitle, String notificationContent) {
+                this.notificationContent = notificationContent;
+                this.notificationTitle = notificationTitle;
+            }
+
+            NotificationStatus(String notificationTitle) {
+                this.notificationTitle = notificationTitle;
+            }
+
+            public String getNotificationContent() {
+                return notificationContent;
+            }
+
+            public void setNotificationStatusToEmptyString() {
+                this.notificationContent = "";
+            }
+
+            public String getNotificationTitle() {
+                return notificationTitle;
+            }
         }
 
-        NotificationStatus(String notificationTitle) {
-            this.notificationTitle = notificationTitle;
-        }
+        public enum ProductStatus {
+            DELETED_PRODUCT("Deleted product"),
+            UPDATED_PRODUCT("Updated product"),
+            ADDED_PRODUCT("Added product"),
+            ADDED_SALES("Sold Item"),
+            ADDED_NEW_USER("Added new User"),
+            ORDER_PENDING("Order moved to pending"),
+            ORDER_FINISHED("Finished Order"),
+            ORDER_CANCEL("Order cancelled"),
+            DELETED_USER("Deleted User"),
+            UPDATED_USER("Updated User");
 
-        public String getNotificationContent() {
-            return notificationContent;
-        }
+            private String product_status;
 
-        public void setNotificationStatusToEmptyString() {
-            this.notificationContent = "";
-        }
+            ProductStatus(String product_status) {
+                this.product_status = product_status;
+            }
 
-        public String getNotificationTitle() {
-            return notificationTitle;
+            public String getProduct_status() {
+                return product_status;
+            }
         }
     }
 
