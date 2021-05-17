@@ -50,8 +50,8 @@ public class InventoryService implements IInvetory.IInventoryService {
             list[2] = new ArrayList<>();
             Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
             String sqlGetGreenHouse = "SELECT * FROM products_table WHERE product_category='Greenhouse'";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlGetGreenHouse);
+            PreparedStatement statement = (PreparedStatement) connection.prepareStatement(sqlGetGreenHouse);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 InventoryModel model = new InventoryModel(
                         resultSet.getInt("product_id"),
@@ -65,8 +65,8 @@ public class InventoryService implements IInvetory.IInventoryService {
             }
 
             String sqlGetHydroPonics = "SELECT * FROM products_table WHERE product_category='Hydroponics'";
-            Statement statement2 = connection.createStatement();
-            ResultSet resultSet2 = statement2.executeQuery(sqlGetHydroPonics);
+            PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(sqlGetHydroPonics);
+            ResultSet resultSet2 = preparedStatement.executeQuery();
             while (resultSet2.next()) {
                 InventoryModel model = new InventoryModel(
                         resultSet.getInt("product_id"),
@@ -80,8 +80,8 @@ public class InventoryService implements IInvetory.IInventoryService {
             }
 
             String sqlGetOtherProducts = "SELECT * FROM products_table";
-            Statement statement3 = connection.createStatement();
-            ResultSet resultSet3 = statement3.executeQuery(sqlGetOtherProducts);
+            PreparedStatement preparedStatement1 = (PreparedStatement) connection.prepareStatement(sqlGetOtherProducts);
+            ResultSet resultSet3 = preparedStatement1.executeQuery();
             while (resultSet3.next()) {
                 InventoryModel model = new InventoryModel(
                         resultSet.getInt("product_id"),
@@ -96,9 +96,10 @@ public class InventoryService implements IInvetory.IInventoryService {
 
 
             resultSet2.close();
-            statement2.close();
-            resultSet.close();
+            preparedStatement.close();
             statement.close();
+            preparedStatement1.close();
+            resultSet.close();
             connection.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,8 +137,8 @@ public class InventoryService implements IInvetory.IInventoryService {
         List<String> finalList = new ArrayList<>();
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         String selectCategory = "SELECT * FROM products_table";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(selectCategory);
+        PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(selectCategory);
+        ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
             tempList.add(resultSet.getString(7));
         }
@@ -148,7 +149,7 @@ public class InventoryService implements IInvetory.IInventoryService {
         }
         connection.close();
         resultSet.close();
-        statement.close();
+        preparedStatement.close();
         return finalList;
 
     }
@@ -156,12 +157,12 @@ public class InventoryService implements IInvetory.IInventoryService {
     @Override
     public List<InventoryModel> getCategorizedItemsFromDB(String category) throws ClassNotFoundException, SQLException {
         strictMode();
+        Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         List<InventoryModel> list = new ArrayList<>();
         String sql = "SELECT * FROM products_table WHERE product_category=?";
-        Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         PreparedStatement preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
         preparedStatement.setString(1,category);
-        ResultSet resultSet = preparedStatement.executeQuery(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
             InventoryModel model = new InventoryModel(
                     resultSet.getInt("product_id"),

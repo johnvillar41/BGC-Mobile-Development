@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import emp.project.softwareengineerproject.Interface.IMainMenu;
 import emp.project.softwareengineerproject.View.LoginActivityView;
@@ -36,12 +35,12 @@ public class MainMenuService extends Activity implements IMainMenu.IMainService 
     public int getNumberOfNotifications(String date) throws SQLException, ClassNotFoundException {
         strictMode();
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-        String sqlGetNumberOfNotifs = "SELECT COUNT(*) FROM notifications_table WHERE notif_date LIKE ? ";
+        String sqlGetNumberOfNotifs = "SELECT COUNT(*) as TotalCount FROM notifications_table WHERE notif_date LIKE ? ";
         PreparedStatement statement = connection.prepareStatement(sqlGetNumberOfNotifs);
-        statement.setString(1, "'" + date + "%'");
-        ResultSet resultSet = statement.executeQuery(sqlGetNumberOfNotifs);
+        statement.setString(1, date + "%");
+        ResultSet resultSet = statement.executeQuery();
         if (resultSet.next()) {
-            int numberOfNotifs = resultSet.getInt(1);
+            int numberOfNotifs = resultSet.getInt("TotalCount");
             connection.close();
             statement.close();
             resultSet.close();
@@ -60,14 +59,14 @@ public class MainMenuService extends Activity implements IMainMenu.IMainService 
         Blob profileImage = null;
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         String sqlGetProfilePic = "SELECT user_image from login_table WHERE user_username=?";
-        PreparedStatement statement = connection.prepareStatement(sqlGetProfilePic);
-        statement.setString(1, LoginActivityView.USERNAME_VALUE);
-        ResultSet resultSet = statement.executeQuery(sqlGetProfilePic);
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlGetProfilePic);
+        preparedStatement.setString(1, LoginActivityView.USERNAME_VALUE);
+        ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
             profileImage = resultSet.getBlob("user_image");
         }
         connection.close();
-        statement.close();
+        preparedStatement.close();
         resultSet.close();
         return profileImage;
     }

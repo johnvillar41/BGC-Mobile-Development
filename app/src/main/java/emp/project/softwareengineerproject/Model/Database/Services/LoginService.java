@@ -33,7 +33,7 @@ public class LoginService implements ILogin.ILoginService {
     public boolean checkLoginCredentialsDB(UserModel model) throws ClassNotFoundException, SQLException {
         strictMode();
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-        String sqlSearch = "SELECT user_username,user_password FROM login_table WHERE user_username=? AND user_password=?";
+        String sqlSearch = "SELECT user_username,user_password,user_name FROM login_table WHERE user_username=? AND user_password=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlSearch);
         preparedStatement.setString(1, model.getUser_username());
         preparedStatement.setString(2, model.getUser_password());

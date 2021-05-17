@@ -58,7 +58,7 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
             @Override
             public void run() {
                 view.displayUsername();
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDateTime now = LocalDateTime.now();
                 try {
                     String numberOfNotifs = String.valueOf(service.getNumberOfNotifications(dtf.format(now)));
@@ -82,7 +82,7 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
             @Override
             public void run() {
                 try {
-                    final Blob profile = service.getProfilePicture();
+                    Blob profile = service.getProfilePicture();
                     view.displayProfileImage(profile);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
@@ -100,7 +100,7 @@ public class MainMenuPresenter implements IMainMenu.IMainPresenter {
             @Override
             public void run() {
                 try {
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     LocalDateTime now = LocalDateTime.now();
                     String numberOfNotifs = String.valueOf(service.getNumberOfNotifications(dtf.format(now)));
                     view.displayNumberOfNotifs(numberOfNotifs);
