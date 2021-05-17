@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import emp.project.softwareengineerproject.Constants;
 import emp.project.softwareengineerproject.Interface.ISales.ISalesAdd;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
@@ -64,7 +65,7 @@ public class SalesAddService implements ISalesAdd.ISalesAddService {
             InventoryUpdateService.getInstance().updateProductTotal(connection, model);
 
             //Update Notifications
-            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getSales_title(),NotificationService.NotificationStatus.ADDED_SALES);
+            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getSales_title(), Constants.NotificationStatus.ADDED_SALES);
             NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
             preparedStatement.close();

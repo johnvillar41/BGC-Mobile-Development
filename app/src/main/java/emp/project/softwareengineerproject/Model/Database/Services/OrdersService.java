@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import emp.project.softwareengineerproject.Constants;
 import emp.project.softwareengineerproject.Interface.IOrders;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.OrdersModel;
@@ -109,17 +110,17 @@ public class OrdersService implements IOrders.IOrdersService {
             case PENDING_NOTIF:
                 newNotoficationModel = NotificationService.getInstance().notificationFactory(
                         OrdersRecyclerView.STATUS.PENDING_NOTIF.getStatus(),
-                        NotificationService.NotificationStatus.ORDER_PENDING);
+                        Constants.NotificationStatus.ORDER_PENDING);
                 break;
             case CANCELLED_NOTIF:
                 newNotoficationModel = NotificationService.getInstance().notificationFactory(
                         OrdersRecyclerView.STATUS.CANCELLED_NOTIF.getStatus(),
-                        NotificationService.NotificationStatus.ORDER_CANCEL);
+                        Constants.NotificationStatus.ORDER_CANCEL);
                 break;
             case FINISHED_NOTIF:
                 newNotoficationModel = NotificationService.getInstance().notificationFactory(
                         OrdersRecyclerView.STATUS.FINISHED_NOTIF.getStatus(),
-                        NotificationService.NotificationStatus.ORDER_FINISHED);
+                        Constants.NotificationStatus.ORDER_FINISHED);
                 break;
         }
         if (newNotoficationModel != null) {

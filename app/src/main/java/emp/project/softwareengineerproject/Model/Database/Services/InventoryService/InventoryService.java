@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import emp.project.softwareengineerproject.Constants;
 import emp.project.softwareengineerproject.Interface.Inventory.IInvetory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
@@ -123,7 +124,7 @@ public class InventoryService implements IInvetory.IInventoryService {
         preparedStatementDelete.execute();
 
         //Notification
-        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(), NotificationService.NotificationStatus.DELETED_PRODUCT);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(), Constants.NotificationStatus.DELETED_PRODUCT);
         NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         statement.close();

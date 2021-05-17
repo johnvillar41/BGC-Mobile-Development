@@ -6,16 +6,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import emp.project.softwareengineerproject.Constants;
 import emp.project.softwareengineerproject.Interface.INotification;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.View.MainMenuActivityView;
-import emp.project.softwareengineerproject.View.NotificationView.NotificationRecyclerView;
 
 public class NotificationService implements INotification.INotificationService {
     private static NotificationService SINGLE_INSTANCE = null;
@@ -43,7 +42,7 @@ public class NotificationService implements INotification.INotificationService {
         String sql = "SELECT * FROM notifications_table WHERE notif_date LIKE ?";
         PreparedStatement statement = (PreparedStatement) connection.prepareStatement(sql);
         statement.setString(1, "'" + date_today + "%'");
-        ResultSet resultSet = statement.executeQuery(sql);
+        ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
             NotificationModel model = new NotificationModel(
                     resultSet.getString("notif_id"),
@@ -75,44 +74,7 @@ public class NotificationService implements INotification.INotificationService {
         connection.close();
     }
 
-    public enum NotificationStatus {
-        DELETED_USER(NotificationRecyclerView.PRODUCT_STATUS.DELETED_USER.getProduct_status(), "Deleted User: "),
-        UPDATE_USER(NotificationRecyclerView.PRODUCT_STATUS.UPDATED_USER.getProduct_status(), "Updated User: "),
-        DELETED_PRODUCT(NotificationRecyclerView.PRODUCT_STATUS.DELETED_PRODUCT.getProduct_status(), "Deleted Product: "),
-        UPDATED_PRODUCT(NotificationRecyclerView.PRODUCT_STATUS.UPDATED_PRODUCT.getProduct_status(), "Updated Product: "),
-        ADDED_PRODUCT(NotificationRecyclerView.PRODUCT_STATUS.ADDED_PRODUCT.getProduct_status(), "Added Product: "),
-        ADDED_SALES(NotificationRecyclerView.PRODUCT_STATUS.ADDED_SALES.getProduct_status(), "Added Sales: "),
-        ADDED_NEW_USER(NotificationRecyclerView.PRODUCT_STATUS.ADDED_NEW_USER.getProduct_status(), "Added new User: "),
-        ORDER_PENDING(NotificationRecyclerView.PRODUCT_STATUS.ORDER_PENDING.getProduct_status()),
-        ORDER_FINISHED(NotificationRecyclerView.PRODUCT_STATUS.ORDER_FINISHED.getProduct_status()),
-        ORDER_CANCEL(NotificationRecyclerView.PRODUCT_STATUS.ORDER_CANCEL.getProduct_status());
-
-        private String notificationContent;
-        private String notificationTitle;
-
-        NotificationStatus(String notificationTitle, String notificationContent) {
-            this.notificationContent = notificationContent;
-            this.notificationTitle = notificationTitle;
-        }
-
-        NotificationStatus(String notificationTitle) {
-            this.notificationTitle = notificationTitle;
-        }
-
-        public String getNotificationContent() {
-            return notificationContent;
-        }
-
-        public void setNotificationStatusToEmptyString() {
-            this.notificationContent = "";
-        }
-
-        public String getNotificationTitle() {
-            return notificationTitle;
-        }
-    }
-
-    public NotificationModel notificationFactory(String name, NotificationStatus notificationStatus) {
+    public NotificationModel notificationFactory(String name, Constants.NotificationStatus notificationStatus) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         if (notificationStatus.getNotificationContent() == null) {

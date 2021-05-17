@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
 
+import emp.project.softwareengineerproject.Constants;
 import emp.project.softwareengineerproject.Interface.Inventory.IUpdateInventory;
 import emp.project.softwareengineerproject.Model.Bean.InventoryModel;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
@@ -68,7 +69,7 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         preparedStatement.executeUpdate();
 
         //Notifications
-        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(),NotificationService.NotificationStatus.UPDATED_PRODUCT);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(), Constants.NotificationStatus.UPDATED_PRODUCT);
         NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
 
@@ -94,7 +95,7 @@ public class InventoryUpdateService implements IUpdateInventory.IUpdateInventory
         preparedStatement.close();
 
         //inserting values to notification_table
-        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(),NotificationService.NotificationStatus.ADDED_PRODUCT);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getProductName(),Constants.NotificationStatus.ADDED_PRODUCT);
         NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         //Inserting values to information_table

@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import emp.project.softwareengineerproject.Constants;
 import emp.project.softwareengineerproject.Interface.IUsers.IUsersAdd;
 import emp.project.softwareengineerproject.Model.Bean.NotificationModel;
 import emp.project.softwareengineerproject.Model.Bean.UserModel;
@@ -50,7 +51,7 @@ public class UsersAddService implements IUsersAdd.IUsersAddService {
         preparedStatement.close();
 
         //notification for new account
-        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getFullName(),NotificationService.NotificationStatus.ADDED_NEW_USER);
+        NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getFullName(), Constants.NotificationStatus.ADDED_NEW_USER);
         NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         connection.close();

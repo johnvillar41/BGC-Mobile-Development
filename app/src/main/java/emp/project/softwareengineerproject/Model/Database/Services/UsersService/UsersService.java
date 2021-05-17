@@ -135,7 +135,7 @@ public class UsersService implements IUsers.IUsersService {
             /**
              * Create Notification here
              */
-            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getFullName(), NotificationService.NotificationStatus.UPDATE_USER);
+            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(model.getFullName(), Constants.NotificationStatus.UPDATE_USER);
             NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
         } catch (Exception e) {
@@ -159,7 +159,7 @@ public class UsersService implements IUsers.IUsersService {
             /**
              * Create Notification here
              */
-            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(username, NotificationService.NotificationStatus.DELETED_USER);
+            NotificationModel newNotificationModel = NotificationService.getInstance().notificationFactory(username, Constants.NotificationStatus.DELETED_USER);
             NotificationService.getInstance().insertNewNotifications(newNotificationModel);
 
             connection.close();
