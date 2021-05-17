@@ -270,22 +270,6 @@ public class MainMenuActivityView extends AppCompatActivity implements IMainMenu
             e.printStackTrace();
         }
         onTrimMemory(TRIM_MEMORY_RUNNING_CRITICAL);
-        /**
-         * Removes SingleTon Instances
-         */
-        InventorySearchItemService.getInstance(null).removeInstance();
-        InventoryService.getInstance(null).removeInstance();
-        InventoryUpdateService.getInstance().removeInstance();
-        SalesAddService.getInstance().removeInstance();
-        SalesService.getInstance().removeInstance();
-        SalesTransactionService.getInstance(null).removeInstance();
-        UsersAddService.getInstance().removeInstance();
-        UsersService.getInstance(null).removeInstance();
-        LoginService.getInstance().removeInstance();
-        MainMenuService.getInstance().removeInstance();
-        NotificationService.getInstance().removeInstance();
-        OrdersService.getInstance(null).removeInstance();
-        ReportsService.getInstance().removeInstance();
         super.onDestroy();
     }
 

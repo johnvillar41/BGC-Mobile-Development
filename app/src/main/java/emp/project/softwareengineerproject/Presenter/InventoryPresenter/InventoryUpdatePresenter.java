@@ -30,24 +30,8 @@ public class InventoryUpdatePresenter implements IUpdateInventory.IUpdatePresent
         view.goBack();
     }
 
-    public static final String EMPTY_PRODUCT_NAME = "Empty product name!";
-    public static final String EMPTY_PRODUCT_DESCRIPTION = "Empty product description!";
-    public static final String EMPTY_PRODUCT_PRICE = "Empty product price";
-    public static final String EMPTY_PRODUCT_STOCKS = "Empty product stocks";
-    public static final String EMPTY_PRODUCT_CATEGORY = "Empty product category";
-    public static final String EMPTY_PICTURE = "Empty product picture";
-    public static final String SUCCESSFULL_MESSAGE = "Product Added Successfully!";
-    public static final String ZERO_VALUE_PRICE = "Price value must not be zero!";
-    private static final String SUCCESSFULL_UPDATE_PRODUCT = "Successfully Updated Product!";
-
     @Override
-    public void onSaveProductButtonClicked(String product_id,
-                                           TextInputLayout editText_productTitle,
-                                           TextInputLayout txt_product_description,
-                                           TextInputLayout txt_product_Price,
-                                           TextInputLayout txt_product_Stocks,
-                                           InputStream upload_picture,
-                                           AutoCompleteTextView txt_product_category, final View v) {
+    public void onSaveProductButtonClicked() {
 
     }
 

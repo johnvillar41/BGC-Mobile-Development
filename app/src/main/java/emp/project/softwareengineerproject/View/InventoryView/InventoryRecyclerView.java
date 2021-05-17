@@ -45,7 +45,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
     public InventoryRecyclerView(Context context, List<InventoryModel> list) {
         this.context = context;
         this.list = list;
-        this.presenter = new InventoryPresenter((IInvetory.IinventoryView) context, InventoryService.getInstance(new InventoryModel()));
+        this.presenter = new InventoryPresenter((IInvetory.IinventoryView) context, InventoryService.getInstance());
         PRODUCT_MODEL = new InventoryModel();
     }
 
@@ -60,7 +60,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         final InventoryModel model = getItem(position);
-        final Blob b = model.getProduct_picture();
+        final Blob b = (Blob) model.getProductPicture();
         final int[] blobLength = new int[1];
         try {
             blobLength[0] = (int) b.length();
@@ -74,19 +74,19 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        holder.txt_product_name.setText(model.getProduct_name());
-        holder.txt_stock_number.setText(String.valueOf(model.getProduct_stocks()));
+        holder.txt_product_name.setText(model.getProductName());
+        holder.txt_stock_number.setText(String.valueOf(model.getProductStocks()));
 
         /**
          * Color coding for the product number of
          * stocks
          */
-        if (model.getProduct_stocks() >= STOCK_LEVEL.HIGH.getVal()) { //Greater than or equal to 50 = Green
+        if (model.getProductStocks() >= STOCK_LEVEL.HIGH.getVal()) { //Greater than or equal to 50 = Green
             holder.txt_stock_number.setTextColor(Color.GREEN);
-        } else if (model.getProduct_stocks() <= STOCK_LEVEL.HIGH.getVal() && //
-                model.getProduct_stocks() >= STOCK_LEVEL.LOW.getVal()) {
+        } else if (model.getProductStocks() <= STOCK_LEVEL.HIGH.getVal() && //
+                model.getProductStocks() >= STOCK_LEVEL.LOW.getVal()) {
             holder.txt_stock_number.setTextColor(Color.BLUE);
-        } else if (model.getProduct_stocks() < STOCK_LEVEL.LOW.getVal()) {
+        } else if (model.getProductStocks() < STOCK_LEVEL.LOW.getVal()) {
             holder.txt_stock_number.setTextColor(Color.RED);
             holder.txt_stock_number.setError("Low number of stocks!!");
         }
@@ -113,7 +113,7 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                     dialog.show();
 
-                    txt_product_name.setText(model.getProduct_name());
+                    txt_product_name.setText(model.getProductName());
                     Thread thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -139,9 +139,9 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                     });
                     thread.start();
 
-                    txt_product_description.setText(model.getProduct_description());
-                    txt_product_Price.setText(String.valueOf(model.getProduct_price()));
-                    txt_product_Stocks.setText(String.valueOf(model.getProduct_stocks()));
+                    txt_product_description.setText(model.getProductDescription());
+                    txt_product_Price.setText(String.valueOf(model.getProductPrice()));
+                    txt_product_Stocks.setText(String.valueOf(model.getProductStocks()));
 
                     btn_back.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -155,10 +155,10 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                         public void onClick(View v) {
                             Intent intent = new Intent(context, InventoryUpdateView.class);
                             context.startActivity(intent);
-                            InventoryRecyclerView.PRODUCT_MODEL = new InventoryModel(model.getProduct_id(),
-                                    model.getProduct_name(), model.getProduct_description(),
-                                    model.getProduct_price(), model.getProduct_picture(),
-                                    model.getProduct_stocks(), model.getProduct_category());
+                            InventoryRecyclerView.PRODUCT_MODEL = new InventoryModel(model.getProductID(),
+                                    model.getProductName(), model.getProductDescription(),
+                                    model.getProductPrice(), model.getProductPicture(),
+                                    model.getProductStocks(), model.getProductCategory());
                         }
                     });
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -176,11 +176,11 @@ public class InventoryRecyclerView extends RecyclerView.Adapter<InventoryRecycle
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                 dialogBuilder.setTitle("Delete Item");
                 dialogBuilder.setIcon(R.drawable.ic_delete);
-                dialogBuilder.setMessage("Are you sure you want to delete this item?: " + model.getProduct_name());
+                dialogBuilder.setMessage("Are you sure you want to delete this item?: " + model.getProductName());
                 dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        presenter.onCardViewLongClicked(model.getProduct_id(), model.getProduct_name());
+                        presenter.onCardViewLongClicked(model.getProductID(), model.getProductName());
                         list.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, list.size());

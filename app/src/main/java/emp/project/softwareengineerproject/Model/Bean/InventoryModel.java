@@ -29,6 +29,10 @@ public class InventoryModel implements Serializable {
         this.productName = productName;
     }
 
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+
     public int getProductID() {
         return productID;
     }

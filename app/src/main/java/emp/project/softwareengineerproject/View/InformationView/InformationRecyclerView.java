@@ -52,7 +52,7 @@ public class InformationRecyclerView extends RecyclerView.Adapter<InformationRec
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         InformationModel informationModel = getItem(position);
-        Blob b = (Blob) informationModel.getProductModel().getProduct_picture();
+        Blob b = (Blob) informationModel.getProductModel().getProductPicture();
         int[] blobLength = new int[1];
         try {
             blobLength[0] = (int) b.length();
@@ -68,7 +68,7 @@ public class InformationRecyclerView extends RecyclerView.Adapter<InformationRec
         if (informationModel.getProduct_information_tutorial().equals("No information yet")) {
             holder.textView_ProductName.setError("No information yet");
         }
-        holder.textView_ProductName.setText(informationModel.getProductModel().getProduct_name());
+        holder.textView_ProductName.setText(informationModel.getProductModel().getProductName());
         holder.cardView_Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +83,7 @@ public class InformationRecyclerView extends RecyclerView.Adapter<InformationRec
                 TextInputLayout txt_information = dialogView.findViewById(R.id.txt_information);
                 FloatingActionButton floatingActionButton = dialogView.findViewById(R.id.fab_save);
 
-                Blob b = (Blob) informationModel.getProductModel().getProduct_picture();
+                Blob b = (Blob) informationModel.getProductModel().getProductPicture();
                 int[] blobLength = new int[1];
                 try {
                     blobLength[0] = (int) b.length();
@@ -96,8 +96,8 @@ public class InformationRecyclerView extends RecyclerView.Adapter<InformationRec
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                txt_product_name.setText(informationModel.getProductModel().getProduct_name());
-                txt_description.setText(informationModel.getProductModel().getProduct_description());
+                txt_product_name.setText(informationModel.getProductModel().getProductName());
+                txt_description.setText(informationModel.getProductModel().getProductDescription());
                 String[] updateedInformation = new String[1];
                 if (txt_information.getEditText() != null) {
                     txt_information.getEditText().setText(informationModel.getProduct_information_tutorial());
@@ -113,7 +113,7 @@ public class InformationRecyclerView extends RecyclerView.Adapter<InformationRec
                     public void onClick(View v) {
                         if (!updateedInformation[0].trim().isEmpty()) {
                             updateedInformation[0] = txt_information.getEditText().getText().toString();
-                            presenter.onFloatingActionButtonClickedPopup(updateedInformation[0], informationModel.getProductModel().getProduct_id());
+                            presenter.onFloatingActionButtonClickedPopup(updateedInformation[0], informationModel.getProductModel().getProductID());
                             presenter.loadData();
                             dialog.cancel();
                         } else {

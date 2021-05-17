@@ -50,7 +50,7 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final InventoryModel model = getItem(position);
-        final Blob b = model.getProduct_picture();
+        final Blob b = (Blob) model.getProductPicture();
         final int[] blobLength = new int[1];
         Thread thread=new Thread(new Runnable() {
             @Override
@@ -74,14 +74,14 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
             }
         });thread.start();
 
-        if (model.getProduct_stocks() == 0) {
+        if (model.getProductStocks() == 0) {
             holder.checkBox.setVisibility(View.GONE);
             holder.txtProduct_stocks.setTextColor(Color.parseColor("#FD0303"));
         } else {
             holder.checkBox.setVisibility(View.VISIBLE);
         }
-        holder.txt_productName.setText(model.getProduct_name());
-        holder.txtProduct_stocks.setText(String.valueOf(model.getProduct_stocks()));
+        holder.txt_productName.setText(model.getProductName());
+        holder.txtProduct_stocks.setText(String.valueOf(model.getProductStocks()));
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +100,7 @@ public class SalesAddRecyclerView extends RecyclerView.Adapter<SalesAddRecyclerV
         return list.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView circleImageView;
         TextView txt_productName, txtProduct_stocks;

@@ -36,7 +36,7 @@ public class InformationPresenter implements IInformation.IInformationPresenter 
     }
 
     @Override
-    public void onFloatingActionButtonClickedPopup(String updatedInformation, String product_id) {
+    public void onFloatingActionButtonClickedPopup(String updatedInformation, int product_id) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

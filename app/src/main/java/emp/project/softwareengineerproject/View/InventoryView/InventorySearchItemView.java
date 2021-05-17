@@ -39,7 +39,7 @@ public class InventorySearchItemView extends AppCompatActivity implements ISearc
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_inventory_search_item_view);
-        presenter = new InventorySearchItemPresenter(this, InventorySearchItemService.getInstance(new InventoryModel()));
+        presenter = new InventorySearchItemPresenter(this, InventorySearchItemService.getInstance());
         presenter.initializeViews();
     }
 

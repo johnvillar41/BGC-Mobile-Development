@@ -47,7 +47,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_inventory_view);
-        presenter = new InventoryPresenter(this, InventoryService.getInstance(new InventoryModel()));
+        presenter = new InventoryPresenter(this, InventoryService.getInstance());
         presenter.initializeViews();
     }
 
@@ -162,7 +162,7 @@ public class InventoryActivityView extends AppCompatActivity implements IInvetor
     @Override
     public void goToAddProductPage() {
         try {
-            InventoryRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
+            InventoryRecyclerView.PRODUCT_MODEL.setProductID(-1);
             Intent intent = new Intent(this, InventoryUpdateView.class);
             intent.putExtra("Button_Name", "Add Product");
             startActivity(intent);

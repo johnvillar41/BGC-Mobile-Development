@@ -14,12 +14,10 @@ import emp.project.softwareengineerproject.View.OrdersView.OrdersRecyclerView;
 public class OrdersPresenter implements IOrders.IOrdersPresenter {
 
     private IOrders.IOrdersView view;
-    private OrdersModel model;
     private IOrders.IOrdersService service;
 
     public OrdersPresenter(IOrders.IOrdersView view, IOrders.IOrdersService service) {
         this.view = view;
-        this.model = new OrdersModel();
         this.service = service;
     }
 

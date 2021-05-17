@@ -47,8 +47,8 @@ public class SalesAddRecyclerView2 extends RecyclerView.Adapter<SalesAddRecycler
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         final InventoryModel model = CartListModel.getInstance().cartList.get(position);
-        holder.txt_name.setText(model.getProduct_name());
-        final Blob b = model.getProduct_picture();
+        holder.txt_name.setText(model.getProductName());
+        final Blob b = (Blob) model.getProductPicture();
         final int[] blobLength = new int[1];
         Thread thread=new Thread(new Runnable() {
             @Override
@@ -81,9 +81,9 @@ public class SalesAddRecyclerView2 extends RecyclerView.Adapter<SalesAddRecycler
         holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int p, long id) {
-                long newValue = model.getProduct_price() * Long.parseLong(parent.getSelectedItem().toString());
-                CartListModel.getInstance().cartList.get(position).setNewPrice(newValue);
-                CartListModel.getInstance().cartList.get(position).setTotal_number_of_products(parent.getSelectedItem().toString());
+                long newValue = model.getProductPrice() * Long.parseLong(parent.getSelectedItem().toString());
+                //CartListModel.getInstance().cartList.get(position).setNewPrice(newValue);
+                //CartListModel.getInstance().cartList.get(position).setTotal_number_of_products(parent.getSelectedItem().toString());
             }
 
             @Override

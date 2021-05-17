@@ -15,12 +15,12 @@ public interface IInformation {
     interface IInformationPresenter extends IBasePresenter{
         void loadData();
 
-        void onFloatingActionButtonClickedPopup(String updatedInformation, String product_id);
+        void onFloatingActionButtonClickedPopup(String updatedInformation, int product_id);
     }
 
     interface IInformationService extends IServiceStrictMode {
         List<InformationModel> fetchInformationDataFromDB() throws ClassNotFoundException, SQLException;
 
-        void saveNewInformation(String updatedInformation, String product_id) throws ClassNotFoundException, SQLException;
+        void saveNewInformation(String updatedInformation, int product_id) throws ClassNotFoundException, SQLException;
     }
 }

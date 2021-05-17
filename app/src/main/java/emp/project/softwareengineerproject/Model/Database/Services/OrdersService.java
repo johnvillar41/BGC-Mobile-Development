@@ -87,13 +87,13 @@ public class OrdersService implements IOrders.IOrdersService {
     }
 
     @Override
-    public void updateOrderFromDB(String order_id, String status) throws ClassNotFoundException, SQLException {
+    public void updateOrderFromDB(int order_id, String status) throws ClassNotFoundException, SQLException {
         strictMode();
         String sql = "UPDATE customer_orders_table SET order_status=? WHERE order_id=?";
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, status);
-        preparedStatement.setString(2, order_id);
+        preparedStatement.setInt(2, order_id);
         preparedStatement.executeUpdate();
         connection.close();
         preparedStatement.close();

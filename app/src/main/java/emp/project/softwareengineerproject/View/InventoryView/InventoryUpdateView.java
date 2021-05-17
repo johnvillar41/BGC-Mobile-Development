@@ -117,17 +117,17 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     @Override
     public void setHints(final InventoryModel model) {
         try {
-            if (!model.getProduct_id().equals("-1")) {//This checks the id of the current product
+            if (model.getProductID() != -1) {//This checks the id of the current product
                 setSupportActionBar(toolbar);
                 getSupportActionBar().setTitle("Update Product");
                 getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_final_toolbar);
-                editText_productTitle.setHint(model.getProduct_name());
-                txt_product_description.setHint(model.getProduct_description());
-                txt_product_Price.setHint(String.valueOf(model.getProduct_price()));
-                txt_product_Stocks.setHint(String.valueOf(model.getProduct_stocks()));
-                txt_product_category.setHint(model.getProduct_category());
+                editText_productTitle.setHint(model.getProductName());
+                txt_product_description.setHint(model.getProductDescription());
+                txt_product_Price.setHint(String.valueOf(model.getProductPrice()));
+                txt_product_Stocks.setHint(String.valueOf(model.getProductStocks()));
+                txt_product_category.setHint(model.getProductCategory());
                 Blob b;
-                b = model.getProduct_picture();
+                b = (Blob) model.getProductPicture();
                 int blobLength;
 
                 blobLength = (int) b.length();
@@ -195,7 +195,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
 
     @Override
     public void goBack() {
-        InventoryRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
+        InventoryRecyclerView.PRODUCT_MODEL.setProductID(-1);
         this.finish();
     }
 
@@ -485,7 +485,7 @@ public class InventoryUpdateView extends AppCompatActivity implements IUpdateInv
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            InventoryRecyclerView.PRODUCT_MODEL.setProduct_id("-1");
+            InventoryRecyclerView.PRODUCT_MODEL.setProductID(-1);
             this.finish();
         }
         return super.onOptionsItemSelected(item);

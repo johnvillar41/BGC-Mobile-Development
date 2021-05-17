@@ -40,7 +40,7 @@ public class InventorySearchItemPresenter implements ISearchInventory.ISearchInv
     }
 
     @Override
-    public void onCardViewLongClicked(String product_id, String product_name) {
+    public void onCardViewLongClicked(int product_id, String product_name) {
         InventoryModel model = new InventoryModel();
         model.setProductName(product_name);
         try {

@@ -16,12 +16,12 @@ public interface ISearchInventory {
     interface ISearchInventoryPresenter extends IBasePresenter {
         void onSearchItemProduct(String product_name);
 
-        void onCardViewLongClicked(String product_id, String product_name);
+        void onCardViewLongClicked(int product_id, String product_name);
     }
 
     interface ISearchInventoryService extends IServiceStrictMode {
         List<InventoryModel> getSearchedProductFromDB(String searchedItem) throws ClassNotFoundException;
 
-        void deleteItem(String product_id, InventoryModel model) throws ClassNotFoundException, SQLException;
+        void deleteItem(int product_id, InventoryModel model) throws ClassNotFoundException, SQLException;
     }
 }

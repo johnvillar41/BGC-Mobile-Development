@@ -72,7 +72,7 @@ public class InventorySearchItemService implements ISearchInventory.ISearchInven
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void deleteItem(String product_id, InventoryModel model) throws ClassNotFoundException, SQLException {
+    public void deleteItem(int product_id, InventoryModel model) throws ClassNotFoundException, SQLException {
         strictMode();
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
         String deleteItem = "DELETE FROM products_table WHERE product_id=" + "'" + product_id + "'";

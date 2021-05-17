@@ -31,7 +31,7 @@ public interface IOrders {
     interface IOrdersService extends IServiceStrictMode {
         List<OrdersModel> getOrdersFromDB(String status) throws ClassNotFoundException, SQLException;
 
-        void updateOrderFromDB(String order_id, String status) throws ClassNotFoundException, SQLException;
+        void updateOrderFromDB(int order_id, String status) throws ClassNotFoundException, SQLException;
 
         void addNotificationInDB(OrdersRecyclerView.STATUS status, String content) throws ClassNotFoundException, SQLException;
     }
