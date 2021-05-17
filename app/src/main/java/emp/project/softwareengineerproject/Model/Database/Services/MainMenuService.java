@@ -36,8 +36,9 @@ public class MainMenuService extends Activity implements IMainMenu.IMainService 
     public int getNumberOfNotifications(String date) throws SQLException, ClassNotFoundException {
         strictMode();
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-        Statement statement = connection.createStatement();
-        String sqlGetNumberOfNotifs = "SELECT COUNT(*) FROM notifications_table WHERE notif_date LIKE " + "'" + date + "%'";
+        String sqlGetNumberOfNotifs = "SELECT COUNT(*) FROM notifications_table WHERE notif_date LIKE ? ";
+        PreparedStatement statement = connection.prepareStatement(sqlGetNumberOfNotifs);
+        statement.setString(1, "'" + date + "%'");
         ResultSet resultSet = statement.executeQuery(sqlGetNumberOfNotifs);
         if (resultSet.next()) {
             int numberOfNotifs = resultSet.getInt(1);
@@ -58,11 +59,12 @@ public class MainMenuService extends Activity implements IMainMenu.IMainService 
         strictMode();
         Blob profileImage = null;
         Connection connection = DriverManager.getConnection(DB_NAME, USER, PASS);
-        String sqlGetProfilePic = "SELECT user_image from login_table WHERE user_username=" + "'" + LoginActivityView.USERNAME_VALUE + "'";
-        Statement statement = connection.createStatement();
+        String sqlGetProfilePic = "SELECT user_image from login_table WHERE user_username=?";
+        PreparedStatement statement = connection.prepareStatement(sqlGetProfilePic);
+        statement.setString(1, LoginActivityView.USERNAME_VALUE);
         ResultSet resultSet = statement.executeQuery(sqlGetProfilePic);
         while (resultSet.next()) {
-            profileImage = resultSet.getBlob(1);
+            profileImage = resultSet.getBlob("user_image");
         }
         connection.close();
         statement.close();
