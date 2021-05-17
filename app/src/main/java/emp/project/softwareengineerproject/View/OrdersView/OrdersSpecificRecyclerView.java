@@ -43,8 +43,8 @@ public class OrdersSpecificRecyclerView extends RecyclerView.Adapter<OrdersSpeci
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         SpecificOrdersModel model = getItem(position);
-        holder.number_products.setText(model.getTotalOrders());
-        holder.product_id.setText(model.getProductModel().getProductID());
+        holder.number_products.setText(String.valueOf(model.getTotalOrders()));
+        holder.product_id.setText(String.valueOf(model.getProductModel().getProductID()));
         holder.product_name.setText(model.getProductModel().getProductName());
         final Blob b = (Blob) model.getProductModel().getProductPicture();
         final int[] blobLength = new int[1];

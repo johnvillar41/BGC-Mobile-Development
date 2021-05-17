@@ -77,7 +77,7 @@ public class OrdersService implements IOrders.IOrdersService {
                             resultSet.getInt("specific_orders_id"),
                             resultSet.getInt("order_id"),
                             resultSet.getString("administrator_username"),
-                            InventoryService.getInstance().fetchProductGivenByID(order_id),
+                            InventoryService.getInstance().fetchProductGivenByID(resultSet.getInt("product_id")),
                             resultSet.getInt("total_orders"),
                             resultSet.getInt("subtotal_price")
                     )

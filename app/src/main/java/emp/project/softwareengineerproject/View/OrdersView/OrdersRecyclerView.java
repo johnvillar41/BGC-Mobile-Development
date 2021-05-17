@@ -35,10 +35,10 @@ import emp.project.softwareengineerproject.R;
 
 public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.MyViewHolder> {
 
-    List<OrdersModel> list;
-    Context context;
-    IOrders.IOrdersPresenter presenter;
-    OrdersActivityView activity;
+    private List<OrdersModel> list;
+    private Context context;
+    private IOrders.IOrdersPresenter presenter;
+    private OrdersActivityView activity;
 
     public OrdersRecyclerView(List<OrdersModel> list, Context context, OrdersActivityView activity) {
         this.list = list;
@@ -50,9 +50,9 @@ public class OrdersRecyclerView extends RecyclerView.Adapter<OrdersRecyclerView.
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         final OrdersModel model = getItem(position);
-        holder.customer_name.setText(model.getUserID());
-        holder.txt_total.setText(model.getOrderTotalPrice());
-        holder.txt_order_id.setText(model.getOrderID());
+        holder.customer_name.setText(String.valueOf(model.getUserID()));
+        holder.txt_total.setText(String.valueOf(model.getOrderTotalPrice()));
+        holder.txt_order_id.setText(String.valueOf(model.getOrderID()));
         holder.txt_order_date.setText(model.getOrderDate().toString());
         holder.order_status.setText(model.getOrderStatus());
         holder.imageView_menu.setOnClickListener(new View.OnClickListener() {
